@@ -10,7 +10,7 @@
         android:id="@+id/tIntestazionId"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:background="@color/screen_background"
+        android:background="@color/black"
         android:gravity="center_horizontal"
         android:paddingTop="8dp"
         android:text="Id"

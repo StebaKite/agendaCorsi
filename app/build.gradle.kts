@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.rubricapersonale"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.rubricapersonale"
@@ -32,6 +32,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
