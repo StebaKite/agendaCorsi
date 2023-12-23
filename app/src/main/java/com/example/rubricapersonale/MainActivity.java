@@ -84,10 +84,11 @@ public class MainActivity extends AppCompatActivity {
             nomeContatto = new TextView(this);
             nomeContatto.setTextSize(18);
             nomeContatto.setPadding(0,10,0,10);
+            nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
-            nomeContatto.setText(String.valueOf(resultset.getInt(1)));
+            nomeContatto.setText(String.valueOf(resultset.getString(1)));
             nomeContatto.setWidth(larghezzaColonna2);
-            if (riga % 2 == 1) idContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
+            if (riga % 2 == 1) nomeContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
             tableRow.addView(nomeContatto);
 
             // implemento il listener sul click della riga per vedere la scheda del contatto
