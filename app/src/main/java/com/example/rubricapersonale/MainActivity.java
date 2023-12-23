@@ -1,5 +1,6 @@
 package com.example.rubricapersonale;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,7 +20,6 @@ import com.example.rubricapersonale.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     SQLiteDatabase database;
     TableLayout tabContatti;
     TableRow tableRow;
@@ -41,9 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
         displayElencoContatti();
 
-        // listener per il bottone di inserimento nuovo contatto
+        // implemento il listener per il bottone di inserimento nuovo contatto
 
-
+        inserisci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NuovoContatto.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void displayElencoContatti() {
@@ -83,15 +90,27 @@ public class MainActivity extends AppCompatActivity {
             if (riga % 2 == 1) idContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
             tableRow.addView(nomeContatto);
 
-            // qui dovrò settare il listener sul click della riga per vedere la scheda del contatto
+            // implemento il listener sul click della riga per vedere la scheda del contatto
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
+                    TextView textView = (TextView) tableRow.getChildAt(0);    // idcontatto
+                    Integer idContattoSelezionato = Integer.parseInt(textView.getText().toString());
 
+                    // Passo all'attività ModificaContatto l'id del contatto selezionato
+                    Intent intent = new Intent(MainActivity.this, ModificaContatto.class);
+                    intent.putExtra("id", idContattoSelezionato);
+                    startActivity(intent);
+                }
+            });
 
 
             // aggiungo la riga alla tabella dei contatti
-
             tabContatti.addView(tableRow);
             riga++;
         }
+        resultset.close();
     }
 
 
