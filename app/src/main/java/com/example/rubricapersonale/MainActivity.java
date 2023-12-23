@@ -1,5 +1,6 @@
 package com.example.rubricapersonale;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,13 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.rubricapersonale.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +55,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            // codice
+            return true;
+        } else if (item.getTitle().equals("Dashboard")) {
+            // codice
+            return true;
+        } else if (item.getTitle().equals("Notifications")) {
+            // codice
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void displayElencoContatti() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
