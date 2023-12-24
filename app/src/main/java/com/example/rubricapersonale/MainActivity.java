@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,6 +20,12 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.example.rubricapersonale.database.ContattiDAO;
+import com.example.rubricapersonale.database.Contatto;
+import com.example.rubricapersonale.database.DatabaseHelper;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,13 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tabContatti = findViewById(R.id.tabellaContatti);
         inserisci = findViewById(R.id.bInserisciContatto);
-
-        // apro o creo il database esclusivo per questa app
-        database = openOrCreateDatabase("contattiPersonali.db",MODE_PRIVATE,null);
-
-        // creo la tabella contatti se non esiste
-        query = "create table if not exists contatti(id integer primary key autoincrement, nome text, indirizzo text, telefono text, email text)";
-        database.execSQL(query);
 
         displayElencoContatti();
 
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("Home")) {
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void displayElencoContatti() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -87,11 +85,10 @@ public class MainActivity extends AppCompatActivity {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.8);
 
-        query = "select id, nome FROM contatti order by nome";
-        Cursor resultset = database.rawQuery(query, null);
+        List<Contatto> contattiList = new ContattiDAO(this).getAll();
 
         int riga = 0;
-        while (resultset.moveToNext()) {
+        for (Contatto contatto : contattiList) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
 
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             idContatto.setTextSize(18);
             idContatto.setPadding(0,10,0,10);
             idContatto.setGravity(Gravity.CENTER);
-            idContatto.setText(String.valueOf(resultset.getInt(0)));
+            idContatto.setText(String.valueOf(contatto.getId()));
             idContatto.setWidth(larghezzaColonna1);
             if (riga % 2 == 1) idContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
             tableRow.addView(idContatto);
@@ -113,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             nomeContatto.setPadding(0,10,0,10);
             nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
-            nomeContatto.setText(String.valueOf(resultset.getString(1)));
+            nomeContatto.setText(String.valueOf(contatto.getNome()));
             nomeContatto.setWidth(larghezzaColonna2);
             if (riga % 2 == 1) nomeContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
             tableRow.addView(nomeContatto);
@@ -133,15 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
             // aggiungo la riga alla tabella dei contatti
             tabContatti.addView(tableRow);
             riga++;
         }
-        resultset.close();
     }
-
-
-
-
 }

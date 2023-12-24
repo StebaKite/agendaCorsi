@@ -1,5 +1,8 @@
 package com.example.rubricapersonale.database;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -26,6 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.i(DatabaseHelper.DATABASE_NAME, "OnCreate invoked!");
+        // tabella contatti
+        String sql = "create table if not exists contatti(id integer primary key autoincrement, nome text, indirizzo text, telefono text, email text)";
+        sqLiteDatabase.execSQL(sql);
     }
 
     @Override
