@@ -22,12 +22,12 @@ public class ContattiDAO {
         List<Contatto> list = new ArrayList<>();
 
         String sql = String.format("select " +
-                "contatti.id " +
-                "contatti.nome " +
-                "contatti.indirizzo  " +
-                "contatti.telefono " +
+                "contatti.id, " +
+                "contatti.nome, " +
+                "contatti.indirizzo, " +
+                "contatti.telefono, " +
                 "contatti.email " +
-                "from contatti ");
+                "from contatti");
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
