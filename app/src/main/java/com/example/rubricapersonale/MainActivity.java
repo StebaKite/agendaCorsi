@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("Home")) {
-            // codice
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
             return true;
         } else if (item.getTitle().equals("Dashboard")) {
             // codice
