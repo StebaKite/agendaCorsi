@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".ModificaContatto" android:screenOrientation="portrait"/>
         <activity android:name=".NuovoContatto" android:screenOrientation="portrait"/>
+        <activity android:name=".HomeActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -13,6 +13,8 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        esci = findViewById(R.id.bExit);
 
         // implemento i listener sui bottoni
         esci.setOnClickListener(new View.OnClickListener() {
