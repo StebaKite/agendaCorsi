@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "rubricaPersonale"
+rootProject.name = "AgendaCorsi"
 include(":app")
