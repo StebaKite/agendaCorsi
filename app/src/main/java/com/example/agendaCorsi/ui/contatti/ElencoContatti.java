@@ -2,6 +2,7 @@ package com.example.agendaCorsi.ui.contatti;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -11,6 +12,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.database.ContattiDAO;
 import com.example.agendaCorsi.database.Contatto;
@@ -62,6 +65,7 @@ public class ElencoContatti extends AppCompatActivity {
             idContatto = new TextView(this);
             idContatto.setTextSize(18);
             idContatto.setPadding(0,10,0,10);
+            idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             idContatto.setGravity(Gravity.CENTER);
             idContatto.setText(String.valueOf(contatto.getId()));
             idContatto.setWidth(larghezzaColonna1);
@@ -73,6 +77,7 @@ public class ElencoContatti extends AppCompatActivity {
             nomeContatto = new TextView(this);
             nomeContatto.setTextSize(18);
             nomeContatto.setPadding(0,10,0,10);
+            nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
             nomeContatto.setText(String.valueOf(contatto.getNome()));

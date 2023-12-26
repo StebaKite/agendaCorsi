@@ -10,12 +10,11 @@
         android:id="@+id/tIntestazionId"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:background="@color/black"
         android:gravity="center_horizontal"
         android:paddingTop="8dp"
         android:text="Id"
         android:textColor="#ffffff"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.21" />
@@ -24,11 +23,10 @@
         android:id="@+id/tIntestazioneNome"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:background="#000000"
         android:paddingTop="8dp"
         android:text="Nome contatto"
         android:textColor="#ffffff"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tIntestazionId"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.79" />
@@ -47,7 +45,8 @@
             android:id="@+id/tabellaContatti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0,1"></TableLayout>
+            android:stretchColumns="0,1">
+        </TableLayout>
     </ScrollView>
 
     <Button
@@ -57,7 +56,6 @@
         android:background="#575353"
         android:text="Inserisci nuovo contatto"
         android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
