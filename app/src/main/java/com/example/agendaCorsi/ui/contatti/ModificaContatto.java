@@ -83,7 +83,7 @@ public class ModificaContatto extends AppCompatActivity {
         esci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ModificaContatto.this, MainActivity.class);
+                Intent intent = new Intent(ModificaContatto.this, ElencoContatti.class);
                 startActivity(intent);
             }
         });

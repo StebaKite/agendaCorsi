@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AgendaCorsi"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.agendaCorsi.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.contatti.ModificaContatto" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.contatti.NuovoContatto" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.contatti.ElencoContatti" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaContatto" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoContatto" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ElencoContatti" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

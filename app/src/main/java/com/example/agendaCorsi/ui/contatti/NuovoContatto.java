@@ -40,7 +40,7 @@ public class NuovoContatto extends AppCompatActivity {
         esci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NuovoContatto.this, MainActivity.class);
+                Intent intent = new Intent(NuovoContatto.this, ElencoContatti.class);
                 startActivity(intent);
             }
         });
