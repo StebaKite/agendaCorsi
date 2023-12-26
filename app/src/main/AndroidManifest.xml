@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RubricaPersonale"
+        android:theme="@style/Theme.AgendaCorsi"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModificaContatto" android:screenOrientation="portrait"/>
-        <activity android:name=".NuovoContatto" android:screenOrientation="portrait"/>
-        <activity android:name=".HomeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.contatti.ModificaContatto" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.contatti.NuovoContatto" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.contatti.ElencoContatti" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

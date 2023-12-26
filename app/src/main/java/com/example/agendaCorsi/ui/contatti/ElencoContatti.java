@@ -1,45 +1,32 @@
-package com.example.rubricapersonale;
+package com.example.agendaCorsi.ui.contatti;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.example.rubricapersonale.database.ContattiDAO;
-import com.example.rubricapersonale.database.Contatto;
-import com.example.rubricapersonale.database.DatabaseHelper;
-
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.agendacorsi.R;
+import com.example.agendaCorsi.database.ContattiDAO;
+import com.example.agendaCorsi.database.Contatto;
 import java.util.List;
 
+public class ElencoContatti extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    SQLiteDatabase database;
     TableLayout tabContatti;
     TableRow tableRow;
     TextView nomeContatto, idContatto;
-    Button inserisci; String query;
+    Button inserisci;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_elenco_contatti);
         tabContatti = findViewById(R.id.tabellaContatti);
         inserisci = findViewById(R.id.bInserisciContatto);
 
@@ -50,33 +37,10 @@ public class MainActivity extends AppCompatActivity {
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NuovoContatto.class);
+                Intent intent = new Intent(ElencoContatti.this, NuovoContatto.class);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("Home")) {
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (item.getTitle().equals("Dashboard")) {
-            // codice
-            return true;
-        } else if (item.getTitle().equals("Notifications")) {
-            // codice
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void displayElencoContatti() {
@@ -125,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer idContattoSelezionato = Integer.parseInt(textView.getText().toString());
 
                     // Passo all'attività ModificaContatto l'id del contatto selezionato
-                    Intent intent = new Intent(MainActivity.this, ModificaContatto.class);
+                    Intent intent = new Intent(ElencoContatti.this, ModificaContatto.class);
                     intent.putExtra("id", idContattoSelezionato);
                     startActivity(intent);
                 }

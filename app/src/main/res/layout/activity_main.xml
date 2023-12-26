@@ -1,62 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize">
-
-    <TextView
-        android:id="@+id/tIntestazionId"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:background="@color/black"
-        android:gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:text="Id"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.21" />
-
-    <TextView
-        android:id="@+id/tIntestazioneNome"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:background="#000000"
-        android:paddingTop="8dp"
-        android:text="Nome contatto"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tIntestazionId"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.79" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="368dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bInserisciContatto"
-        app:layout_constraintEnd_toEndOf="@id/bInserisciContatto"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
-
-        <TableLayout
-            android:id="@+id/tabellaContatti"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1"></TableLayout>
-    </ScrollView>
 
     <Button
         android:id="@+id/bInserisciContatto"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#575353"
-        android:text="Inserisci nuovo contatto"
+        android:text="@string/esci"
         android:textAllCaps="false"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

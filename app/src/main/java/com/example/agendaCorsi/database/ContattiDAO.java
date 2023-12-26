@@ -1,4 +1,4 @@
-package com.example.rubricapersonale.database;
+package com.example.agendaCorsi.database;
 
 import android.content.Context;
 import android.database.Cursor;

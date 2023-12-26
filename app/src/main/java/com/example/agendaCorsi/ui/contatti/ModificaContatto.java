@@ -1,4 +1,4 @@
-package com.example.rubricapersonale;
+package com.example.agendaCorsi.ui.contatti;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.agendaCorsi.MainActivity;
+import com.example.agendacorsi.R;
 
 public class ModificaContatto extends AppCompatActivity {
     TextView labelScheda;

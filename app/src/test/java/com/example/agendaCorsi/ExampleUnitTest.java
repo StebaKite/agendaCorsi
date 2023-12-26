@@ -1,4 +1,4 @@
-package com.example.rubricapersonale;
+package com.example.agendaCorsi;
 
 import org.junit.Test;
 

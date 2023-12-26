@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rubricapersonale"
+    namespace = "com.example.agendacorsi"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.rubricapersonale"
+        applicationId = "com.example.agendacorsi"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

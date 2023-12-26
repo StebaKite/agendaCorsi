@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModificaContatto">
+    tools:context=".ui.contatti.ModificaContatto">
 
     <TextView
         android:id="@+id/labelScheda"
@@ -164,19 +164,6 @@
         app:layout_constraintWidth_percent="0.17" />
 
     <Button
-        android:id="@+id/SalvaModButton"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="#d0d0d0"
-        android:text="Salva"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/ExitModButton"
-        app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
-        app:layout_constraintWidth_percent="0.17" />
-
-    <Button
         android:id="@+id/EliminaModButton"
         android:layout_width="90dp"
         android:layout_height="40dp"
@@ -188,5 +175,18 @@
         app:layout_constraintStart_toEndOf="@+id/SalvaModButton"
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
         app:layout_constraintWidth_percent="0.2" />
+
+    <Button
+        android:id="@+id/SalvaModButton"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#d0d0d0"
+        android:text="Salva"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/ExitModButton"
+        app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
+        app:layout_constraintWidth_percent="0.17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,23 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/mainActivity">
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.rubricapersonale.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.rubricapersonale.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.rubricapersonale.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+    <activity
+        android:id="@+id/elencoContatti"
+        android:name="com.example.agendaCorsi.ui.contatti.ElencoContatti"
+        android:label="activity_elenco_contatti"
+        tools:layout="@layout/activity_elenco_contatti"/>
+    <activity
+        android:id="@+id/modificaContatto"
+        android:name="com.example.agendaCorsi.ui.contatti.ModificaContatto"
+        android:label="activity_modifica_contatto"
+        tools:layout="@layout/activity_modifica_contatto" />
+    <activity
+        android:id="@+id/nuovoContatto"
+        android:name="com.example.agendaCorsi.ui.contatti.NuovoContatto"
+        android:label="activity_nuovo_contatto"
+        tools:layout="@layout/activity_nuovo_contatto" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.agendaCorsi.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main"/>
 </navigation>

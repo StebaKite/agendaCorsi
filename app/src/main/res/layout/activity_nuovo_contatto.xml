@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NuovoContatto">
+    tools:context=".ui.contatti.NuovoContatto">
 
     <TextView
         android:id="@+id/labelInserisci"
@@ -142,8 +142,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="#d0d0d0"
-        android:textAllCaps="false"
         android:text="Reset"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
         app:layout_constraintWidth_percent="0.27" />
@@ -155,8 +156,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="#d0d0d0"
-        android:textAllCaps="false"
         android:text="Esci"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bReset"
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
         app:layout_constraintWidth_percent="0.30" />
@@ -168,8 +170,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="#d0d0d0"
-        android:textAllCaps="false"
         android:text="Salva"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bExit"
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
         app:layout_constraintWidth_percent="0.30" />

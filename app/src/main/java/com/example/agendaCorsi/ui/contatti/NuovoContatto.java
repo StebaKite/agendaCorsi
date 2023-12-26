@@ -1,4 +1,4 @@
-package com.example.rubricapersonale;
+package com.example.agendaCorsi.ui.contatti;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.agendaCorsi.MainActivity;
+import com.example.agendacorsi.R;
 
 public class NuovoContatto extends AppCompatActivity {
 

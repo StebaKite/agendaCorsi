@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">RubricaPersonale</string>
+    <string name="app_name">Agenda Corsi</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="scheda_contatto">Scheda contatto   #</string>
+    <string name="title_contatti">Contatti</string>
+    <string name="title_corsi">Corsi</string>
+    <string name="title_iscrizioni">Iscrizioni</string>
+    <string name="title_presenza">Presenze</string>
+    <string name="esci">Esci</string>
 </resources>
