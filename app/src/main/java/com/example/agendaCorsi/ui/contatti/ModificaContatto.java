@@ -1,6 +1,7 @@
 package com.example.agendaCorsi.ui.contatti;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ContattiDAO;
+import com.example.agendaCorsi.database.Contatto;
 import com.example.agendacorsi.R;
 
 public class ModificaContatto extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class ModificaContatto extends AppCompatActivity {
     Button annulla, esci, salva, elimina;
     SQLiteDatabase database;
     String query;
+    Context ModificaContatto;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -47,36 +51,42 @@ public class ModificaContatto extends AppCompatActivity {
         labelScheda = findViewById(R.id.labelScheda);
         labelScheda.setText(getString(R.string.scheda_contatto) + String.valueOf(idContatto));
 
-        // apro la connessione al db ed eseguo la query
-        database = openOrCreateDatabase("contattiPersonali.db", MODE_PRIVATE, null);
-        query = "select * from contatti where id = " + String.valueOf(idContatto);
-        final Cursor resultSet = database.rawQuery(query, null);
+        /**
+         * apro la connessione al db ed eseguo la query
+         */
+        Contatto contatto = new Contatto(null, null, null, null, null);
+        contatto.setId(String.valueOf(idContatto));
+        new ContattiDAO(this).select(contatto);
 
-        // caricamento dei dati in pagina
-        while (resultSet.moveToNext()) {
-            nome = resultSet.getString(1);
-            indirizzo = resultSet.getString(2);
-            telefono = resultSet.getString(3);
-            email = resultSet.getString(4);
-
-            _nome.setText(nome);
-            _indirizzo.setText(indirizzo);
-            _telefono.setText(telefono);
-            _email.setText(email);
+        if (contatto.getId().isEmpty()) {
+            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+            messaggio.setTitle("Attenzione!");
+            messaggio.setMessage("Lettura contatto fallito, contatta il supporto tecnico");
+            messaggio.setCancelable(false);
+            messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+        }
+        else {
+            _nome.setText(contatto.getNome());
+            _indirizzo.setText(contatto.getIndirizzo());
+            _telefono.setText(contatto.getTelefono());
+            _email.setText(contatto.getEmail());
 
             esci.requestFocus();
         }
-        resultSet.close();
 
-        // implemento i listener dei bottoni
 
+        /**
+         * implemento i listener dei bottoni
+         */
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _nome.setText(nome);
-                _indirizzo.setText(indirizzo);
-                _telefono.setText(telefono);
-                _email.setText(email);
+                makeAnnulla();
             }
         });
 
@@ -91,18 +101,38 @@ public class ModificaContatto extends AppCompatActivity {
         salva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                makeSalva();
+            }
+        });
 
-                // dati modificati sulla pagina
-                String nomeMod = _nome.getText().toString();
-                String indirizzoMod = _indirizzo.getText().toString();
-                String telefonoMod = _telefono.getText().toString();
-                String emailMod = _email.getText().toString();
+        elimina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeElimina();
+            }
+        });
+    }
 
-                // controllo di validità
-                if (nomeMod.equals("") || indirizzoMod.equals("") || telefonoMod.equals("") || emailMod.equals("")) {
+    private void makeElimina() {
+        AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+        messaggio.setTitle("Attenzione");
+        messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
+        messaggio.setCancelable(false);
+
+        /**
+         * implemento i listener sui bottoni della conferma eliminazione
+         */
+        messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null, null, null);
+                if (new ContattiDAO(ModificaContatto).delete(contatto)) {
+                    esci.callOnClick();
+                }
+                else {
                     AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
                     messaggio.setTitle("Attenzione!");
-                    messaggio.setMessage("Inserire tutti i campi");
+                    messaggio.setMessage("Cancellazione contatto fallito, contatta il supporto tecnico");
                     messaggio.setCancelable(false);
                     messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -110,44 +140,75 @@ public class ModificaContatto extends AppCompatActivity {
                             dialogInterface.cancel();
                         }
                     });
-                } else {
-                    String query = "update contatti set nome = '" + nomeMod + "', indirizzo = '" + indirizzoMod +
-                            "', telefono = '" + telefonoMod + "', email = '" + emailMod + "' where id = " +
-                            String.valueOf(idContatto);
-                    database.execSQL(query);
-                    esci.callOnClick();
                 }
             }
         });
 
-        elimina.setOnClickListener(new View.OnClickListener() {
+        messaggio.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
-                messaggio.setTitle("Attenzione");
-                messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
-                messaggio.setCancelable(false);
-
-                // implemento i listener sui bottoni della conferma eliminazione
-                messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String query = "delete from contatti where id = " + String.valueOf(idContatto);
-                        database.execSQL(query);
-                        esci.callOnClick();
-                    }
-                });
-
-                messaggio.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                AlertDialog ad = messaggio.create();
-                ad.show();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
             }
         });
+
+        AlertDialog ad = messaggio.create();
+        ad.show();
+    }
+
+    private void makeSalva() {
+        /**
+         * carico i dati della pagina in un oggetto contatto
+         */
+        Contatto contatto = new Contatto(String.valueOf(idContatto),
+                _nome.getText().toString(),
+                _indirizzo.getText().toString(),
+                _telefono.getText().toString(),
+                _email.getText().toString());
+        /**
+         * controllo validità dati immmessi
+         */
+        if (contatto.getNome().equals("") ||
+                contatto.getIndirizzo().equals("") ||
+                contatto.getTelefono().equals("") ||
+                contatto.getEmail().equals("")) {
+
+            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+            messaggio.setTitle("Attenzione!");
+            messaggio.setMessage("Inserire tutti i campi");
+            messaggio.setCancelable(false);
+            messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+        }
+        else {
+            /**
+             * aggiorno il db con i dati cariati nell'oggetto contatto
+             */
+            if (new ContattiDAO(this).update(contatto)) {
+                esci.callOnClick();
+            }
+            else {
+                AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+                messaggio.setTitle("Attenzione!");
+                messaggio.setMessage("Aggiornamento contatto fallito, contatta il supporto tecnico");
+                messaggio.setCancelable(false);
+                messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+            }
+        }
+    }
+
+    private void makeAnnulla() {
+        _nome.setText(nome);
+        _indirizzo.setText(indirizzo);
+        _telefono.setText(telefono);
+        _email.setText(email);
     }
 }

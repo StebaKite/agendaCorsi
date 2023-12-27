@@ -34,9 +34,9 @@ public class ElencoContatti extends AppCompatActivity {
         inserisci = findViewById(R.id.bInserisciContatto);
 
         displayElencoContatti();
-
-        // implemento il listener per il bottone di inserimento nuovo contatto
-
+        /**
+         * implemento il listener per il bottone di inserimento nuovo contatto
+         */
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,9 +59,9 @@ public class ElencoContatti extends AppCompatActivity {
         for (Contatto contatto : contattiList) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-
-            // Caricamento ID contatto sul textView
-
+            /**
+             * Caricamento ID contatto sul textView
+             */
             idContatto = new TextView(this);
             idContatto.setTextSize(18);
             idContatto.setPadding(0,10,0,10);
@@ -69,11 +69,11 @@ public class ElencoContatti extends AppCompatActivity {
             idContatto.setGravity(Gravity.CENTER);
             idContatto.setText(String.valueOf(contatto.getId()));
             idContatto.setWidth(larghezzaColonna1);
-            if (riga % 2 == 1) idContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
+            if (riga % 2 == 1) idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.color.alt_background_row));
             tableRow.addView(idContatto);
-
-            // Caricamento del nome sul textView
-
+            /**
+             * Caricamento del nome sul textView
+             */
             nomeContatto = new TextView(this);
             nomeContatto.setTextSize(18);
             nomeContatto.setPadding(0,10,0,10);
@@ -82,25 +82,28 @@ public class ElencoContatti extends AppCompatActivity {
             nomeContatto.setGravity(Gravity.CENTER);
             nomeContatto.setText(String.valueOf(contatto.getNome()));
             nomeContatto.setWidth(larghezzaColonna2);
-            if (riga % 2 == 1) nomeContatto.setBackgroundColor(Color.parseColor("#F0F0F0"));
+            if (riga % 2 == 1) nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.color.alt_background_row));
             tableRow.addView(nomeContatto);
-
-            // implemento il listener sul click della riga per vedere la scheda del contatto
+            /**
+             * implemento il listener sul click della riga per vedere la scheda del contatto
+             */
             tableRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
                     TextView textView = (TextView) tableRow.getChildAt(0);    // idcontatto
                     Integer idContattoSelezionato = Integer.parseInt(textView.getText().toString());
-
-                    // Passo all'attività ModificaContatto l'id del contatto selezionato
+                    /**
+                     * Passo all'attività ModificaContatto l'id del contatto selezionato
+                     */
                     Intent intent = new Intent(ElencoContatti.this, ModificaContatto.class);
                     intent.putExtra("id", idContattoSelezionato);
                     startActivity(intent);
                 }
             });
-
-            // aggiungo la riga alla tabella dei contatti
+            /**
+             * aggiungo la riga alla tabella dei contatti
+             */
             tabContatti.addView(tableRow);
             riga++;
         }
