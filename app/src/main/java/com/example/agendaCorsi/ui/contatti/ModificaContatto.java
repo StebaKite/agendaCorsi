@@ -102,12 +102,17 @@ public class ModificaContatto extends AppCompatActivity {
             }
         });
 
-        elimina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeElimina();
-            }
-        });
+        if (contatto.getNome().contains("Barbi")) {
+            elimina.setVisibility(View.GONE);
+        }
+        else {
+            elimina.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    makeElimina();
+                }
+            });
+        }
     }
 
     private void makeElimina() {
