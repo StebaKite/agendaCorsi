@@ -63,26 +63,24 @@ public class ElencoContatti extends AppCompatActivity {
              * Caricamento ID contatto sul textView
              */
             idContatto = new TextView(this);
-            idContatto.setTextSize(18);
-            idContatto.setPadding(0,10,0,10);
+            idContatto.setTextSize(16);
+            idContatto.setPadding(10,10,10,10);
             idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             idContatto.setGravity(Gravity.CENTER);
             idContatto.setText(String.valueOf(contatto.getId()));
             idContatto.setWidth(larghezzaColonna1);
-            if (riga % 2 == 1) idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.color.alt_background_row));
             tableRow.addView(idContatto);
             /**
              * Caricamento del nome sul textView
              */
             nomeContatto = new TextView(this);
-            nomeContatto.setTextSize(18);
-            nomeContatto.setPadding(0,10,0,10);
+            nomeContatto.setTextSize(16);
+            nomeContatto.setPadding(10,10,10,10);
             nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
             nomeContatto.setText(String.valueOf(contatto.getNome()));
             nomeContatto.setWidth(larghezzaColonna2);
-            if (riga % 2 == 1) nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.color.alt_background_row));
             tableRow.addView(nomeContatto);
             /**
              * implemento il listener sul click della riga per vedere la scheda del contatto

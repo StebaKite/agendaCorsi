@@ -53,12 +53,12 @@ public class ContattiDAO {
     public boolean update(Contatto contatto) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
-            String sql = String.format("update " + Contatto.TABLE_NAME +
+            String sql = String.format("update " + Contatto.TABLE_NAME + " " +
                     "set " +
-                        "nome = " + contatto.getNome() + ", " +
-                        "indirizzo = " + contatto.getIndirizzo() + ", " +
-                        "telefono = " + contatto.getTelefono() + ", " +
-                        "email = " + contatto.getEmail() + " " +
+                        "nome = '" + contatto.getNome() + "', " +
+                        "indirizzo = '" + contatto.getIndirizzo() + "', " +
+                        "telefono = '" + contatto.getTelefono() + "', " +
+                        "email = '" + contatto.getEmail() + "' " +
                     "where id = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
@@ -81,7 +81,7 @@ public class ContattiDAO {
                     "indirizzo, " +
                     "telefono, " +
                     "email " +
-                    "from " + Contatto.TABLE_NAME +
+                    "from " + Contatto.TABLE_NAME + " " +
                     "where id = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
@@ -97,14 +97,14 @@ public class ContattiDAO {
         }
         catch (SQLException e) {
             Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
-            contatto.setId(null);
+            contatto.setId("");
         }
         return contatto;
     }
 
     public Boolean delete(Contatto contatto) {
         try {
-            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("delete from " + Contatto.TABLE_NAME + " " +
                     "where id = " + contatto.getId());
             database.execSQL(sql);

@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     >
     <stroke
-        android:width="1dip"
-        android:color="@color/table_border" />
+        android:width="1pt"
+        android:color="#543404" />
 </shape>

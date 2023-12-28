@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ContattiDAO;
 import com.example.agendaCorsi.database.Contatto;
 import com.example.agendacorsi.R;
@@ -28,7 +26,7 @@ public class ModificaContatto extends AppCompatActivity {
     Button annulla, esci, salva, elimina;
     SQLiteDatabase database;
     String query;
-    Context ModificaContatto;
+    Context modificaContatto;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -48,9 +46,6 @@ public class ModificaContatto extends AppCompatActivity {
         salva = findViewById(R.id.SalvaModButton);
         elimina = findViewById(R.id.EliminaModButton);
 
-        labelScheda = findViewById(R.id.labelScheda);
-        labelScheda.setText(getString(R.string.scheda_contatto) + String.valueOf(idContatto));
-
         /**
          * apro la connessione al db ed eseguo la query
          */
@@ -58,8 +53,8 @@ public class ModificaContatto extends AppCompatActivity {
         contatto.setId(String.valueOf(idContatto));
         new ContattiDAO(this).select(contatto);
 
-        if (contatto.getId().isEmpty()) {
-            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+        if (contatto.getId().equals("")) {
+            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
             messaggio.setTitle("Attenzione!");
             messaggio.setMessage("Lettura contatto fallito, contatta il supporto tecnico");
             messaggio.setCancelable(false);
@@ -69,6 +64,8 @@ public class ModificaContatto extends AppCompatActivity {
                     dialogInterface.cancel();
                 }
             });
+            AlertDialog ad = messaggio.create();
+            ad.show();
         }
         else {
             _nome.setText(contatto.getNome());
@@ -114,10 +111,12 @@ public class ModificaContatto extends AppCompatActivity {
     }
 
     private void makeElimina() {
-        AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+        AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione");
         messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
         messaggio.setCancelable(false);
+
+        modificaContatto = this;
 
         /**
          * implemento i listener sui bottoni della conferma eliminazione
@@ -126,11 +125,11 @@ public class ModificaContatto extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Contatto contatto = new Contatto(String.valueOf(idContatto), null, null, null, null);
-                if (new ContattiDAO(ModificaContatto).delete(contatto)) {
+                if (new ContattiDAO(modificaContatto).delete(contatto)) {
                     esci.callOnClick();
                 }
                 else {
-                    AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+                    AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
                     messaggio.setTitle("Attenzione!");
                     messaggio.setMessage("Cancellazione contatto fallito, contatta il supporto tecnico");
                     messaggio.setCancelable(false);
@@ -142,7 +141,7 @@ public class ModificaContatto extends AppCompatActivity {
                     });
                 }
             }
-        });
+        }).getContext();
 
         messaggio.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
@@ -172,7 +171,7 @@ public class ModificaContatto extends AppCompatActivity {
                 contatto.getTelefono().equals("") ||
                 contatto.getEmail().equals("")) {
 
-            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
             messaggio.setTitle("Attenzione!");
             messaggio.setMessage("Inserire tutti i campi");
             messaggio.setCancelable(false);
@@ -182,6 +181,8 @@ public class ModificaContatto extends AppCompatActivity {
                     dialogInterface.cancel();
                 }
             });
+            AlertDialog ad = messaggio.create();
+            ad.show();
         }
         else {
             /**
@@ -191,7 +192,7 @@ public class ModificaContatto extends AppCompatActivity {
                 esci.callOnClick();
             }
             else {
-                AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this);
+                AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
                 messaggio.setTitle("Attenzione!");
                 messaggio.setMessage("Aggiornamento contatto fallito, contatta il supporto tecnico");
                 messaggio.setCancelable(false);
@@ -201,6 +202,8 @@ public class ModificaContatto extends AppCompatActivity {
                         dialogInterface.cancel();
                     }
                 });
+                AlertDialog ad = messaggio.create();
+                ad.show();
             }
         }
     }
