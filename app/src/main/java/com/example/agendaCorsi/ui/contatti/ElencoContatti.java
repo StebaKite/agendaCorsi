@@ -64,7 +64,7 @@ public class ElencoContatti extends AppCompatActivity {
              */
             idContatto = new TextView(this);
             idContatto.setTextSize(16);
-            idContatto.setPadding(10,10,10,10);
+            idContatto.setPadding(10,20,10,20);
             idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             idContatto.setGravity(Gravity.CENTER);
             idContatto.setText(String.valueOf(contatto.getId()));
@@ -75,7 +75,7 @@ public class ElencoContatti extends AppCompatActivity {
              */
             nomeContatto = new TextView(this);
             nomeContatto.setTextSize(16);
-            nomeContatto.setPadding(10,10,10,10);
+            nomeContatto.setPadding(10,20,10,20);
             nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
             nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
