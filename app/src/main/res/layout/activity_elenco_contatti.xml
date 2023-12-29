@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,29 +11,34 @@
         android:id="@+id/tIntestazionId"
         android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/cell_heading"
         android:gravity="center_horizontal"
         android:paddingTop="8dp"
         android:text="Id"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:background="@drawable/cell_heading"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tIntestazioneNome"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.21" />
+        app:layout_constraintWidth_percent="0.21"
+        tools:visibility="invisible" />
 
     <TextView
         android:id="@+id/tIntestazioneNome"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/cell_heading"
+        android:paddingLeft="4dp"
         android:paddingTop="8dp"
-        android:paddingLeft="5dp"
+        android:paddingRight="4dp"
         android:text="Nome contatto"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:background="@drawable/cell_heading"
-        app:layout_constraintStart_toEndOf="@+id/tIntestazionId"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.79" />
+        app:layout_constraintWidth_percent="0.79"
+        tools:layout_editor_absoluteX="1dp" />
 
     <ScrollView
         android:id="@+id/scrollView"

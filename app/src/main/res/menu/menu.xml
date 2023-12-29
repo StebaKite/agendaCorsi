@@ -2,6 +2,11 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/navigation_contatti"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_contatti" />
+    <item
         android:id="@+id/navigation_corsi"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_corsi" />
@@ -13,9 +18,4 @@
         android:id="@+id/navigation_presenze"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_presenza" />
-    <item
-        android:id="@+id/navigation_contatti"
-        android:enabled="true"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_contatti" />
 </menu>

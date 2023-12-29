@@ -10,7 +10,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 1;
+    public static final int SCHEMA_VERSION = 2;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public DatabaseHelper(Context context) {
@@ -26,9 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.i(DatabaseHelper.DATABASE_NAME, "OnCreate invoked!");
-        // tabella contatti
-        String sql = "create table if not exists contatti(id integer primary key autoincrement, nome text, indirizzo text, telefono text, email text)";
-        sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.execSQL(getContattoTableStructure());
+        sqLiteDatabase.execSQL(getElementoPortfolioStructure());
     }
 
     @Override
@@ -45,5 +44,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         Log.i(DatabaseHelper.DATABASE_NAME, "OnUpgrade invoked!");
+
+        sqLiteDatabase.execSQL("drop table contatti");
+        sqLiteDatabase.execSQL(getContattoTableStructure());
+        sqLiteDatabase.execSQL(getElementoPortfolioStructure());
     }
+
+    private String getContattoTableStructure() {
+        return "create table if not exist contatto(" +
+                "id_contatto integer primary key autoincrement, " +
+                "nome text, " +
+                "indirizzo text,  " +
+                "telefono text , " +
+                "email text, " +
+                "data_creazione text, " +
+                "data_ultimo_aggiornamento text)";
+    }
+
+    private String getElementoPortfolioStructure() {
+        return "create table if not exist elemento_portfolio(" +
+                "id_elemento integer primary key autoincrement, " +
+                "id_contatto integer, " +
+                "descrizione text, " +
+                "numero_lezioni integer, " +
+                "data_ultima_ricarica text, " +
+                "stato text, " +
+                "data_creazione text, " +
+                "data_ultimo_aggiornamento text, " +
+                "foreign key (id_contatto) references contatto (id_contatto))";
+    }
+
 }

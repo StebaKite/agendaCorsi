@@ -186,4 +186,46 @@
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
         app:layout_constraintWidth_percent="0.17" />
 
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="409dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/NuovoElemModButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TableLayout
+            android:id="@+id/tabellaElePortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1"></TableLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/NuovoElemModButton"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="Nuovo elemento portfolio"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabellaElePortfolio" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Elementi Portfolio"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tabellaElePortfolio"
+        app:layout_constraintTop_toBottomOf="@+id/SalvaModButton"
+        tools:layout_editor_absoluteX="10dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,26 +50,14 @@ public class ElencoContatti extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.8);
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
         List<Contatto> contattiList = new ContattiDAO(this).getAll();
 
-        int riga = 0;
         for (Contatto contatto : contattiList) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            /**
-             * Caricamento ID contatto sul textView
-             */
-            idContatto = new TextView(this);
-            idContatto.setTextSize(16);
-            idContatto.setPadding(10,20,10,20);
-            idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
-            idContatto.setGravity(Gravity.CENTER);
-            idContatto.setText(String.valueOf(contatto.getId()));
-            idContatto.setWidth(larghezzaColonna1);
-            tableRow.addView(idContatto);
             /**
              * Caricamento del nome sul textView
              */
@@ -80,8 +68,20 @@ public class ElencoContatti extends AppCompatActivity {
             nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             nomeContatto.setGravity(Gravity.CENTER);
             nomeContatto.setText(String.valueOf(contatto.getNome()));
-            nomeContatto.setWidth(larghezzaColonna2);
+            nomeContatto.setWidth(larghezzaColonna1);
             tableRow.addView(nomeContatto);
+            /**
+             * Caricamento ID contatto sul textView
+             */
+            idContatto = new TextView(this);
+            idContatto.setTextSize(16);
+            idContatto.setVisibility(View.INVISIBLE);
+            idContatto.setPadding(10,20,10,20);
+            idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
+            idContatto.setGravity(Gravity.CENTER);
+            idContatto.setText(String.valueOf(contatto.getId()));
+            idContatto.setWidth(larghezzaColonna2);
+            tableRow.addView(idContatto);
             /**
              * implemento il listener sul click della riga per vedere la scheda del contatto
              */
@@ -89,7 +89,7 @@ public class ElencoContatti extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
-                    TextView textView = (TextView) tableRow.getChildAt(0);    // idcontatto
+                    TextView textView = (TextView) tableRow.getChildAt(1);    // idcontatto
                     Integer idContattoSelezionato = Integer.parseInt(textView.getText().toString());
                     /**
                      * Passo all'attività ModificaContatto l'id del contatto selezionato
@@ -103,7 +103,6 @@ public class ElencoContatti extends AppCompatActivity {
              * aggiungo la riga alla tabella dei contatti
              */
             tabContatti.addView(tableRow);
-            riga++;
         }
     }
 }

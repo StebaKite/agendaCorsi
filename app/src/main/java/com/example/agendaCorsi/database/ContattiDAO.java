@@ -23,12 +23,12 @@ public class ContattiDAO {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Contatto> list = new ArrayList<>();
         String sql = String.format("select " +
-                "contatti.id, " +
-                "contatti.nome, " +
-                "contatti.indirizzo, " +
-                "contatti.telefono, " +
-                "contatti.email " +
-                "from contatti");
+                "id, " +
+                "nome, " +
+                "indirizzo, " +
+                "telefono, " +
+                "email " +
+                "from contatto");
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -40,8 +40,8 @@ public class ContattiDAO {
             String indirizzo = cursor.getString(Contatto.INDIRIZZO);
             String telefono = cursor.getString(Contatto.TELEFONO);
             String email = cursor.getString(Contatto.EMAIL);
-            Contatto contatti = new Contatto(id, nome, indirizzo, telefono, email);
-            list.add(contatti);
+            Contatto contatto = new Contatto(id, nome, indirizzo, telefono, email);
+            list.add(contatto);
             cursor.moveToNext();
         }
 
@@ -49,6 +49,30 @@ public class ContattiDAO {
         database.close();
         return list;
     }
+
+
+    public boolean insert(Contatto contatto) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            String sql = "insert into " + Contatto.TABLE_NAME + " " +
+                    "(nome, indirizzo, telefono, email, data_creazione, data_ultimo_aggiornamento) values (" +
+                    "'" + contatto.getNome() + "', " +
+                    "'" + contatto.getIndirizzo() + "', " +
+                    "'" + contatto.getEmail() + "', " +
+                    "datatime('now','localtime'), " +
+                    "datatime('now','localtime'))";
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
 
     public boolean update(Contatto contatto) {
         try {
@@ -59,6 +83,7 @@ public class ContattiDAO {
                         "indirizzo = '" + contatto.getIndirizzo() + "', " +
                         "telefono = '" + contatto.getTelefono() + "', " +
                         "email = '" + contatto.getEmail() + "' " +
+                        "data_ultimo_aggiornamento = datetime('now','localtime') " +
                     "where id = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);

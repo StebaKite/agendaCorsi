@@ -4,35 +4,47 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.ContattiDAO;
 import com.example.agendaCorsi.database.Contatto;
+import com.example.agendaCorsi.database.ElementoPortfolio;
+import com.example.agendaCorsi.database.ElementoPortfolioDAO;
 import com.example.agendacorsi.R;
 
+import java.util.List;
+
 public class ModificaContatto extends AppCompatActivity {
-    TextView labelScheda;
+
     int idContatto;
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
     Button annulla, esci, salva, elimina;
-    SQLiteDatabase database;
-    String query;
+
     Context modificaContatto;
+    TableLayout tabellaElePortfolio;
+    TableRow tableRow;
+    TextView descrizione, stato, id_elemento;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_contatto);
+        tabellaElePortfolio = findViewById(R.id.tabellaElePortfolio);
         Intent intent = getIntent();
 
         idContatto = intent.getIntExtra("id", 0);
@@ -47,7 +59,7 @@ public class ModificaContatto extends AppCompatActivity {
         elimina = findViewById(R.id.EliminaModButton);
 
         /**
-         * apro la connessione al db ed eseguo la query
+         * Caricamento dati contatto selezionato
          */
         Contatto contatto = new Contatto(null, null, null, null, null);
         contatto.setId(String.valueOf(idContatto));
@@ -72,6 +84,8 @@ public class ModificaContatto extends AppCompatActivity {
             _indirizzo.setText(contatto.getIndirizzo());
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());
+
+            displayElencoElementiPortfolio();
 
             esci.requestFocus();
         }
@@ -114,6 +128,73 @@ public class ModificaContatto extends AppCompatActivity {
             });
         }
     }
+
+
+    private void displayElencoElementiPortfolio() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+
+        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getAll();
+
+        for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
+            tableRow = new TableRow(this);
+            tableRow.setClickable(true);
+
+            descrizione = new TextView(this);
+            descrizione.setTextSize(10);
+            descrizione.setPadding(10, 20, 10, 20);
+            descrizione.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
+            descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            descrizione.setGravity(Gravity.CENTER);
+            descrizione.setText(String.valueOf(elementoPortfolio.getDescrizione()));
+            descrizione.setWidth(larghezzaColonna1);
+            tableRow.addView(descrizione);
+
+            stato = new TextView(this);
+            stato.setTextSize(2);
+            stato.setPadding(10, 20, 10, 20);
+            stato.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
+            stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            stato.setGravity(Gravity.CENTER);
+            stato.setText(String.valueOf(elementoPortfolio.getStato()));
+            stato.setWidth(larghezzaColonna2);
+            tableRow.addView(stato);
+
+            id_elemento = new TextView(this);
+            id_elemento.setTextSize(2);
+            id_elemento.setPadding(10, 20, 10, 20);
+            id_elemento.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
+            id_elemento.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            id_elemento.setGravity(Gravity.CENTER);
+            id_elemento.setText(String.valueOf(elementoPortfolio.getIdElemento()));
+            id_elemento.setVisibility(View.INVISIBLE);
+            tableRow.addView(id_elemento);
+
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
+                    TextView textView = (TextView) tableRow.getChildAt(2);    // id_elemento
+                    Integer idElementoSelezionato = Integer.parseInt(textView.getText().toString());
+
+                    /**
+                     * Passo all'attività ModificaElemento l'id dell' elemento selezionato
+                     */
+                    Intent intent = new Intent(ModificaContatto.this, ModificaElementoPortfolio.class);
+                    intent.putExtra("id", idElementoSelezionato);
+                    startActivity(intent);
+                }
+            });
+            /**
+             * aggiungo la riga alla tabella degli elementi portfolio
+             */
+            tabellaElePortfolio.addView(tableRow);
+        }
+    }
+
 
     private void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
