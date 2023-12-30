@@ -10,6 +10,20 @@
     <!-- NOME -->
 
     <TextView
+        android:id="@+id/lScheda3"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Modifica Contatto"
+        android:textColor="#F69910"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editNomeMod"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/lNome2"
         android:layout_width="0dp"
         android:layout_height="40dp"

@@ -1,6 +1,5 @@
 package com.example.agendaCorsi.ui.contatti;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,38 +15,40 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.ContattiDAO;
 import com.example.agendaCorsi.database.Contatto;
 import com.example.agendaCorsi.database.ElementoPortfolio;
 import com.example.agendaCorsi.database.ElementoPortfolioDAO;
+import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendacorsi.R;
 
 import java.util.List;
 
-public class ModificaContatto extends AppCompatActivity {
+public class ModificaContatto extends FunctionBase {
 
     int idContatto;
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
-    Button annulla, esci, salva, elimina;
+    Button annulla, esci, salva, elimina, nuovoElemPortfolio;
 
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
     TableRow tableRow;
     TextView descrizione, stato, id_elemento;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_contatto);
         tabellaElePortfolio = findViewById(R.id.tabellaElePortfolio);
-        Intent intent = getIntent();
 
+        Intent intent = getIntent();
         idContatto = intent.getIntExtra("id", 0);
+
+        modificaContatto = this;
+
         _nome = findViewById(R.id.editNomeMod);
         _indirizzo = findViewById(R.id.editIndirizzoMod);
         _telefono = findViewById(R.id.editTelefonoMod);
@@ -57,6 +58,7 @@ public class ModificaContatto extends AppCompatActivity {
         esci = findViewById(R.id.ExitModButton);
         salva = findViewById(R.id.SalvaModButton);
         elimina = findViewById(R.id.EliminaModButton);
+        nuovoElemPortfolio = findViewById(R.id.NuovoElemModButton);
 
         /**
          * Caricamento dati contatto selezionato
@@ -66,18 +68,7 @@ public class ModificaContatto extends AppCompatActivity {
         new ContattiDAO(this).select(contatto);
 
         if (contatto.getId().equals("")) {
-            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
-            messaggio.setTitle("Attenzione!");
-            messaggio.setMessage("Lettura contatto fallito, contatta il supporto tecnico");
-            messaggio.setCancelable(false);
-            messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
-            AlertDialog ad = messaggio.create();
-            ad.show();
+            displayAlertDialog(modificaContatto, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
         }
         else {
             _nome.setText(contatto.getNome());
@@ -86,11 +77,8 @@ public class ModificaContatto extends AppCompatActivity {
             _email.setText(contatto.getEmail());
 
             displayElencoElementiPortfolio();
-
             esci.requestFocus();
         }
-
-
         /**
          * implemento i listener dei bottoni
          */
@@ -116,17 +104,22 @@ public class ModificaContatto extends AppCompatActivity {
             }
         });
 
-        if (contatto.getNome().contains("Barbi")) {
-            elimina.setVisibility(View.GONE);
-        }
-        else {
-            elimina.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    makeElimina();
-                }
-            });
-        }
+        elimina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeElimina();
+            }
+        });
+
+        nuovoElemPortfolio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ModificaContatto.this, NuovoElementoPortfolio.class);
+                intent.putExtra("idContatto", idContatto);
+                intent.putExtra("nomeContatto", contatto.getNome());
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -202,8 +195,6 @@ public class ModificaContatto extends AppCompatActivity {
         messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
         messaggio.setCancelable(false);
 
-        modificaContatto = this;
-
         /**
          * implemento i listener sui bottoni della conferma eliminazione
          */
@@ -215,16 +206,7 @@ public class ModificaContatto extends AppCompatActivity {
                     esci.callOnClick();
                 }
                 else {
-                    AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
-                    messaggio.setTitle("Attenzione!");
-                    messaggio.setMessage("Cancellazione contatto fallito, contatta il supporto tecnico");
-                    messaggio.setCancelable(false);
-                    messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    });
+                    displayAlertDialog(modificaContatto, "Attenzione!", "Cancellazione fallita, contatta il supporto tecnico");
                 }
             }
         }).getContext();
@@ -242,54 +224,24 @@ public class ModificaContatto extends AppCompatActivity {
 
     private void makeSalva() {
         /**
-         * carico i dati della pagina in un oggetto contatto
+         * dati immessi in un oggetto contatto
          */
         Contatto contatto = new Contatto(String.valueOf(idContatto),
                 _nome.getText().toString(),
                 _indirizzo.getText().toString(),
                 _telefono.getText().toString(),
                 _email.getText().toString());
-        /**
-         * controllo validità dati immmessi
-         */
-        if (contatto.getNome().equals("") ||
-                contatto.getIndirizzo().equals("") ||
-                contatto.getTelefono().equals("") ||
-                contatto.getEmail().equals("")) {
 
-            AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
-            messaggio.setTitle("Attenzione!");
-            messaggio.setMessage("Inserire tutti i campi");
-            messaggio.setCancelable(false);
-            messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
-            AlertDialog ad = messaggio.create();
-            ad.show();
+        if (contatto.getNome().equals("") || contatto.getIndirizzo().equals("") ||
+            contatto.getTelefono().equals("") || contatto.getEmail().equals("")) {
+            displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            /**
-             * aggiorno il db con i dati cariati nell'oggetto contatto
-             */
             if (new ContattiDAO(this).update(contatto)) {
                 esci.callOnClick();
             }
             else {
-                AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_AlertDialog);
-                messaggio.setTitle("Attenzione!");
-                messaggio.setMessage("Aggiornamento contatto fallito, contatta il supporto tecnico");
-                messaggio.setCancelable(false);
-                messaggio.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                AlertDialog ad = messaggio.create();
-                ad.show();
+                displayAlertDialog(modificaContatto, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
             }
         }
     }

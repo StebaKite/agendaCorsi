@@ -1,4 +1,7 @@
 package com.example.agendaCorsi.ui.contatti;
 
-public class ModificaElementoPortfolio {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ModificaElementoPortfolio extends AppCompatActivity {
+
 }
