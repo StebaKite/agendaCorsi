@@ -8,25 +8,8 @@
     android:paddingTop="?attr/actionBarSize">
 
     <TextView
-        android:id="@+id/tIntestazionId"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/cell_heading"
-        android:gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:text="Id"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tIntestazioneNome"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.21"
-        tools:visibility="invisible" />
-
-    <TextView
         android:id="@+id/tIntestazioneNome"
-        android:layout_width="320dp"
+        android:layout_width="330dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/cell_heading"

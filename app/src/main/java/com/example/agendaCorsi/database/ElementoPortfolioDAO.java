@@ -18,7 +18,7 @@ public class ElementoPortfolioDAO {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<ElementoPortfolio> getAll() {
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<ElementoPortfolio> list = new ArrayList<>();
         String sql = String.format("select " +
@@ -30,7 +30,8 @@ public class ElementoPortfolioDAO {
                 "stato, " +
                 "data_creazione, " +
                 "data_ultimo_aggiornamento " +
-                "from elemento_portfolio");
+                "from elemento_portfolio " +
+                "where id_contatto = " + String.valueOf(idContattoToRead));
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -67,8 +68,8 @@ public class ElementoPortfolioDAO {
                     "'" + elementoPortfolio.getNumeroLezioni() + "', " +
                     "'" + elementoPortfolio.getDataUltimaRicarica() + "', " +
                     "'" + elementoPortfolio.getStato() + "', " +
-                    "datatime('now','localtime'), " +
-                    "datatime('now','localtime'))";
+                    "datetime('now'), " +
+                    "datetime('now'))";
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -90,9 +91,9 @@ public class ElementoPortfolioDAO {
                     "id_contatto = '" + elementoPortfolio.getIdContatto() + "', " +
                     "descrizione = '" + elementoPortfolio.getDescrizione() + "', " +
                     "numero_lezioni = '" + elementoPortfolio.getNumeroLezioni() + "', " +
-                    "data_ultima_ricarica = '" + elementoPortfolio.getDataUltimaRicarica() + "' " +
-                    "stato = '" + elementoPortfolio.getStato() + "' " +
-                    "data_ultimo_aggiornamento = datetime('now','localtime') " +
+                    "data_ultima_ricarica = '" + elementoPortfolio.getDataUltimaRicarica() + "', " +
+                    "stato = '" + elementoPortfolio.getStato() + "', " +
+                    "data_ultimo_aggiornamento = datetime('now') " +
                     "where id_elemento = " + elementoPortfolio.getIdElemento());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
@@ -156,5 +157,4 @@ public class ElementoPortfolioDAO {
         }
         return false;
     }
-
 }

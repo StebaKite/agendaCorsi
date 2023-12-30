@@ -51,18 +51,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private String getContattoTableStructure() {
-        return "create table if not exist contatto(" +
+        return "create table if not exists contatto (" +
                 "id_contatto integer primary key autoincrement, " +
                 "nome text, " +
-                "indirizzo text,  " +
-                "telefono text , " +
+                "indirizzo text, " +
+                "telefono text, " +
                 "email text, " +
                 "data_creazione text, " +
                 "data_ultimo_aggiornamento text)";
     }
 
     private String getElementoPortfolioStructure() {
-        return "create table if not exist elemento_portfolio(" +
+        return "create table if not exists elemento_portfolio (" +
                 "id_elemento integer primary key autoincrement, " +
                 "id_contatto integer, " +
                 "descrizione text, " +

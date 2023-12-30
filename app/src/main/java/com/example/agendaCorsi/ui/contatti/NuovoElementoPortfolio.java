@@ -47,7 +47,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         esci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NuovoElementoPortfolio.this, ModificaContatto.class);
+                Intent intent = new Intent(NuovoElementoPortfolio.this, ElencoContatti.class);
                 startActivity(intent);
             }
         });

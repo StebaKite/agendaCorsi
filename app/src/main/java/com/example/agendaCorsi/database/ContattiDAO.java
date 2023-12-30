@@ -23,7 +23,7 @@ public class ContattiDAO {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Contatto> list = new ArrayList<>();
         String sql = String.format("select " +
-                "id, " +
+                "id_contatto, " +
                 "nome, " +
                 "indirizzo, " +
                 "telefono, " +
@@ -35,7 +35,7 @@ public class ContattiDAO {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String id = String.valueOf(cursor.getInt(Contatto.ID));
+            String id = String.valueOf(cursor.getInt(Contatto.ID_CONTATTO));
             String nome = cursor.getString(Contatto.NOME);
             String indirizzo = cursor.getString(Contatto.INDIRIZZO);
             String telefono = cursor.getString(Contatto.TELEFONO);
@@ -58,9 +58,10 @@ public class ContattiDAO {
                     "(nome, indirizzo, telefono, email, data_creazione, data_ultimo_aggiornamento) values (" +
                     "'" + contatto.getNome() + "', " +
                     "'" + contatto.getIndirizzo() + "', " +
+                    "'" + contatto.getTelefono() + "', " +
                     "'" + contatto.getEmail() + "', " +
-                    "datatime('now','localtime'), " +
-                    "datatime('now','localtime'))";
+                    "datetime('now'), " +
+                    "datetime('now'))";
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -82,9 +83,9 @@ public class ContattiDAO {
                         "nome = '" + contatto.getNome() + "', " +
                         "indirizzo = '" + contatto.getIndirizzo() + "', " +
                         "telefono = '" + contatto.getTelefono() + "', " +
-                        "email = '" + contatto.getEmail() + "' " +
-                        "data_ultimo_aggiornamento = datetime('now','localtime') " +
-                    "where id = " + contatto.getId());
+                        "email = '" + contatto.getEmail() + "', " +
+                        "data_ultimo_aggiornamento = datetime('now') " +
+                    "where id_contatto = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -101,13 +102,13 @@ public class ContattiDAO {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
-                    "id, " +
+                    "id_contatto, " +
                     "nome, "+
                     "indirizzo, " +
                     "telefono, " +
                     "email " +
                     "from " + Contatto.TABLE_NAME + " " +
-                    "where id = " + contatto.getId());
+                    "where id_contatto = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             final Cursor resultSet = database.rawQuery(sql, null);
@@ -131,7 +132,7 @@ public class ContattiDAO {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("delete from " + Contatto.TABLE_NAME + " " +
-                    "where id = " + contatto.getId());
+                    "where id_contatto = " + contatto.getId());
             database.execSQL(sql);
             database.close();
             return true;
@@ -141,5 +142,4 @@ public class ContattiDAO {
         }
         return false;
     }
-
 }

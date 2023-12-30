@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class ElementoPortfolio implements BaseColumns {
 
-    public static String TABLE_NAME = "contatto";
+    public static String TABLE_NAME = "elemento_portfolio";
     public static Integer ID_ELEMENTO = 0;
     public static Integer ID_CONTATTO = 1;
     public static Integer DESCRIZIONE = 2;

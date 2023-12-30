@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 public class Contatto implements BaseColumns {
 
     public static String TABLE_NAME = "contatto";
-    public static Integer ID = 0;
+    public static Integer ID_CONTATTO = 0;
     public static Integer NOME = 1;
     public static Integer INDIRIZZO = 2;
     public static Integer TELEFONO = 3;
@@ -40,11 +40,11 @@ public class Contatto implements BaseColumns {
     }
 
     public static Integer getID() {
-        return ID;
+        return ID_CONTATTO;
     }
 
     public static void setID(Integer ID) {
-        Contatto.ID = ID;
+        Contatto.ID_CONTATTO = ID;
     }
 
     public static Integer getNOME() {

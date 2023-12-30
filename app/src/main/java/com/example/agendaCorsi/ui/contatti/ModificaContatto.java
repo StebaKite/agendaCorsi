@@ -76,7 +76,7 @@ public class ModificaContatto extends FunctionBase {
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());
 
-            displayElencoElementiPortfolio();
+            displayElencoElementiPortfolio(idContatto);
             esci.requestFocus();
         }
         /**
@@ -123,21 +123,21 @@ public class ModificaContatto extends FunctionBase {
     }
 
 
-    private void displayElencoElementiPortfolio() {
+    private void displayElencoElementiPortfolio(int idContatto) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getAll();
+        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getContattoElements(idContatto);
 
         for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
 
             descrizione = new TextView(this);
-            descrizione.setTextSize(10);
+            descrizione.setTextSize(16);
             descrizione.setPadding(10, 20, 10, 20);
             descrizione.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
             descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -147,7 +147,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.addView(descrizione);
 
             stato = new TextView(this);
-            stato.setTextSize(2);
+            stato.setTextSize(16);
             stato.setPadding(10, 20, 10, 20);
             stato.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
             stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -157,7 +157,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.addView(stato);
 
             id_elemento = new TextView(this);
-            id_elemento.setTextSize(2);
+            id_elemento.setTextSize(16);
             id_elemento.setPadding(10, 20, 10, 20);
             id_elemento.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
             id_elemento.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
