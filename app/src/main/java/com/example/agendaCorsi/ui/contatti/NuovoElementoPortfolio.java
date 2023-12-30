@@ -17,7 +17,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
     int idContatto;
     String nomeContatto;
     Button cancella, esci, salva;
-    TextView descrizione, numeroLezioni;
+    TextView labelScheda, descrizione, numeroLezioni;
     Context nuovoElementoPortfolio;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,9 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
         descrizione = findViewById(R.id.editDescrizione);
         numeroLezioni = findViewById(R.id.editNumeroLezioni);
+        labelScheda = findViewById(R.id.lScheda);
+
+        labelScheda.setText(nomeContatto);
 
         nuovoElementoPortfolio = this;
 
