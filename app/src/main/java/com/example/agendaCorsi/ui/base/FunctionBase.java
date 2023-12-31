@@ -24,4 +24,5 @@ public class FunctionBase extends AppCompatActivity {
         AlertDialog ad = messaggio.create();
         ad.show();
     }
+
 }

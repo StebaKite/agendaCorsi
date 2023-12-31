@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -76,44 +77,73 @@
 
     <Button
         android:id="@+id/bReset"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:background="#d0d0d0"
-        android:text="Reset"
+        android:text="Annulla"
         android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni"
-        app:layout_constraintWidth_percent="0.27" />
+        app:layout_constraintWidth_percent="0.35" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bReset"
         app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.17" />
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bExit"
         app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.17" />
+
+    <Button
+        android:id="@+id/bElimina"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#d0d0d0"
+        android:text="Elimina"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/bSalva"
+        app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <Button
+        android:id="@+id/bRicarica5"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Ricarica 5"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bRicarica10"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Ricarica 10"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bRicarica5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

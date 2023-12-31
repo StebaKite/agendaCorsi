@@ -31,54 +31,6 @@ public class Contatto implements BaseColumns {
         this.dataUltimoAggiornamento = "";
     }
 
-    public static String getTableName() {
-        return TABLE_NAME;
-    }
-
-    public static void setTableName(String tableName) {
-        TABLE_NAME = tableName;
-    }
-
-    public static Integer getID() {
-        return ID_CONTATTO;
-    }
-
-    public static void setID(Integer ID) {
-        Contatto.ID_CONTATTO = ID;
-    }
-
-    public static Integer getNOME() {
-        return NOME;
-    }
-
-    public static void setNOME(Integer NOME) {
-        Contatto.NOME = NOME;
-    }
-
-    public static Integer getINDIRIZZO() {
-        return INDIRIZZO;
-    }
-
-    public static void setINDIRIZZO(Integer INDIRIZZO) {
-        Contatto.INDIRIZZO = INDIRIZZO;
-    }
-
-    public static Integer getTELEFONO() {
-        return TELEFONO;
-    }
-
-    public static void setTELEFONO(Integer TELEFONO) {
-        Contatto.TELEFONO = TELEFONO;
-    }
-
-    public static Integer getEMAIL() {
-        return EMAIL;
-    }
-
-    public static void setEMAIL(Integer EMAIL) {
-        Contatto.EMAIL = EMAIL;
-    }
-
     public String getId() {
         return id;
     }

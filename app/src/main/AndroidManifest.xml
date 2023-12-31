@@ -25,8 +25,8 @@
         <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaContatto" android:screenOrientation="portrait"/>
         <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoContatto" android:screenOrientation="portrait"/>
         <activity android:name="com.example.agendaCorsi.ui.contatti.ElencoContatti" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio" android:screenOrientation="portrait"/>
         <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoElementoPortfolio" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -129,8 +129,8 @@ public class ElementoPortfolioDAO {
                 elementoPortfolio.setDescrizione(resultSet.getString(ElementoPortfolio.DESCRIZIONE));
                 elementoPortfolio.setDataUltimaRicarica(resultSet.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
                 elementoPortfolio.setStato(resultSet.getString(ElementoPortfolio.STATO));
-                elementoPortfolio.setDataCreazione(ElementoPortfolio.DATA_CREAZIONE);
-                elementoPortfolio.setDataUltimoAggiornamento(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO);
+                elementoPortfolio.setDataCreazione(resultSet.getString(ElementoPortfolio.DATA_CREAZIONE));
+                elementoPortfolio.setDataUltimoAggiornamento(resultSet.getString(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO));
             }
             resultSet.close();
             database.close();

@@ -34,28 +34,16 @@ public class ElementoPortfolio implements BaseColumns {
         this.dataUltimoAggiornamento = "";
     }
 
-    public static String getTableName() {
-        return TABLE_NAME;
-    }
-
-    public static void setTableName(String tableName) {
-        TABLE_NAME = tableName;
-    }
-
-    public static Integer getIdElemento() {
-        return ID_ELEMENTO;
+    public String getIdElemento() {
+        return idElemento;
     }
 
     public void setIdElemento(String idElemento) {
         this.idElemento = idElemento;
     }
 
-    public static void setIdElemento(Integer idElemento) {
-        ID_ELEMENTO = idElemento;
-    }
-
-    public static Integer getIdContatto() {
-        return ID_CONTATTO;
+    public String getIdContatto() {
+        return idContatto;
     }
 
     public void setIdContatto(String idContatto) {
@@ -70,32 +58,16 @@ public class ElementoPortfolio implements BaseColumns {
         this.descrizione = descrizione;
     }
 
-    public static void setIdContatto(Integer idContatto) {
-        ID_CONTATTO = idContatto;
-    }
-
-    public static Integer getDESCRIZIONE() {
-        return DESCRIZIONE;
-    }
-
-    public static void setDESCRIZIONE(Integer DESCRIZIONE) {
-        ElementoPortfolio.DESCRIZIONE = DESCRIZIONE;
-    }
-
-    public static Integer getNumeroLezioni() {
-        return NUMERO_LEZIONI;
+    public String getNumeroLezioni() {
+        return numeroLezioni;
     }
 
     public void setNumeroLezioni(String numeroLezioni) {
         this.numeroLezioni = numeroLezioni;
     }
 
-    public static void setNumeroLezioni(Integer numeroLezioni) {
-        NUMERO_LEZIONI = numeroLezioni;
-    }
-
-    public static Integer getDataUltimaRicarica() {
-        return DATA_ULTIMA_RICARICA;
+    public String getDataUltimaRicarica() {
+        return dataUltimaRicarica;
     }
 
     public void setDataUltimaRicarica(String dataUltimaRicarica) {
@@ -110,39 +82,19 @@ public class ElementoPortfolio implements BaseColumns {
         this.stato = stato;
     }
 
-    public static void setDataUltimaRicarica(Integer dataUltimaRicarica) {
-        DATA_ULTIMA_RICARICA = dataUltimaRicarica;
-    }
-
-    public static Integer getSTATO() {
-        return STATO;
-    }
-
-    public static void setSTATO(Integer STATO) {
-        ElementoPortfolio.STATO = STATO;
-    }
-
-    public static Integer getDataCreazione() {
-        return DATA_CREAZIONE;
+    public String getDataCreazione() {
+        return dataCreazione;
     }
 
     public void setDataCreazione(String dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
 
-    public static void setDataCreazione(Integer dataCreazione) {
-        DATA_CREAZIONE = dataCreazione;
-    }
-
-    public static Integer getDataUltimoAggiornamento() {
-        return DATA_ULTIMO_AGGIORNAMENTO;
+    public String getDataUltimoAggiornamento() {
+        return dataUltimoAggiornamento;
     }
 
     public void setDataUltimoAggiornamento(String dataUltimoAggiornamento) {
         this.dataUltimoAggiornamento = dataUltimoAggiornamento;
-    }
-
-    public static void setDataUltimoAggiornamento(Integer dataUltimoAggiornamento) {
-        DATA_ULTIMO_AGGIORNAMENTO = dataUltimoAggiornamento;
     }
 }

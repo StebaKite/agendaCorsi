@@ -76,7 +76,7 @@ public class ModificaContatto extends FunctionBase {
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());
 
-            displayElencoElementiPortfolio(idContatto);
+            displayElencoElementiPortfolio(idContatto, contatto.getNome());
             esci.requestFocus();
         }
         /**
@@ -123,7 +123,7 @@ public class ModificaContatto extends FunctionBase {
     }
 
 
-    private void displayElencoElementiPortfolio(int idContatto) {
+    private void displayElencoElementiPortfolio(int idContatto, String nomeContatto) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -177,7 +177,9 @@ public class ModificaContatto extends FunctionBase {
                      * Passo all'attività ModificaElemento l'id dell' elemento selezionato
                      */
                     Intent intent = new Intent(ModificaContatto.this, ModificaElementoPortfolio.class);
-                    intent.putExtra("id", idElementoSelezionato);
+                    intent.putExtra("idElemento", idElementoSelezionato);
+                    intent.putExtra("idContatto", idContatto);
+                    intent.putExtra("nomeContatto", nomeContatto);
                     startActivity(intent);
                 }
             });
