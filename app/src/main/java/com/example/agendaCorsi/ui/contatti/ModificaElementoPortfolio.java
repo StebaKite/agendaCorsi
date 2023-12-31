@@ -24,7 +24,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
     int idContatto, idElemento;
     String nomeContatto;
     Button annulla, esci, salva, elimina, ricarica5, ricarica10;
-    TextView labelScheda;
+    TextView labelScheda, dataUltimaricarica;
     String descrizione, numeroLezioni;
     EditText _descrizione, _numeroLezioni;
 
@@ -49,6 +49,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
 
         _descrizione = findViewById(R.id.editDescrizione);
         _numeroLezioni = findViewById(R.id.editNumeroLezioni);
+        dataUltimaricarica = findViewById(R.id.dataUltRicarica);
 
         labelScheda = findViewById(R.id.lScheda);
         labelScheda.setText(nomeContatto);
@@ -66,6 +67,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         } else {
             _descrizione.setText(elementoPortfolio.getDescrizione());
             _numeroLezioni.setText(elementoPortfolio.getNumeroLezioni());
+            dataUltimaricarica.setText(elementoPortfolio.getDataUltimaRicarica());
             esci.requestFocus();
         }
         /*
