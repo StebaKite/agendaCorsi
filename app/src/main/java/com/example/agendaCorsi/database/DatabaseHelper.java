@@ -10,7 +10,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 2;
+    public static final int SCHEMA_VERSION = 3;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public DatabaseHelper(Context context) {
@@ -44,14 +44,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         Log.i(DatabaseHelper.DATABASE_NAME, "OnUpgrade invoked!");
-
-        sqLiteDatabase.execSQL("drop table contatti");
+        /*
+         *  Sequenza di DROP secondo le constraint dello schema (vedi modello ER)
+         */
+        sqLiteDatabase.execSQL("drop table " + ElementoPortfolio.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table " + Contatto.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table " + Corso.TABLE_NAME);
+        /*
+         * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
+         */
         sqLiteDatabase.execSQL(getContattoTableStructure());
         sqLiteDatabase.execSQL(getElementoPortfolioStructure());
+        sqLiteDatabase.execSQL(getCorsoTableStructure());
     }
 
     private String getContattoTableStructure() {
-        return "create table if not exists contatto (" +
+        return "create table if not exists " + Contatto.TABLE_NAME + " (" +
                 "id_contatto integer primary key autoincrement, " +
                 "nome text, " +
                 "indirizzo text, " +
@@ -62,10 +70,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private String getElementoPortfolioStructure() {
-        return "create table if not exists elemento_portfolio (" +
+        return "create table if not exists " + ElementoPortfolio.TABLE_NAME + " (" +
                 "id_elemento integer primary key autoincrement, " +
                 "id_contatto integer, " +
                 "descrizione text, " +
+                "sport text, " +
                 "numero_lezioni integer, " +
                 "data_ultima_ricarica text, " +
                 "stato text, " +
@@ -74,4 +83,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "constraint fk_contatto foreign key (id_contatto) references contatto (id_contatto) on delete cascade)";
     }
 
+    private String getCorsoTableStructure() {
+        return "create table if not exists " + Corso.TABLE_NAME + " (" +
+                "id_corso integer primary key autoincrement, " +
+                "descrizione text, " +
+                "sport text, " +
+                "stato text, " +
+                "data_inizio_validita text, " +
+                "data_fine_validita, " +
+                "data_creazione text, " +
+                "data_ultimo_aggiornamento text)";
+    }
 }

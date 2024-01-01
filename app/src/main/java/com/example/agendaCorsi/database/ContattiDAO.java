@@ -28,7 +28,7 @@ public class ContattiDAO {
                 "indirizzo, " +
                 "telefono, " +
                 "email " +
-                "from contatto");
+                "from " + Contatto.TABLE_NAME);
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -133,6 +133,7 @@ public class ContattiDAO {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("delete from " + Contatto.TABLE_NAME + " " +
                     "where id_contatto = " + contatto.getId());
+
             database.execSQL(sql);
             database.close();
             return true;

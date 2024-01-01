@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.agendaCorsi.database.ElementoPortfolio;
@@ -19,6 +20,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
     Button cancella, esci, salva;
     TextView labelScheda, descrizione, numeroLezioni;
     Context nuovoElementoPortfolio;
+    RadioButton radio_skate, radio_basket, radio_pallavolo;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,9 @@ public class NuovoElementoPortfolio extends FunctionBase {
         descrizione = findViewById(R.id.editDescrizione);
         numeroLezioni = findViewById(R.id.editNumeroLezioni);
         labelScheda = findViewById(R.id.lScheda);
+        radio_skate = findViewById(R.id.radio_skate);
+        radio_basket = findViewById(R.id.radio_basket);
+        radio_pallavolo = findViewById(R.id.radio_pallavolo);
 
         labelScheda.setText(nomeContatto);
 
@@ -66,9 +71,14 @@ public class NuovoElementoPortfolio extends FunctionBase {
             public void onClick(View v) {
                 String dataUltimaRicarica = "";
                 String stato = "Aperto";
+                String sport = "";
+
+                if (radio_skate.isChecked()) { sport = Skate; }
+                if (radio_basket.isChecked()) { sport = Basket; }
+                if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
 
                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
-                        descrizione.getText().toString(), numeroLezioni.getText().toString(), dataUltimaRicarica, stato);
+                        descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, stato);
 
                 if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
                     displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");

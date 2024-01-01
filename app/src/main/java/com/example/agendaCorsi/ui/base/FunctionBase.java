@@ -10,6 +10,10 @@ import com.example.agendacorsi.R;
 
 public class FunctionBase extends AppCompatActivity {
 
+    public static String Skate = "SKATE";
+    public static String Basket = "BASKET";
+    public static String Pallavolo = "PALLAVOLO";
+
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
         messaggio.setTitle(title);

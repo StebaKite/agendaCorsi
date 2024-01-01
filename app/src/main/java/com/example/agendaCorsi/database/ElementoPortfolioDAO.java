@@ -25,6 +25,7 @@ public class ElementoPortfolioDAO {
                 "id_elemento, " +
                 "id_contatto, " +
                 "descrizione, " +
+                "sport, " +
                 "numero_lezioni, " +
                 "data_ultima_ricarica, " +
                 "stato, " +
@@ -41,17 +42,17 @@ public class ElementoPortfolioDAO {
             String idElemento = String.valueOf(cursor.getInt(ElementoPortfolio.ID_ELEMENTO));
             String idContatto = String.valueOf(cursor.getInt(ElementoPortfolio.ID_CONTATTO));
             String descrizione = String.valueOf(cursor.getString(ElementoPortfolio.DESCRIZIONE));
+            String sport = String.valueOf(cursor.getString(ElementoPortfolio.SPORT));
             String numeroLezioni = String.valueOf(cursor.getString(ElementoPortfolio.NUMERO_LEZIONI));
             String dataUltimaRicarica = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
             String stato = String.valueOf(cursor.getString(ElementoPortfolio.STATO));
             String dataCreazione = String.valueOf(cursor.getString(ElementoPortfolio.DATA_CREAZIONE));
             String dataUltimoAggiornamento = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO));
 
-            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento,idContatto,descrizione,numeroLezioni,dataUltimaRicarica,stato);
+            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento,idContatto,descrizione,sport,numeroLezioni,dataUltimaRicarica,stato);
             list.add(elementoPortfolio);
             cursor.moveToNext();
         }
-
         cursor.close();
         database.close();
         return list;
@@ -62,9 +63,10 @@ public class ElementoPortfolioDAO {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = "insert into " + ElementoPortfolio.TABLE_NAME + " " +
-                    "(id_contatto, descrizione, numero_lezioni, data_ultima_ricarica, stato, data_creazione, data_ultimo_aggiornamento) values (" +
+                    "(id_contatto, descrizione, sport, numero_lezioni, data_ultima_ricarica, stato, data_creazione, data_ultimo_aggiornamento) values (" +
                     "'" + elementoPortfolio.getIdContatto() + "', " +
                     "'" + elementoPortfolio.getDescrizione() + "', " +
+                    "'" + elementoPortfolio.getSport() + "', " +
                     "'" + elementoPortfolio.getNumeroLezioni() + "', " +
                     "'" + elementoPortfolio.getDataUltimaRicarica() + "', " +
                     "'" + elementoPortfolio.getStato() + "', " +
@@ -90,6 +92,7 @@ public class ElementoPortfolioDAO {
                     "set " +
                     "id_contatto = '" + elementoPortfolio.getIdContatto() + "', " +
                     "descrizione = '" + elementoPortfolio.getDescrizione() + "', " +
+                    "sport = '" + elementoPortfolio.getSport() + "', " +
                     "numero_lezioni = '" + elementoPortfolio.getNumeroLezioni() + "', " +
                     "data_ultima_ricarica = '" + elementoPortfolio.getDataUltimaRicarica() + "', " +
                     "stato = '" + elementoPortfolio.getStato() + "', " +
@@ -114,7 +117,8 @@ public class ElementoPortfolioDAO {
             String sql = String.format("select " +
                     "id_elemento, " +
                     "id_contatto, " +
-                    "descrizione, "+
+                    "descrizione, " +
+                    "sport, " +
                     "numero_lezioni, " +
                     "data_ultima_ricarica, " +
                     "stato, " +
@@ -129,6 +133,7 @@ public class ElementoPortfolioDAO {
                 elementoPortfolio.setIdContatto(resultSet.getString(ElementoPortfolio.ID_ELEMENTO));
                 elementoPortfolio.setIdContatto(resultSet.getString(ElementoPortfolio.ID_CONTATTO));
                 elementoPortfolio.setDescrizione(resultSet.getString(ElementoPortfolio.DESCRIZIONE));
+                elementoPortfolio.setSport(resultSet.getString(ElementoPortfolio.SPORT));
                 elementoPortfolio.setNumeroLezioni(resultSet.getString(ElementoPortfolio.NUMERO_LEZIONI));
                 elementoPortfolio.setDataUltimaRicarica(resultSet.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
                 elementoPortfolio.setStato(resultSet.getString(ElementoPortfolio.STATO));
