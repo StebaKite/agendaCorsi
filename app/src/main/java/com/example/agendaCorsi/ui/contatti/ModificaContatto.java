@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -75,6 +76,10 @@ public class ModificaContatto extends FunctionBase {
             _indirizzo.setText(contatto.getIndirizzo());
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());
+            nome = _nome.getText().toString();
+            indirizzo = _indirizzo.getText().toString();
+            telefono = _telefono.getText().toString();
+            email = _email.getText().toString();
 
             displayElencoElementiPortfolio(idContatto, contatto.getNome());
             esci.requestFocus();
@@ -114,7 +119,7 @@ public class ModificaContatto extends FunctionBase {
         nuovoElemPortfolio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ModificaContatto.this, NuovoElementoPortfolio.class);
+                Intent intent = new Intent(modificaContatto, NuovoElementoPortfolio.class);
                 intent.putExtra("idContatto", idContatto);
                 intent.putExtra("nomeContatto", contatto.getNome());
                 startActivity(intent);

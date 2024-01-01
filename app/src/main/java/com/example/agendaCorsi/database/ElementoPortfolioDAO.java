@@ -86,7 +86,7 @@ public class ElementoPortfolioDAO {
     public boolean update(ElementoPortfolio elementoPortfolio) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
-            String sql = String.format("update " + Contatto.TABLE_NAME + " " +
+            String sql = String.format("update " + ElementoPortfolio.TABLE_NAME + " " +
                     "set " +
                     "id_contatto = '" + elementoPortfolio.getIdContatto() + "', " +
                     "descrizione = '" + elementoPortfolio.getDescrizione() + "', " +
@@ -112,6 +112,7 @@ public class ElementoPortfolioDAO {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
+                    "id_elemento, " +
                     "id_contatto, " +
                     "descrizione, "+
                     "numero_lezioni, " +
@@ -125,8 +126,10 @@ public class ElementoPortfolioDAO {
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             final Cursor resultSet = database.rawQuery(sql, null);
             while (resultSet.moveToNext()) {
+                elementoPortfolio.setIdContatto(resultSet.getString(ElementoPortfolio.ID_ELEMENTO));
                 elementoPortfolio.setIdContatto(resultSet.getString(ElementoPortfolio.ID_CONTATTO));
                 elementoPortfolio.setDescrizione(resultSet.getString(ElementoPortfolio.DESCRIZIONE));
+                elementoPortfolio.setNumeroLezioni(resultSet.getString(ElementoPortfolio.NUMERO_LEZIONI));
                 elementoPortfolio.setDataUltimaRicarica(resultSet.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
                 elementoPortfolio.setStato(resultSet.getString(ElementoPortfolio.STATO));
                 elementoPortfolio.setDataCreazione(resultSet.getString(ElementoPortfolio.DATA_CREAZIONE));

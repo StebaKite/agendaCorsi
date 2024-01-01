@@ -48,7 +48,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NuovoElementoPortfolio.this, ModificaContatto.class);
-                intent.putExtra("idContatto", idContatto);
+                intent.putExtra("id", idContatto);
                 startActivity(intent);
             }
         });

@@ -28,7 +28,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
     String descrizione, numeroLezioni;
     EditText _descrizione, _numeroLezioni;
 
-    Context modificaElementoPortfolio;
+    Context modificaElementoPortfolio, modificaContatto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         labelScheda.setText(nomeContatto);
 
         modificaElementoPortfolio = this;
+        modificaContatto = (Context) intent.getSerializableExtra("modificaContattoContext");
         /*
           Caricamento dati elemento portfolio selezionato
          */
@@ -68,6 +69,8 @@ public class ModificaElementoPortfolio extends FunctionBase {
             _descrizione.setText(elementoPortfolio.getDescrizione());
             _numeroLezioni.setText(elementoPortfolio.getNumeroLezioni());
             dataUltimaricarica.setText(elementoPortfolio.getDataUltimaRicarica());
+            descrizione = _descrizione.getText().toString();
+            numeroLezioni = _numeroLezioni.getText().toString();
             esci.requestFocus();
         }
         /*
@@ -83,8 +86,8 @@ public class ModificaElementoPortfolio extends FunctionBase {
         esci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ModificaElementoPortfolio.this, ModificaContatto.class);
-                intent.putExtra("idContatto", idContatto);
+                Intent intent = new Intent(modificaElementoPortfolio, ModificaContatto.class);
+                intent.putExtra("id", idContatto);
                 startActivity(intent);
             }
         });
@@ -162,7 +165,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         Date date = new Date();
 
         String stato = "Aperto";
-        if (Integer.parseInt(_numeroLezioni.toString()) > 0) {
+        if (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) {
             stato = "Carico";
         }
 
