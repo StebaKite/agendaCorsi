@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
@@ -34,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ElencoContatti.class);
             startActivity(intent);
             return true;
-        } else if (item.getTitle().equals("Dashboard")) {
-            // codice
+        } else if (item.getTitle().equals("Corsi")) {
+            Intent intent = new Intent(MainActivity.this, ElencoCorsi.class);
+            startActivity(intent);
             return true;
         } else if (item.getTitle().equals("Notifications")) {
             // codice

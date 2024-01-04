@@ -59,7 +59,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         /*
           Caricamento dati elemento portfolio selezionato
          */
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null);
+        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
         elementoPortfolio.setIdElemento(String.valueOf(idElemento));
         new ElementoPortfolioDAO(this).select(elementoPortfolio);
 
@@ -138,7 +138,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null);
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
                 elementoPortfolio.setIdElemento(String.valueOf(idElemento));
                 if (new ElementoPortfolioDAO(modificaElementoPortfolio).delete(elementoPortfolio)) {
                     esci.callOnClick();
@@ -172,6 +172,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(String.valueOf(idElemento),
                 String.valueOf(idContatto),
                 _descrizione.getText().toString(),
+                null,
                 _numeroLezioni.getText().toString(),
                 dateFormat.format(date),
                 stato);

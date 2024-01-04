@@ -78,7 +78,7 @@
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        app:layout_constraintStart_toBottomOf="@+id/editDescrizione"
+
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -112,7 +112,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
-        app:layout_constraintStart_toBottomOf="@+id/editDataInizio"
+
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
         app:layout_constraintWidth_percent="0.75" />

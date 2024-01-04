@@ -28,6 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i(DatabaseHelper.DATABASE_NAME, "OnCreate invoked!");
         sqLiteDatabase.execSQL(getContattoTableStructure());
         sqLiteDatabase.execSQL(getElementoPortfolioStructure());
+        sqLiteDatabase.execSQL(getCorsoTableStructure());
+        sqLiteDatabase.execSQL(getFasciaTableStructure());
     }
 
     @Override
@@ -47,10 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          *  Sequenza di DROP secondo le constraint dello schema (vedi modello ER)
          */
-        sqLiteDatabase.execSQL("drop table " + ElementoPortfolio.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table " + Contatto.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table " + Corso.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table " + Fascia.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */

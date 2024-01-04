@@ -114,8 +114,14 @@ public class NuovoCorso extends FunctionBase {
         salva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String sport = "";
+                if (skate.isChecked()) { sport = Skate; }
+                if (basket.isChecked()) { sport = Basket; }
+                if (pattini.isChecked()) { sport = Pattini; }
+                if (pallavolo.isChecked()) { sport = Pallavolo; }
+
                 Corso corso = new Corso(null, descrizione.getText().toString(),
-                        sport.getText().toString(), STATO_APERTO,
+                        sport, STATO_APERTO,
                         dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                         dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"), null, null);
 
