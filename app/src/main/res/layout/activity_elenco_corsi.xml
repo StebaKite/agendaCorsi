@@ -16,7 +16,7 @@
         android:paddingLeft="4dp"
         android:paddingTop="8dp"
         android:paddingRight="4dp"
-        android:text="Nome contatto"
+        android:text="Nome corso"
         android:textColor="#ffffff"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,20 +28,20 @@
         android:layout_width="410dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bInserisciContatto"
-        app:layout_constraintEnd_toEndOf="@id/bInserisciContatto"
+        app:layout_constraintBottom_toTopOf="@+id/bInserisciCorso"
+        app:layout_constraintEnd_toEndOf="@id/bInserisciCorso"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
 
         <TableLayout
-            android:id="@+id/tabellaContatti"
+            android:id="@+id/tabellaCorsi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/bInserisciContatto"
+        android:id="@+id/bInserisciCorso"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Nuovo"

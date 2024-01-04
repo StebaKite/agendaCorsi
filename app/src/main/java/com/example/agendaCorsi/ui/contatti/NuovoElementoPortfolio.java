@@ -20,7 +20,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
     Button cancella, esci, salva;
     TextView labelScheda, descrizione, numeroLezioni;
     Context nuovoElementoPortfolio;
-    RadioButton radio_skate, radio_basket, radio_pallavolo;
+    RadioButton radio_skate, radio_basket, radio_pallavolo, radio_pattini;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +40,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         radio_skate = findViewById(R.id.radio_skate);
         radio_basket = findViewById(R.id.radio_basket);
         radio_pallavolo = findViewById(R.id.radio_pallavolo);
+        radio_pattini = findViewById(R.id.radio_pattini);
 
         labelScheda.setText(nomeContatto);
 
@@ -76,6 +77,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
                 if (radio_skate.isChecked()) { sport = Skate; }
                 if (radio_basket.isChecked()) { sport = Basket; }
                 if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
+                if (radio_pattini.isChecked()) { sport = Pattini; }
 
                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
                         descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, stato);
@@ -84,11 +86,17 @@ public class NuovoElementoPortfolio extends FunctionBase {
                     displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
                 }
                 else {
-                    if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio)) {
-                        esci.callOnClick();
+                    elementoPortfolio.setSport(sport);
+                    if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio)) {
+                        if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio)) {
+                            esci.callOnClick();
+                        }
+                        else {
+                            displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+                        }
                     }
                     else {
-                        displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+                        displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Elemento portfolio già presente, duplicazione non ammessa");
                     }
                 }
             }

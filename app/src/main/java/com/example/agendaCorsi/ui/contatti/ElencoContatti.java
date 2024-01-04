@@ -34,9 +34,7 @@ public class ElencoContatti extends AppCompatActivity {
         inserisci = findViewById(R.id.bInserisciContatto);
 
         displayElencoContatti();
-        /**
-         * implemento il listener per il bottone di inserimento nuovo contatto
-         */
+
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

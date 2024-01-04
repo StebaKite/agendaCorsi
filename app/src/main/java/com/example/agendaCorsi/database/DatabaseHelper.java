@@ -50,16 +50,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table " + ElementoPortfolio.TABLE_NAME);
         sqLiteDatabase.execSQL("drop table " + Contatto.TABLE_NAME);
         sqLiteDatabase.execSQL("drop table " + Corso.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table " + Fascia.TABLE_NAME);
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
         sqLiteDatabase.execSQL(getContattoTableStructure());
         sqLiteDatabase.execSQL(getElementoPortfolioStructure());
         sqLiteDatabase.execSQL(getCorsoTableStructure());
+        sqLiteDatabase.execSQL(getFasciaTableStructure());
     }
 
     private String getContattoTableStructure() {
-        return "create table if not exists " + Contatto.TABLE_NAME + " (" +
+        return  "create table if not exists " + Contatto.TABLE_NAME + " (" +
                 "id_contatto integer primary key autoincrement, " +
                 "nome text, " +
                 "indirizzo text, " +
@@ -70,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private String getElementoPortfolioStructure() {
-        return "create table if not exists " + ElementoPortfolio.TABLE_NAME + " (" +
+        return  "create table if not exists " + ElementoPortfolio.TABLE_NAME + " (" +
                 "id_elemento integer primary key autoincrement, " +
                 "id_contatto integer, " +
                 "descrizione text, " +
@@ -84,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private String getCorsoTableStructure() {
-        return "create table if not exists " + Corso.TABLE_NAME + " (" +
+        return  "create table if not exists " + Corso.TABLE_NAME + " (" +
                 "id_corso integer primary key autoincrement, " +
                 "descrizione text, " +
                 "sport text, " +
@@ -94,4 +96,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "data_creazione text, " +
                 "data_ultimo_aggiornamento text)";
     }
+
+    private String getFasciaTableStructure() {
+        return  "create table if not exists " + Fascia.TABLE_NAME + " (" +
+                "id_fascia integer primary key autoincrement, " +
+                "id_corso integer, " +
+                "descrizione text, " +
+                "giorno_settimana text, " +
+                "ora_inizio text, " +
+                "ora_fine text, " +
+                "capienza text, " +
+                "data_creazione text, " +
+                "data_ultimo_aggiornamento text, " +
+                "constraint fk_corso foreign key (id_corso) references corso (id_corso) on delete cascade)";
+    }
+
 }

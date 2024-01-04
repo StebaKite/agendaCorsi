@@ -17,10 +17,26 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#E52727</item>
     </style>
+
     <style name="Theme.InfoDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#F69910</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">#F69910</item>
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:weekNumberColor">#F69910</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">#F69910</item>
     </style>
 </resources>

@@ -162,11 +162,6 @@ public class ModificaContatto extends FunctionBase {
             tableRow.addView(stato);
 
             id_elemento = new TextView(this);
-            id_elemento.setTextSize(16);
-            id_elemento.setPadding(10, 20, 10, 20);
-            id_elemento.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
-            id_elemento.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            id_elemento.setGravity(Gravity.CENTER);
             id_elemento.setText(String.valueOf(elementoPortfolio.getIdElemento()));
             id_elemento.setVisibility(View.INVISIBLE);
             tableRow.addView(id_elemento);

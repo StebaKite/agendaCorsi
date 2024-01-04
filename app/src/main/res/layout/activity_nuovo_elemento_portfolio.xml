@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDescrizione"
         android:layout_width="300dp"
@@ -40,7 +41,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:text="Lezioni Skate"
+        android:text="Lezioni Skate Base"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toTopOf="parent"
@@ -135,7 +136,7 @@
             android:text="Skate"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:checkedButton="@+id/radio_basket"
+            android:checkedButton="@+id/radio_skate"
             tools:layout_editor_absoluteX="84dp"
             tools:layout_editor_absoluteY="268dp" />
         <RadioButton

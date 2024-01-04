@@ -165,4 +165,27 @@ public class ElementoPortfolioDAO {
         }
         return false;
     }
+
+    public Boolean isNew(ElementoPortfolio elementoPortfolio) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            String sql = String.format("select " +
+                    "id_elemento " +
+                    "from " + ElementoPortfolio.TABLE_NAME + " " +
+                    "where id_contatto = " + elementoPortfolio.getIdContatto() + " " +
+                    "and sport = " + elementoPortfolio.getSport());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            final Cursor resultSet = database.rawQuery(sql, null);
+            if (resultSet.getCount() > 0) {
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+            elementoPortfolio.setIdContatto("");
+        }
+        return true;
+    }
+
 }
