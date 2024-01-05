@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CorsoDAO {
+public class CorsoDAO implements Database_itf {
 
     private final DatabaseHelper databaseHelper;
 
@@ -18,9 +18,9 @@ public class CorsoDAO {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<Corso> getAll() {
+    public List<Object> getAll() {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
-        List<Corso> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         String sql = String.format("select " +
                 "id_corso, " +
                 "descrizione, " +
@@ -46,7 +46,7 @@ public class CorsoDAO {
             String dataCreazione = String.valueOf(cursor.getString(Corso.DATA_CREAZIONE));
             String dataUltimoAggiornamento = String.valueOf(cursor.getString(Corso.DATA_ULTIMO_AGGIORNAMENTO));
 
-            Corso corso = new Corso(idCorso, descrizione, sport, stato, dataInizioValidita, dataFineValidita, dataCreazione, dataUltimoAggiornamento);
+            Object corso = new Corso(idCorso, descrizione, sport, stato, dataInizioValidita, dataFineValidita, dataCreazione, dataUltimoAggiornamento);
             list.add(corso);
             cursor.moveToNext();
         }
@@ -55,9 +55,11 @@ public class CorsoDAO {
         return list;
     }
 
-    public boolean insert(Corso corso) {
+    @Override
+    public boolean insert(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Corso corso = Corso.class.cast(entity);
             String sql = "insert into " + Corso.TABLE_NAME + " " +
                     "(descrizione, sport, stato, data_inizio_validita, data_fine_validita, data_creazione, data_ultimo_aggiornamento) values (" +
                     "'" + corso.getDescrizione() + "', " +
@@ -79,17 +81,19 @@ public class CorsoDAO {
         return false;
     }
 
-    public boolean update(Corso corso) {
+    @Override
+    public boolean update(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Corso corso = Corso.class.cast(entity);
             String sql = String.format("update " + Corso.TABLE_NAME + " " +
                     "set " +
-                        "descrizione = '" + corso.getDescrizione() + "', " +
-                        "sport = '" + corso.getSport() + "', " +
-                        "stato = '" + corso.getStato() + "', " +
-                        "data_inizio_validita = '" + corso.getDataInizioValidita() + "', " +
-                        "data_fine_validita = '" + corso.getDataFineValidita() + "', " +
-                        "data_ultimo_aggiornamento = datetime('now') " +
+                    "descrizione = '" + corso.getDescrizione() + "', " +
+                    "sport = '" + corso.getSport() + "', " +
+                    "stato = '" + corso.getStato() + "', " +
+                    "data_inizio_validita = '" + corso.getDataInizioValidita() + "', " +
+                    "data_fine_validita = '" + corso.getDataFineValidita() + "', " +
+                    "data_ultimo_aggiornamento = datetime('now') " +
                     "where id_corso = " + corso.getIdCorso());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
@@ -103,7 +107,9 @@ public class CorsoDAO {
         return false;
     }
 
-    public Corso select(Corso corso) {
+    @Override
+    public Object select(Object entity) {
+        Corso corso = Corso.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
@@ -139,9 +145,11 @@ public class CorsoDAO {
         return corso;
     }
 
-    public Boolean delete(Corso corso) {
+    @Override
+    public Boolean delete(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Corso corso = Corso.class.cast(entity);
             String sql = String.format("delete from " + Corso.TABLE_NAME + " " +
                     "where id_corso = " + corso.getIdCorso());
 

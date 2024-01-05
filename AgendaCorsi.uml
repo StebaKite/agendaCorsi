@@ -7763,7 +7763,7 @@ e ricaricher&#224; solo le lezioni acquistate
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[11]" type="UMLActionStateView" guid="r9mtZZycd0mYZdZVGj7pBQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$006CB6FF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">744</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">380</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">90</XPD:ATTR>
@@ -7881,7 +7881,7 @@ e ricaricher&#224; solo le lezioni acquistate
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[16]" type="UMLActionStateView" guid="fo84lAJkv0W0HBCZKCsQXgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$006CB6FF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">960</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">328</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">90</XPD:ATTR>

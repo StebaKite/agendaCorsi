@@ -119,25 +119,25 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editDataFine">
+
         <RadioButton
             android:id="@+id/radio_skate"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:checkedButton="@+id/radio_skate"
             android:text="Skate"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:checkedButton="@+id/radio_skate"
             tools:layout_editor_absoluteX="84dp"
             tools:layout_editor_absoluteY="268dp" />
+
         <RadioButton
             android:id="@+id/radio_basket"
             android:layout_width="150dp"
@@ -147,6 +147,21 @@
             android:textSize="16sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
+
         <RadioButton
             android:id="@+id/radio_pattini"
             android:layout_width="150dp"
@@ -156,6 +171,7 @@
             android:textSize="16sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
+
         <RadioButton
             android:id="@+id/radio_pallavolo"
             android:layout_width="150dp"
@@ -171,7 +187,7 @@
 
     <Button
         android:id="@+id/bReset"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -185,7 +201,7 @@
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -199,7 +215,7 @@
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"

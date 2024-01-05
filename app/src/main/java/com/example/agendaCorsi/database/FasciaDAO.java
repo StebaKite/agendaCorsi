@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FasciaDAO extends DatabaseFacade {
+public class FasciaDAO implements Database_itf {
 
     private final DatabaseHelper databaseHelper;
 
@@ -56,19 +56,28 @@ public class FasciaDAO extends DatabaseFacade {
         return list;
     }
 
-    public boolean insert(Fascia fascia) {
-        return false;
-    }
-
-    public boolean update(Fascia fascia) {
-        return false;
-    }
-
-    public Fascia select(Fascia fascia) {
+    @Override
+    public List<Object> getAll() {
         return null;
     }
 
-    public Boolean delete(Fascia fascia) {
+    @Override
+    public boolean insert(Object entity) {
+        return false;
+    }
+
+    @Override
+    public boolean update(Object entity) {
+        return false;
+    }
+
+    @Override
+    public Object select(Object entity) {
+        return null;
+    }
+
+    @Override
+    public Boolean delete(Object entity) {
         return null;
     }
 }

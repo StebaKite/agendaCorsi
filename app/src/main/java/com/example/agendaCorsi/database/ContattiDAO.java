@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ContattiDAO {
+public class ContattiDAO implements Database_itf {
 
     private final DatabaseHelper databaseHelper;
 
@@ -19,9 +19,9 @@ public class ContattiDAO {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<Contatto> getAll() {
+    public List<Object> getAll() {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
-        List<Contatto> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         String sql = String.format("select " +
                 "id_contatto, " +
                 "nome, " +
@@ -40,6 +40,7 @@ public class ContattiDAO {
             String indirizzo = cursor.getString(Contatto.INDIRIZZO);
             String telefono = cursor.getString(Contatto.TELEFONO);
             String email = cursor.getString(Contatto.EMAIL);
+
             Contatto contatto = new Contatto(id, nome, indirizzo, telefono, email);
             list.add(contatto);
             cursor.moveToNext();
@@ -50,10 +51,11 @@ public class ContattiDAO {
         return list;
     }
 
-
-    public boolean insert(Contatto contatto) {
+    @Override
+    public boolean insert(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Contatto contatto = Contatto.class.cast(entity);
             String sql = "insert into " + Contatto.TABLE_NAME + " " +
                     "(nome, indirizzo, telefono, email, data_creazione, data_ultimo_aggiornamento) values (" +
                     "'" + contatto.getNome() + "', " +
@@ -74,17 +76,18 @@ public class ContattiDAO {
         return false;
     }
 
-
-    public boolean update(Contatto contatto) {
+    @Override
+    public boolean update(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Contatto contatto = Contatto.class.cast(entity);
             String sql = String.format("update " + Contatto.TABLE_NAME + " " +
                     "set " +
-                        "nome = '" + contatto.getNome() + "', " +
-                        "indirizzo = '" + contatto.getIndirizzo() + "', " +
-                        "telefono = '" + contatto.getTelefono() + "', " +
-                        "email = '" + contatto.getEmail() + "', " +
-                        "data_ultimo_aggiornamento = datetime('now') " +
+                    "nome = '" + contatto.getNome() + "', " +
+                    "indirizzo = '" + contatto.getIndirizzo() + "', " +
+                    "telefono = '" + contatto.getTelefono() + "', " +
+                    "email = '" + contatto.getEmail() + "', " +
+                    "data_ultimo_aggiornamento = datetime('now') " +
                     "where id_contatto = " + contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
@@ -98,7 +101,9 @@ public class ContattiDAO {
         return false;
     }
 
-    public Contatto select(Contatto contatto) {
+    @Override
+    public Object select(Object entity) {
+        Contatto contatto = Contatto.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
@@ -128,9 +133,11 @@ public class ContattiDAO {
         return contatto;
     }
 
-    public Boolean delete(Contatto contatto) {
+    @Override
+    public Boolean delete(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Contatto contatto = Contatto.class.cast(entity);
             String sql = String.format("delete from " + Contatto.TABLE_NAME + " " +
                     "where id_contatto = " + contatto.getId());
 
