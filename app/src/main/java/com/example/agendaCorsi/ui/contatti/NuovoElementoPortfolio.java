@@ -3,6 +3,7 @@ package com.example.agendaCorsi.ui.contatti;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -13,11 +14,12 @@ import com.example.agendaCorsi.database.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendacorsi.R;
 
+import java.util.Map;
+
 public class NuovoElementoPortfolio extends FunctionBase {
 
     int idContatto;
     String nomeContatto;
-    Button cancella, esci, salva;
     TextView labelScheda, descrizione, numeroLezioni;
     Context nuovoElementoPortfolio;
     RadioButton radio_skate, radio_basket, radio_pallavolo, radio_pattini;
@@ -26,7 +28,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuovo_elemento_portfolio);
 
-        cancella = findViewById(R.id.bReset);
+        annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
         salva = findViewById(R.id.bSalva);
 
@@ -45,61 +47,50 @@ public class NuovoElementoPortfolio extends FunctionBase {
         labelScheda.setText(nomeContatto);
 
         nuovoElementoPortfolio = this;
-
-        /**
+        /*
          * listener sui bottoni
          */
+        Map<String, String> intentMap = new ArrayMap<>();
+        intentMap.put("id", String.valueOf(idContatto));
 
-        esci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NuovoElementoPortfolio.this, ModificaContatto.class);
-                intent.putExtra("id", idContatto);
-                startActivity(intent);
-            }
-        });
+        listenerEsci(nuovoElementoPortfolio, ModificaContatto.class, intentMap);
+        listenerAnnulla();
+        listenerSalva();
+    }
 
-        cancella.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                descrizione.setText("");
-                numeroLezioni.setText("0");
-            }
-        });
+    public void makeSalva() {
+        String dataUltimaRicarica = "";
+        String sport = "";
 
-        salva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String dataUltimaRicarica = "";
-                String stato = "Aperto";
-                String sport = "";
+        if (radio_skate.isChecked()) { sport = Skate; }
+        if (radio_basket.isChecked()) { sport = Basket; }
+        if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
+        if (radio_pattini.isChecked()) { sport = Pattini; }
 
-                if (radio_skate.isChecked()) { sport = Skate; }
-                if (radio_basket.isChecked()) { sport = Basket; }
-                if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
-                if (radio_pattini.isChecked()) { sport = Pattini; }
+        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
+                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, STATO_APERTO);
 
-                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
-                        descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, stato);
-
-                if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
-                    displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
+        if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
+            displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
+        }
+        else {
+            elementoPortfolio.setSport(sport);
+            if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio)) {
+                if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio)) {
+                    esci.callOnClick();
                 }
                 else {
-                    elementoPortfolio.setSport(sport);
-                    if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio)) {
-                        if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio)) {
-                            esci.callOnClick();
-                        }
-                        else {
-                            displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
-                        }
-                    }
-                    else {
-                        displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Elemento portfolio già presente, duplicazione non ammessa");
-                    }
+                    displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
                 }
             }
-        });
+            else {
+                displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Elemento portfolio già presente, duplicazione non ammessa");
+            }
+        }
+    }
+
+    public void makeAnnulla() {
+        descrizione.setText("");
+        numeroLezioni.setText("0");
     }
 }

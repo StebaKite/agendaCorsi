@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -23,16 +24,19 @@ import com.example.agendaCorsi.database.Contatto;
 import com.example.agendaCorsi.database.ElementoPortfolio;
 import com.example.agendaCorsi.database.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.corsi.ModificaCorso;
+import com.example.agendaCorsi.ui.corsi.ModificaFascia;
 import com.example.agendacorsi.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class ModificaContatto extends FunctionBase {
 
     int idContatto;
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
-    Button annulla, esci, salva, elimina, nuovoElemPortfolio;
+    //Button annulla, esci, salva, elimina, nuovoElemPortfolio;
 
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
@@ -59,7 +63,7 @@ public class ModificaContatto extends FunctionBase {
         esci = findViewById(R.id.ExitModButton);
         salva = findViewById(R.id.SalvaModButton);
         elimina = findViewById(R.id.EliminaModButton);
-        nuovoElemPortfolio = findViewById(R.id.NuovoElemModButton);
+        inserisci = findViewById(R.id.NuovoElemModButton);
 
         /**
          * Caricamento dati contatto selezionato
@@ -85,46 +89,18 @@ public class ModificaContatto extends FunctionBase {
             esci.requestFocus();
         }
         /**
-         * implemento i listener dei bottoni
+         * Listener dei bottoni
          */
-        annulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeAnnulla();
-            }
-        });
+        listenerAnnulla();
+        listenerEsci(ModificaContatto.this, ElencoContatti.class, null);
+        listenerSalva();
+        listenerElimina();
 
-        esci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ModificaContatto.this, ElencoContatti.class);
-                startActivity(intent);
-            }
-        });
+        Map<String, String> intentMap = new ArrayMap<>();
+        intentMap.put("idContatto", String.valueOf(idContatto));
+        intentMap.put("nomeContatto", contatto.getNome());
 
-        salva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeSalva();
-            }
-        });
-
-        elimina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeElimina();
-            }
-        });
-
-        nuovoElemPortfolio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(modificaContatto, NuovoElementoPortfolio.class);
-                intent.putExtra("idContatto", idContatto);
-                intent.putExtra("nomeContatto", contatto.getNome());
-                startActivity(intent);
-            }
-        });
+        listenerInserisci(modificaContatto, NuovoElementoPortfolio.class, intentMap);
     }
 
 
@@ -166,32 +142,16 @@ public class ModificaContatto extends FunctionBase {
             id_elemento.setVisibility(View.INVISIBLE);
             tableRow.addView(id_elemento);
 
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
-                    TextView textView = (TextView) tableRow.getChildAt(2);    // id_elemento
-                    Integer idElementoSelezionato = Integer.parseInt(textView.getText().toString());
+            Map<String, String> intentMap = new ArrayMap<>();
+            intentMap.put("idContatto", String.valueOf(idContatto));
+            intentMap.put("nomeContatto", nomeContatto);
 
-                    /**
-                     * Passo all'attività ModificaElemento l'id dell' elemento selezionato
-                     */
-                    Intent intent = new Intent(ModificaContatto.this, ModificaElementoPortfolio.class);
-                    intent.putExtra("idElemento", idElementoSelezionato);
-                    intent.putExtra("idContatto", idContatto);
-                    intent.putExtra("nomeContatto", nomeContatto);
-                    startActivity(intent);
-                }
-            });
-            /**
-             * aggiungo la riga alla tabella degli elementi portfolio
-             */
+            listenerTableRow(ModificaContatto.this, ModificaElementoPortfolio.class, "idElemento", intentMap);
             tabellaElePortfolio.addView(tableRow);
         }
     }
 
-
-    private void makeElimina() {
+    public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione");
         messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
@@ -224,7 +184,7 @@ public class ModificaContatto extends FunctionBase {
         ad.show();
     }
 
-    private void makeSalva() {
+    public void makeSalva() {
         /**
          * dati immessi in un oggetto contatto
          */
@@ -248,7 +208,7 @@ public class ModificaContatto extends FunctionBase {
         }
     }
 
-    private void makeAnnulla() {
+    public void makeAnnulla() {
         _nome.setText(nome);
         _indirizzo.setText(indirizzo);
         _telefono.setText(telefono);

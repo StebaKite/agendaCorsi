@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,12 +19,12 @@ import com.example.agendacorsi.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class ModificaElementoPortfolio extends FunctionBase {
 
     int idContatto, idElemento;
     String nomeContatto;
-    Button annulla, esci, salva, elimina, ricarica5, ricarica10;
     TextView labelScheda, dataUltimaricarica;
     String descrizione, numeroLezioni;
     EditText _descrizione, _numeroLezioni;
@@ -74,62 +75,31 @@ public class ModificaElementoPortfolio extends FunctionBase {
             esci.requestFocus();
         }
         /*
-          Listener sui bottoni
+         * Listener sui bottoni
          */
-        annulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeAnnulla();
-            }
-        });
+        Map<String, String> intentMap = new ArrayMap<>();
+        intentMap.put("id", String.valueOf(idContatto));
 
-        esci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(modificaElementoPortfolio, ModificaContatto.class);
-                intent.putExtra("id", idContatto);
-                startActivity(intent);
-            }
-        });
-
-        salva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeSalva();
-            }
-        });
+        listenerAnnulla();
+        listenerEsci(modificaElementoPortfolio, ModificaContatto.class, intentMap);
+        listenerSalva();
 
         if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) > 0) {
             elimina.setVisibility(View.GONE);
         } else {
-            elimina.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    makeElimina();
-                }
-            });
+            listenerElimina();
         }
-
-        ricarica5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int numLezioni = Integer.parseInt(_numeroLezioni.getText().toString());
-                int newNumLezioni = numLezioni + 5;
-                _numeroLezioni.setText(String.valueOf(newNumLezioni));
-            }
-        });
-
-        ricarica10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int numLezioni = Integer.parseInt(_numeroLezioni.getText().toString());
-                int newNumLezioni = numLezioni + 10;
-                _numeroLezioni.setText(String.valueOf(newNumLezioni));
-            }
-        });
+        listenerRicarica5();
+        listenerRicarica10();
     }
 
-    private void makeElimina() {
+    public void makeRicarica(int ricarica) {
+        int numLezioni = Integer.parseInt(_numeroLezioni.getText().toString());
+        int newNumLezioni = numLezioni + ricarica;
+        _numeroLezioni.setText(String.valueOf(newNumLezioni));
+    }
+
+    public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaElementoPortfolio.this, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione!");
         messaggio.setMessage("Stai eliminando l'elemento " + String.valueOf(descrizione) + "\n\nConfermi?");
@@ -160,7 +130,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         ad.show();
     }
 
-    private void makeSalva() {
+    public void makeSalva() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
@@ -188,7 +158,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         }
     }
 
-    private void makeAnnulla() {
+    public void makeAnnulla() {
         _descrizione.setText(descrizione);
         _numeroLezioni.setText(numeroLezioni);
     }

@@ -23,7 +23,6 @@ import java.util.Locale;
 
 public class NuovoCorso extends FunctionBase {
 
-    Button annulla, esci, salva;
     RadioButton skate, basket, pattini, pallavolo;
     TextView descrizione, sport;
     EditText dataInizioValidita, dataFineValidita;
@@ -51,7 +50,7 @@ public class NuovoCorso extends FunctionBase {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                updateLabel(dataInizioValidita);
+                updateLabel(dataInizioValidita, myCalendar);
             }
         };
         dataInizioValidita.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +71,7 @@ public class NuovoCorso extends FunctionBase {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                updateLabel(dataFineValidita);
+                updateLabel(dataFineValidita, myCalendar);
             }
         };
         dataFineValidita.setOnClickListener(new View.OnClickListener() {
@@ -94,60 +93,44 @@ public class NuovoCorso extends FunctionBase {
         /**
          * Listener sui bottoni
          */
-        esci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NuovoCorso.this, ElencoCorsi.class);
-                startActivity(intent);
-            }
-        });
-
-        annulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                descrizione.setText("");
-                dataInizioValidita.setText("");
-                dataFineValidita.setText("");
-                skate.setChecked(true);
-            }
-        });
-
-        salva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String sport = "";
-                if (skate.isChecked()) { sport = Skate; }
-                if (basket.isChecked()) { sport = Basket; }
-                if (pattini.isChecked()) { sport = Pattini; }
-                if (pallavolo.isChecked()) { sport = Pallavolo; }
-
-                Corso corso = new Corso(null, descrizione.getText().toString(),
-                        sport, STATO_APERTO,
-                        dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                        dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"), null, null);
-
-                if (corso.getDescrizione().equals("") ||
-                    corso.getDataInizioValidita().equals("") ||
-                    corso.getDataFineValidita().equals("") ||
-                    corso.getSport().equals("")) {
-
-                    displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");
-                }
-                else {
-                    if (new CorsoDAO(nuovoCorso).insert(corso)) {
-                        esci.callOnClick();
-                    }
-                    else {
-                        displayAlertDialog(nuovoCorso, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
-                    }
-                }
-            }
-        });
+        listenerEsci(nuovoCorso, ElencoCorsi.class, null);
+        listenerAnnulla();
+        listenerSalva();
     }
 
-    private void updateLabel(EditText dataInizioValidita){
-        String myFormat="dd-MM-yyyy";
-        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
-        dataInizioValidita.setText(dateFormat.format(myCalendar.getTime()));
+    public void makeSalva() {
+        String sport = "";
+        if (skate.isChecked()) { sport = Skate; }
+        if (basket.isChecked()) { sport = Basket; }
+        if (pattini.isChecked()) { sport = Pattini; }
+        if (pallavolo.isChecked()) { sport = Pallavolo; }
+
+        Corso corso = new Corso(null, descrizione.getText().toString(),
+                sport, STATO_APERTO,
+                dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
+                dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"), null, null);
+
+        if (corso.getDescrizione().equals("") ||
+            corso.getDataInizioValidita().equals("") ||
+            corso.getDataFineValidita().equals("") ||
+            corso.getSport().equals("")) {
+
+            displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");
+        }
+        else {
+            if (new CorsoDAO(nuovoCorso).insert(corso)) {
+                esci.callOnClick();
+            }
+            else {
+                displayAlertDialog(nuovoCorso, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+            }
+        }
+    }
+
+    public void makeAnnulla() {
+        descrizione.setText("");
+        dataInizioValidita.setText("");
+        dataFineValidita.setText("");
+        skate.setChecked(true);
     }
 }

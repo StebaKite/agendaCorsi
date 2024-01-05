@@ -12,4 +12,5 @@
     <color name="table_border">#F69910</color>
     <color name="overflow_background">#5A3602</color>
     <color name="alt_background_row">#46000000</color>
+    <color name="customBorderless">#CE8212</color>
 </resources>

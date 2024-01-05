@@ -108,6 +108,28 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
+    public boolean updateStato(Object entity) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Corso corso = Corso.class.cast(entity);
+            String sql = String.format("update " + Corso.TABLE_NAME + " " +
+                    "set " +
+                    "stato = '" + corso.getStato() + "', " +
+                    "data_ultimo_aggiornamento = datetime('now') " +
+                    "where id_corso = " + corso.getIdCorso());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
+    @Override
     public Object select(Object entity) {
         Corso corso = Corso.class.cast(entity);
         try {
@@ -146,7 +168,7 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public Boolean delete(Object entity) {
+    public boolean delete(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Corso corso = Corso.class.cast(entity);
@@ -161,5 +183,20 @@ public class CorsoDAO implements Database_itf {
             Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
         }
         return false;
+    }
+
+    @Override
+    public boolean isNew(Object entity) {
+        return false;
+    }
+
+    @Override
+    public List<Object> getFasceCorso(int idCorsoToRead) {
+        return null;
+    }
+
+    @Override
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+        return null;
     }
 }

@@ -14,12 +14,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.database.ContattiDAO;
 import com.example.agendaCorsi.database.Contatto;
 import java.util.List;
 
-public class ElencoContatti extends AppCompatActivity {
+public class ElencoContatti extends FunctionBase {
 
     TableLayout tabContatti;
     TableRow tableRow;
@@ -34,14 +35,7 @@ public class ElencoContatti extends AppCompatActivity {
         inserisci = findViewById(R.id.bInserisciContatto);
 
         displayElencoContatti();
-
-        inserisci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ElencoContatti.this, NuovoContatto.class);
-                startActivity(intent);
-            }
-        });
+        listenerInserisci(ElencoContatti.this, NuovoContatto.class, null);
     }
 
     private void displayElencoContatti() {
@@ -51,9 +45,10 @@ public class ElencoContatti extends AppCompatActivity {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<Contatto> contattiList = new ContattiDAO(this).getAll();
+        List<Object> contattiList = new ContattiDAO(this).getAll();
 
-        for (Contatto contatto : contattiList) {
+        for (Object entity : contattiList) {
+            Contatto contatto = Contatto.class.cast(entity);
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
             /**
@@ -80,26 +75,8 @@ public class ElencoContatti extends AppCompatActivity {
             idContatto.setText(String.valueOf(contatto.getId()));
             idContatto.setWidth(larghezzaColonna2);
             tableRow.addView(idContatto);
-            /**
-             * implemento il listener sul click della riga per vedere la scheda del contatto
-             */
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
-                    TextView textView = (TextView) tableRow.getChildAt(1);    // idcontatto
-                    Integer idContattoSelezionato = Integer.parseInt(textView.getText().toString());
-                    /**
-                     * Passo all'attività ModificaContatto l'id del contatto selezionato
-                     */
-                    Intent intent = new Intent(ElencoContatti.this, ModificaContatto.class);
-                    intent.putExtra("id", idContattoSelezionato);
-                    startActivity(intent);
-                }
-            });
-            /**
-             * aggiungo la riga alla tabella dei contatti
-             */
+
+            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "id", null);
             tabContatti.addView(tableRow);
         }
     }

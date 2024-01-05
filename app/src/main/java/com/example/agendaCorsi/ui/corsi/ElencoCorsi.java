@@ -25,7 +25,7 @@ public class ElencoCorsi extends FunctionBase {
 
     TableLayout tabCorsi;
     TableRow tableRow;
-    TextView descrizione, idCorso;
+    TextView descrizione, stato, idCorso;
     Button inserisci;
 
     @Override
@@ -36,14 +36,7 @@ public class ElencoCorsi extends FunctionBase {
         inserisci = findViewById(R.id.bInserisciCorso);
 
         displayElencoCorsi();
-
-        inserisci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ElencoCorsi.this, NuovoCorso.class);
-                startActivity(intent);
-            }
-        });
+        listenerInserisci(ElencoCorsi.this, NuovoCorso.class, null);
     }
 
     private void displayElencoCorsi() {
@@ -53,9 +46,11 @@ public class ElencoCorsi extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<Corso> corsiList = new CorsoDAO(this).getAll();
+        List<Object> corsiList = new CorsoDAO(this).getAll();
 
-        for (Corso corso : corsiList) {
+        for (Object entity : corsiList) {
+            Corso corso = Corso.class.cast(entity);
+
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
             /**
@@ -70,34 +65,23 @@ public class ElencoCorsi extends FunctionBase {
             descrizione.setText(String.valueOf(corso.getDescrizione()));
             descrizione.setWidth(larghezzaColonna1);
             tableRow.addView(descrizione);
-            /**
-             * Caricamento dell'id_corso sulla view scrollable
-             */
+
+            stato = new TextView(this);
+            stato.setTextSize(16);
+            stato.setPadding(10,20,10,20);
+            stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
+            stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            stato.setGravity(Gravity.CENTER);
+            stato.setText(String.valueOf(corso.getStato()));
+            stato.setWidth(larghezzaColonna2);
+            tableRow.addView(stato);
+
             idCorso = new TextView(this);
             idCorso.setVisibility(View.INVISIBLE);
             idCorso.setText(String.valueOf(corso.getIdCorso()));
-            idCorso.setWidth(larghezzaColonna2);
             tableRow.addView(idCorso);
-            /**
-             * listener su ciascuna riga
-             */
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
-                    TextView textView = (TextView) tableRow.getChildAt(1);    // idcorso
-                    Integer idCorsoSelezionato = Integer.parseInt(textView.getText().toString());
-                    /**
-                     * Navigazione alla funzione modifica
-                     */
-                    Intent intent = new Intent(ElencoCorsi.this, ModificaCorso.class);
-                    intent.putExtra("idCorso", idCorsoSelezionato);
-                    startActivity(intent);
-                }
-            });
-            /**
-             * Aggiungo la tableRow alla tabelle Corsi
-             */
+
+            listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null);
             tabCorsi.addView(tableRow);
         }
     }

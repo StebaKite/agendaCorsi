@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ElementoPortfolioDAO {
+public class ElementoPortfolioDAO implements Database_itf {
 
     private final DatabaseHelper databaseHelper;
 
@@ -58,10 +58,16 @@ public class ElementoPortfolioDAO {
         return list;
     }
 
+    @Override
+    public List<Object> getAll() {
+        return null;
+    }
 
-    public boolean insert(ElementoPortfolio elementoPortfolio) {
+    @Override
+    public boolean insert(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
             String sql = "insert into " + ElementoPortfolio.TABLE_NAME + " " +
                     "(id_contatto, descrizione, sport, numero_lezioni, data_ultima_ricarica, stato, data_creazione, data_ultimo_aggiornamento) values (" +
                     "'" + elementoPortfolio.getIdContatto() + "', " +
@@ -84,10 +90,11 @@ public class ElementoPortfolioDAO {
         return false;
     }
 
-
-    public boolean update(ElementoPortfolio elementoPortfolio) {
+    @Override
+    public boolean update(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
             String sql = String.format("update " + ElementoPortfolio.TABLE_NAME + " " +
                     "set " +
                     "id_contatto = '" + elementoPortfolio.getIdContatto() + "', " +
@@ -110,8 +117,14 @@ public class ElementoPortfolioDAO {
         return false;
     }
 
+    @Override
+    public boolean updateStato(Object entity) {
+        return false;
+    }
 
-    public ElementoPortfolio select(ElementoPortfolio elementoPortfolio) {
+    @Override
+    public Object select(Object entity) {
+        ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
@@ -151,9 +164,11 @@ public class ElementoPortfolioDAO {
         return elementoPortfolio;
     }
 
-    public boolean delete(ElementoPortfolio elementoPortfolio) {
+    @Override
+    public boolean delete(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
             String sql = String.format("delete from " + ElementoPortfolio.TABLE_NAME + " " +
                     "where id_elemento = " + elementoPortfolio.getIdElemento());
             database.execSQL(sql);
@@ -166,7 +181,9 @@ public class ElementoPortfolioDAO {
         return false;
     }
 
-    public Boolean isNew(ElementoPortfolio elementoPortfolio) {
+    @Override
+    public boolean isNew(Object entity) {
+        ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = String.format("select " +
@@ -188,4 +205,8 @@ public class ElementoPortfolioDAO {
         return true;
     }
 
+    @Override
+    public List<Object> getFasceCorso(int idCorsoToRead) {
+        return null;
+    }
 }

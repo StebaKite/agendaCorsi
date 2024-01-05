@@ -2,11 +2,13 @@ package com.example.agendaCorsi.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FasciaDAO implements Database_itf {
 
@@ -57,12 +59,38 @@ public class FasciaDAO implements Database_itf {
     }
 
     @Override
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+        return null;
+    }
+
+    @Override
     public List<Object> getAll() {
         return null;
     }
 
     @Override
     public boolean insert(Object entity) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Fascia fascia = Fascia.class.cast(entity);
+            String sql = "insert into " + Fascia.TABLE_NAME + " " +
+                    "(id_corso, descrizione, giorno_settimana, ora_inizio, ora_fine, capienza, data_creazione, data_ultimo_aggiornamento) values (" +
+                    "'" + fascia.getIdCorso() + "', " +
+                    "'" + fascia.getDescrizione() + "', " +
+                    "'" + fascia.getOraInizio() + "', " +
+                    "'" + fascia.getOraFine() + "', " +
+                    "'" + fascia.getCapienza() + "', " +
+                    "datetime('now'), " +
+                    "datetime('now'))";
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
         return false;
     }
 
@@ -72,12 +100,44 @@ public class FasciaDAO implements Database_itf {
     }
 
     @Override
+    public boolean updateStato(Object entity) {
+        return false;
+    }
+
+    @Override
     public Object select(Object entity) {
         return null;
     }
 
     @Override
-    public Boolean delete(Object entity) {
-        return null;
+    public boolean delete(Object entity) {
+        return false;
+    }
+
+    @Override
+    public boolean isNew(Object entity) {
+        Fascia fascia = Fascia.class.cast(entity);
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            String sql = String.format("select " +
+                    "id_elemento " +
+                    "from " + ElementoPortfolio.TABLE_NAME + " " +
+                    "where id_corso = " + fascia.getIdCorso() + " " +
+                    "and giorno_settimana = '" + fascia.getGiornoSettimana() + "' " +
+                    "and ((ora_inizio between " + fascia.getOraInizio() + " and " + fascia.getOraFine() + ") or " +
+                    "     (ora_fine between " + fascia.getOraInizio() + " and " + fascia.getOraFine() + "'))"
+                    );
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            final Cursor resultSet = database.rawQuery(sql, null);
+            if (resultSet.getCount() > 0) {
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+            fascia.setIdCorso("");
+        }
+        return true;
     }
 }

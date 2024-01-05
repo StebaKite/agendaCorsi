@@ -102,6 +102,11 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
+    public boolean updateStato(Object entity) {
+        return false;
+    }
+
+    @Override
     public Object select(Object entity) {
         Contatto contatto = Contatto.class.cast(entity);
         try {
@@ -134,7 +139,7 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public Boolean delete(Object entity) {
+    public boolean delete(Object entity) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Contatto contatto = Contatto.class.cast(entity);
@@ -149,5 +154,20 @@ public class ContattiDAO implements Database_itf {
             Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
         }
         return false;
+    }
+
+    @Override
+    public boolean isNew(Object entity) {
+        return false;
+    }
+
+    @Override
+    public List<Object> getFasceCorso(int idCorsoToRead) {
+        return null;
+    }
+
+    @Override
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+        return null;
     }
 }

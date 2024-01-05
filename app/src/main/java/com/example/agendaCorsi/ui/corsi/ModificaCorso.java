@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.example.agendaCorsi.database.CorsoDAO;
 import com.example.agendaCorsi.database.Fascia;
 import com.example.agendaCorsi.database.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendaCorsi.ui.contatti.ModificaContatto;
 import com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio;
 import com.example.agendacorsi.R;
@@ -34,19 +36,19 @@ import com.example.agendacorsi.R;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
 
     int idCorso;
-    Button annulla, esci, elimina, salva;
     RadioButton skate, basket, pattini, pallavolo;
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
-    EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
+    EditText _descrizione, _sport, _stato, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
     TableLayout tabellaFasce;
     TableRow tableRow;
     TextView descrizione, giorno_settimana, id_fascia;
-    final Calendar myCalendar= Calendar.getInstance();
+    final Calendar myCalendar = Calendar.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,10 @@ public class ModificaCorso extends FunctionBase {
         esci = findViewById(R.id.bExit);
         elimina = findViewById(R.id.bElimina);
         salva = findViewById(R.id.bSalva);
+        chiudi = findViewById(R.id.bChiudi);
+        sospendi = findViewById(R.id.bSospendi);
+        apri = findViewById(R.id.bApri);
+        inserisci = findViewById(R.id.NuovaFasciaButton);
 
         _descrizione = findViewById(R.id.editDescrizione);
 
@@ -74,7 +80,7 @@ public class ModificaCorso extends FunctionBase {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                updateLabel(_dataInizioValidita);
+                updateLabel(_dataInizioValidita, myCalendar);
             }
         };
         _dataInizioValidita.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +101,7 @@ public class ModificaCorso extends FunctionBase {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                updateLabel(_dataFineValidita);
+                updateLabel(_dataFineValidita, myCalendar);
             }
         };
         _dataFineValidita.setOnClickListener(new View.OnClickListener() {
@@ -116,45 +122,86 @@ public class ModificaCorso extends FunctionBase {
         modificaCorso = this;
 
         loadCorso();
-
-        /**
-         * Listener sui bottoni
+        /*
+         * Set dei listeners sui bottoni
          */
-        esci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ModificaCorso.this, ElencoCorsi.class);
-                startActivity(intent);
-            }
-        });
-
-        annulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _descrizione.setText(descrizioneCorso);
-                _dataInizioValidita.setText(dataInizioValidita);
-                _dataFineValidita.setText(dataFineValidita);
-                skate.setChecked(true);
-            }
-        });
-
-        elimina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeElimina();
-            }
-        });
-
-
-        salva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeSalva();
-            }
-        });
+        listenerChiudi();
+        listenerSospendi();
+        listenerApri();
+        listenerEsci(modificaCorso, ElencoCorsi.class, null);
+        listenerAnnulla();
+        listenerElimina();
+        listenerSalva();
+        listenerInserisci(modificaCorso, NuovaFascia.class, null);
     }
 
-    private void makeSalva() {
+    @Override
+    public void makeAnnulla() {
+        _descrizione.setText(descrizioneCorso);
+        _dataInizioValidita.setText(dataInizioValidita);
+        _dataFineValidita.setText(dataFineValidita);
+        skate.setChecked(true);
+    }
+
+    @Override
+    public void makeApri() {
+        Corso corso = new Corso(String.valueOf(idCorso),
+                null,
+                null,
+                STATO_APERTO,
+                null,
+                null,
+                null,
+                null);
+
+        if (new CorsoDAO(this).updateStato(corso)) {
+            esci.callOnClick();
+        }
+        else {
+            displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+        }
+    }
+
+    @Override
+    public void makeSospendi() {
+        Corso corso = new Corso(String.valueOf(idCorso),
+                null,
+                null,
+                STATO_SOSPESO,
+                null,
+                null,
+                null,
+                null);
+
+        if (new CorsoDAO(this).updateStato(corso)) {
+            esci.callOnClick();
+        }
+        else {
+            displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+        }
+    }
+
+    @Override
+    public void makeChiudi() {
+        Corso corso = new Corso(String.valueOf(idCorso),
+                null,
+                null,
+                STATO_CHIUSO,
+                null,
+                null,
+                null,
+                null);
+
+        if (new CorsoDAO(this).updateStato(corso)) {
+            esci.callOnClick();
+        }
+        else {
+            displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+        }
+    }
+
+    @Override
+    public void makeSalva() {
         Corso corso = new Corso(null,
                 _descrizione.getText().toString(),
                 _sport.getText().toString(),
@@ -202,6 +249,23 @@ public class ModificaCorso extends FunctionBase {
             dataInizioValidita = _dataInizioValidita.getText().toString();
             dataFineValidita = _dataFineValidita.getText().toString();
 
+            /*
+             * La visibilità dei bottoni di cambio stato rispetta le regole
+             * documentate dal diagramma degli stati del Corso
+             */
+            if (_stato.getText().toString().equals(STATO_CHIUSO)) {
+                chiudi.setVisibility(View.INVISIBLE);
+                sospendi.setVisibility(View.INVISIBLE);
+                apri.setVisibility(View.INVISIBLE);
+            } else if (_stato.getText().toString().equals(STATO_APERTO)) {
+                apri.setVisibility(View.INVISIBLE);
+            } else if (_stato.getText().toString().equals(STATO_SOSPESO)) {
+                chiudi.setVisibility(View.INVISIBLE);
+                sospendi.setVisibility(View.INVISIBLE);
+            } else if (_stato.getText().toString().equals(STATO_ATTIVO)) {
+                apri.setVisibility(View.INVISIBLE);
+            }
+
             loadFasceOrarie(idCorso, corso.getDescrizione());
         }
     }
@@ -238,7 +302,7 @@ public class ModificaCorso extends FunctionBase {
             giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             giorno_settimana.setGravity(Gravity.CENTER);
             giorno_settimana.setText(String.valueOf(fascia.getGiornoSettimana()));
-            giorno_settimana.setWidth(larghezzaColonna1);
+            giorno_settimana.setWidth(larghezzaColonna2);
             tableRow.addView(giorno_settimana);
 
             id_fascia = new TextView(this);
@@ -246,31 +310,17 @@ public class ModificaCorso extends FunctionBase {
             id_fascia.setVisibility(View.INVISIBLE);
             tableRow.addView(id_fascia);
 
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;        // in view c'è la riga selezionata
-                    TextView textView = (TextView) tableRow.getChildAt(2);    // id_elemento
-                    Integer idFasciaSelezionata = Integer.parseInt(textView.getText().toString());
+            Map<String, String> intentMap = new ArrayMap<>();
+            intentMap.put("idCorso", String.valueOf(idCorso));
+            intentMap.put("descrizioneCorso", descrizioneCorso);
 
-                    /**
-                     * Passo all'attività ModificaFascia l'id della fascia selezionata
-                     */
-                    Intent intent = new Intent(ModificaCorso.this, ModificaFascia.class);
-                    intent.putExtra("idFascia", idFasciaSelezionata);
-                    intent.putExtra("idCorso", idCorso);
-                    intent.putExtra("descrizioneCorso", descrizioneCorso);
-                    startActivity(intent);
-                }
-            });
-            /**
-             * aggiungo la riga alla tabella degli elementi portfolio
-             */
+            listenerTableRow(ModificaCorso.this, ModificaFascia.class, "idFascia", intentMap);
             tabellaFasce.addView(tableRow);
         }
     }
 
-    private void makeElimina() {
+    @Override
+    public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaCorso.this, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione");
         messaggio.setMessage("Stai eliminando il corso : " + String.valueOf(descrizioneCorso) +
@@ -302,11 +352,5 @@ public class ModificaCorso extends FunctionBase {
 
         AlertDialog ad = messaggio.create();
         ad.show();
-    }
-
-    private void updateLabel(EditText dataInizioValidita){
-        String myFormat="dd-MM-yyyy";
-        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
-        dataInizioValidita.setText(dateFormat.format(myCalendar.getTime()));
     }
 }
