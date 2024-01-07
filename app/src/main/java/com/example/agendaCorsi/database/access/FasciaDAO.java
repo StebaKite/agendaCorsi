@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 
@@ -24,7 +23,7 @@ public class FasciaDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
+    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
         String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).replace("#IDCORSO#", String.valueOf(idCorsoToRead));
@@ -54,7 +53,7 @@ public class FasciaDAO implements Database_itf {
     }
 
     @Override
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
+    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
         return null;
     }
 

@@ -27,17 +27,17 @@ import com.example.agendacorsi.R;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ModificaContatto extends FunctionBase {
 
-    int idContatto;
+    String idContatto;
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
     //Button annulla, esci, salva, elimina, nuovoElemPortfolio;
 
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
+    TableRow tableRow;
     TextView descrizione, stato, id_elemento;
 
     @Override
@@ -47,7 +47,7 @@ public class ModificaContatto extends FunctionBase {
         tabellaElePortfolio = findViewById(R.id.tabellaElePortfolio);
 
         Intent intent = getIntent();
-        idContatto = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("id")));
+        idContatto = intent.getStringExtra("idContatto");
 
         modificaContatto = this;
 
@@ -66,7 +66,7 @@ public class ModificaContatto extends FunctionBase {
          * Caricamento dati contatto selezionato
          */
         Contatto contatto = new Contatto(null, null, null, null, null);
-        contatto.setId(String.valueOf(idContatto));
+        contatto.setId(idContatto);
 
         propertyReader = new PropertyReader(this);
         properties = propertyReader.getMyProperties("config.properties");
@@ -98,14 +98,14 @@ public class ModificaContatto extends FunctionBase {
         listenerElimina();
 
         Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("id", String.valueOf(idContatto));
+        intentMap.put("idContatto", idContatto);
         intentMap.put("nomeContatto", contatto.getNome());
 
         listenerInserisci(modificaContatto, NuovoElementoPortfolio.class, intentMap);
     }
 
 
-    private void displayElencoElementiPortfolio(int idContatto, String nomeContatto) {
+    private void displayElencoElementiPortfolio(String idContatto, String nomeContatto) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -147,7 +147,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.addView(id_elemento);
 
             Map<String, String> intentMap = new ArrayMap<>();
-            intentMap.put("idContatto", String.valueOf(idContatto));
+            intentMap.put("idContatto", idContatto);
             intentMap.put("nomeContatto", nomeContatto);
 
             listenerTableRow(ModificaContatto.this, ModificaElementoPortfolio.class, "idElemento", intentMap);
@@ -158,7 +158,7 @@ public class ModificaContatto extends FunctionBase {
     public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione");
-        messaggio.setMessage("Stai eliminando il contatto " + String.valueOf(idContatto) + "\n\nConfermi?");
+        messaggio.setMessage("Stai eliminando il contatto " + nome + "\n\nConfermi?");
         messaggio.setCancelable(false);
 
         /**
@@ -196,7 +196,7 @@ public class ModificaContatto extends FunctionBase {
         /**
          * dati immessi in un oggetto contatto
          */
-        Contatto contatto = new Contatto(String.valueOf(idContatto),
+        Contatto contatto = new Contatto(idContatto,
                 _nome.getText().toString(),
                 _indirizzo.getText().toString(),
                 _telefono.getText().toString(),

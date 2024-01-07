@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
 
-    int idCorso;
+    String idCorso;
     RadioButton skate, basket, pattini, pallavolo;
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _stato, _dataInizioValidita, _dataFineValidita;
@@ -49,7 +49,7 @@ public class ModificaCorso extends FunctionBase {
         tabellaFasce = findViewById(R.id.tabellaFasce);
 
         Intent intent = getIntent();
-        idCorso = intent.getIntExtra("idCorso", 0);
+        idCorso = intent.getStringExtra("idCorso");
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
@@ -277,7 +277,7 @@ public class ModificaCorso extends FunctionBase {
         }
     }
 
-    private void loadFasceOrarie(int idCorso, String descrizioneCorso) {
+    private void loadFasceOrarie(String idCorso, String descrizioneCorso) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 

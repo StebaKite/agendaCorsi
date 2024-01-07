@@ -147,12 +147,12 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
+    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
         return null;
     }
 
     @Override
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
+    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
         return null;
     }
 }

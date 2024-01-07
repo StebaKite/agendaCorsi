@@ -22,7 +22,7 @@ public class ElementoPortfolioDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
+    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<ElementoPortfolio> list = new ArrayList<>();
         String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDCONTATTO#", String.valueOf(idContattoToRead));
@@ -179,7 +179,7 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
+    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
         return null;
     }
 }

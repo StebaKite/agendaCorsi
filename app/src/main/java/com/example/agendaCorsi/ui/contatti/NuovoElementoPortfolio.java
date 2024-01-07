@@ -14,11 +14,10 @@ import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class NuovoElementoPortfolio extends FunctionBase {
 
-    int idContatto;
+    String idContatto;
     String nomeContatto;
     TextView labelScheda, descrizione, numeroLezioni;
     Context nuovoElementoPortfolio;
@@ -33,7 +32,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         salva = findViewById(R.id.bSalva);
 
         Intent intent = getIntent();
-        idContatto = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("id")));
+        idContatto = intent.getStringExtra("idContatto");
         nomeContatto = intent.getStringExtra("nomeContatto");
 
         descrizione = findViewById(R.id.editDescrizione);
@@ -51,7 +50,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
          * listener sui bottoni
          */
         Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("id", String.valueOf(idContatto));
+        intentMap.put("idContatto", String.valueOf(idContatto));
 
         listenerEsci(nuovoElementoPortfolio, ModificaContatto.class, intentMap);
         listenerAnnulla();

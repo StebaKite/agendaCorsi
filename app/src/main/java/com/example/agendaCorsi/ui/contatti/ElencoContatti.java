@@ -75,7 +75,7 @@ public class ElencoContatti extends FunctionBase {
             idContatto.setWidth(larghezzaColonna2);
             tableRow.addView(idContatto);
 
-            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "id", null);
+            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null);
             tabContatti.addView(tableRow);
         }
     }

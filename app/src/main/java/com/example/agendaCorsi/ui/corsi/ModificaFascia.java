@@ -29,7 +29,8 @@ import java.util.Map;
 
 public class ModificaFascia extends FunctionBase {
 
-    int idCorso, idFascia;
+    String idCorso;
+    String idFascia;
     EditText _descrizione, _giornoSettimana, _oraInizio, _oraFine, _capienza;
     Context modificaFascia;
     NumberPicker giornoSettimanaPicker, capienzaPicker;
@@ -48,8 +49,8 @@ public class ModificaFascia extends FunctionBase {
         lScheda = findViewById(R.id.lScheda);
 
         Intent intent = getIntent();
-        idCorso = intent.getIntExtra("idCorso", 0);
-        idFascia = intent.getIntExtra("idFascia", 0);
+        idCorso = intent.getStringExtra("idCorso");
+        idFascia = intent.getStringExtra("idFascia");
         desrizioneCorso = intent.getStringExtra("descrizioneCorso");
 
         lScheda.setText("Modifica fascia " + desrizioneCorso);

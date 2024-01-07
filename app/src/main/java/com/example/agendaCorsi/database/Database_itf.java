@@ -20,7 +20,7 @@ public interface Database_itf {
     /*
      * Metodi particolari
      */
-    List<Object> getFasceCorso(int idCorsoToRead, String query);
-    List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query);
+    List<Object> getFasceCorso(String idCorsoToRead, String query);
+    List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query);
 
 }

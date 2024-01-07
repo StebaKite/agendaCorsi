@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class NuovaFascia extends FunctionBase {
 
-    int idCorso;
+    String idCorso;
     EditText _descrizione, _giornoSettimana, _oraInizio, _oraFine, _capienza;
     Context nuovaFascia;
     NumberPicker giornoSettimanaPicker, capienzaPicker;
@@ -35,7 +35,7 @@ public class NuovaFascia extends FunctionBase {
         salva = findViewById(R.id.bSalva);
 
         Intent intent = getIntent();
-        idCorso = intent.getIntExtra("idCorso", 0);
+        idCorso = intent.getStringExtra("idCorso");
 
         _descrizione = findViewById(R.id.editDescrizione);
 

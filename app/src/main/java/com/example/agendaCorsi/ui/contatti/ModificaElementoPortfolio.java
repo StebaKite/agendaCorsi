@@ -23,7 +23,8 @@ import java.util.Map;
 
 public class ModificaElementoPortfolio extends FunctionBase {
 
-    int idContatto, idElemento;
+    String idContatto;
+    String idElemento;
     String nomeContatto;
     TextView labelScheda, dataUltimaricarica;
     String descrizione, numeroLezioni;
@@ -37,8 +38,8 @@ public class ModificaElementoPortfolio extends FunctionBase {
         setContentView(R.layout.activity_modifica_elemento_portfolio);
 
         Intent intent = getIntent();
-        idElemento = intent.getIntExtra("idElemento", 0);
-        idContatto = intent.getIntExtra("id", 0);
+        idElemento = intent.getStringExtra("idElemento");
+        idContatto = intent.getStringExtra("idContatto");
         nomeContatto = intent.getStringExtra("nomeContatto");
 
         annulla = findViewById(R.id.bReset);
@@ -82,7 +83,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
          * Listener sui bottoni
          */
         Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("id", String.valueOf(idContatto));
+        intentMap.put("idContatto", String.valueOf(idContatto));
 
         listenerAnnulla();
         listenerEsci(modificaElementoPortfolio, ModificaContatto.class, intentMap);
