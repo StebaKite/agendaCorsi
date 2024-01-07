@@ -21,9 +21,7 @@ import java.util.List;
 public class ElencoContatti extends FunctionBase {
 
     TableLayout tabContatti;
-    TableRow tableRow;
     TextView nomeContatto, idContatto;
-    Button inserisci;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

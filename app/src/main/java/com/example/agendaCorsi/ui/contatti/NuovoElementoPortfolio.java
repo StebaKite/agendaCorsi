@@ -14,6 +14,7 @@ import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class NuovoElementoPortfolio extends FunctionBase {
 
@@ -32,7 +33,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         salva = findViewById(R.id.bSalva);
 
         Intent intent = getIntent();
-        idContatto = intent.getIntExtra("idContatto", 0);
+        idContatto = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("id")));
         nomeContatto = intent.getStringExtra("nomeContatto");
 
         descrizione = findViewById(R.id.editDescrizione);

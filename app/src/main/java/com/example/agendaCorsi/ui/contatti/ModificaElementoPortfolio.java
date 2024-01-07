@@ -38,7 +38,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
 
         Intent intent = getIntent();
         idElemento = intent.getIntExtra("idElemento", 0);
-        idContatto = intent.getIntExtra("idContatto", 0);
+        idContatto = intent.getIntExtra("id", 0);
         nomeContatto = intent.getStringExtra("nomeContatto");
 
         annulla = findViewById(R.id.bReset);

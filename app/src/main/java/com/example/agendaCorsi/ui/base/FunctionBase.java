@@ -197,7 +197,7 @@ public class FunctionBase extends AppCompatActivity {
             public void onClick(View view) {
                 TableRow tableRow = (TableRow) view;
                 TextView textView = (TextView) tableRow.getChildAt(1);
-                Integer idSelezionato = Integer.parseInt(textView.getText().toString());
+                String idSelezionato = textView.getText().toString();
                 /**
                  * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
                  */

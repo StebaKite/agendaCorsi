@@ -54,9 +54,9 @@ public class ContattiDAO implements Database_itf {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Contatto contatto = Contatto.class.cast(entity);
-            String sql = query.replace("#TABLENAME", Contatto.TABLE_NAME).
+            String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).
                     replace("#NOME#", contatto.getNome()).
-                    replace("#INDIR", contatto.getIndirizzo()).
+                    replace("#INDIR#", contatto.getIndirizzo()).
                     replace("#TEL#", contatto.getTelefono()).
                     replace("#EMAIL#", contatto.getEmail());
 

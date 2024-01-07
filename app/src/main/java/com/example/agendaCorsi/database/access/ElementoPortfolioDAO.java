@@ -67,7 +67,7 @@ public class ElementoPortfolioDAO implements Database_itf {
                     replace("#SPORT#", elementoPortfolio.getSport()).
                     replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
                     replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
-                    replace("STATO", elementoPortfolio.getStato());
+                    replace("#STATO#", elementoPortfolio.getStato());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);

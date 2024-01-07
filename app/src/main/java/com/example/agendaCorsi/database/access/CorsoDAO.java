@@ -168,12 +168,12 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public List<Object> getFasceCorso(int idCorsoToRead) {
+    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
         return null;
     }
 
     @Override
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
         return null;
     }
 }

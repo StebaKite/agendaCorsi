@@ -27,6 +27,7 @@ import com.example.agendacorsi.R;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ModificaContatto extends FunctionBase {
 
@@ -37,7 +38,6 @@ public class ModificaContatto extends FunctionBase {
 
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
-    TableRow tableRow;
     TextView descrizione, stato, id_elemento;
 
     @Override
@@ -47,7 +47,7 @@ public class ModificaContatto extends FunctionBase {
         tabellaElePortfolio = findViewById(R.id.tabellaElePortfolio);
 
         Intent intent = getIntent();
-        idContatto = intent.getIntExtra("id", 0);
+        idContatto = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("id")));
 
         modificaContatto = this;
 
@@ -98,7 +98,7 @@ public class ModificaContatto extends FunctionBase {
         listenerElimina();
 
         Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("idContatto", String.valueOf(idContatto));
+        intentMap.put("id", String.valueOf(idContatto));
         intentMap.put("nomeContatto", contatto.getNome());
 
         listenerInserisci(modificaContatto, NuovoElementoPortfolio.class, intentMap);

@@ -15,7 +15,7 @@ import com.example.agendaCorsi.database.table.Fascia;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 3;
+    public static final int SCHEMA_VERSION = 4;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public DatabaseHelper(Context context) {
