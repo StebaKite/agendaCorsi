@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.agendaCorsi.database.Fascia;
-import com.example.agendaCorsi.database.FasciaDAO;
+import com.example.agendaCorsi.database.table.Fascia;
+import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
@@ -105,8 +105,12 @@ public class NuovaFascia extends FunctionBase {
             displayAlertDialog(nuovaFascia, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (new FasciaDAO(nuovaFascia).isNew(fascia)) {
-                if (new FasciaDAO(nuovaFascia).insert(fascia)) {
+
+            propertyReader = new PropertyReader(nuovaFascia);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new FasciaDAO(nuovaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
+                if (new FasciaDAO(nuovaFascia).insert(fascia, properties.getProperty(QUERY_INS_FASCIA))) {
                     esci.callOnClick();
                 }
                 else {

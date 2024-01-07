@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.table.Fascia;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";

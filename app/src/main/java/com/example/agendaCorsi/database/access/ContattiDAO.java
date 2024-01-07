@@ -1,11 +1,15 @@
-package com.example.agendaCorsi.database;
+package com.example.agendaCorsi.database.access;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.util.Log;
+
+import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +23,10 @@ public class ContattiDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<Object> getAll() {
+    public List<Object> getAll(String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
-        String sql = String.format("select " +
-                "id_contatto, " +
-                "nome, " +
-                "indirizzo, " +
-                "telefono, " +
-                "email " +
-                "from " + Contatto.TABLE_NAME);
+        String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME);
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -52,18 +50,15 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public boolean insert(Object entity) {
+    public boolean insert(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Contatto contatto = Contatto.class.cast(entity);
-            String sql = "insert into " + Contatto.TABLE_NAME + " " +
-                    "(nome, indirizzo, telefono, email, data_creazione, data_ultimo_aggiornamento) values (" +
-                    "'" + contatto.getNome() + "', " +
-                    "'" + contatto.getIndirizzo() + "', " +
-                    "'" + contatto.getTelefono() + "', " +
-                    "'" + contatto.getEmail() + "', " +
-                    "datetime('now'), " +
-                    "datetime('now'))";
+            String sql = query.replace("#TABLENAME", Contatto.TABLE_NAME).
+                    replace("#NOME#", contatto.getNome()).
+                    replace("#INDIR", contatto.getIndirizzo()).
+                    replace("#TEL#", contatto.getTelefono()).
+                    replace("#EMAIL#", contatto.getEmail());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -77,18 +72,16 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public boolean update(Object entity) {
+    public boolean update(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             Contatto contatto = Contatto.class.cast(entity);
-            String sql = String.format("update " + Contatto.TABLE_NAME + " " +
-                    "set " +
-                    "nome = '" + contatto.getNome() + "', " +
-                    "indirizzo = '" + contatto.getIndirizzo() + "', " +
-                    "telefono = '" + contatto.getTelefono() + "', " +
-                    "email = '" + contatto.getEmail() + "', " +
-                    "data_ultimo_aggiornamento = datetime('now') " +
-                    "where id_contatto = " + contatto.getId());
+            String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).
+                    replace("#NOME#", contatto.getNome()).
+                    replace("#INDIR#", contatto.getIndirizzo()).
+                    replace("#TEL#", contatto.getTelefono()).
+                    replace("#EMAIL#", contatto.getEmail()).
+                    replace("#IDCONTATTO#", contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -102,23 +95,16 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public boolean updateStato(Object entity) {
+    public boolean updateStato(Object entity, String quert) {
         return false;
     }
 
     @Override
-    public Object select(Object entity) {
+    public Object select(Object entity, String query) {
         Contatto contatto = Contatto.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            String sql = String.format("select " +
-                    "id_contatto, " +
-                    "nome, "+
-                    "indirizzo, " +
-                    "telefono, " +
-                    "email " +
-                    "from " + Contatto.TABLE_NAME + " " +
-                    "where id_contatto = " + contatto.getId());
+            String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).replace("#IDCONTATTO#", contatto.getId());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             final Cursor resultSet = database.rawQuery(sql, null);
@@ -139,12 +125,11 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public boolean delete(Object entity) {
+    public boolean delete(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Contatto contatto = Contatto.class.cast(entity);
-            String sql = String.format("delete from " + Contatto.TABLE_NAME + " " +
-                    "where id_contatto = " + contatto.getId());
+            String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).replace("#IDCONTATTO#", contatto.getId());
 
             database.execSQL(sql);
             database.close();
@@ -157,17 +142,17 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public boolean isNew(Object entity) {
+    public boolean isNew(Object entity, String query) {
         return false;
     }
 
     @Override
-    public List<Object> getFasceCorso(int idCorsoToRead) {
+    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
         return null;
     }
 
     @Override
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
         return null;
     }
 }

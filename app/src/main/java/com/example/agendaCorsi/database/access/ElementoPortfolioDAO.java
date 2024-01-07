@@ -1,10 +1,14 @@
-package com.example.agendaCorsi.database;
+package com.example.agendaCorsi.database.access;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +22,10 @@ public class ElementoPortfolioDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<ElementoPortfolio> getContattoElements(int idContattoToRead) {
+    public List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<ElementoPortfolio> list = new ArrayList<>();
-        String sql = String.format("select " +
-                "id_elemento, " +
-                "id_contatto, " +
-                "descrizione, " +
-                "sport, " +
-                "numero_lezioni, " +
-                "data_ultima_ricarica, " +
-                "stato, " +
-                "data_creazione, " +
-                "data_ultimo_aggiornamento " +
-                "from elemento_portfolio " +
-                "where id_contatto = " + String.valueOf(idContattoToRead));
+        String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDCONTATTO#", String.valueOf(idContattoToRead));
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -59,25 +52,22 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public List<Object> getAll() {
+    public List<Object> getAll(String query) {
         return null;
     }
 
     @Override
-    public boolean insert(Object entity) {
+    public boolean insert(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
-            String sql = "insert into " + ElementoPortfolio.TABLE_NAME + " " +
-                    "(id_contatto, descrizione, sport, numero_lezioni, data_ultima_ricarica, stato, data_creazione, data_ultimo_aggiornamento) values (" +
-                    "'" + elementoPortfolio.getIdContatto() + "', " +
-                    "'" + elementoPortfolio.getDescrizione() + "', " +
-                    "'" + elementoPortfolio.getSport() + "', " +
-                    "'" + elementoPortfolio.getNumeroLezioni() + "', " +
-                    "'" + elementoPortfolio.getDataUltimaRicarica() + "', " +
-                    "'" + elementoPortfolio.getStato() + "', " +
-                    "datetime('now'), " +
-                    "datetime('now'))";
+            String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).
+                    replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).
+                    replace("#DESC#", elementoPortfolio.getDescrizione()).
+                    replace("#SPORT#", elementoPortfolio.getSport()).
+                    replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
+                    replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
+                    replace("STATO", elementoPortfolio.getStato());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -91,20 +81,18 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public boolean update(Object entity) {
+    public boolean update(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
-            String sql = String.format("update " + ElementoPortfolio.TABLE_NAME + " " +
-                    "set " +
-                    "id_contatto = '" + elementoPortfolio.getIdContatto() + "', " +
-                    "descrizione = '" + elementoPortfolio.getDescrizione() + "', " +
-                    "sport = '" + elementoPortfolio.getSport() + "', " +
-                    "numero_lezioni = '" + elementoPortfolio.getNumeroLezioni() + "', " +
-                    "data_ultima_ricarica = '" + elementoPortfolio.getDataUltimaRicarica() + "', " +
-                    "stato = '" + elementoPortfolio.getStato() + "', " +
-                    "data_ultimo_aggiornamento = datetime('now') " +
-                    "where id_elemento = " + elementoPortfolio.getIdElemento());
+            String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).
+                    replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).
+                    replace("#DESC#", elementoPortfolio.getDescrizione()).
+                    replace("#SPORT#", elementoPortfolio.getSport()).
+                    replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
+                    replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
+                    replace("#STATO#", elementoPortfolio.getStato()).
+                    replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -118,27 +106,16 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public boolean updateStato(Object entity) {
+    public boolean updateStato(Object entity, String query) {
         return false;
     }
 
     @Override
-    public Object select(Object entity) {
+    public Object select(Object entity, String query) {
         ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            String sql = String.format("select " +
-                    "id_elemento, " +
-                    "id_contatto, " +
-                    "descrizione, " +
-                    "sport, " +
-                    "numero_lezioni, " +
-                    "data_ultima_ricarica, " +
-                    "stato, " +
-                    "data_creazione, " +
-                    "data_ultimo_aggiornamento " +
-                    "from " + ElementoPortfolio.TABLE_NAME + " " +
-                    "where id_elemento = " + elementoPortfolio.getIdElemento());
+            String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             final Cursor resultSet = database.rawQuery(sql, null);
@@ -165,12 +142,12 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public boolean delete(Object entity) {
+    public boolean delete(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
-            String sql = String.format("delete from " + ElementoPortfolio.TABLE_NAME + " " +
-                    "where id_elemento = " + elementoPortfolio.getIdElemento());
+            String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
+
             database.execSQL(sql);
             database.close();
             return true;
@@ -182,15 +159,11 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public boolean isNew(Object entity) {
+    public boolean isNew(Object entity, String query) {
         ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            String sql = String.format("select " +
-                    "id_elemento " +
-                    "from " + ElementoPortfolio.TABLE_NAME + " " +
-                    "where id_contatto = " + elementoPortfolio.getIdContatto() + " " +
-                    "and sport = " + elementoPortfolio.getSport());
+            String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).replace("#SPORT#", elementoPortfolio.getSport());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             final Cursor resultSet = database.rawQuery(sql, null);
@@ -206,7 +179,7 @@ public class ElementoPortfolioDAO implements Database_itf {
     }
 
     @Override
-    public List<Object> getFasceCorso(int idCorsoToRead) {
+    public List<Object> getFasceCorso(int idCorsoToRead, String query) {
         return null;
     }
 }

@@ -1,10 +1,15 @@
-package com.example.agendaCorsi.database;
+package com.example.agendaCorsi.database.access;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +23,11 @@ public class CorsoDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public List<Object> getAll() {
+    public List<Object> getAll(String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
-        String sql = String.format("select " +
-                "id_corso, " +
-                "descrizione, " +
-                "sport, " +
-                "stato, " +
-                "data_inizio_validita, " +
-                "data_fine_validita, " +
-                "data_creazione, " +
-                "data_ultimo_aggiornamento " +
-                "from " + Corso.TABLE_NAME );
 
+        String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME);
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
 
@@ -56,19 +52,16 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public boolean insert(Object entity) {
+    public boolean insert(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Corso corso = Corso.class.cast(entity);
-            String sql = "insert into " + Corso.TABLE_NAME + " " +
-                    "(descrizione, sport, stato, data_inizio_validita, data_fine_validita, data_creazione, data_ultimo_aggiornamento) values (" +
-                    "'" + corso.getDescrizione() + "', " +
-                    "'" + corso.getSport() + "', " +
-                    "'" + corso.getStato() + "', " +
-                    "'" + corso.getDataInizioValidita() + "', " +
-                    "'" + corso.getDataFineValidita() + "', " +
-                    "datetime('now'), " +
-                    "datetime('now'))";
+            String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).
+                    replace("#DESC#", corso.getDescrizione()).
+                    replace("#SPORT#", corso.getSport()).
+                    replace("#STATO#", corso.getStato()).
+                    replace("#DATINI", corso.getDataInizioValidita()).
+                    replace("#DATFIN", corso.getDataFineValidita());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -82,19 +75,17 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public boolean update(Object entity) {
+    public boolean update(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             Corso corso = Corso.class.cast(entity);
-            String sql = String.format("update " + Corso.TABLE_NAME + " " +
-                    "set " +
-                    "descrizione = '" + corso.getDescrizione() + "', " +
-                    "sport = '" + corso.getSport() + "', " +
-                    "stato = '" + corso.getStato() + "', " +
-                    "data_inizio_validita = '" + corso.getDataInizioValidita() + "', " +
-                    "data_fine_validita = '" + corso.getDataFineValidita() + "', " +
-                    "data_ultimo_aggiornamento = datetime('now') " +
-                    "where id_corso = " + corso.getIdCorso());
+            String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).
+                    replace("#DESC#", corso.getDescrizione()).
+                    replace("#SPORT#", corso.getSport()).
+                    replace("#STATO#", corso.getStato()).
+                    replace("#DATINI#", corso.getDataInizioValidita()).
+                    replace("#DATFIN#", corso.getDataFineValidita()).
+                    replace("#IDCORSO#", corso.getIdCorso());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -108,15 +99,11 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public boolean updateStato(Object entity) {
+    public boolean updateStato(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             Corso corso = Corso.class.cast(entity);
-            String sql = String.format("update " + Corso.TABLE_NAME + " " +
-                    "set " +
-                    "stato = '" + corso.getStato() + "', " +
-                    "data_ultimo_aggiornamento = datetime('now') " +
-                    "where id_corso = " + corso.getIdCorso());
+            String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).replace("#STATO#", corso.getStato()).replace("#IDCORSO#", corso.getIdCorso());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
@@ -130,23 +117,13 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public Object select(Object entity) {
+    public Object select(Object entity, String query) {
         Corso corso = Corso.class.cast(entity);
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            String sql = String.format("select " +
-                    "id_corso, " +
-                    "descrizione, " +
-                    "sport, " +
-                    "stato, " +
-                    "data_inizio_validita, " +
-                    "data_fine_validita, " +
-                    "data_creazione, " +
-                    "data_ultimo_aggiornamento " +
-                    "from " + Corso.TABLE_NAME + " " +
-                    "where id_corso = " + corso.getIdCorso());
-
+            String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).replace("#IDCORSO#", corso.getIdCorso());
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
+
             final Cursor resultSet = database.rawQuery(sql, null);
             while (resultSet.moveToNext()) {
                 corso.setDescrizione(resultSet.getString(Corso.DESCRIZIONE));
@@ -168,13 +145,13 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public boolean delete(Object entity) {
+    public boolean delete(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Corso corso = Corso.class.cast(entity);
-            String sql = String.format("delete from " + Corso.TABLE_NAME + " " +
-                    "where id_corso = " + corso.getIdCorso());
+            String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).replace("#IDCORSO#", corso.getIdCorso());
 
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
             database.close();
             return true;
@@ -186,7 +163,7 @@ public class CorsoDAO implements Database_itf {
     }
 
     @Override
-    public boolean isNew(Object entity) {
+    public boolean isNew(Object entity, String query) {
         return false;
     }
 

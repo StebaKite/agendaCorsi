@@ -1,8 +1,5 @@
 package com.example.agendaCorsi.ui.contatti;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -11,13 +8,14 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
-import com.example.agendaCorsi.database.ContattiDAO;
-import com.example.agendaCorsi.database.Contatto;
+import com.example.agendaCorsi.database.access.ContattiDAO;
+import com.example.agendaCorsi.database.table.Contatto;
 import java.util.List;
 
 public class ElencoContatti extends FunctionBase {
@@ -45,7 +43,10 @@ public class ElencoContatti extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<Object> contattiList = new ContattiDAO(this).getAll();
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        List<Object> contattiList = new ContattiDAO(this).getAll(properties.getProperty(QUERY_GETALL_CONTATTI));
 
         for (Object entity : contattiList) {
             Contatto contatto = Contatto.class.cast(entity);

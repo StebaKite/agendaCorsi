@@ -1,25 +1,21 @@
 package com.example.agendaCorsi.ui.corsi;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.agendaCorsi.database.Corso;
-import com.example.agendaCorsi.database.CorsoDAO;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class NuovoCorso extends FunctionBase {
 
@@ -118,7 +114,10 @@ public class NuovoCorso extends FunctionBase {
             displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (new CorsoDAO(nuovoCorso).insert(corso)) {
+            propertyReader = new PropertyReader(this);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new CorsoDAO(nuovoCorso).insert(corso, properties.getProperty(QUERY_INS_CORSO))) {
                 esci.callOnClick();
             }
             else {

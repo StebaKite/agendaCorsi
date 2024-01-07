@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.agendaCorsi.database.ElementoPortfolio;
-import com.example.agendaCorsi.database.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
@@ -75,8 +74,15 @@ public class NuovoElementoPortfolio extends FunctionBase {
         }
         else {
             elementoPortfolio.setSport(sport);
-            if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio)) {
-                if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio)) {
+
+            propertyReader = new PropertyReader(this);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio, properties.getProperty(QUERY_ISNEW_ELEMENTO))) {
+                propertyReader = new PropertyReader(this);
+                properties = propertyReader.getMyProperties("config.properties");
+
+                if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio, properties.getProperty(QUERY_INS_ELEMENTS))) {
                     esci.callOnClick();
                 }
                 else {

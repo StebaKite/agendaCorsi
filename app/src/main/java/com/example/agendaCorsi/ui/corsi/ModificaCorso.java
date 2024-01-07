@@ -4,13 +4,11 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,21 +19,16 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.example.agendaCorsi.database.ContattiDAO;
-import com.example.agendaCorsi.database.Contatto;
-import com.example.agendaCorsi.database.Corso;
-import com.example.agendaCorsi.database.CorsoDAO;
-import com.example.agendaCorsi.database.Fascia;
-import com.example.agendaCorsi.database.FasciaDAO;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.table.Fascia;
+import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-import com.example.agendaCorsi.ui.contatti.ModificaContatto;
-import com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
@@ -154,7 +147,10 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        if (new CorsoDAO(this).updateStato(corso)) {
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -173,7 +169,10 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        if (new CorsoDAO(this).updateStato(corso)) {
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -192,7 +191,10 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        if (new CorsoDAO(this).updateStato(corso)) {
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -216,7 +218,10 @@ public class ModificaCorso extends FunctionBase {
             displayAlertDialog(modificaCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (new CorsoDAO(this).update(corso)) {
+            propertyReader = new PropertyReader(this);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new CorsoDAO(this).update(corso, properties.getProperty(QUERY_MOD_CORSO))) {
                 esci.callOnClick();
             }
             else {
@@ -226,11 +231,13 @@ public class ModificaCorso extends FunctionBase {
     }
 
     private void loadCorso() {
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
         /**
          * Carico i dati del corso selezionato
          */
         Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
-        new CorsoDAO(modificaCorso).select(corso);
+        new CorsoDAO(modificaCorso).select(corso, properties.getProperty(QUERY_GET_CORSO));
 
         if (corso.getIdCorso().equals("")) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
@@ -277,7 +284,10 @@ public class ModificaCorso extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<Object> fasceCorsoList = new FasciaDAO(this).getFasceCorso(idCorso);
+        propertyReader = new PropertyReader(modificaCorso);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        List<Object> fasceCorsoList = new FasciaDAO(modificaCorso).getFasceCorso(idCorso, properties.getProperty(QUERY_GET_FASCE_CORSO));
 
         for (Object object : fasceCorsoList) {
             Fascia fascia = Fascia.class.cast(object);
@@ -285,7 +295,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
 
-            descrizione = new TextView(this);
+            descrizione = new TextView(modificaCorso);
             descrizione.setTextSize(16);
             descrizione.setPadding(10,20,10,20);
             descrizione.setBackground(ContextCompat.getDrawable(ModificaCorso.this, R.drawable.cell_border));
@@ -295,7 +305,7 @@ public class ModificaCorso extends FunctionBase {
             descrizione.setWidth(larghezzaColonna1);
             tableRow.addView(descrizione);
 
-            giorno_settimana = new TextView(this);
+            giorno_settimana = new TextView(modificaCorso);
             giorno_settimana.setTextSize(16);
             giorno_settimana.setPadding(10,20,10,20);
             giorno_settimana.setBackground(ContextCompat.getDrawable(ModificaCorso.this, R.drawable.cell_border));
@@ -305,7 +315,7 @@ public class ModificaCorso extends FunctionBase {
             giorno_settimana.setWidth(larghezzaColonna2);
             tableRow.addView(giorno_settimana);
 
-            id_fascia = new TextView(this);
+            id_fascia = new TextView(modificaCorso);
             id_fascia.setText(String.valueOf(fascia.getIdFascia()));
             id_fascia.setVisibility(View.INVISIBLE);
             tableRow.addView(id_fascia);
@@ -314,19 +324,21 @@ public class ModificaCorso extends FunctionBase {
             intentMap.put("idCorso", String.valueOf(idCorso));
             intentMap.put("descrizioneCorso", descrizioneCorso);
 
-            listenerTableRow(ModificaCorso.this, ModificaFascia.class, "idFascia", intentMap);
+            listenerTableRow(modificaCorso, ModificaFascia.class, "idFascia", intentMap);
             tabellaFasce.addView(tableRow);
         }
     }
 
     @Override
     public void makeElimina() {
-        AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaCorso.this, R.style.Theme_InfoDialog);
+        AlertDialog.Builder messaggio = new AlertDialog.Builder(modificaCorso, R.style.Theme_InfoDialog);
         messaggio.setTitle("Attenzione");
         messaggio.setMessage("Stai eliminando il corso : " + String.valueOf(descrizioneCorso) +
                 "\nCancellerò anche tutti i dati legati a questo corso" + "\n\nConfermi?");
         messaggio.setCancelable(false);
 
+        propertyReader = new PropertyReader(modificaCorso);
+        properties = propertyReader.getMyProperties("config.properties");
         /**
          * implemento i listener sui bottoni della conferma eliminazione
          */
@@ -334,7 +346,7 @@ public class ModificaCorso extends FunctionBase {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
-                if (new CorsoDAO(modificaCorso).delete(corso)) {
+                if (new CorsoDAO(modificaCorso).delete(corso, properties.getProperty(QUERY_DEL_CORSO))) {
                     esci.callOnClick();
                 }
                 else {

@@ -1,4 +1,4 @@
-package com.example.agendaCorsi.database;
+package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 

@@ -1,6 +1,5 @@
 package com.example.agendaCorsi.ui.corsi;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.example.agendaCorsi.database.Corso;
-import com.example.agendaCorsi.database.CorsoDAO;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-import com.example.agendaCorsi.ui.contatti.NuovoContatto;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -46,7 +44,10 @@ public class ElencoCorsi extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<Object> corsiList = new CorsoDAO(this).getAll();
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        List<Object> corsiList = new CorsoDAO(this).getAll(properties.getProperty(QUERY_GETALL_CORSI));
 
         for (Object entity : corsiList) {
             Corso corso = Corso.class.cast(entity);

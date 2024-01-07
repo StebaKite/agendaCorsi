@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import com.example.agendaCorsi.database.ElementoPortfolio;
-import com.example.agendaCorsi.database.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.text.DateFormat;
@@ -62,7 +62,11 @@ public class ModificaElementoPortfolio extends FunctionBase {
          */
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
         elementoPortfolio.setIdElemento(String.valueOf(idElemento));
-        new ElementoPortfolioDAO(this).select(elementoPortfolio);
+
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        new ElementoPortfolioDAO(this).select(elementoPortfolio, properties.getProperty(QUERY_GET_ELEMENTO));
 
         if (elementoPortfolio.getIdElemento().equals("")) {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Lettura fallita, contatto il supporto tecnico");
@@ -110,7 +114,11 @@ public class ModificaElementoPortfolio extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
                 elementoPortfolio.setIdElemento(String.valueOf(idElemento));
-                if (new ElementoPortfolioDAO(modificaElementoPortfolio).delete(elementoPortfolio)) {
+
+                propertyReader = new PropertyReader(modificaElementoPortfolio);
+                properties = propertyReader.getMyProperties("config.properties");
+
+                if (new ElementoPortfolioDAO(modificaElementoPortfolio).delete(elementoPortfolio, properties.getProperty(QUERY_DEL_ELEMENTO))) {
                     esci.callOnClick();
                 }
                 else {
@@ -150,7 +158,10 @@ public class ModificaElementoPortfolio extends FunctionBase {
         if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         } else {
-            if (new ElementoPortfolioDAO(this).update(elementoPortfolio)) {
+            propertyReader = new PropertyReader(this);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new ElementoPortfolioDAO(this).update(elementoPortfolio, properties.getProperty(QUERY_MOD_ELEMENTS))) {
                 esci.callOnClick();
             } else {
                 displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");

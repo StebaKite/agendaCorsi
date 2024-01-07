@@ -1,25 +1,26 @@
 package com.example.agendaCorsi.database;
 
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+
 import java.util.List;
-import java.util.Objects;
 
 public interface Database_itf {
 
     /*
      * Metodi generici
      */
-    List<Object> getAll();
-    boolean insert(Object entity);
-    boolean update(Object entity);
-    boolean updateStato(Object entity);
-    Object select(Object entity);
-    boolean delete(Object entity);
-    boolean isNew(Object entity);
+    List<Object> getAll(String query);
+    boolean insert(Object entity, String query);
+    boolean update(Object entity, String query);
+    boolean updateStato(Object entity, String query);
+    Object select(Object entity, String query);
+    boolean delete(Object entity, String query);
+    boolean isNew(Object entity, String query);
 
     /*
      * Metodi particolari
      */
-    List<Object> getFasceCorso(int idCorsoToRead);
-    List<ElementoPortfolio> getContattoElements(int idContattoToRead);
+    List<Object> getFasceCorso(int idCorsoToRead, String query);
+    List<ElementoPortfolio> getContattoElements(int idContattoToRead, String query);
 
 }

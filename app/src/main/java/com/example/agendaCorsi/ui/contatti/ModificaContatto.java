@@ -5,12 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -19,13 +17,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.example.agendaCorsi.database.ContattiDAO;
-import com.example.agendaCorsi.database.Contatto;
-import com.example.agendaCorsi.database.ElementoPortfolio;
-import com.example.agendaCorsi.database.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.access.ContattiDAO;
+import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.corsi.ModificaCorso;
-import com.example.agendaCorsi.ui.corsi.ModificaFascia;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -70,7 +67,11 @@ public class ModificaContatto extends FunctionBase {
          */
         Contatto contatto = new Contatto(null, null, null, null, null);
         contatto.setId(String.valueOf(idContatto));
-        new ContattiDAO(this).select(contatto);
+
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        new ContattiDAO(this).select(contatto, properties.getProperty(QUERY_GET_CONTATTO));
 
         if (contatto.getId().equals("")) {
             displayAlertDialog(modificaContatto, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
@@ -111,7 +112,10 @@ public class ModificaContatto extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getContattoElements(idContatto);
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
+
+        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getContattoElements(idContatto, properties.getProperty(QUERY_GET_ELEMENTS));
 
         for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
             tableRow = new TableRow(this);
@@ -164,7 +168,11 @@ public class ModificaContatto extends FunctionBase {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Contatto contatto = new Contatto(String.valueOf(idContatto), null, null, null, null);
-                if (new ContattiDAO(modificaContatto).delete(contatto)) {
+
+                propertyReader = new PropertyReader(modificaContatto);
+                properties = propertyReader.getMyProperties("config.properties");
+
+                if (new ContattiDAO(modificaContatto).delete(contatto, properties.getProperty(QUERY_DEL_CONTATTO))) {
                     esci.callOnClick();
                 }
                 else {
@@ -199,7 +207,10 @@ public class ModificaContatto extends FunctionBase {
             displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (new ContattiDAO(this).update(contatto)) {
+            propertyReader = new PropertyReader(this);
+            properties = propertyReader.getMyProperties("config.properties");
+
+            if (new ContattiDAO(this).update(contatto, properties.getProperty(QUERY_MOD_CONTATTO))) {
                 esci.callOnClick();
             }
             else {

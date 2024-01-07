@@ -29,21 +29,56 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 public class FunctionBase extends AppCompatActivity {
-
+    /*
+     * Gli sport
+     */
     public static String Skate = "SKATE";
     public static String Basket = "BASKET";
     public static String Pallavolo = "PALLAVOLO";
     public static String Pattini = "PATTINI";
-
+    /*
+     * Gli stati
+     */
     public static String STATO_APERTO = "Aperto";
     public static String STATO_CHIUSO = "Chiuso";
     public static String STATO_ATTIVO = "Attivo";
     public static String STATO_SOSPESO = "Sospeso";
-
+    /*
+     * Le query
+     */
+    public static String QUERY_GETALL_CORSI = "query_getall_corsi";
+    public static String QUERY_GET_CORSO = "query_get_corso";
+    public static String QUERY_DEL_CORSO = "query_del_corso";
+    public static String QUERY_MOD_STATO_CORSO = "query_mod_stato_corso";
+    public static String QUERY_MOD_CORSO = "query_mod_corso";
+    public static String QUERY_INS_CORSO = "query_ins_corso";
+    public static String QUERY_GETALL_CONTATTI = "query_getall_contatti";
+    public static String QUERY_INS_CONTATTO = "query_ins_contatto";
+    public static String QUERY_MOD_CONTATTO = "query_mod_contatto";
+    public static String QUERY_GET_CONTATTO = "query_get_contatto";
+    public static String QUERY_DEL_CONTATTO = "query_del_contatto";
+    public static String QUERY_GET_ELEMENTS = "query_get_elements";
+    public static String QUERY_INS_ELEMENTS = "query_ins_elements";
+    public static String QUERY_MOD_ELEMENTS = "query_mod_elements";
+    public static String QUERY_GET_ELEMENTO = "query_get_elemento";
+    public static String QUERY_DEL_ELEMENTO = "query_del_elements";
+    public static String QUERY_ISNEW_ELEMENTO = "query_isnew_elemento";
+    public static String QUERY_GET_FASCE_CORSO = "query_get_fasce_corso";
+    public static String QUERY_INS_FASCIA = "query_ins_fascia";
+    public static String QUERY_ISNEW_FASCIA = "query_isnew_fascia";
+    public static String QUERY_GET_FASCIA = "query_get_fascia";
+    public static String QUERY_MOD_FASCIA = "query_mod_fascia";
+    public static String QUERY_DEL_FASCIA = "query_del_fascia";
+    /*
+     * I bottoni
+     */
     public Button annulla, esci, elimina, salva, chiudi, sospendi, apri, inserisci, ricarica5, ricarica10;
     public TableRow tableRow;
+    public PropertyReader propertyReader;
+    public Properties properties;
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
