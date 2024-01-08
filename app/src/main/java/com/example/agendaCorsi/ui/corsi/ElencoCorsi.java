@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -32,6 +33,7 @@ public class ElencoCorsi extends FunctionBase {
         inserisci = findViewById(R.id.bInserisciCorso);
 
         displayElencoCorsi();
+        listenerEsci(ElencoCorsi.this, MainActivity.class, null);
         listenerInserisci(ElencoCorsi.this, NuovoCorso.class, null);
     }
 

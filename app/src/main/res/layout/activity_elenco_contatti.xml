@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tIntestazioneNome"
-        android:layout_width="330dp"
+        android:layout_width="410dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/cell_heading"
@@ -28,28 +28,37 @@
         android:layout_width="410dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bInserisciContatto"
-        app:layout_constraintEnd_toEndOf="@id/bInserisciContatto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
-
         <TableLayout
             android:id="@+id/tabellaContatti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0,1"></TableLayout>
+            android:stretchColumns="0,1">
+        </TableLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/bInserisciContatto"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="Nuovo"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <Button
+        android:id="@+id/bExit"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Esci"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bInserisciContatto"
         app:layout_constraintWidth_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

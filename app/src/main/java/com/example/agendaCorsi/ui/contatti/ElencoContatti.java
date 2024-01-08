@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
@@ -31,6 +32,7 @@ public class ElencoContatti extends FunctionBase {
         inserisci = findViewById(R.id.bInserisciContatto);
 
         displayElencoContatti();
+        listenerEsci(ElencoContatti.this , MainActivity.class, null);
         listenerInserisci(ElencoContatti.this, NuovoContatto.class, null);
     }
 

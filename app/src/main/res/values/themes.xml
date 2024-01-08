@@ -26,6 +26,10 @@
         <item name="android:background">@color/table_border</item>
     </style>
 
+    <style name="Theme.DisableState" parent="Theme.AppCompat.Light">
+        <item name="android:state_enabled">@color/button_background</item>
+    </style>
+
     <style name="MyAppTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">#ff6d00</item>
         <item name="colorControlActivated">#33691e</item>
