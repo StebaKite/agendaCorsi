@@ -8,4 +8,38 @@
     android:paddingTop="?attr/actionBarSize"
     android:theme="@style/Theme.AgendaCorsi">
 
+    <TextView
+        android:id="@+id/tIntestazioneNome"
+        android:layout_width="410dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/cell_heading"
+        android:gravity="center_horizontal"
+        android:paddingLeft="4dp"
+        android:paddingTop="8dp"
+        android:paddingRight="4dp"
+        android:text="D a s h b o a r d"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.79" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="410dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
+
+        <TableLayout
+            android:id="@+id/tabellaSettimana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1"></TableLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
