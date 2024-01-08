@@ -1,11 +1,13 @@
 package com.example.agendaCorsi.ui.corsi;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
@@ -16,19 +18,21 @@ import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
+import java.util.Calendar;
 import java.util.Map;
 
 public class NuovaFascia extends FunctionBase {
 
     String idCorso;
-    EditText _descrizione, _giornoSettimana, _oraInizio, _oraFine, _capienza;
+    EditText _descrizione, _oraInizio, _oraFine, _giornoSettimana, _capienza;
     Context nuovaFascia;
-    NumberPicker giornoSettimanaPicker, capienzaPicker;
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuova_fascia);
+
+        nuovaFascia = this;
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
@@ -40,39 +44,45 @@ public class NuovaFascia extends FunctionBase {
         _descrizione = findViewById(R.id.editDescrizione);
 
         _oraInizio = findViewById(R.id.editOraInizio);
-        TimePickerDialog.OnTimeSetListener oraInizio = new TimePickerDialog.OnTimeSetListener() {
+        _oraInizio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                _oraInizio.setText(String.valueOf(hourOfDay) + "." + String.valueOf(minute));
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(NuovaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        _oraInizio.setText(selectedHour + "." + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Ora di inizio lezione");
+                mTimePicker.show();
             }
-        };
+        });
 
         _oraFine = findViewById(R.id.editOraFine);
-        TimePickerDialog.OnTimeSetListener oraFine = new TimePickerDialog.OnTimeSetListener() {
+        _oraFine.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                _oraFine.setText(String.valueOf(hourOfDay) + "." + String.valueOf(minute));
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(NuovaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        _oraFine.setText(selectedHour + "." + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Ora di fine lezione");
+                mTimePicker.show();
             }
-        };
-
+        });
 
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
-
-        NumberPicker.OnValueChangeListener gioSet = new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                _giornoSettimana.setText(newVal);
-            }
-        };
-
         _capienza = findViewById(R.id.editCapienza);
-
-        NumberPicker.OnValueChangeListener capienza = new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                _capienza.setText(newVal);
-            }
-        };
 
         nuovaFascia = this;
         /*
@@ -104,20 +114,24 @@ public class NuovaFascia extends FunctionBase {
             displayAlertDialog(nuovaFascia, "Attenzione!", "Inserire tutti i campi");
         }
         else {
+            if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
+                propertyReader = new PropertyReader(nuovaFascia);
+                properties = propertyReader.getMyProperties("config.properties");
 
-            propertyReader = new PropertyReader(nuovaFascia);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new FasciaDAO(nuovaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
-                if (new FasciaDAO(nuovaFascia).insert(fascia, properties.getProperty(QUERY_INS_FASCIA))) {
-                    esci.callOnClick();
+                if (new FasciaDAO(nuovaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
+                    if (new FasciaDAO(nuovaFascia).insert(fascia, properties.getProperty(QUERY_INS_FASCIA))) {
+                        esci.callOnClick();
+                    }
+                    else {
+                        displayAlertDialog(nuovaFascia, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+                    }
                 }
                 else {
-                    displayAlertDialog(nuovaFascia, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+                    displayAlertDialog(nuovaFascia, "Attenzione!", "Fascia sovrapposta non ammessa");
                 }
             }
             else {
-                displayAlertDialog(nuovaFascia, "Attenzione!", "Fascia sovrapposta non ammessa");
+                displayAlertDialog(nuovaFascia, "Attenzione!", "Giorno settimana non valido");
             }
         }
     }

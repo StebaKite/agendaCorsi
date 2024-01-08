@@ -237,6 +237,13 @@ public class FunctionBase extends AppCompatActivity {
         data.setText(dateFormat.format(calendar.getTime()));
     }
 
+    public boolean isNumberOfWeek(Integer dayNumber) {
+        if ((dayNumber >= 1) && (dayNumber <= 7)) {
+            return true;
+        }
+        return false;
+    }
+
     public void makeAnnulla() {}
 
     public void makeElimina() {}

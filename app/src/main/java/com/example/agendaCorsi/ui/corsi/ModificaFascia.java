@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -58,40 +59,45 @@ public class ModificaFascia extends FunctionBase {
         _descrizione = findViewById(R.id.editDescrizione);
 
         _oraInizio = findViewById(R.id.editOraInizio);
-        TimePickerDialog.OnTimeSetListener oraInizio = new TimePickerDialog.OnTimeSetListener() {
+        _oraInizio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                _oraInizio.setText(String.valueOf(hourOfDay) + "." + String.valueOf(minute));
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(ModificaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        _oraInizio.setText(selectedHour + "." + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Ora di inizio lezione");
+                mTimePicker.show();
             }
-        };
+        });
 
         _oraFine = findViewById(R.id.editOraFine);
-        TimePickerDialog.OnTimeSetListener oraFine = new TimePickerDialog.OnTimeSetListener() {
+        _oraFine.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                _oraFine.setText(String.valueOf(hourOfDay) + "." + String.valueOf(minute));
-            }
-        };
-
-        giornoSettimanaPicker = findViewById(R.id.editGiornoSettimana);
-        giornoSettimanaPicker.setMinValue(1);
-        giornoSettimanaPicker.setMaxValue(7);
-        giornoSettimanaPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                _giornoSettimana.setText(newVal);
-            }
-        });
-
-        capienzaPicker = findViewById(R.id.editCapienza);
-        capienzaPicker.setMinValue(1);
-        capienzaPicker.setMaxValue(50);
-        capienzaPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                _capienza.setText(newVal);
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(ModificaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        _oraFine.setText(selectedHour + "." + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Ora di fine lezione");
+                mTimePicker.show();
             }
         });
+
+        _giornoSettimana = findViewById(R.id.editGiornoSettimana);
+        _capienza = findViewById(R.id.editCapienza);
 
         modificaFascia = this;
 
@@ -161,19 +167,24 @@ public class ModificaFascia extends FunctionBase {
             displayAlertDialog(modificaFascia, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            propertyReader = new PropertyReader(modificaFascia);
-            properties = propertyReader.getMyProperties("config.properties");
+            if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
+                propertyReader = new PropertyReader(modificaFascia);
+                properties = propertyReader.getMyProperties("config.properties");
 
-            if (new FasciaDAO(modificaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
-                if (new FasciaDAO(modificaFascia).insert(fascia, properties.getProperty(QUERY_MOD_FASCIA))) {
-                    esci.callOnClick();
+                if (new FasciaDAO(modificaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
+                    if (new FasciaDAO(modificaFascia).insert(fascia, properties.getProperty(QUERY_MOD_FASCIA))) {
+                        esci.callOnClick();
+                    }
+                    else {
+                        displayAlertDialog(modificaFascia, "Attenzione!", "Modifica fallita, contatta il supporto tecnico");
+                    }
                 }
                 else {
-                    displayAlertDialog(modificaFascia, "Attenzione!", "Modifica fallita, contatta il supporto tecnico");
+                    displayAlertDialog(modificaFascia, "Attenzione!", "Fascia sovrapposta non ammessa");
                 }
             }
             else {
-                displayAlertDialog(modificaFascia, "Attenzione!", "Fascia sovrapposta non ammessa");
+                displayAlertDialog(modificaFascia, "Attenzione!", "Giorno settimana non valido");
             }
         }
     }

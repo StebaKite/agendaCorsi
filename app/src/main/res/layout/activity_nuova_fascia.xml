@@ -63,21 +63,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editGiornoSettimana"
-        android:layout_width="316dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="number"
         android:maxLength="30"
         android:textSize="16sp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -162,19 +159,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lOraFine"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editCapienza"
-        android:layout_width="316dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="number"
         android:maxLength="30"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lCapienza"
@@ -224,5 +218,31 @@
         app:layout_constraintStart_toEndOf="@+id/bExit"
         app:layout_constraintTop_toBottomOf="@+id/editCapienza"
         app:layout_constraintWidth_percent="0.30" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="(1=Lun , ..., 7=Dom)"
+        android:textColor="#F69910"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/editOraInizio"
+        app:layout_constraintStart_toEndOf="@+id/editGiornoSettimana"
+        app:layout_constraintTop_toBottomOf="@+id/editDescrizione" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="19dp"
+        android:text="(1,2,3,4,....)"
+        android:textColor="#F69910"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/editCapienza"
+        app:layout_constraintTop_toBottomOf="@+id/editOraFine" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
