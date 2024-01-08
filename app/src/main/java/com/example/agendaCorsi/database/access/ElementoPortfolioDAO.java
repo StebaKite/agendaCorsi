@@ -88,7 +88,6 @@ public class ElementoPortfolioDAO implements Database_itf {
             String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).
                     replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).
                     replace("#DESC#", elementoPortfolio.getDescrizione()).
-                    replace("#SPORT#", elementoPortfolio.getSport()).
                     replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
                     replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
                     replace("#STATO#", elementoPortfolio.getStato()).

@@ -191,12 +191,12 @@ public class FunctionBase extends AppCompatActivity {
         });
     }
 
-    public void listenerTableRow(Context contextFrom, Class classDestination, String idName, Map<String, String> intentMap) {
+    public void listenerTableRow(Context contextFrom, Class classDestination, String idName, Map<String, String> intentMap, Integer idColNum) {
         tableRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TableRow tableRow = (TableRow) view;
-                TextView textView = (TextView) tableRow.getChildAt(1);
+                TextView textView = (TextView) tableRow.getChildAt(idColNum);
                 String idSelezionato = textView.getText().toString();
                 /**
                  * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap

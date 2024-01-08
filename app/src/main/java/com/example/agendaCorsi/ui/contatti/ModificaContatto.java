@@ -34,10 +34,8 @@ public class ModificaContatto extends FunctionBase {
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
     //Button annulla, esci, salva, elimina, nuovoElemPortfolio;
-
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
-    TableRow tableRow;
     TextView descrizione, stato, id_elemento;
 
     @Override
@@ -150,7 +148,7 @@ public class ModificaContatto extends FunctionBase {
             intentMap.put("idContatto", idContatto);
             intentMap.put("nomeContatto", nomeContatto);
 
-            listenerTableRow(ModificaContatto.this, ModificaElementoPortfolio.class, "idElemento", intentMap);
+            listenerTableRow(ModificaContatto.this, ModificaElementoPortfolio.class, "idElemento", intentMap, 2);
             tabellaElePortfolio.addView(tableRow);
         }
     }

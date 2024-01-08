@@ -22,9 +22,7 @@ import java.util.List;
 public class ElencoCorsi extends FunctionBase {
 
     TableLayout tabCorsi;
-    TableRow tableRow;
     TextView descrizione, stato, idCorso;
-    Button inserisci;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,7 @@ public class ElencoCorsi extends FunctionBase {
             idCorso.setText(String.valueOf(corso.getIdCorso()));
             tableRow.addView(idCorso);
 
-            listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null);
+            listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);
             tabCorsi.addView(tableRow);
         }
     }

@@ -39,7 +39,6 @@ public class ModificaCorso extends FunctionBase {
     EditText _descrizione, _sport, _stato, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
     TableLayout tabellaFasce;
-    TableRow tableRow;
     TextView descrizione, giorno_settimana, id_fascia;
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -104,9 +103,6 @@ public class ModificaCorso extends FunctionBase {
             }
         });
 
-        _descrizione = findViewById(R.id.editDescrizione);
-        _dataInizioValidita = findViewById(R.id.editDataInizio);
-        _dataFineValidita = findViewById(R.id.editDataFine);
         skate = findViewById(R.id.radio_skate);
         basket = findViewById(R.id.radio_basket);
         pattini = findViewById(R.id.radio_pattini);
@@ -118,14 +114,18 @@ public class ModificaCorso extends FunctionBase {
         /*
          * Set dei listeners sui bottoni
          */
+        Map<String, String> intentMap = new ArrayMap<>();
+        intentMap.put("idCorso", String.valueOf(idCorso));
+        intentMap.put("descrizioneCorso", descrizioneCorso);
+
         listenerChiudi();
         listenerSospendi();
         listenerApri();
-        listenerEsci(modificaCorso, ElencoCorsi.class, null);
+        listenerEsci(modificaCorso, ElencoCorsi.class, intentMap);
         listenerAnnulla();
         listenerElimina();
         listenerSalva();
-        listenerInserisci(modificaCorso, NuovaFascia.class, null);
+        listenerInserisci(modificaCorso, NuovaFascia.class, intentMap);
     }
 
     @Override
@@ -260,16 +260,16 @@ public class ModificaCorso extends FunctionBase {
              * La visibilità dei bottoni di cambio stato rispetta le regole
              * documentate dal diagramma degli stati del Corso
              */
-            if (_stato.getText().toString().equals(STATO_CHIUSO)) {
+            if (corso.getStato().equals(STATO_CHIUSO)) {
                 chiudi.setVisibility(View.INVISIBLE);
                 sospendi.setVisibility(View.INVISIBLE);
                 apri.setVisibility(View.INVISIBLE);
-            } else if (_stato.getText().toString().equals(STATO_APERTO)) {
+            } else if (corso.getStato().equals(STATO_APERTO)) {
                 apri.setVisibility(View.INVISIBLE);
-            } else if (_stato.getText().toString().equals(STATO_SOSPESO)) {
+            } else if (corso.getStato().equals(STATO_SOSPESO)) {
                 chiudi.setVisibility(View.INVISIBLE);
                 sospendi.setVisibility(View.INVISIBLE);
-            } else if (_stato.getText().toString().equals(STATO_ATTIVO)) {
+            } else if (corso.getStato().equals(STATO_ATTIVO)) {
                 apri.setVisibility(View.INVISIBLE);
             }
 
@@ -324,7 +324,7 @@ public class ModificaCorso extends FunctionBase {
             intentMap.put("idCorso", String.valueOf(idCorso));
             intentMap.put("descrizioneCorso", descrizioneCorso);
 
-            listenerTableRow(modificaCorso, ModificaFascia.class, "idFascia", intentMap);
+            listenerTableRow(modificaCorso, ModificaFascia.class, "idFascia", intentMap, 2);
             tabellaFasce.addView(tableRow);
         }
     }

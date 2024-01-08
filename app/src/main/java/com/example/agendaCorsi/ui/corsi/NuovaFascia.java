@@ -55,25 +55,24 @@ public class NuovaFascia extends FunctionBase {
             }
         };
 
-        giornoSettimanaPicker = findViewById(R.id.editGiornoSettimana);
-        giornoSettimanaPicker.setMinValue(1);
-        giornoSettimanaPicker.setMaxValue(7);
-        giornoSettimanaPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
+        _giornoSettimana = findViewById(R.id.editGiornoSettimana);
+
+        NumberPicker.OnValueChangeListener gioSet = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 _giornoSettimana.setText(newVal);
             }
-        });
+        };
 
-        capienzaPicker = findViewById(R.id.editCapienza);
-        capienzaPicker.setMinValue(1);
-        capienzaPicker.setMaxValue(50);
-        capienzaPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        _capienza = findViewById(R.id.editCapienza);
+
+        NumberPicker.OnValueChangeListener capienza = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 _capienza.setText(newVal);
             }
-        });
+        };
 
         nuovaFascia = this;
         /*
