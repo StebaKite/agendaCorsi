@@ -30,6 +30,7 @@ public class ElencoContatti extends FunctionBase {
         setContentView(R.layout.activity_elenco_contatti);
         tabContatti = findViewById(R.id.tabellaContatti);
         inserisci = findViewById(R.id.bInserisciContatto);
+        esci = findViewById(R.id.bExit);
 
         displayElencoContatti();
         listenerEsci(ElencoContatti.this , MainActivity.class, null);

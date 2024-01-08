@@ -49,8 +49,8 @@ public class MainActivity extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.9);
-        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.3);
+        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
         propertyReader = new PropertyReader(this);
@@ -86,14 +86,17 @@ public class MainActivity extends FunctionBase {
             else {
                 // cambia il corso quindi devo separare su un'altra tabella
                 descrizione_corso_save = dashboard.getDescrizioneCorso();
-                intestaTabella(descrizione_corso_save, larghezzaColonnaCorso);
+                descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                intestaTabella(descrizione_corso_save, larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
                 tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
                 tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale);
             }
         }
+        // aggiungo in tabella l'ultima riga lavorata
+        tabSettimana.addView(tableRow);
     }
 
-    public void intestaTabella(String descrizioneCorso, int larghezzaColonna) {
+    public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
         tableRow = new TableRow(this);
         corso = new TextView(this);
         corso.setTextSize(20);
@@ -101,6 +104,90 @@ public class MainActivity extends FunctionBase {
         corso.setWidth(larghezzaColonna);
         corso.setText(descrizioneCorso);
         tableRow.addView(corso);
+        tabSettimana.addView(tableRow);
+
+        tableRow = new TableRow(this);
+
+        fascia = new TextView(this);
+        fascia.setTextSize(16);
+        fascia.setPadding(10,20,10,20);
+        fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
+        fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        fascia.setGravity(Gravity.CENTER);
+        fascia.setWidth(larghezzaColonnaFascia);
+        fascia.setText("Fascia");
+        tableRow.addView(fascia);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Lu");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Ma");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Me");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Gi");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Ve");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Sa");
+        tableRow.addView(totaleGiorno);
+
+        totaleGiorno = new TextView(this);
+        totaleGiorno.setTextSize(16);
+        totaleGiorno.setPadding(10,20,10,20);
+        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        totaleGiorno.setGravity(Gravity.CENTER);
+        totaleGiorno.setWidth(larghezzaColonnaTotale);
+        totaleGiorno.setText("Do");
+        tableRow.addView(totaleGiorno);
+
         tabSettimana.addView(tableRow);
     }
 
@@ -110,7 +197,7 @@ public class MainActivity extends FunctionBase {
         fascia = new TextView(this);
         fascia.setTextSize(16);
         fascia.setPadding(10,20,10,20);
-        fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
+        fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
         fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         fascia.setGravity(Gravity.CENTER);
         fascia.setText(descrizioneFascia);
@@ -124,7 +211,7 @@ public class MainActivity extends FunctionBase {
         totaleGiorno.setTextSize(16);
         totaleGiorno.setPadding(10,20,10,20);
         totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         totaleGiorno.setGravity(Gravity.CENTER);
         totaleGiorno.setText(totale);
         totaleGiorno.setWidth(larghezzaColonna);

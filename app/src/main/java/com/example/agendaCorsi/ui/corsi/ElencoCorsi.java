@@ -31,6 +31,7 @@ public class ElencoCorsi extends FunctionBase {
         setContentView((R.layout.activity_elenco_corsi));
         tabCorsi = findViewById(R.id.tabellaCorsi);
         inserisci = findViewById(R.id.bInserisciCorso);
+        esci = findViewById(R.id.bExit);
 
         displayElencoCorsi();
         listenerEsci(ElencoCorsi.this, MainActivity.class, null);
