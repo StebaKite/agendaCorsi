@@ -1,8 +1,12 @@
+--------------------------------------------------------
+-- query_totals_corsi  (per poterla leggere facilmente)
+--------------------------------------------------------
+
 select
 	t2.descrizione_corso,
 	t2.descrizione_fascia,
 	t2.giorno_settimana,
-	t2.totale_fascia
+	coalesce(t2.totale_fascia,0)
   from (
 	select
 		corso.id_corso,

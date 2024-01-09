@@ -1,7 +1,6 @@
 package com.example.agendaCorsi.ui.corsi;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
 import com.example.agendaCorsi.database.table.Fascia;
@@ -52,9 +50,10 @@ public class NuovaFascia extends FunctionBase {
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(NuovaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        _oraInizio.setText(selectedHour + "." + selectedMinute);
+                        _oraInizio.setText(leftPad(String.valueOf(selectedHour), 2, "0") + "." + leftPad(String.valueOf(selectedMinute), 2, "0"));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di inizio lezione");
@@ -71,9 +70,10 @@ public class NuovaFascia extends FunctionBase {
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(NuovaFascia.this, new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        _oraFine.setText(selectedHour + "." + selectedMinute);
+                        _oraFine.setText(leftPad(String.valueOf(selectedHour), 2, "0") + "." + leftPad(String.valueOf(selectedMinute), 2, "0"));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di fine lezione");

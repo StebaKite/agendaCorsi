@@ -3954,8 +3954,8 @@ ad un corso &quot;Aperto&quot;.
 <XPD:REF name="Participant">6/pV/wXuvUmzeNsBOiE+ygAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">Nk/6NtW0YEGpcCKwuzcUZwAA</XPD:REF>
-<XPD:REF name="Views[1]">7DNGfksmj0Gml0tzMYYNAgAA</XPD:REF>
-<XPD:REF name="Views[2]">61ti77rgeEaaDEggOzesBgAA</XPD:REF>
+<XPD:REF name="Views[1]">61ti77rgeEaaDEggOzesBgAA</XPD:REF>
+<XPD:REF name="Views[2]">7DNGfksmj0Gml0tzMYYNAgAA</XPD:REF>
 <XPD:REF name="Views[3]">vorzK/yzHUGryTCAyGvMrwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="/azQsBMxd0WZxKjUFWA0SgAA">
@@ -3963,8 +3963,8 @@ ad un corso &quot;Aperto&quot;.
 <XPD:REF name="Participant">AvXWgUql6kCy0WOBub2aiwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">WDTscWDntE+ymdyidk5B2AAA</XPD:REF>
-<XPD:REF name="Views[1]">2ZaYWZzt6kOnw/jNnmR8lQAA</XPD:REF>
-<XPD:REF name="Views[2]">bzjyUxo/6kKkpqCUEd7m6wAA</XPD:REF>
+<XPD:REF name="Views[1]">bzjyUxo/6kKkpqCUEd7m6wAA</XPD:REF>
+<XPD:REF name="Views[2]">2ZaYWZzt6kOnw/jNnmR8lQAA</XPD:REF>
 <XPD:REF name="Views[3]">vcFS18Gj7kCKU+gr6TRnEAAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
@@ -6606,8 +6606,8 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:OBJ name="OwnedViews[4]" type="UMLClassView" guid="X56dgU41zU2MOYlf7WICcwAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">680</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">396</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">400</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">620</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">107</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">95</XPD:ATTR>
 <XPD:REF name="Model">5qbuqzD29kKOjpEJweJPDwAA</XPD:REF>
@@ -6721,7 +6721,7 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:OBJ name="OwnedViews[6]" type="UMLAssociationView" guid="GJFrtS32zkCAdMDU363MegAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">531,445;680,444</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">454,513;453,620</XPD:ATTR>
 <XPD:REF name="Model">PxJS+X7mJUuPNDhgtzEM6QAA</XPD:REF>
 <XPD:REF name="Head">X56dgU41zU2MOYlf7WICcwAA</XPD:REF>
 <XPD:REF name="Tail">9uHYy3/VEkipOrXAPvYBMQAA</XPD:REF>
@@ -6958,7 +6958,7 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="NBqq8Cn9rUmg5iEKAeMlrAAA">
 <XPD:ATTR name="Alpha" type="real">1,5707963267949</XPD:ATTR>
 <XPD:ATTR name="Distance" type="real">15</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">&#232; consumato da</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">utilizzato da</XPD:ATTR>
 <XPD:REF name="Model">4D4NPVMplEO5z7Di10xpgAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="EdgeLabelView" guid="TPeJmQ+AekKpaFvfga+VtQAA">
@@ -7481,7 +7481,7 @@ e ricaricher&#224; solo le lezioni acquistate
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[14]" type="UMLAssociation" guid="4D4NPVMplEO5z7Di10xpgAAA">
-<XPD:ATTR name="Name" type="string">&#232; consumato da</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">utilizzato da</XPD:ATTR>
 <XPD:REF name="Namespace">MbXskll7ZUCNYDgbo4oUgQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">2SaQTCKa+UiDQt1B5rEFcgAA</XPD:REF>
@@ -11171,7 +11171,7 @@ isccrizione
 <XPD:ATTR name="Height" type="integer">113</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">In entrata elenca tutti i contatti :
 
-1) non ancora iscritti a questo corso-fascia
+1) non iscritti a nessuna fascia oraria di questo corso
 2) aventi un elemento nel portfolio per lo sport insegnato nel corso
 
 La selezione di un contatto dall'elenco esegue l'iscrizione del contatto stesso alla
