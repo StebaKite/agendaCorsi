@@ -10,6 +10,7 @@ import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
+import com.example.agendaCorsi.database.table.FasciaCorso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,31 @@ public class FasciaDAO implements Database_itf {
 
             Object fascia = new Fascia(idFascia, idCorso, descrizione, giornoSettimana, oraInizio, oraFine, capienza, dataCreazione, dataUltimoAggiornamento);
             list.add(fascia);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
+    }
+
+    public List<Object> getAllFasceCorsi(String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+        String sql = query;
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String descrizioneCorso = String.valueOf(cursor.getInt(FasciaCorso.DESCRIZIONE_CORSO));
+            String descrizioneFascia = String.valueOf(cursor.getInt(FasciaCorso.DESCRIZIONE_FASCIA));
+            String idFascia = String.valueOf(cursor.getString(FasciaCorso.ID_FASCIA));
+            String giornoSettimana = String.valueOf(cursor.getString(FasciaCorso.GIORNO_SETTIMANA));
+            String totaleFascia = String.valueOf(cursor.getString(FasciaCorso.TOTALE_FASCIA));
+
+            Object fasciaCorso = new FasciaCorso(descrizioneCorso, descrizioneFascia, idFascia, giornoSettimana, totaleFascia);
+            list.add(fasciaCorso);
             cursor.moveToNext();
         }
         cursor.close();

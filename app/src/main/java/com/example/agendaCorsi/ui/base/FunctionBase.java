@@ -50,6 +50,7 @@ public class FunctionBase extends AppCompatActivity {
      * Le query
      */
     public static String QUERY_TOTALS_CORSI = "query_totals_corsi";
+    public static String QUERY_GET_FASCE_CORSI = "query_get_fasce_corsi";
     public static String QUERY_GETALL_CORSI = "query_getall_corsi";
     public static String QUERY_GET_CORSO = "query_get_corso";
     public static String QUERY_DEL_CORSO = "query_del_corso";

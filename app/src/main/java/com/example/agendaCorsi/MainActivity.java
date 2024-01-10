@@ -1,10 +1,8 @@
 package com.example.agendaCorsi;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.util.DisplayMetrics;
@@ -17,16 +15,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
 import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
+import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -42,10 +38,10 @@ public class MainActivity extends FunctionBase {
         setContentView(R.layout.activity_main);
         tabSettimana = findViewById(R.id.tabellaSettimana);
 
-        displayElencoContatti();
+        displayQuadroIscrizioni();
     }
 
-    private void displayElencoContatti() {
+    private void displayQuadroIscrizioni() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -75,7 +71,9 @@ public class MainActivity extends FunctionBase {
                     if (!descrizione_fascia_save.equals("")) {
                         // non è la prima row quindi aggiungo in tabella la row finita
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                        fillTableCell(tableRow, larghezzaColonnaTotale, cellaNum);
                         tabSettimana.addView(tableRow);
+                        cellaNum = 1;
                     }
                     else {
                         // è la prima row quindi preparo solo la nuova riga
@@ -96,8 +94,21 @@ public class MainActivity extends FunctionBase {
                 cellaNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
             }
         }
-        // aggiungo in tabella l'ultima riga composta
+        // riempio tutte le celle rimaste vuote e aggiungo in tabella l'ultima riga composta
+        fillTableCell(tableRow, larghezzaColonnaTotale, cellaNum);
         tabSettimana.addView(tableRow);
+    }
+
+    private TableRow fillTableCell(TableRow tRow, int larghezzaColonna, int cellaNum) {
+        if (cellaNum <= 7) {
+            for (int i = cellaNum; i < 8; i++) {
+                totaleGiorno = new TextView(this);
+                totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
+                totaleGiorno.setWidth(larghezzaColonna);
+                tRow.addView(totaleGiorno);
+            }
+        }
+        return tRow;
     }
 
     public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
@@ -217,7 +228,7 @@ public class MainActivity extends FunctionBase {
          */
         int giorno = Integer.parseInt(giornoNum);
         if (giorno > cellaNum) {
-            for (int i = 1; i < giorno; i++) {
+            for (int i = cellaNum; i < giorno; i++) {
                 totaleGiorno = new TextView(this);
                 totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
                 totaleGiorno.setWidth(larghezzaColonna);
@@ -232,6 +243,8 @@ public class MainActivity extends FunctionBase {
         totaleGiorno.setGravity(Gravity.CENTER);
         totaleGiorno.setText(totale);
         totaleGiorno.setWidth(larghezzaColonna);
+
+
         tRow.addView(totaleGiorno);
 
         return tRow;
@@ -254,11 +267,11 @@ public class MainActivity extends FunctionBase {
             Intent intent = new Intent(MainActivity.this, ElencoCorsi.class);
             startActivity(intent);
             return true;
-        } else if (item.getTitle().equals("Notifications")) {
-            // codice
+        } else if (item.getTitle().equals("Iscrizioni")) {
+            Intent intent = new Intent(MainActivity.this, ElencoFasceCorsi.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

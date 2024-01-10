@@ -16,6 +16,10 @@ public class PropertyReader {
         properties = new Properties();
     }
 
+    public PropertyReader() {
+        properties = new Properties();
+    }
+
     public Properties getMyProperties(String file){
         try{
             AssetManager assetManager = context.getAssets();
