@@ -12,18 +12,12 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.MainActivity;
-import com.example.agendaCorsi.database.access.DashboardDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
-import com.example.agendaCorsi.database.access.IscrizioneDAO;
-import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
-import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
-import com.example.agendaCorsi.ui.corsi.ModificaCorso;
 import com.example.agendacorsi.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

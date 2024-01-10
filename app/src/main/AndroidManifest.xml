@@ -32,6 +32,7 @@
         <activity android:name="com.example.agendaCorsi.ui.corsi.NuovoCorso" android:screenOrientation="portrait"/>
         <activity android:name="com.example.agendaCorsi.ui.corsi.NuovaFascia" android:screenOrientation="portrait"/>
         <activity android:name="com.example.agendaCorsi.ui.corsi.ModificaFascia" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
