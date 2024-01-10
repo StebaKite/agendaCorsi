@@ -19,11 +19,10 @@ select
 		inner join fascia on fascia.id_corso = corso.id_corso
 		inner join giorno_settimana on fascia.giorno_settimana = giorno_settimana.numero_giorno
 		left outer join
-			(select id_corso, id_fascia, count(*) as totale_fascia
+			(select id_fascia, count(*) as totale_fascia
 			   from iscrizione
-			  group by id_corso, id_fascia
+			  group by id_fascia
 			 ) as t1
-		  on t1.id_corso = corso.id_corso
-		  and t1.id_fascia = fascia.id_fascia
+		  on t1.id_fascia = fascia.id_fascia
 	) as t2
 	order by 1,2,3

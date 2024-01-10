@@ -97,7 +97,7 @@ public class FasciaDAO implements Database_itf {
                     replace("#IDCORSO#", fascia.getIdCorso()).
                     replace("#DESC#", fascia.getDescrizione()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
-                    replace("ORAINI", fascia.getOraInizio()).
+                    replace("#ORAINI#", fascia.getOraInizio()).
                     replace("#ORAFIN#", fascia.getOraFine()).
                     replace("#CAPIEN#", fascia.getCapienza());
 
@@ -180,7 +180,7 @@ public class FasciaDAO implements Database_itf {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).
-                    replace("#IDFASCIA#", fascia.getIdFascia()).
+                    replace("#IDCORSO#", fascia.getIdCorso()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
                     replaceAll("#ORAINI#", fascia.getOraInizio()).
                     replaceAll("#ORAFIN#", fascia.getOraFine());

@@ -88,7 +88,9 @@ public class MainActivity extends FunctionBase {
                 tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale);
             }
         }
-        tabSettimana.addView(tableRow);
+        if (totaliCorsoList.size() > 0) {
+            tabSettimana.addView(tableRow);
+        }
     }
 
     public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {

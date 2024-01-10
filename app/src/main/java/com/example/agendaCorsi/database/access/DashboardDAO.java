@@ -21,6 +21,7 @@ public class DashboardDAO implements Database_itf {
         databaseHelper = new DatabaseHelper(context);
     }
 
+    /*
     public List<Object> getTotals(String query) {
         List<Object> list = new ArrayList<>();
 
@@ -116,8 +117,8 @@ public class DashboardDAO implements Database_itf {
 
         return list;
     }
+    */
 
-    /*
     public List<Object> getTotals(String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
@@ -141,7 +142,6 @@ public class DashboardDAO implements Database_itf {
         database.close();
         return list;
     }
-    */
 
     @Override
     public List<Object> getAll(String query) {
