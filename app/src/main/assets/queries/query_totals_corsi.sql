@@ -17,6 +17,7 @@ select
 		t1.totale_fascia
 	  from corso
 		inner join fascia on fascia.id_corso = corso.id_corso
+		inner join giorno_settimana on fascia.giorno_settimana = giorno_settimana.numero_giorno
 		left outer join
 			(select id_corso, id_fascia, count(*) as totale_fascia
 			   from iscrizione

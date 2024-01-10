@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
@@ -102,37 +103,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
 
     private String getContattoTableStructure() {
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_CONTATTO).replace("#TABLENAME#", Contatto.TABLE_NAME);
     }
 
-    private String getElementoPortfolioStructure() {
-        propertyReader = new PropertyReader();
+    private String getElementoPortfolioStructure() {;
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_ELEMENTO_PORTFOLIO).replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME);
     }
 
     private String getCorsoTableStructure() {
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_CORSO).replace("#TABLENAME#", Corso.TABLE_NAME);
     }
 
     private String getFasciaTableStructure() {
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_FASCIA).replace("#TABLENAME#", Fascia.TABLE_NAME);
     }
 
     private String getIscrizioneTableStructure() {
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_ISCRIZIONE).replace("#TABLENAME#", Iscrizione.TABLE_NAME);
     }
 
     private String getGiornoSettimanaTableStructure() {
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         return properties.getProperty(CREATE_TABLE_GIORNO_SETTIMANA).replace("#TABLENAME#", Iscrizione.TABLE_NAME);
     }
@@ -142,7 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     private void initialLoadGiornoSettimana(SQLiteDatabase sqLiteDatabase) {
         Log.i(DatabaseHelper.DATABASE_NAME, "Table giorno_settimana initial load...");
-        propertyReader = new PropertyReader();
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
         String query = properties.getProperty(QUERY_INS_GIORNO_SETTIMANA);
 
