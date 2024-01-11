@@ -6423,7 +6423,7 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:OBJ name="DiagramView" type="UMLClassDiagramView" guid="6gMtC0y5k0qxOhLgw4q52QAA">
 <XPD:REF name="Model">I/K4v1IJM0+ynLae4MntDAAA</XPD:REF>
 <XPD:REF name="Diagram">I/K4v1IJM0+ynLae4MntDAAA</XPD:REF>
-<XPD:ATTR name="#OwnedViews" type="integer">12</XPD:ATTR>
+<XPD:ATTR name="#OwnedViews" type="integer">13</XPD:ATTR>
 <XPD:OBJ name="OwnedViews[0]" type="UMLClassView" guid="TgbKQkEY80KmnpwukVnjtQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
@@ -7044,9 +7044,40 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:ATTR name="Text" type="string">ER Database
 </XPD:ATTR>
 </XPD:OBJ>
+<XPD:OBJ name="OwnedViews[12]" type="UMLClassView" guid="2m+lzrZstkeU0D5U53ocggAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">692</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">376</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">138</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">82</XPD:ATTR>
+<XPD:REF name="Model">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="KUUEYYloAkWrJJ/3+//r3AAA">
+<XPD:OBJ name="NameLabel" type="LabelView" guid="/TiiiQ0zOUquJRFHsoPAzQAA">
+<XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">giorno_settimana</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="NdcaBLC8pESK3RUJ4N/cRwAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="PropertyLabel" type="LabelView" guid="PK0lapspxEyWM2l7zddapAAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#OwnedElements" type="integer">18</XPD:ATTR>
+<XPD:OBJ name="AttributeCompartment" type="UMLAttributeCompartmentView" guid="aNCSdFwjvk+fNXPaPxOHsAAA">
+<XPD:REF name="Model">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OperationCompartment" type="UMLOperationCompartmentView" guid="ePsj3rGIDkWyhqaM+WGhCgAA">
+<XPD:REF name="Model">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="TemplateParameterCompartment" type="UMLTemplateParameterCompartmentView" guid="+84bVe7ydU2f9kknnYjRCgAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+<XPD:REF name="Model">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:ATTR name="#OwnedElements" type="integer">19</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLClass" guid="FXesT333UE+zJTIqKrhxgQAA">
 <XPD:ATTR name="Name" type="string">corso</XPD:ATTR>
 <XPD:REF name="Namespace">MbXskll7ZUCNYDgbo4oUgQAA</XPD:REF>
@@ -7555,6 +7586,28 @@ e ricaricher&#224; solo le lezioni acquistate
 <XPD:ATTR name="Aggregation" type="UMLAggregationKind">akAggregate</XPD:ATTR>
 <XPD:REF name="Association">r4uftGdyUEGC3AgtaHO6owAA</XPD:REF>
 <XPD:REF name="Participant">FXesT333UE+zJTIqKrhxgQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[18]" type="UMLClass" guid="0auMs179BUqeyQgOIXRNYwAA">
+<XPD:ATTR name="Name" type="string">giorno_settimana</XPD:ATTR>
+<XPD:REF name="Namespace">MbXskll7ZUCNYDgbo4oUgQAA</XPD:REF>
+<XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
+<XPD:REF name="Views[0]">2m+lzrZstkeU0D5U53ocggAA</XPD:REF>
+<XPD:REF name="Views[1]">aNCSdFwjvk+fNXPaPxOHsAAA</XPD:REF>
+<XPD:REF name="Views[2]">ePsj3rGIDkWyhqaM+WGhCgAA</XPD:REF>
+<XPD:REF name="Views[3]">+84bVe7ydU2f9kknnYjRCgAA</XPD:REF>
+<XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
+<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="vCYEqgZ/x0eJUK3ZLu5OeQAA">
+<XPD:ATTR name="Name" type="string">numero_giorno &lt;PK&gt;</XPD:ATTR>
+<XPD:REF name="Owner">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[1]" type="UMLAttribute" guid="Y0C+1LIq4k6tPDADgGz0FAAA">
+<XPD:ATTR name="Name" type="string">nome_giorno_abbreviato</XPD:ATTR>
+<XPD:REF name="Owner">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="VF5gaH6mA0maIt2w0VF71QAA">
+<XPD:ATTR name="Name" type="string">nome_giorno_esteso</XPD:ATTR>
+<XPD:REF name="Owner">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
@@ -9115,7 +9168,7 @@ NO, la funzione deve impedire la creazione del corso se gi&#224; presente
 <XPD:REF name="Model">gicgcLLdbU+X57OKwto8qwAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9q8R/THx1ke6VbmVZWya6wAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="f8nxL/fO1k2zr6G4xhTs8AAA">
-<XPD:ATTR name="Text" type="string">Elenca corsi</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Elenca le fasce di tutti i corsi in stato &quot;Attivo&quot;</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="H6KUFnOxckqssvi+dcQbKAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>

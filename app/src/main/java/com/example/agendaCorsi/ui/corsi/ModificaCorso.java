@@ -1,10 +1,12 @@
 package com.example.agendaCorsi.ui.corsi;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,6 +30,8 @@ import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendacorsi.R;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +44,17 @@ public class ModificaCorso extends FunctionBase {
     EditText _descrizione, _sport, _stato, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
     TableLayout tabellaFasce;
-    TextView descrizione, giorno_settimana, id_fascia, fascia_oraria;
+    TextView descrizione, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
     final Calendar myCalendar = Calendar.getInstance();
 
+    @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_corso);
         tabellaFasce = findViewById(R.id.tabellaFasce);
+
+        scrollViewTabellaFasce = findViewById(R.id.scrollViewTabellaFasce);
+        scrollViewTabellaFasce.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
         idCorso = intent.getStringExtra("idCorso");
