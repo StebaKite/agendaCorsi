@@ -3,7 +3,7 @@
 --------------------------------------------------------
 
 select
-    corso.descrizione_corso,
+    corso.descrizione as descrizione_corso,
     t3.descrizione_fascia,
     t3.giorno_settimana,
     t3.totale_fascia

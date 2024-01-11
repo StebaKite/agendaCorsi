@@ -2,6 +2,7 @@ select
     fascia.id_fascia,
     fascia.id_corso,
     fascia.descrizione,
+    giorno_settimana.numero_giorno,
     giorno_settimana.nome_giorno_esteso as giorno_settimana,
     fascia.ora_inizio,
     fascia.ora_fine,
@@ -12,4 +13,4 @@ from #TABLENAME#
     left outer join giorno_settimana
       on giorno_settimana.numero_giorno = fascia.giorno_settimana
 where id_corso = #IDCORSO#
-order by giorno_settimana, fascia.ora_inizio
+order by numero_giorno, fascia.ora_inizio

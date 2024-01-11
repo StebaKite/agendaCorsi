@@ -56,6 +56,7 @@ public class MainActivity extends FunctionBase {
 
         String descrizione_corso_save = "";
         String descrizione_fascia_save = "";
+        int cellNum = 1;
 
         for (Object entity : totaliCorsoList) {
             Dashboard dashboard = Dashboard.class.cast(entity);
@@ -63,29 +64,43 @@ public class MainActivity extends FunctionBase {
             if (dashboard.getDescrizioneCorso().equals(descrizione_corso_save)) {
                 if (dashboard.getDescrizioneFascia().equals(descrizione_fascia_save)) {
                     // aggiungo il totale per il giorno della settimana
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale);
+                    cellNum++;
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                    cellNum = Integer.parseInt(dashboard.getGiornoSettimana());
                 }
                 else {
                     if (!descrizione_fascia_save.equals("")) {
                         // non è la prima row quindi aggiungo in tabella la row finita
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                        //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                         tabSettimana.addView(tableRow);
+                        cellNum = 0;
                     }
                     else {
                         // è la prima row quindi preparo solo la nuova riga
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                        //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
+                        cellNum = 0;
                     }
+                    cellNum++;
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale);
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                    cellNum = Integer.parseInt(dashboard.getGiornoSettimana());
                 }
             }
             else {
                 // cambia il corso quindi devo separare su un'altra tabella
+                if (!descrizione_corso_save.equals("")) {
+                    //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
+                    tabSettimana.addView(tableRow);
+                    cellNum = 1;
+                }
                 descrizione_corso_save = dashboard.getDescrizioneCorso();
                 descrizione_fascia_save = dashboard.getDescrizioneFascia();
                 intestaTabella(descrizione_corso_save, larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
                 tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
-                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale);
+                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                cellNum = 1;
             }
         }
         if (totaliCorsoList.size() > 0) {
@@ -203,7 +218,8 @@ public class MainActivity extends FunctionBase {
         return tableRow;
     }
 
-    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna) {
+    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
+        fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
         totaleGiorno.setTextSize(16);
         totaleGiorno.setPadding(10,20,10,20);
@@ -213,9 +229,20 @@ public class MainActivity extends FunctionBase {
         totaleGiorno.setText(totale);
         totaleGiorno.setWidth(larghezzaColonna);
 
-
         tRow.addView(totaleGiorno);
 
+        return tRow;
+    }
+
+    private TableRow fillRow(int giornoSettimana, int cellNum, int larghezzaColonna, TableRow tRow) {
+        for (int i = cellNum; i < giornoSettimana; i++) {
+            totaleGiorno = new TextView(this);
+            totaleGiorno.setTextSize(16);
+            totaleGiorno.setPadding(10, 20, 10, 20);
+            totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
+            totaleGiorno.setWidth(larghezzaColonna);
+            tRow.addView(totaleGiorno);
+        }
         return tRow;
     }
 

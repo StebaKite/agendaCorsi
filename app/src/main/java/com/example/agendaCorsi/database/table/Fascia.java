@@ -8,12 +8,13 @@ public class Fascia implements BaseColumns {
     public static Integer ID_FASCIA = 0;
     public static Integer ID_CORSO = 1;
     public static Integer DESCRIZIONE = 2;
-    public static Integer GIORNO_SETTIMANA = 3;
-    public static Integer ORA_INIZIO = 4;
-    public static Integer ORA_FINE = 5;
-    public static Integer CAPIENZA = 6;
-    public static Integer DATA_CREAZIONE = 7;
-    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 8;
+    public static Integer NUMERO_GIORNO = 3;
+    public static Integer GIORNO_SETTIMANA = 4;
+    public static Integer ORA_INIZIO = 5;
+    public static Integer ORA_FINE = 6;
+    public static Integer CAPIENZA = 7;
+    public static Integer DATA_CREAZIONE = 8;
+    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 9;
 
     public String idFascia;
     public String idCorso;

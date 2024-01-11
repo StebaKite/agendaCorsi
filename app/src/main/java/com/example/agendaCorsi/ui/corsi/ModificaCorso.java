@@ -41,7 +41,7 @@ public class ModificaCorso extends FunctionBase {
     String idCorso;
     RadioButton skate, basket, pattini, pallavolo;
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
-    EditText _descrizione, _sport, _stato, _dataInizioValidita, _dataFineValidita;
+    EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
     TableLayout tabellaFasce;
     TextView descrizione, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
@@ -213,9 +213,14 @@ public class ModificaCorso extends FunctionBase {
 
     @Override
     public void makeSalva() {
-        Corso corso = new Corso(null,
+        if (skate.isChecked()) {sport = Skate;}
+        if (basket.isChecked()) {sport = Basket;}
+        if (pattini.isChecked()) {sport = Pattini;}
+        if (pallavolo.isChecked()) {sport = Pallavolo;}
+
+        Corso corso = new Corso(idCorso,
                 _descrizione.getText().toString(),
-                _sport.getText().toString(),
+                sport,
                 STATO_APERTO,
                 dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),

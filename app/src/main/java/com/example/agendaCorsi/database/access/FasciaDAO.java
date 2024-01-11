@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.FasciaCorso;
@@ -37,6 +38,7 @@ public class FasciaDAO implements Database_itf {
             String idFascia = String.valueOf(cursor.getInt(Fascia.ID_FASCIA));
             String idCorso = String.valueOf(cursor.getInt(Fascia.ID_CORSO));
             String descrizione = String.valueOf(cursor.getString(Fascia.DESCRIZIONE));
+            String numeroGiorno = String.valueOf(cursor.getString(Fascia.NUMERO_GIORNO));
             String giornoSettimana = String.valueOf(cursor.getString(Fascia.GIORNO_SETTIMANA));
             String oraInizio = String.valueOf(cursor.getString(Fascia.ORA_INIZIO));
             String oraFine = String.valueOf(cursor.getString(Fascia.ORA_FINE));
@@ -173,6 +175,19 @@ public class FasciaDAO implements Database_itf {
 
     @Override
     public boolean delete(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Fascia fascia = Fascia.class.cast(entity);
+            String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).replace("#IDFASCIA#", fascia.getIdFascia());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
         return false;
     }
 
@@ -183,7 +198,6 @@ public class FasciaDAO implements Database_itf {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).
                     replace("#IDCORSO#", fascia.getIdCorso()).
-                    replace("#IDFASCIA#", fascia.getIdFascia()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
                     replaceAll("#ORAINI#", fascia.getOraInizio()).
                     replaceAll("#ORAFIN#", fascia.getOraFine());
