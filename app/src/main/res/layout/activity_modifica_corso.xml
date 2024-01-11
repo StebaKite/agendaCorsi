@@ -314,7 +314,8 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:scrollbars="vertical"
-            android:stretchColumns="0,1"></TableLayout>
+            android:stretchColumns="0,1">
+        </TableLayout>
     </ScrollView>
 
     <Button

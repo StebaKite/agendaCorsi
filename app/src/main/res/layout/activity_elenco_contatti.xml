@@ -29,6 +29,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bInserisciContatto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">

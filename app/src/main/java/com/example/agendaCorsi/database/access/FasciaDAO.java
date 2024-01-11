@@ -183,6 +183,7 @@ public class FasciaDAO implements Database_itf {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).
                     replace("#IDCORSO#", fascia.getIdCorso()).
+                    replace("#IDFASCIA#", fascia.getIdFascia()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
                     replaceAll("#ORAINI#", fascia.getOraInizio()).
                     replaceAll("#ORAFIN#", fascia.getOraFine());
