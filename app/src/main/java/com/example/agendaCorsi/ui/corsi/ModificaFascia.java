@@ -46,6 +46,7 @@ public class ModificaFascia extends FunctionBase {
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
         salva = findViewById(R.id.bSalva);
+        elimina = findViewById(R.id.bElimina);
 
         lScheda = findViewById(R.id.lScheda);
 

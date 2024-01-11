@@ -157,6 +157,8 @@ public class FasciaDAO implements Database_itf {
                 fascia.setGiornoSettimana(resultSet.getString(Fascia.GIORNO_SETTIMANA));
                 fascia.setCapienza(resultSet.getString(Fascia.CAPIENZA));
                 fascia.setDataCreazione(resultSet.getString(Fascia.DATA_CREAZIONE));
+                fascia.setOraInizio(resultSet.getString(Fascia.ORA_INIZIO));
+                fascia.setOraFine(resultSet.getString(Fascia.ORA_FINE));
                 fascia.setDataUltimoAggiornamento(resultSet.getString(Fascia.DATA_ULTIMO_AGGIORNAMENTO));
             }
             resultSet.close();

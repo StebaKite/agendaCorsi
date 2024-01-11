@@ -12,3 +12,4 @@ from #TABLENAME#
     left outer join giorno_settimana
       on giorno_settimana.numero_giorno = fascia.giorno_settimana
 where id_corso = #IDCORSO#
+order by giorno_settimana, fascia.ora_inizio

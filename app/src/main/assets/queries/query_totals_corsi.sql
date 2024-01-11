@@ -15,7 +15,7 @@ from (
                 corso.id_corso,
                 corso.descrizione as descrizione_corso,
                 fascia.id_fascia,
-                fascia.descrizione as descrizione_fascia,
+                fascia.ora_inizio || '-' || fascia.ora_fine as descrizione_fascia,
                 fascia.giorno_settimana,
                 t1.totale_fascia
               from corso
@@ -29,4 +29,4 @@ from (
          ) as t2
            on t2.giorno_settimana = giorno_settimana.numero_giorno
     ) as t3
-	order by 1,2,3
+	order by 3,1,2

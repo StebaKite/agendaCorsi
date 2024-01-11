@@ -53,8 +53,8 @@ public class ModificaCorso extends FunctionBase {
         setContentView(R.layout.activity_modifica_corso);
         tabellaFasce = findViewById(R.id.tabellaFasce);
 
-        scrollViewTabellaFasce = findViewById(R.id.scrollViewTabellaFasce);
-        scrollViewTabellaFasce.setMovementMethod(new ScrollingMovementMethod());
+        //scrollViewTabellaFasce = findViewById(R.id.scrollViewTabellaFasce);
+        //scrollViewTabellaFasce.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
         idCorso = intent.getStringExtra("idCorso");
