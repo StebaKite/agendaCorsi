@@ -24,7 +24,7 @@ select
 
             where elemento_portfolio.stato = 'Carico'
               and elemento_portfolio.sport = '#SPORT#'
-  )
+        ) as t1
   order by t1.nome
 
 

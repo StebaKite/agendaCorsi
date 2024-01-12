@@ -25,13 +25,14 @@ import java.util.Map;
 
 public class ElencoFasceCorsi extends FunctionBase {
 
-    TableLayout tabSettimana;
+    TableLayout tabellaFasceCorsi;
     TextView corso, giorno, fascia, totaleFascia, idFascia, idCorso, sport;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elenco_fasce_corsi);
         esci = findViewById(R.id.bExit);
+        tabellaFasceCorsi = findViewById(R.id.tabellaFasceCorsi);
 
         displayElencoFasceCorsi();
         listenerEsci(ElencoFasceCorsi.this, MainActivity.class, null);
@@ -41,9 +42,9 @@ public class ElencoFasceCorsi extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonnaGiorno = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
         propertyReader = new PropertyReader(this);
@@ -133,10 +134,10 @@ public class ElencoFasceCorsi extends FunctionBase {
                     textView = (TextView) tableRow.getChildAt(2);
                     String descrizioneFascia = textView.getText().toString();
 
-                    textView = (TextView) tableRow.getChildAt(4);
+                    textView = (TextView) tableRow.getChildAt(5);
                     String sport = textView.getText().toString();
 
-                    textView = (TextView) tableRow.getChildAt(5);
+                    textView = (TextView) tableRow.getChildAt(6);
                     String idCorso = textView.getText().toString();
 
                     /**
@@ -166,7 +167,7 @@ public class ElencoFasceCorsi extends FunctionBase {
                     }
                 }
             });
-            tabSettimana.addView(tableRow);
+            tabellaFasceCorsi.addView(tableRow);
         }
     }
 }

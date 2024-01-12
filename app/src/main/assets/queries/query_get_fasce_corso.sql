@@ -33,6 +33,6 @@ select t2.*
     ) as t2
 
 where t2.stato != 'Chiuso'
-  and t2.capienza > t2.totala_fascia
+  and t2.capienza > t2.totale_fascia
 
 order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

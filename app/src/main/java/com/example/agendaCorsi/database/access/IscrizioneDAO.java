@@ -33,7 +33,7 @@ public class IscrizioneDAO implements Database_itf {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Iscrizione iscrizione = Iscrizione.class.cast(entity);
             String sql = query.replace("#IDFASCIA#", iscrizione.getIdFascia()).
-                    replace("#IDELEM#", iscrizione.getIdElemento()).
+                    replace("#IDELEME#", iscrizione.getIdElemento()).
                     replace("#STATO#", iscrizione.getStato());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);

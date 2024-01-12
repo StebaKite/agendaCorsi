@@ -73,14 +73,12 @@ public class MainActivity extends FunctionBase {
                     if (!descrizione_fascia_save.equals("")) {
                         // non è la prima row quindi aggiungo in tabella la row finita
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                         tabSettimana.addView(tableRow);
                         cellNum = 0;
                     }
                     else {
                         // è la prima row quindi preparo solo la nuova riga
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                         cellNum = 0;
                     }
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
@@ -91,7 +89,6 @@ public class MainActivity extends FunctionBase {
             else {
                 // cambia il corso quindi devo separare su un'altra tabella
                 if (!descrizione_corso_save.equals("")) {
-                    //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                     tabSettimana.addView(tableRow);
                     cellNum = 1;
                 }
@@ -219,7 +216,7 @@ public class MainActivity extends FunctionBase {
     }
 
     public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
-        fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
+        //fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
         totaleGiorno.setTextSize(16);
         totaleGiorno.setPadding(10,20,10,20);
