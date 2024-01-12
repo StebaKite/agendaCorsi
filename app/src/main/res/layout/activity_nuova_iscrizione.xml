@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AgendaCorsi">
+
+    <TextView
+        android:id="@+id/lScheda2"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Nuova Iscrizione"
+        android:textColor="#F69910"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lDescrizioneCorso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- DESCRIZIONE CORSO-->
+
+    <TextView
+        android:id="@+id/lDescrizioneCorso"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center|end"
+        android:text="Corso"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.18" />
+    <EditText
+        android:id="@+id/editDescrizione"
+        android:layout_width="316dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/lDescrizioneCorso"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <!-- GIORNO SETTIMANA-->
+
+    <TextView
+        android:id="@+id/lGiornoSettimana"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center|end"
+        android:text="Giorno"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lDescrizioneCorso"
+        app:layout_constraintWidth_percent="0.18" />
+    <EditText
+        android:id="@+id/editGiornoSettimana"
+        android:layout_width="316dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
+        app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <!-- FASCIA -->
+
+    <TextView
+        android:id="@+id/lFascia"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center|end"
+        android:text="Fascia"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lGiornoSettimana"
+        app:layout_constraintWidth_percent="0.18" />
+    <EditText
+        android:id="@+id/editFascia"
+        android:layout_width="316dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/lFascia"
+        app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Contatti iscrivibili"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFascia" />
+
+    <!-- SCROLL AREA PER CONTATTI ISCRIVIBILI -->
+
+    <ScrollView
+        android:id="@+id/scrollViewTabellaContatti"
+        android:layout_width="409dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TableLayout
+            android:id="@+id/tabellaContattiIscrivibili"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:stretchColumns="0,1">
+        </TableLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bExit"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="Esci"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

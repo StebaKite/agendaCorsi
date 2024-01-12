@@ -69,20 +69,20 @@ public class MainActivity extends FunctionBase {
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana());
                 }
                 else {
+                    cellNum++;
                     if (!descrizione_fascia_save.equals("")) {
                         // non è la prima row quindi aggiungo in tabella la row finita
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
+                        tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                         tabSettimana.addView(tableRow);
                         cellNum = 0;
                     }
                     else {
                         // è la prima row quindi preparo solo la nuova riga
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        //tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
+                        tableRow = fillRow(7, cellNum, larghezzaColonnaTotale, tableRow);
                         cellNum = 0;
                     }
-                    cellNum++;
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana());

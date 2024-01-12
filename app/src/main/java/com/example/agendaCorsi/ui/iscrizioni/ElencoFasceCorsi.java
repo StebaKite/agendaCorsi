@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.iscrizioni;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
@@ -24,7 +26,7 @@ import java.util.Map;
 public class ElencoFasceCorsi extends FunctionBase {
 
     TableLayout tabSettimana;
-    TextView corso, giorno, fascia, totaleFascia, idFascia;
+    TextView corso, giorno, fascia, totaleFascia, idFascia, idCorso, sport;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +41,15 @@ public class ElencoFasceCorsi extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.3);
-        int larghezzaColonnaGiorno = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonnaGiorno = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
         propertyReader = new PropertyReader(this);
         properties = propertyReader.getMyProperties("config.properties");
 
-        List<Object> fasceCorsiList = new FasciaDAO(this).getAllFasceCorsi(properties.getProperty(QUERY_TOTALS_CORSI));
+        List<Object> fasceCorsiList = new FasciaDAO(this).getAllFasceCorsi(properties.getProperty(QUERY_GET_FASCE_CORSI));
 
         String descrizione_corso_save = "";
 
@@ -102,12 +104,68 @@ public class ElencoFasceCorsi extends FunctionBase {
             idFascia.setText(fasciaCorso.getIdFascia());
             tableRow.addView(idFascia);
 
-            Map<String, String> intentMap = new ArrayMap<>();
-            intentMap.put("descrizioneCorso", fasciaCorso.getDescrizioneCorso());
-            intentMap.put("descrizioneFascia", fasciaCorso.getDescrizioneFascia());
-            intentMap.put("giornoSettimana", fasciaCorso.getGiornoSettimana());
+            sport = new TextView(this);
+            sport.setVisibility(View.INVISIBLE);
+            sport.setText(fasciaCorso.getSSport());
+            tableRow.addView(sport);
 
-            listenerTableRow(ElencoFasceCorsi.this, ElencoIscrizioni.class, "idFascia", intentMap, 4);
+            idCorso = new TextView(this);
+            idCorso.setVisibility(View.INVISIBLE);
+            idCorso.setText(fasciaCorso.getIdCorso());
+            tableRow.addView(idCorso);
+
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TableRow tableRow = (TableRow) view;
+                    TextView textView = (TextView) tableRow.getChildAt(4);
+                    String idSelezionato = textView.getText().toString();
+
+                    textView = (TextView) tableRow.getChildAt(3);
+                    int totaleFascia = Integer.parseInt(textView.getText().toString());
+
+                    textView = (TextView) tableRow.getChildAt(0);
+                    String descrizioneCorso = textView.getText().toString();
+
+                    textView = (TextView) tableRow.getChildAt(1);
+                    String giornoSettimana = textView.getText().toString();
+
+                    textView = (TextView) tableRow.getChildAt(2);
+                    String descrizioneFascia = textView.getText().toString();
+
+                    textView = (TextView) tableRow.getChildAt(4);
+                    String sport = textView.getText().toString();
+
+                    textView = (TextView) tableRow.getChildAt(5);
+                    String idCorso = textView.getText().toString();
+
+                    /**
+                     * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
+                     */
+                    if (totaleFascia == 0) {
+                        Intent intent = new Intent(AgendaCorsiApp.getContext(), NuovaIscrizione.class);
+                        intent.putExtra("idFascia", idSelezionato);
+                        intent.putExtra("descrizioneCorso", descrizioneCorso);
+                        intent.putExtra("giornoSettimana", giornoSettimana);
+                        intent.putExtra("descrizioneFascia", descrizioneFascia);
+                        intent.putExtra("sport", sport);
+                        intent.putExtra("idCorso", idCorso);
+
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(AgendaCorsiApp.getContext(), ElencoIscrizioni.class);
+                        intent.putExtra("idFascia", idSelezionato);
+                        intent.putExtra("descrizioneCorso", descrizioneCorso);
+                        intent.putExtra("giornoSettimana", giornoSettimana);
+                        intent.putExtra("descrizioneFascia", descrizioneFascia);
+                        intent.putExtra("sport", sport);
+                        intent.putExtra("idCorso", idCorso);
+
+                        startActivity(intent);
+                    }
+                }
+            });
             tabSettimana.addView(tableRow);
         }
     }

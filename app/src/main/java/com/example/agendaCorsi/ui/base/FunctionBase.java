@@ -74,6 +74,8 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_GET_FASCIA = "query_get_fascia";
     public static String QUERY_MOD_FASCIA = "query_mod_fascia";
     public static String QUERY_DEL_FASCIA = "query_del_fascia";
+    public static String QUERY_GET_CONTATTI_ISCRIVIBILI = "query_get_contatti_iscrivibili";
+    public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
     /*
      * I bottoni
      */

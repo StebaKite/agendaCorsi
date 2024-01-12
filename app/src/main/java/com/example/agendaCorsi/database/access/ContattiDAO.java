@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.table.ContattoIscrivibile;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 
 import java.util.ArrayList;
@@ -21,6 +22,27 @@ public class ContattiDAO implements Database_itf {
 
     public ContattiDAO(Context context) {
         databaseHelper = new DatabaseHelper(context);
+    }
+
+    public List<Object> getIscrivibili(String idCorso, String idFascia, String sport, String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+
+        Log.i(DatabaseHelper.DATABASE_NAME, query);
+        Cursor cursor = database.rawQuery(query, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String nomeContatto = cursor.getString(ContattoIscrivibile.NOME_CONTATTO);
+            String idElemento = cursor.getString(ContattoIscrivibile.ID_ELEMENTO);
+
+            ContattoIscrivibile contattoIscrivibile = new ContattoIscrivibile(nomeContatto, idElemento, idFascia, idCorso, sport);
+            list.add(contattoIscrivibile);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
     }
 
     public List<Object> getAll(String query) {
