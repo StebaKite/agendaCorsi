@@ -28,7 +28,7 @@ public class ContattiDAO implements Database_itf {
     public List<Object> getIscrivibili(String idCorso, String idFascia, String sport, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
-        String sql = query.replace("#SPORT#", sport);
+        String sql = query.replace("#SPORT#", sport).replace("#IDCORSO#", idCorso);
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);

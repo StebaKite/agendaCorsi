@@ -70,10 +70,7 @@ public class NuovaIscrizione extends FunctionBase {
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> contattiIscrivibiliList = new ContattiDAO(this).getIscrivibili(idCorso, idFascia, sport, properties.getProperty(QUERY_GET_CONTATTI_ISCRIVIBILI));
+        List<Object> contattiIscrivibiliList = new ContattiDAO(this).getIscrivibili(idCorso, idFascia, sport, getQuery(QUERY_GET_CONTATTI_ISCRIVIBILI));
 
         for (Object object : contattiIscrivibiliList) {
             ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;

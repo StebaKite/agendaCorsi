@@ -51,10 +51,7 @@ public class MainActivity extends FunctionBase {
         int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> totaliCorsoList = new DashboardDAO(this).getTotals(getQuery(properties.getProperty(QUERY_TOTALS_CORSI)));
+        List<Object> totaliCorsoList = new DashboardDAO(this).getTotals(getQuery(QUERY_TOTALS_CORSI));
 
         String descrizione_corso_save = "";
         String descrizione_fascia_save = "";
@@ -129,10 +126,7 @@ public class MainActivity extends FunctionBase {
         fascia.setText("Fascia");
         tableRow.addView(fascia);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> giorniSettimanaList = new GiornoSettimanaDAO(this).getAll(getQuery(properties.getProperty(QUERY_GETALL_GIORNI_SETTIMANA)));
+        List<Object> giorniSettimanaList = new GiornoSettimanaDAO(this).getAll(getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
 
         for (Object entity : giorniSettimanaList) {
             GiornoSettimana giornoSettimana = (GiornoSettimana) entity;

@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -73,13 +74,13 @@ public class ElencoIscrizioni extends FunctionBase {
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> contattiIscrittiList = new ContattiDAO(this).getIscritti(idFascia, getQuery(properties.getProperty(QUERY_GET_CONTATTI_ISCRITTI)));
+        List<Object> contattiIscrittiList = new ContattiDAO(this).getIscritti(idFascia, getQuery(QUERY_GET_CONTATTI_ISCRITTI));
 
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
+
+            tableRow = new TableRow(this);
+            tableRow.setClickable(true);
 
             nome_contatto = new TextView(this);
             nome_contatto.setTextSize(16);

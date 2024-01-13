@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -271,15 +273,14 @@ public class FunctionBase extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(properties.getProperty("QUERY_APPLICATION_PATH") + "/" + queryName + ".sql"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(properties.getProperty("QUERY_APPLICATION_PATH") + "/" + queryName + ".sql")));
             String line = br.readLine();
             while (line != null) {
 
                 // Salto le linee vuote e le linee di commento
-                if (line.trim().startsWith("--") || line.trim().startsWith("  ")) {continue;}
-                else {
-                    sb.append(line.trim()).append(" ");
-                }
+                if (line.trim().startsWith("--") || line.trim().startsWith("  ")) {}
+                else {sb.append(line.trim()).append(" ");}
+
                 line = br.readLine();
             }
             br.close();

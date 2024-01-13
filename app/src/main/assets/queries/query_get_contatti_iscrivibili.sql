@@ -24,7 +24,7 @@ select
 
         ) as t1
 
-    where t1.id_elemento not exists (
+    where t1.id_elemento not in (
 
         select iscrizione.id_elemento
            from corso
