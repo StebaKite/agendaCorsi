@@ -15,7 +15,7 @@ import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -45,10 +45,7 @@ public class ElencoCorsi extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> corsiList = new CorsoDAO(this).getAll(properties.getProperty(QUERY_GETALL_CORSI));
+        List<Object> corsiList = CorsoDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CORSI));
 
         for (Object entity : corsiList) {
             Corso corso = Corso.class.cast(entity);

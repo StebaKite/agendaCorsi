@@ -27,10 +27,8 @@ import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.List;
@@ -156,10 +154,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
+        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -178,10 +173,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
+        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -200,10 +192,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        if (new CorsoDAO(this).updateStato(corso, properties.getProperty(QUERY_MOD_STATO_CORSO))) {
+        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
             esci.callOnClick();
         }
         else {
@@ -232,10 +221,7 @@ public class ModificaCorso extends FunctionBase {
             displayAlertDialog(modificaCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            propertyReader = new PropertyReader(this);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new CorsoDAO(this).update(corso, properties.getProperty(QUERY_MOD_CORSO))) {
+            if (CorsoDAO.getInstance().update(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_CORSO))) {
                 esci.callOnClick();
             }
             else {
@@ -245,13 +231,11 @@ public class ModificaCorso extends FunctionBase {
     }
 
     private void loadCorso() {
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
         /**
          * Carico i dati del corso selezionato
          */
         Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
-        new CorsoDAO(modificaCorso).select(corso, properties.getProperty(QUERY_GET_CORSO));
+        CorsoDAO.getInstance().select(corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
 
         if (corso.getIdCorso().equals("")) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
@@ -299,10 +283,7 @@ public class ModificaCorso extends FunctionBase {
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
 
-        propertyReader = new PropertyReader(modificaCorso);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> fasceCorsoList = new FasciaDAO(modificaCorso).getFasceCorso(idCorso, properties.getProperty(QUERY_GET_FASCE_CORSO));
+        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSI));
 
         for (Object object : fasceCorsoList) {
             Fascia fascia = Fascia.class.cast(object);
@@ -361,9 +342,6 @@ public class ModificaCorso extends FunctionBase {
         messaggio.setMessage("Stai eliminando il corso : " + String.valueOf(descrizioneCorso) +
                 "\nCancellerò anche tutti i dati legati a questo corso" + "\n\nConfermi?");
         messaggio.setCancelable(false);
-
-        propertyReader = new PropertyReader(modificaCorso);
-        properties = propertyReader.getMyProperties("config.properties");
         /**
          * implemento i listener sui bottoni della conferma eliminazione
          */
@@ -371,7 +349,7 @@ public class ModificaCorso extends FunctionBase {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
-                if (new CorsoDAO(modificaCorso).delete(corso, properties.getProperty(QUERY_DEL_CORSO))) {
+                if (CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
                     esci.callOnClick();
                 }
                 else {

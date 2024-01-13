@@ -75,7 +75,6 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_GET_ELEMENTO = "query_get_elemento";
     public static String QUERY_DEL_ELEMENTO = "query_del_elements";
     public static String QUERY_ISNEW_ELEMENTO = "query_isnew_elemento";
-    public static String QUERY_GET_FASCE_CORSO = "query_get_fasce_corso";
     public static String QUERY_INS_FASCIA = "query_ins_fascia";
     public static String QUERY_ISNEW_FASCIA = "query_isnew_fascia";
     public static String QUERY_GET_FASCIA = "query_get_fascia";
@@ -265,30 +264,6 @@ public class FunctionBase extends AppCompatActivity {
     public static String leftPad(String input, int length, String fill){
         String pad = String.format("%"+length+"s", "").replace(" ", fill) + input.trim();
         return pad.substring(pad.length() - length, pad.length());
-    }
-
-    public String getQuery(String queryName) {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(properties.getProperty("QUERY_APPLICATION_PATH") + "/" + queryName + ".sql")));
-            String line = br.readLine();
-            while (line != null) {
-
-                // Salto le linee vuote e le linee di commento
-                if (line.trim().startsWith("--") || line.trim().startsWith("  ")) {}
-                else {sb.append(line.trim()).append(" ");}
-
-                line = br.readLine();
-            }
-            br.close();
-        }
-        catch (IOException e) {
-            displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Get query fallita, contatta il supporto tecnico");
-        }
-        return sb.toString();
     }
 
     public void makeAnnulla() {}

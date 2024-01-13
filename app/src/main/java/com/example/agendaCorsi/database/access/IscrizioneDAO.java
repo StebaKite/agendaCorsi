@@ -5,6 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
@@ -16,10 +17,17 @@ import java.util.Objects;
 
 public class IscrizioneDAO implements Database_itf {
 
-    private final DatabaseHelper databaseHelper;
+    private static IscrizioneDAO INSTANCE = null;
+    private static DatabaseHelper databaseHelper;
 
-    public IscrizioneDAO(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+    private IscrizioneDAO() {}
+
+    public static IscrizioneDAO getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new IscrizioneDAO();
+            databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
+        }
+        return INSTANCE;
     }
 
     @Override

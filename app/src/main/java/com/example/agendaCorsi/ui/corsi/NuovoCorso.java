@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
@@ -114,10 +114,7 @@ public class NuovoCorso extends FunctionBase {
             displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            propertyReader = new PropertyReader(this);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new CorsoDAO(nuovoCorso).insert(corso, properties.getProperty(QUERY_INS_CORSO))) {
+            if (CorsoDAO.getInstance().insert(corso, QueryComposer.getInstance().getQuery(QUERY_INS_CORSO))) {
                 esci.callOnClick();
             }
             else {

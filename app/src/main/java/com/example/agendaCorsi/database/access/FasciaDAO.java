@@ -1,14 +1,14 @@
 package com.example.agendaCorsi.database.access;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Corso;
+
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.FasciaCorso;
@@ -19,10 +19,17 @@ import java.util.Objects;
 
 public class FasciaDAO implements Database_itf {
 
-    private final DatabaseHelper databaseHelper;
+    private static FasciaDAO INSTANCE = null;
+    private static DatabaseHelper databaseHelper;
 
-    public FasciaDAO(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+    private FasciaDAO() {}
+
+    public static FasciaDAO getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new FasciaDAO();
+            databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
+        }
+        return INSTANCE;
     }
 
     public List<Object> getFasceCorso(String idCorsoToRead, String query) {

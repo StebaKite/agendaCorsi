@@ -1,11 +1,11 @@
 package com.example.agendaCorsi.database.access;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
@@ -16,11 +16,19 @@ import java.util.Objects;
 
 public class ElementoPortfolioDAO implements Database_itf {
 
-    private final DatabaseHelper databaseHelper;
+    private static ElementoPortfolioDAO INSTANCE = null;
+    private static DatabaseHelper databaseHelper;
 
-    public ElementoPortfolioDAO(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+    private ElementoPortfolioDAO() {}
+
+    public static ElementoPortfolioDAO getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ElementoPortfolioDAO();
+            databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
+        }
+        return INSTANCE;
     }
+
 
     public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();

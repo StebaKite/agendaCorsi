@@ -17,11 +17,9 @@ import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
-
 import java.util.List;
-import java.util.Map;
 
 public class ElencoFasceCorsi extends FunctionBase {
 
@@ -47,10 +45,7 @@ public class ElencoFasceCorsi extends FunctionBase {
         int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<Object> fasceCorsiList = new FasciaDAO(this).getAllFasceCorsi(properties.getProperty(QUERY_GET_FASCE_CORSI));
+        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsi(QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSI));
 
         String descrizione_corso_save = "";
 

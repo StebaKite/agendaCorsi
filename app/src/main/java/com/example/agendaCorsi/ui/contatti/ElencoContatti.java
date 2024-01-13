@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
@@ -47,7 +48,7 @@ public class ElencoContatti extends FunctionBase {
         propertyReader = new PropertyReader(this);
         properties = propertyReader.getMyProperties("config.properties");
 
-        List<Object> contattiList = new ContattiDAO(this).getAll(properties.getProperty(QUERY_GETALL_CONTATTI));
+        List<Object> contattiList = ContattiDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CONTATTI));
 
         for (Object entity : contattiList) {
             Contatto contatto = Contatto.class.cast(entity);

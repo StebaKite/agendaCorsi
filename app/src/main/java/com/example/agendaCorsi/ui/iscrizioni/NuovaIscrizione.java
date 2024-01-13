@@ -13,21 +13,15 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
-import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.ContattiDAO;
-import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
-import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ContattoIscrivibile;
 import com.example.agendaCorsi.database.table.Iscrizione;
-import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
-import com.example.agendaCorsi.ui.corsi.ModificaCorso;
+import com.example.agendaCorsi.ui.base.FunctionBase;;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class NuovaIscrizione extends FunctionBase {
 
@@ -70,7 +64,7 @@ public class NuovaIscrizione extends FunctionBase {
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
-        List<Object> contattiIscrivibiliList = new ContattiDAO(this).getIscrivibili(idCorso, idFascia, sport, getQuery(QUERY_GET_CONTATTI_ISCRIVIBILI));
+        List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRIVIBILI));
 
         for (Object object : contattiIscrivibiliList) {
             ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;
@@ -101,7 +95,7 @@ public class NuovaIscrizione extends FunctionBase {
                     String idSelezionato = textView.getText().toString();
 
                     Iscrizione iscrizione = new Iscrizione(null, idFascia, idSelezionato, "Attiva", null, null);
-                    if (new IscrizioneDAO(AgendaCorsiApp.getContext()).insert(iscrizione, properties.getProperty(QUERY_INS_ISCRIZIONE))) {
+                    if (IscrizioneDAO.getInstance().insert(iscrizione, QueryComposer.getInstance().getQuery(QUERY_INS_ISCRIZIONE))) {
                         esci.callOnClick();
                     }
                     else {

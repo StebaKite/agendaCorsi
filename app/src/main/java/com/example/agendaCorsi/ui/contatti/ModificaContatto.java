@@ -22,7 +22,7 @@ import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -66,10 +66,7 @@ public class ModificaContatto extends FunctionBase {
         Contatto contatto = new Contatto(null, null, null, null, null);
         contatto.setId(idContatto);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        new ContattiDAO(this).select(contatto, properties.getProperty(QUERY_GET_CONTATTO));
+        ContattiDAO.getInstance().select(contatto, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTO));
 
         if (contatto.getId().equals("")) {
             displayAlertDialog(modificaContatto, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
@@ -110,10 +107,7 @@ public class ModificaContatto extends FunctionBase {
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
         int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
-
-        List<ElementoPortfolio> elementiPortfoList = new ElementoPortfolioDAO(this).getContattoElements(idContatto, properties.getProperty(QUERY_GET_ELEMENTS));
+        List<ElementoPortfolio> elementiPortfoList = ElementoPortfolioDAO.getInstance().getContattoElements(idContatto, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTS));
 
         for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
             tableRow = new TableRow(this);
@@ -167,10 +161,7 @@ public class ModificaContatto extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Contatto contatto = new Contatto(String.valueOf(idContatto), null, null, null, null);
 
-                propertyReader = new PropertyReader(modificaContatto);
-                properties = propertyReader.getMyProperties("config.properties");
-
-                if (new ContattiDAO(modificaContatto).delete(contatto, properties.getProperty(QUERY_DEL_CONTATTO))) {
+                if (ContattiDAO.getInstance().delete(contatto, QueryComposer.getInstance().getQuery(QUERY_DEL_CONTATTO))) {
                     esci.callOnClick();
                 }
                 else {
@@ -205,10 +196,7 @@ public class ModificaContatto extends FunctionBase {
             displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            propertyReader = new PropertyReader(this);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new ContattiDAO(this).update(contatto, properties.getProperty(QUERY_MOD_CONTATTO))) {
+            if (ContattiDAO.getInstance().update(contatto, QueryComposer.getInstance().getQuery(QUERY_MOD_CONTATTO))) {
                 esci.callOnClick();
             }
             else {

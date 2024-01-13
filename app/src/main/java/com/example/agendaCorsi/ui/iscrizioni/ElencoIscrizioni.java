@@ -18,6 +18,7 @@ import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class ElencoIscrizioni extends FunctionBase {
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
-        List<Object> contattiIscrittiList = new ContattiDAO(this).getIscritti(idFascia, getQuery(QUERY_GET_CONTATTI_ISCRITTI));
+        List<Object> contattiIscrittiList = ContattiDAO.getInstance().getIscritti(idFascia, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRITTI));
 
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;

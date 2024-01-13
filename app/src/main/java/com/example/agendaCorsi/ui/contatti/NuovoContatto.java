@@ -8,6 +8,7 @@ import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 public class NuovoContatto extends FunctionBase {
@@ -50,10 +51,7 @@ public class NuovoContatto extends FunctionBase {
             displayAlertDialog(nuovoContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            propertyReader = new PropertyReader(this);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new ContattiDAO(nuovoContatto).insert(contatto, properties.getProperty(QUERY_INS_CONTATTO))) {
+            if (ContattiDAO.getInstance().insert(contatto, QueryComposer.getInstance().getQuery(QUERY_INS_CONTATTO))) {
                 esci.callOnClick();
             }
             else {

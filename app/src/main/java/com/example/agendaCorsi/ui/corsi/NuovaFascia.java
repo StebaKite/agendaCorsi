@@ -13,7 +13,7 @@ import android.widget.TimePicker;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
@@ -115,11 +115,8 @@ public class NuovaFascia extends FunctionBase {
         }
         else {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
-                propertyReader = new PropertyReader(nuovaFascia);
-                properties = propertyReader.getMyProperties("config.properties");
-
-                if (new FasciaDAO(nuovaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
-                    if (new FasciaDAO(nuovaFascia).insert(fascia, properties.getProperty(QUERY_INS_FASCIA))) {
+                if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
+                    if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_INS_FASCIA))) {
                         esci.callOnClick();
                     }
                     else {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
@@ -75,14 +75,8 @@ public class NuovoElementoPortfolio extends FunctionBase {
         else {
             elementoPortfolio.setSport(sport);
 
-            propertyReader = new PropertyReader(this);
-            properties = propertyReader.getMyProperties("config.properties");
-
-            if (new ElementoPortfolioDAO(nuovoElementoPortfolio).isNew(elementoPortfolio, properties.getProperty(QUERY_ISNEW_ELEMENTO))) {
-                propertyReader = new PropertyReader(this);
-                properties = propertyReader.getMyProperties("config.properties");
-
-                if (new ElementoPortfolioDAO(nuovoElementoPortfolio).insert(elementoPortfolio, properties.getProperty(QUERY_INS_ELEMENTS))) {
+            if (ElementoPortfolioDAO.getInstance().isNew(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_ISNEW_ELEMENTO))) {
+                if (ElementoPortfolioDAO.getInstance().insert(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_INS_ELEMENTS))) {
                     esci.callOnClick();
                 }
                 else {

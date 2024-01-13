@@ -20,7 +20,7 @@ import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendacorsi.R;
@@ -51,7 +51,7 @@ public class MainActivity extends FunctionBase {
         int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.2);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
-        List<Object> totaliCorsoList = new DashboardDAO(this).getTotals(getQuery(QUERY_TOTALS_CORSI));
+        List<Object> totaliCorsoList = DashboardDAO.getInstance().getTotals(QueryComposer.getInstance().getQuery(QUERY_TOTALS_CORSI));
 
         String descrizione_corso_save = "";
         String descrizione_fascia_save = "";
@@ -126,7 +126,7 @@ public class MainActivity extends FunctionBase {
         fascia.setText("Fascia");
         tableRow.addView(fascia);
 
-        List<Object> giorniSettimanaList = new GiornoSettimanaDAO(this).getAll(getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
+        List<Object> giorniSettimanaList = GiornoSettimanaDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
 
         for (Object entity : giorniSettimanaList) {
             GiornoSettimana giornoSettimana = (GiornoSettimana) entity;

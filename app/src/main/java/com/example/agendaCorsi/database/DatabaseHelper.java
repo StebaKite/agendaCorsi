@@ -14,6 +14,7 @@ import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.Properties;
 
@@ -105,37 +106,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String getContattoTableStructure() {
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_CONTATTO).replace("#TABLENAME#", Contatto.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_CONTATTO);
     }
 
     private String getElementoPortfolioStructure() {;
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_ELEMENTO_PORTFOLIO).replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_ELEMENTO_PORTFOLIO);
     }
 
     private String getCorsoTableStructure() {
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_CORSO).replace("#TABLENAME#", Corso.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_CORSO);
     }
 
     private String getFasciaTableStructure() {
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_FASCIA).replace("#TABLENAME#", Fascia.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_FASCIA);
     }
 
     private String getIscrizioneTableStructure() {
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_ISCRIZIONE).replace("#TABLENAME#", Iscrizione.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_ISCRIZIONE);
     }
 
     private String getGiornoSettimanaTableStructure() {
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
-        return properties.getProperty(CREATE_TABLE_GIORNO_SETTIMANA).replace("#TABLENAME#", Iscrizione.TABLE_NAME);
+        return QueryComposer.getInstance().getQuery(CREATE_TABLE_GIORNO_SETTIMANA);
     }
 
     /**
@@ -143,9 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     private void initialLoadGiornoSettimana(SQLiteDatabase sqLiteDatabase) {
         Log.i(DatabaseHelper.DATABASE_NAME, "Table giorno_settimana initial load...");
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        String query = properties.getProperty(QUERY_INS_GIORNO_SETTIMANA);
+        String query = QueryComposer.getInstance().getQuery(QUERY_INS_GIORNO_SETTIMANA);
 
         sqLiteDatabase.execSQL(query.replace("#NUMGIO#","1").replace("#NGIOBV#","Lu").replace("#NGIOES#", "Lunedì"));
         sqLiteDatabase.execSQL(query.replace("#NUMGIO#","2").replace("#NGIOBV#","Ma").replace("#NGIOES#", "Martedì"));

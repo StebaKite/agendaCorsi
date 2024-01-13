@@ -17,12 +17,10 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
-import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
@@ -116,13 +114,11 @@ public class ModificaFascia extends FunctionBase {
     }
 
     private void loadFascia() {
-        propertyReader = new PropertyReader(this);
-        properties = propertyReader.getMyProperties("config.properties");
         /*
          * Carico i dati della fascia selezionata
          */
         Fascia fascia = new Fascia(String.valueOf(idFascia), String.valueOf(idCorso),null,null, null, null, null,null,null);
-        new FasciaDAO(modificaFascia).select(fascia, properties.getProperty(QUERY_GET_FASCIA));
+        FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
 
         if (fascia.getIdFascia().equals("")) {
             displayAlertDialog(modificaFascia, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
@@ -169,11 +165,8 @@ public class ModificaFascia extends FunctionBase {
         }
         else {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
-                propertyReader = new PropertyReader(modificaFascia);
-                properties = propertyReader.getMyProperties("config.properties");
-
-                if (new FasciaDAO(modificaFascia).isNew(fascia, properties.getProperty(QUERY_ISNEW_FASCIA))) {
-                    if (new FasciaDAO(modificaFascia).insert(fascia, properties.getProperty(QUERY_MOD_FASCIA))) {
+                if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
+                    if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
                         esci.callOnClick();
                     }
                     else {
@@ -197,8 +190,6 @@ public class ModificaFascia extends FunctionBase {
                 "\nCancellerò anche tutti i dati legati a questa fascia oraria." + "\n\nConfermi?");
         messaggio.setCancelable(false);
 
-        propertyReader = new PropertyReader(modificaFascia);
-        properties = propertyReader.getMyProperties("config.properties");
         /**
          * implemento i listener sui bottoni della conferma eliminazione
          */
@@ -206,7 +197,7 @@ public class ModificaFascia extends FunctionBase {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Fascia fascia = new Fascia(String.valueOf(idFascia), null, null, null, null, null, null, null, null);
-                if (new FasciaDAO(modificaFascia).delete(fascia, properties.getProperty(QUERY_DEL_FASCIA))) {
+                if (FasciaDAO.getInstance().delete(fascia, QueryComposer.getInstance().getQuery(QUERY_DEL_FASCIA))) {
                     esci.callOnClick();
                 }
                 else {

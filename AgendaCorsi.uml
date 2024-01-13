@@ -9168,7 +9168,7 @@ NO, la funzione deve impedire la creazione del corso se gi&#224; presente
 <XPD:REF name="Model">gicgcLLdbU+X57OKwto8qwAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9q8R/THx1ke6VbmVZWya6wAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="f8nxL/fO1k2zr6G4xhTs8AAA">
-<XPD:ATTR name="Text" type="string">Elenca le fasce di tutti i corsi in stato &quot;Attivo&quot;</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Elenca le fasce di tutti i corsi in stato diverso da &quot;Chiuso&quot; e totale minore capienza</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="H6KUFnOxckqssvi+dcQbKAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -10631,7 +10631,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[4]" type="UMLActionStateView" guid="GY7jVlW45kqi2yPDH9RNiwAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$006CB6FF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">276</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">232</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">411</XPD:ATTR>
@@ -10703,7 +10703,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[7]" type="UMLActionStateView" guid="0oD1+mxoNkyNowynJvfUiQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">436</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">412</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">94</XPD:ATTR>
@@ -10821,7 +10821,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[12]" type="UMLActionStateView" guid="sGsJfoE1m0uDis3bevkbuwAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$006CB6FF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">708</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">412</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">123</XPD:ATTR>
