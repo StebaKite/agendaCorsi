@@ -11,7 +11,7 @@
         android:layout_width="400dp"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Nuova Iscrizione"
+        android:text="Elenco Iscrizioni"
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -125,13 +125,13 @@
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Contatti iscrivibili"
+        android:text="Contatti iscritti"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editFascia" />
 
-    <!-- SCROLL AREA PER CONTATTI ISCRIVIBILI -->
+    <!-- SCROLL AREA PER CONTATTI ISCRITTI -->
 
     <ScrollView
         android:id="@+id/scrollViewTabellaContatti"
@@ -144,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <TableLayout
-            android:id="@+id/tabellaContattiIscrivibili"
+            android:id="@+id/tabellaContattiIscritti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
@@ -157,12 +157,22 @@
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="400dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Esci"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bNuovaIscrizione"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Nuova iscrizione"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bExit" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

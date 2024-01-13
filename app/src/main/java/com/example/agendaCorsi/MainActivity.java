@@ -16,7 +16,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.agendaCorsi.database.access.DashboardDAO;
+import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.table.Dashboard;
+import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
@@ -52,7 +54,7 @@ public class MainActivity extends FunctionBase {
         propertyReader = new PropertyReader(this);
         properties = propertyReader.getMyProperties("config.properties");
 
-        List<Object> totaliCorsoList = new DashboardDAO(this).getTotals(properties.getProperty(QUERY_TOTALS_CORSI));
+        List<Object> totaliCorsoList = new DashboardDAO(this).getTotals(getQuery(properties.getProperty(QUERY_TOTALS_CORSI)));
 
         String descrizione_corso_save = "";
         String descrizione_fascia_save = "";
@@ -127,76 +129,24 @@ public class MainActivity extends FunctionBase {
         fascia.setText("Fascia");
         tableRow.addView(fascia);
 
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Lu");
-        tableRow.addView(totaleGiorno);
+        propertyReader = new PropertyReader(this);
+        properties = propertyReader.getMyProperties("config.properties");
 
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Ma");
-        tableRow.addView(totaleGiorno);
+        List<Object> giorniSettimanaList = new GiornoSettimanaDAO(this).getAll(getQuery(properties.getProperty(QUERY_GETALL_GIORNI_SETTIMANA)));
 
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Me");
-        tableRow.addView(totaleGiorno);
+        for (Object entity : giorniSettimanaList) {
+            GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
 
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Gi");
-        tableRow.addView(totaleGiorno);
-
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Ve");
-        tableRow.addView(totaleGiorno);
-
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Sa");
-        tableRow.addView(totaleGiorno);
-
-        totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setWidth(larghezzaColonnaTotale);
-        totaleGiorno.setText("Do");
-        tableRow.addView(totaleGiorno);
-
+            totaleGiorno = new TextView(this);
+            totaleGiorno.setTextSize(16);
+            totaleGiorno.setPadding(10,20,10,20);
+            totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
+            totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            totaleGiorno.setGravity(Gravity.CENTER);
+            totaleGiorno.setWidth(larghezzaColonnaTotale);
+            totaleGiorno.setText(giornoSettimana.getNomeGiornoAbbreviato());
+            tableRow.addView(totaleGiorno);
+        }
         tabSettimana.addView(tableRow);
     }
 

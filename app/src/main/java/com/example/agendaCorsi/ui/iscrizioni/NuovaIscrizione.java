@@ -68,9 +68,7 @@ public class NuovaIscrizione extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
         propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
         properties = propertyReader.getMyProperties("config.properties");
@@ -78,7 +76,7 @@ public class NuovaIscrizione extends FunctionBase {
         List<Object> contattiIscrivibiliList = new ContattiDAO(this).getIscrivibili(idCorso, idFascia, sport, properties.getProperty(QUERY_GET_CONTATTI_ISCRIVIBILI));
 
         for (Object object : contattiIscrivibiliList) {
-            ContattoIscrivibile contattoIscrivibile = ContattoIscrivibile.class.cast(object);
+            ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
@@ -117,6 +115,4 @@ public class NuovaIscrizione extends FunctionBase {
             _tabellaContattiIscrivibili.addView(tableRow);
         }
     }
-
-
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendaCorsi.ui.contatti.ModificaContatto;
@@ -22,6 +23,10 @@ import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.corsi.ModificaCorso;
 import com.example.agendacorsi.R;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,6 +81,8 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_DEL_FASCIA = "query_del_fascia";
     public static String QUERY_GET_CONTATTI_ISCRIVIBILI = "query_get_contatti_iscrivibili";
     public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
+    public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
+    public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";
     /*
      * I bottoni
      */
@@ -256,6 +263,31 @@ public class FunctionBase extends AppCompatActivity {
     public static String leftPad(String input, int length, String fill){
         String pad = String.format("%"+length+"s", "").replace(" ", fill) + input.trim();
         return pad.substring(pad.length() - length, pad.length());
+    }
+
+    public String getQuery(String queryName) {
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
+        properties = propertyReader.getMyProperties("config.properties");
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(properties.getProperty("QUERY_APPLICATION_PATH") + "/" + queryName + ".sql"));
+            String line = br.readLine();
+            while (line != null) {
+
+                // Salto le linee vuote e le linee di commento
+                if (line.trim().startsWith("--") || line.trim().startsWith("  ")) {continue;}
+                else {
+                    sb.append(line.trim()).append(" ");
+                }
+                line = br.readLine();
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Get query fallita, contatta il supporto tecnico");
+        }
+        return sb.toString();
     }
 
     public void makeAnnulla() {}
