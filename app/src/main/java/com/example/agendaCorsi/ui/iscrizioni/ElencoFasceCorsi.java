@@ -50,7 +50,7 @@ public class ElencoFasceCorsi extends FunctionBase {
         String descrizione_corso_save = "";
 
         for (Object entity : fasceCorsiList) {
-            FasciaCorso fasciaCorso = FasciaCorso.class.cast(entity);
+            FasciaCorso fasciaCorso = (FasciaCorso) entity;
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);

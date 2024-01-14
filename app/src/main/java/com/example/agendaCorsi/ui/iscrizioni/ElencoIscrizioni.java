@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class ElencoIscrizioni extends FunctionBase {
 
-    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport;
+    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
     TextView nome_contatto, id_iscrizione;
     TableLayout _tabellaContattiIscritti;
@@ -45,6 +45,7 @@ public class ElencoIscrizioni extends FunctionBase {
         giornoSettimana = intent.getStringExtra("giornoSettimana");
         sport = intent.getStringExtra("sport");
         idCorso = intent.getStringExtra("idCorso");
+        statoCorso = intent.getStringExtra("statoCorso");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -64,6 +65,7 @@ public class ElencoIscrizioni extends FunctionBase {
         intentMap.put("sport", sport);
         intentMap.put("idCorso", idCorso);
         intentMap.put("idFascia", idFascia);
+        intentMap.put("statoCorso", statoCorso);
 
         listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsi.class, null);
         listenerInserisci(AgendaCorsiApp.getContext(), NuovaIscrizione.class, intentMap);

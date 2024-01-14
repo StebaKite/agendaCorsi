@@ -18,6 +18,7 @@ public class ContattoIscrivibile implements BaseColumns {
     public ContattoIscrivibile(String nomeContatto, String idElemento, String emailContatto, String idFascia, String idCorso, String sport) {
         this.nomeContatto = nomeContatto;
         this.idElemento = idElemento;
+        this.emailContatto = emailContatto;
     }
 
     public String getNomeContatto() {
