@@ -11,9 +11,10 @@
 
 select
         t1.nome,
-        t1.id_elemento
+        t1.id_elemento,
+        t1.email
     from (
-        select contatto.nome, elemento_portfolio.id_elemento
+        select contatto.nome, contatto.email, elemento_portfolio.id_elemento
           from elemento_portfolio
 
                 inner join contatto
@@ -39,5 +40,3 @@ select
         )
 
   order by t1.nome
-
-

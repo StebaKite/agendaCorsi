@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,23 +13,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-import com.example.agendaCorsi.ui.contatti.ModificaContatto;
-import com.example.agendaCorsi.ui.contatti.NuovoContatto;
-import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
-import com.example.agendaCorsi.ui.corsi.ModificaCorso;
 import com.example.agendacorsi.R;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -91,6 +78,7 @@ public class FunctionBase extends AppCompatActivity {
     public TableRow tableRow;
     public PropertyReader propertyReader;
     public Properties properties;
+    public Mail mail;
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
@@ -265,6 +253,30 @@ public class FunctionBase extends AppCompatActivity {
         String pad = String.format("%"+length+"s", "").replace(" ", fill) + input.trim();
         return pad.substring(pad.length() - length, pad.length());
     }
+
+    public boolean sendEmail(String mailSubject, String body, String mailTo){
+        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
+        properties = propertyReader.getMyProperties("config.properties");
+
+        mail = Mail.getInstance();
+
+        String[] toArr = {mailTo};
+        mail.setTo(toArr);
+        mail.setFrom(properties.getProperty("EMAIL_FROM_ADDRESS"));
+        mail.setSubject(mailSubject);
+        mail.setBody(body);
+
+        try {
+            if(mail.send()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(Exception e) {
+            return false;
+        }
+    }
+
 
     public void makeAnnulla() {}
 

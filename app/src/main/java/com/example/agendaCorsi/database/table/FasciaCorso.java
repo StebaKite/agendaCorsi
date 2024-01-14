@@ -14,6 +14,7 @@ public class FasciaCorso implements BaseColumns {
     public static Integer GIORNO_SETTIMANA = 7;
     public static Integer TOTALE_FASCIA = 8;
     public static Integer ID_CORSO = 9;
+    public static Integer EMAIL_CONTATTO;
 
     public String descrizioneCorso;
     public String stato;
@@ -118,4 +119,5 @@ public class FasciaCorso implements BaseColumns {
     public void setIdCorso(String idCorso) {
         this.idCorso = idCorso;
     }
+
 }

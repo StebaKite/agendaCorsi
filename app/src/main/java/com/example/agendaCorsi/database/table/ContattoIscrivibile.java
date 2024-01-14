@@ -6,14 +6,16 @@ public class ContattoIscrivibile implements BaseColumns {
 
     public static Integer NOME_CONTATTO = 0;
     public static Integer ID_ELEMENTO = 1;
+    public static Integer EMAIL_CONTATTO = 2;
 
     public String nomeContatto;
     public String idElemento;
+    public String emailContatto;
     public String idFascia;
     public String idCorso;
     public String sport;
 
-    public ContattoIscrivibile(String nomeContatto, String idElemento, String idFascia, String idCorso, String sport) {
+    public ContattoIscrivibile(String nomeContatto, String idElemento, String emailContatto, String idFascia, String idCorso, String sport) {
         this.nomeContatto = nomeContatto;
         this.idElemento = idElemento;
     }
@@ -56,5 +58,13 @@ public class ContattoIscrivibile implements BaseColumns {
 
     public void setSport(String sport) {
         this.sport = sport;
+    }
+
+    public String getEmailContatto() {
+        return emailContatto;
+    }
+
+    public void setEmailContatto(String emailContatto) {
+        this.emailContatto = emailContatto;
     }
 }

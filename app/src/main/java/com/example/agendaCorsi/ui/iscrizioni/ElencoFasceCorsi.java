@@ -24,7 +24,7 @@ import java.util.List;
 public class ElencoFasceCorsi extends FunctionBase {
 
     TableLayout tabellaFasceCorsi;
-    TextView corso, giorno, fascia, totaleFascia, idFascia, idCorso, sport;
+    TextView corso, giorno, fascia, totaleFascia, idFascia, idCorso, sport, statoCorso;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +110,11 @@ public class ElencoFasceCorsi extends FunctionBase {
             idCorso.setText(fasciaCorso.getIdCorso());
             tableRow.addView(idCorso);
 
+            statoCorso = new TextView(this);
+            statoCorso.setVisibility(View.INVISIBLE);
+            statoCorso.setText(fasciaCorso.getStato());
+            tableRow.addView(statoCorso);
+
             tableRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -135,6 +140,9 @@ public class ElencoFasceCorsi extends FunctionBase {
                     textView = (TextView) tableRow.getChildAt(6);
                     String idCorso = textView.getText().toString();
 
+                    textView = (TextView) tableRow.getChildAt(7);
+                    String statoCorso = textView.getText().toString();
+
                     /**
                      * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
                      */
@@ -146,6 +154,7 @@ public class ElencoFasceCorsi extends FunctionBase {
                         intent.putExtra("descrizioneFascia", descrizioneFascia);
                         intent.putExtra("sport", sport);
                         intent.putExtra("idCorso", idCorso);
+                        intent.putExtra("statoCorso", statoCorso);
 
                         startActivity(intent);
                     }
@@ -157,6 +166,7 @@ public class ElencoFasceCorsi extends FunctionBase {
                         intent.putExtra("descrizioneFascia", descrizioneFascia);
                         intent.putExtra("sport", sport);
                         intent.putExtra("idCorso", idCorso);
+                        intent.putExtra("statoCorso", statoCorso);
 
                         startActivity(intent);
                     }
