@@ -8,11 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
-import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.access.ContattiDAO;
+import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.access.CredenzialeDAO;
+import com.example.agendaCorsi.database.access.DashboardDAO;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.access.FasciaDAO;
+import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.Corso;
-import com.example.agendaCorsi.database.table.ElementoPortfolio;
-import com.example.agendaCorsi.database.table.Fascia;
-import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
@@ -33,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_FASCIA = "create_table_fascia";
     public static String CREATE_TABLE_ISCRIZIONE = "create_table_iscrizione";
     public static String CREATE_TABLE_GIORNO_SETTIMANA = "create_table_giorno_settimana";
+    public static String CREATE_TABLE_CREDENZIALE = "create_table_credenziale";
     public static String QUERY_INS_GIORNO_SETTIMANA = "query_ins_giorno_settimana";
 
     public DatabaseHelper(Context context) {
@@ -51,12 +56,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        sqLiteDatabase.execSQL(getContattoTableStructure());
-        sqLiteDatabase.execSQL(getElementoPortfolioStructure());
-        sqLiteDatabase.execSQL(getCorsoTableStructure());
-        sqLiteDatabase.execSQL(getFasciaTableStructure());
-        sqLiteDatabase.execSQL(getIscrizioneTableStructure());
-        sqLiteDatabase.execSQL(getGiornoSettimanaTableStructure());
+        ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
+        ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
+        FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
+        IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
+        GiornoSettimanaDAO.getInstance().create(CREATE_TABLE_GIORNO_SETTIMANA);
+        CredenzialeDAO.getInstance().create(CREATE_TABLE_CREDENZIALE);
         /*
          * Initial Load
          */
@@ -87,56 +93,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        //sqLiteDatabase.execSQL(getContattoTableStructure());
-        //sqLiteDatabase.execSQL(getElementoPortfolioStructure());
-        //sqLiteDatabase.execSQL(getCorsoTableStructure());
-        //sqLiteDatabase.execSQL(getFasciaTableStructure());
-        sqLiteDatabase.execSQL(getIscrizioneTableStructure());
-        sqLiteDatabase.execSQL(getGiornoSettimanaTableStructure());
+        //ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
+        //ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        //CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
+        //FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
+        //IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
+        //GiornoSettimanaDAO.getInstance().create(CREATE_TABLE_GIORNO_SETTIMANA);
+        CredenzialeDAO.getInstance().create(CREATE_TABLE_CREDENZIALE);
         /*
          * Initial Load
          */
         initialLoadGiornoSettimana(sqLiteDatabase);
-    }
-
-    /**
-     * Metodi di creazione delle tabelle
-     */
-
-    private String getContattoTableStructure() {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_CONTATTO);
-    }
-
-    private String getElementoPortfolioStructure() {;
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_ELEMENTO_PORTFOLIO);
-    }
-
-    private String getCorsoTableStructure() {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_CORSO);
-    }
-
-    private String getFasciaTableStructure() {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_FASCIA);
-    }
-
-    private String getIscrizioneTableStructure() {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_ISCRIZIONE);
-    }
-
-    private String getGiornoSettimanaTableStructure() {
-        propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
-        properties = propertyReader.getMyProperties("config.properties");
-        return QueryComposer.getInstance().getQuery(CREATE_TABLE_GIORNO_SETTIMANA);
     }
 
     /**

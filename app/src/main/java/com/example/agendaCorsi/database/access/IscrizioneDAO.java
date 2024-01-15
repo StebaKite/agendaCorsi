@@ -11,6 +11,7 @@ import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class IscrizioneDAO implements Database_itf {
 
     private static IscrizioneDAO INSTANCE = null;
     private static DatabaseHelper databaseHelper;
+    public SQLiteDatabase sqLiteDatabase;
 
     private IscrizioneDAO() {}
 
@@ -28,6 +30,11 @@ public class IscrizioneDAO implements Database_itf {
             databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
         }
         return INSTANCE;
+    }
+
+    @Override
+    public void create(String tableName) {
+        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     @Override
@@ -61,11 +68,6 @@ public class IscrizioneDAO implements Database_itf {
     }
 
     @Override
-    public boolean updateStato(Object entity, String query) {
-        return false;
-    }
-
-    @Override
     public Object select(Object entity, String query) {
         return null;
     }
@@ -80,13 +82,11 @@ public class IscrizioneDAO implements Database_itf {
         return false;
     }
 
-    @Override
-    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
-        return null;
+    public SQLiteDatabase getSqLiteDatabase() {
+        return sqLiteDatabase;
     }
 
-    @Override
-    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
-        return null;
+    public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase) {
+        this.sqLiteDatabase = sqLiteDatabase;
     }
 }

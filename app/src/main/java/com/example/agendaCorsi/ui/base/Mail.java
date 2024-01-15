@@ -1,6 +1,7 @@
 package com.example.agendaCorsi.ui.base;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.database.access.CredenzialeDAO;
 
 import java.util.Date;
 import java.util.Properties;
@@ -48,8 +49,8 @@ public class Mail extends javax.mail.Authenticator {
             _port = properties.getProperty("EMAIL_PORT");
             _socketFactoryPort = properties.getProperty("EMAIL_SOCKET_FACTORY_PORT");
 
-            _user = properties.getProperty("EMAIL_USER");
-            _pass = properties.getProperty("EMAIL_PASS");
+            _user = CredenzialeDAO.getInstance().getUtenteCorrente();
+            _pass = CredenzialeDAO.getInstance().getPasswordCorrente();
             _from = "";             // email del mittente
             _subject = "";          // oggetto della mail
             _body = "";             // corpo della mail

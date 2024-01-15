@@ -15,14 +15,17 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.table.Credenziale;
 import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
+import com.example.agendaCorsi.ui.settaggi.ModificaSettaggi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
@@ -39,6 +42,11 @@ public class MainActivity extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tabSettimana = findViewById(R.id.tabellaSettimana);
+        /**
+         * Prelievo delle credenziali
+         */
+        Credenziale credenziale = new Credenziale(null, null, null, null);
+        CredenzialeDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
 
         displayQuadroIscrizioni();
     }
@@ -206,6 +214,11 @@ public class MainActivity extends FunctionBase {
             return true;
         } else if (item.getTitle().equals("Iscrizioni")) {
             Intent intent = new Intent(MainActivity.this, ElencoFasceCorsi.class);
+            startActivity(intent);
+            return true;
+        }
+        else if (item.getTitle().equals("Settaggi")) {
+            Intent intent = new Intent(MainActivity.this, ModificaSettaggi.class);
             startActivity(intent);
             return true;
         }

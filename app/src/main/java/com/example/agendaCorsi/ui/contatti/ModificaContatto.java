@@ -33,7 +33,6 @@ public class ModificaContatto extends FunctionBase {
     String idContatto;
     String nome, indirizzo, telefono, email;
     EditText _nome, _indirizzo, _telefono, _email;
-    //Button annulla, esci, salva, elimina, nuovoElemPortfolio;
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
     TextView descrizione, stato, id_elemento;

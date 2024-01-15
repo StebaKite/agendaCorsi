@@ -12,6 +12,7 @@ import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.FasciaCorso;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class FasciaDAO implements Database_itf {
 
     private static FasciaDAO INSTANCE = null;
     private static DatabaseHelper databaseHelper;
+    public SQLiteDatabase sqLiteDatabase;
 
     private FasciaDAO() {}
 
@@ -30,6 +32,11 @@ public class FasciaDAO implements Database_itf {
             databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
         }
         return INSTANCE;
+    }
+
+    @Override
+    public void create(String tableName) {
+        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     public List<Object> getFasceCorso(String idCorsoToRead, String query) {
@@ -93,11 +100,6 @@ public class FasciaDAO implements Database_itf {
     }
 
     @Override
-    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
-        return null;
-    }
-
-    @Override
     public List<Object> getAll(String query) {
         return null;
     }
@@ -147,11 +149,6 @@ public class FasciaDAO implements Database_itf {
         catch (SQLException e) {
             Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
         }
-        return false;
-    }
-
-    @Override
-    public boolean updateStato(Object entity, String query) {
         return false;
     }
 
@@ -225,5 +222,13 @@ public class FasciaDAO implements Database_itf {
             fascia.setIdCorso("");
         }
         return true;
+    }
+
+    public SQLiteDatabase getSqLiteDatabase() {
+        return sqLiteDatabase;
+    }
+
+    public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase) {
+        this.sqLiteDatabase = sqLiteDatabase;
     }
 }

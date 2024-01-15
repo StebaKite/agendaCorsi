@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/lScheda3"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Modifica Settaggi"
+        android:textColor="#F69910"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lScheda4"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Sicurezza"
+        android:textColor="#F69910"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda3" />
+
+    <!-- UTENTE -->
+
+    <TextView
+        android:id="@+id/lUtente"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center|end"
+        android:text="Utente"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda4"
+        app:layout_constraintWidth_percent="0.18" />
+    <EditText
+        android:id="@+id/editUtente"
+        android:layout_width="316dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:text="XXXXX"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/lUtente"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda4"
+        app:layout_constraintWidth_percent="0.20" />
+
+    <!-- PASSWORD -->
+
+    <TextView
+        android:id="@+id/lPassword"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center|end"
+        android:text="Password"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lUtente"
+        app:layout_constraintWidth_percent="0.18" />
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="316dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:maxLength="30"
+        android:text="XXXXX"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/lPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editUtente"
+        app:layout_constraintWidth_percent="0.20" />
+
+    <!-- BOTTONI -->
+
+    <Button
+        android:id="@+id/bExit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Esci"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bSalva"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Salva"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bExit" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

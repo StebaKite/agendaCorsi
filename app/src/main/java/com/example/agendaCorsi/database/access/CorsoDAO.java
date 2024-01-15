@@ -10,6 +10,7 @@ import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class CorsoDAO implements Database_itf {
 
     private static CorsoDAO INSTANCE = null;
     private static DatabaseHelper databaseHelper;
+    public SQLiteDatabase sqLiteDatabase;
 
     private CorsoDAO() {}
 
@@ -28,6 +30,11 @@ public class CorsoDAO implements Database_itf {
             databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
         }
         return INSTANCE;
+    }
+
+    @Override
+    public void create(String tableName) {
+        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     public List<Object> getAll(String query) {
@@ -105,7 +112,6 @@ public class CorsoDAO implements Database_itf {
         return false;
     }
 
-    @Override
     public boolean updateStato(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -174,13 +180,11 @@ public class CorsoDAO implements Database_itf {
         return false;
     }
 
-    @Override
-    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
-        return null;
+    public SQLiteDatabase getSqLiteDatabase() {
+        return sqLiteDatabase;
     }
 
-    @Override
-    public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
-        return null;
+    public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase) {
+        this.sqLiteDatabase = sqLiteDatabase;
     }
 }

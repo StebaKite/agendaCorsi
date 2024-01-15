@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- NOME -->
-
     <TextView
         android:id="@+id/lScheda3"
         android:layout_width="400dp"
@@ -22,6 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- NOME -->
+
     <TextView
         android:id="@+id/lNome2"
         android:layout_width="0dp"
@@ -34,9 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
-
-    <!-- INDIRIZZO -->
-
     <EditText
         android:id="@+id/editNomeMod"
         android:layout_width="316dp"
@@ -53,6 +50,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.20" />
 
+    <!-- INDIRIZZO -->
+
     <TextView
         android:id="@+id/lIndirizzo2"
         android:layout_width="0dp"
@@ -65,7 +64,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lNome2"
         app:layout_constraintWidth_percent="0.18" />
-
     <EditText
         android:id="@+id/editIndirizzoMod"
         android:layout_width="316dp"

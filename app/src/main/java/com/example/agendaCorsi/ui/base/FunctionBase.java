@@ -71,6 +71,10 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
     public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
     public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";
+    public static String QUERY_GET_CREDENZIALE = "query_get_credenziale";
+    public static String QUERY_INS_CREDENZIALE = "query_ins_credenziale";
+    public static String QUERY_MOD_CREDENZIALE = "query_mod_credenziale";
+    public static String QUERY_DEL_CREDENZIALE = "query_del_credenziale";
     /*
      * I bottoni
      */
