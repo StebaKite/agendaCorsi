@@ -35,8 +35,8 @@ public class ContattiDAO implements Database_itf {
     }
 
     @Override
-    public void create(String tableName) {
-        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
+    public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
+        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     public List<Object> getIscrivibili(String idCorso, String idFascia, String sport, String query) {
@@ -160,7 +160,7 @@ public class ContattiDAO implements Database_itf {
 
     @Override
     public Object select(Object entity, String query) {
-        Contatto contatto = Contatto.class.cast(entity);
+        Contatto contatto = (Contatto) entity;
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).replace("#IDCONTATTO#", contatto.getId());

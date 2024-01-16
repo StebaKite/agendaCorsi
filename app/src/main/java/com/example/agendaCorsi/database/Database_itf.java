@@ -1,5 +1,7 @@
 package com.example.agendaCorsi.database;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public interface Database_itf {
     /*
      * Metodi generici
      */
-    void create(String tableName);
+    void create(SQLiteDatabase sqLiteDatabase, String tableName);
     List<Object> getAll(String query);
     boolean insert(Object entity, String query);
     boolean update(Object entity, String query);

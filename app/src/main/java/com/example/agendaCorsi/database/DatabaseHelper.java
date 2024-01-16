@@ -60,13 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
-        ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
-        CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
-        FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
-        IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
-        GiornoSettimanaDAO.getInstance().create(CREATE_TABLE_GIORNO_SETTIMANA);
-        CredenzialeDAO.getInstance().create(CREATE_TABLE_CREDENZIALE);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
+        ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
+        FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
+        IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
+        GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
+        CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         /*
          * Initial Load
          */
@@ -99,13 +99,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
-        ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
-        CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
-        FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
-        IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
-        //GiornoSettimanaDAO.getInstance().create(CREATE_TABLE_GIORNO_SETTIMANA);
-        CredenzialeDAO.getInstance().create(CREATE_TABLE_CREDENZIALE);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
+        ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
+        FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
+        IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
+        //GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
+        CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         /*
          * Initial Load
          */

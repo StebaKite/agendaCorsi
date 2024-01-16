@@ -273,7 +273,7 @@ public class ModificaCorso extends FunctionBase {
         List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSI));
 
         for (Object object : fasceCorsoList) {
-            Fascia fascia = Fascia.class.cast(object);
+            Fascia fascia = (Fascia) object;
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);

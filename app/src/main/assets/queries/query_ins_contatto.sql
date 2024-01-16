@@ -8,7 +8,7 @@ insert into #TABLENAME# (
     data_ultimo_aggiornamento)
 values (
     '#NOME#',
-    '#DATNAS#'
+    '#DATNAS#',
     '#INDIR#',
     '#TEL#',
     '#EMAIL#',

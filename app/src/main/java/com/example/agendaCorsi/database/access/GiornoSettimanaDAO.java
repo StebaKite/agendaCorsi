@@ -30,9 +30,8 @@ public class GiornoSettimanaDAO implements Database_itf {
         return INSTANCE;
     }
 
-    @Override
-    public void create(String tableName) {
-        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
+    public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
+        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     @Override

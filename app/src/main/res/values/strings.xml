@@ -8,5 +8,6 @@
     <string name="title_corsi">Corsi</string>
     <string name="title_iscrizioni">Iscrizioni</string>
     <string name="title_presenza">Presenze</string>
+    <string name="title_settaggi">Settaggi</string>
     <string name="esci">Esci</string>
 </resources>

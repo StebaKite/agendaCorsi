@@ -18,4 +18,8 @@
         android:id="@+id/navigation_presenze"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_presenza" />
+    <item
+        android:id="@+id/navigation_settaggi"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/title_settaggi" />
 </menu>

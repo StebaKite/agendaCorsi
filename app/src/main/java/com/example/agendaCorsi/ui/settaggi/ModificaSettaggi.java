@@ -32,11 +32,13 @@ public class ModificaSettaggi extends FunctionBase {
          * Caricamento credenziali
          */
         Credenziale credenziale = new Credenziale(null, null, null, null);
-        ContattiDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
+        CredenzialeDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
 
         if (credenziale.getUtente().equals("")) {
             _utente.setText("");
             _password.setText("");
+            password = "";
+            utente = "";
         }
         else {
             _utente.setText(credenziale.getUtente());
@@ -59,7 +61,7 @@ public class ModificaSettaggi extends FunctionBase {
         /**
          * Se le credenziali non esistevano le inserisco altrimenti aggiorno quelle esistenti
          */
-        if (password.equals("") && !_password.getText().equals("")) {
+        if (password.equals("") && !_password.getText().toString().equals("")) {
             /**
              * Creo le redenziali
              */
@@ -67,15 +69,14 @@ public class ModificaSettaggi extends FunctionBase {
                 displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Inserire tutti i campi");
             }
             else {
-                if (CredenzialeDAO.getInstance().insert(credenziale, QueryComposer.getInstance().getQuery(QUERY_INS_CREDENZIALE))) {
-                    Toast.makeText(AgendaCorsiApp.getContext(), "Settaggi creati con successo.", Toast.LENGTH_LONG).show();
+                if (CredenzialeDAO.getInstance().insert(credenziale, QueryComposer.getInstance().getQuery(QUERY_INS_CREDENZIALE))) {Toast.makeText(AgendaCorsiApp.getContext(), "Settaggi creati con successo.", Toast.LENGTH_LONG).show();
                     esci.callOnClick();
                 }
                 else {
                     displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
                 }
             }
-        } else if (!password.equals("") && !_password.getText().equals("")) {
+        } else if (!password.equals("") && !_password.getText().toString().equals("")) {
             /**
              * Aggiorno le credenziali
              */
@@ -93,7 +94,7 @@ public class ModificaSettaggi extends FunctionBase {
                 }
             }
         }
-        else if (!password.equals("") && _password.getText().equals("")) {
+        else if (!password.equals("") && _password.getText().toString().equals("")) {
             /**
              * Elimino le credenziali
              */

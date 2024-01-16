@@ -97,7 +97,7 @@ public class NuovaFascia extends FunctionBase {
     }
 
     public void makeSalva() {
-        Fascia fascia = new Fascia(null, String.valueOf(idCorso), _descrizione.getText().toString(),
+        Fascia fascia = new Fascia("", String.valueOf(idCorso), _descrizione.getText().toString(),
                 _giornoSettimana.getText().toString(),
                 _oraInizio.getText().toString(),
                 _oraFine.getText().toString(),

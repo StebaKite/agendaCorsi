@@ -116,6 +116,7 @@ public class NuovoCorso extends FunctionBase {
         if (corso.getDescrizione().equals("") ||
             corso.getDataInizioValidita().equals("") ||
             corso.getDataFineValidita().equals("") ||
+            corso.getTipo().equals("") ||
             corso.getSport().equals("")) {
 
             displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");

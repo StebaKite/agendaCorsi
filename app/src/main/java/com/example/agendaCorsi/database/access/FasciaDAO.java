@@ -34,9 +34,8 @@ public class FasciaDAO implements Database_itf {
         return INSTANCE;
     }
 
-    @Override
-    public void create(String tableName) {
-        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
+    public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
+        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     public List<Object> getFasceCorso(String idCorsoToRead, String query) {
@@ -109,7 +108,7 @@ public class FasciaDAO implements Database_itf {
     public boolean insert(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            Fascia fascia = Fascia.class.cast(entity);
+            Fascia fascia = (Fascia) entity;
             String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).
                     replace("#IDCORSO#", fascia.getIdCorso()).
                     replace("#DESC#", fascia.getDescrizione()).
@@ -203,10 +202,11 @@ public class FasciaDAO implements Database_itf {
 
     @Override
     public boolean isNew(Object entity, String query) {
-        Fascia fascia = Fascia.class.cast(entity);
+        Fascia fascia = (Fascia) entity;
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).
+                    replace("#IDFASCIA#", fascia.getIdFascia()).
                     replace("#IDCORSO#", fascia.getIdCorso()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
                     replaceAll("#ORAINI#", fascia.getOraInizio()).

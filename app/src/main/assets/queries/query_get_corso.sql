@@ -3,6 +3,7 @@ select
     descrizione,
     sport,
     stato,
+    tipo,
     data_inizio_validita,
     data_fine_validita,
     data_creazione,

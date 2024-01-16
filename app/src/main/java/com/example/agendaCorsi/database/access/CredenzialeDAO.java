@@ -35,14 +35,15 @@ public class CredenzialeDAO implements Database_itf {
             INSTANCE = new CredenzialeDAO();
             propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
             properties = propertyReader.getMyProperties("config.properties");
+            databaseHelper = new DatabaseHelper(AgendaCorsiApp.getContext());
             setUtenteCorrente("");
             setPasswordCorrente("");
         }
         return INSTANCE;
     }
 
-    public void create(String tableName) {
-        getSqLiteDatabase().execSQL(QueryComposer.getInstance().getQuery(tableName));
+    public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
+        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
     }
 
     @Override
