@@ -1,5 +1,6 @@
 insert into #TABLENAME# (
     nome,
+    data_nascita,
     indirizzo,
     telefono,
     email,
@@ -7,6 +8,7 @@ insert into #TABLENAME# (
     data_ultimo_aggiornamento)
 values (
     '#NOME#',
+    '#DATNAS#'
     '#INDIR#',
     '#TEL#',
     '#EMAIL#',

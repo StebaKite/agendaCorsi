@@ -1,6 +1,7 @@
 select
     id_contatto,
     nome,
+    dataNascita,
     indirizzo,
     telefono,
     email

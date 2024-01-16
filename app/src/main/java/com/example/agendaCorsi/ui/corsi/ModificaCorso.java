@@ -37,7 +37,6 @@ import java.util.Map;
 public class ModificaCorso extends FunctionBase {
 
     String idCorso;
-    RadioButton skate, basket, pattini, pallavolo;
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
@@ -110,11 +109,6 @@ public class ModificaCorso extends FunctionBase {
             }
         });
 
-        skate = findViewById(R.id.radio_skate);
-        basket = findViewById(R.id.radio_basket);
-        pattini = findViewById(R.id.radio_pattini);
-        pallavolo = findViewById(R.id.radio_pallavolo);
-
         modificaCorso = this;
 
         loadCorso();
@@ -140,7 +134,6 @@ public class ModificaCorso extends FunctionBase {
         _descrizione.setText(descrizioneCorso);
         _dataInizioValidita.setText(dataInizioValidita);
         _dataFineValidita.setText(dataFineValidita);
-        skate.setChecked(true);
     }
 
     @Override
@@ -149,6 +142,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null,
                 STATO_APERTO,
+                null,
                 null,
                 null,
                 null,
@@ -171,6 +165,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null,
                 null,
+                null,
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
@@ -190,6 +185,7 @@ public class ModificaCorso extends FunctionBase {
                 null,
                 null,
                 null,
+                null,
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
@@ -202,15 +198,11 @@ public class ModificaCorso extends FunctionBase {
 
     @Override
     public void makeSalva() {
-        if (skate.isChecked()) {sport = Skate;}
-        if (basket.isChecked()) {sport = Basket;}
-        if (pattini.isChecked()) {sport = Pattini;}
-        if (pallavolo.isChecked()) {sport = Pallavolo;}
-
         Corso corso = new Corso(idCorso,
                 _descrizione.getText().toString(),
-                sport,
+                null,
                 STATO_APERTO,
+                null,
                 dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 null,
@@ -234,7 +226,7 @@ public class ModificaCorso extends FunctionBase {
         /**
          * Carico i dati del corso selezionato
          */
-        Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
+        Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
         CorsoDAO.getInstance().select(corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
 
         if (corso.getIdCorso().equals("")) {
@@ -244,11 +236,6 @@ public class ModificaCorso extends FunctionBase {
             _descrizione.setText(corso.getDescrizione());
             _dataInizioValidita.setText(dateFormat(corso.getDataInizioValidita(), "yyyy-MM-dd", "dd-MM-yyyy"));
             _dataFineValidita.setText(dateFormat(corso.getDataFineValidita(), "yyyy-MM-dd", "dd-MM-yyyy"));
-
-            if (corso.getSport().equals(Skate)) { skate.setChecked(true); }
-            if (corso.getSport().equals(Basket)) { basket.setChecked(true); }
-            if (corso.getSport().equals(Pattini)) { pattini.setChecked(true); }
-            if (corso.getSport().equals(Pallavolo)) { pallavolo.setChecked(true); }
 
             descrizioneCorso = _descrizione.getText().toString();
             dataInizioValidita = _dataInizioValidita.getText().toString();
@@ -348,7 +335,7 @@ public class ModificaCorso extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null);
+                Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
                 if (CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
                     esci.callOnClick();
                 }

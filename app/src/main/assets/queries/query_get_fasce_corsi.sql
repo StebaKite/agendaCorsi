@@ -10,7 +10,8 @@ select t2.*
         fascia.capienza,
         giorno_settimana.nome_giorno_esteso as giorno_settimana,
         coalesce(t1.totale_fascia, 0) as totale_fascia,
-        corso.id_corso
+        corso.id_corso,
+        corso.tipo
 
      from fascia
 

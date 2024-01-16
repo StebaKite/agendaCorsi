@@ -117,15 +117,48 @@
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
         app:layout_constraintWidth_percent="0.75" />
 
+    <!-- TIPO CORSO -->
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
+
+        <RadioButton
+            android:id="@+id/radio_normale"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:checkedButton="@+id/radio_normale"
+            android:text="Normale"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_aperto"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:text="Aperto"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+    </RadioGroup>
+
+    <!-- SPORT -->
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2">
 
         <RadioButton
             android:id="@+id/radio_skate"
@@ -147,20 +180,6 @@
             android:textSize="16sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
-
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/radioGroup1"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="50dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
 
         <RadioButton
             android:id="@+id/radio_pattini"
@@ -190,7 +209,7 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Annulla"
         android:textAllCaps="false"
@@ -204,7 +223,7 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
@@ -218,7 +237,7 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"

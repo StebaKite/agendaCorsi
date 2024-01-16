@@ -4,6 +4,7 @@ create table if not exists corso (
     descrizione text,
     sport text,
     stato text,
+    tipo text,
     data_inizio_validita text,
     data_fine_validita text,
     data_creazione text,

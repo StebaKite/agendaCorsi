@@ -33,6 +33,9 @@ public class FunctionBase extends AppCompatActivity {
     public static String Basket = "BASKET";
     public static String Pallavolo = "PALLAVOLO";
     public static String Pattini = "PATTINI";
+
+    public static String Normale = "NORMALE";
+    public static String Aperto = "APERTO";
     /*
      * Gli stati
      */
@@ -68,6 +71,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_FASCIA = "query_mod_fascia";
     public static String QUERY_DEL_FASCIA = "query_del_fascia";
     public static String QUERY_GET_CONTATTI_ISCRIVIBILI = "query_get_contatti_iscrivibili";
+    public static String QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN = "query_get_contatti_iscrivibili_open";
     public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
     public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
     public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";

@@ -31,7 +31,7 @@ import java.util.List;
 
 public class NuovaIscrizione extends FunctionBase {
 
-    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso;
+    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
     TextView nome_contatto, id_elemento, emailContatto;
     TableLayout _tabellaContattiIscrivibili;
@@ -50,6 +50,7 @@ public class NuovaIscrizione extends FunctionBase {
         sport = intent.getStringExtra("sport");
         idCorso = intent.getStringExtra("idCorso");
         statoCorso = intent.getStringExtra("statoCorso");
+        tipoCorso = intent.getStringExtra("tipoCorso");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -60,18 +61,23 @@ public class NuovaIscrizione extends FunctionBase {
         _giornoSettimana.setText(giornoSettimana);
         _descrizioneFascia.setText(descrizioneFascia);
 
-        loadContattiIscrvibili();
+        if (tipoCorso.equals(Aperto)) {
+            loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN);
+        }
+        else {
+            loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI);
+        }
 
         listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsi.class, null);
     }
 
-    private void loadContattiIscrvibili() {
+    private void loadContattiIscrvibili(String queryName) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
 
-        List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRIVIBILI));
+        List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(queryName));
 
         for (Object object : contattiIscrivibiliList) {
             ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;
@@ -116,7 +122,7 @@ public class NuovaIscrizione extends FunctionBase {
                     Iscrizione iscrizione = new Iscrizione(null, idFascia, idSelezionato, "Attiva", null, null);
                     if (IscrizioneDAO.getInstance().insert(iscrizione, QueryComposer.getInstance().getQuery(QUERY_INS_ISCRIZIONE))) {
                         if (!statoCorso.equals(STATO_ATTIVO)) {
-                            Corso corso = new Corso(idCorso,null,null, STATO_ATTIVO, null, null, null, null);
+                            Corso corso = new Corso(idCorso,null,null, STATO_ATTIVO, null, null, null, null, null);
                             if (!CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
                                 displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Cambio stato corso fallito, contatta il supporto tecnico");
                             }

@@ -3,8 +3,8 @@
 --
 -- Stretegia di accesso
 --
--- 1) tutti gli elementi di portfolio "Carichi" e relativi contatti per lo sport del corso  -> nested-table t1
--- 2) tutti gli elementi di portfolio consumati da iscrizioni di tutte le fasce del corso -> nested-table t2
+-- 1) tutti gli elementi di portfolio in qualsiasi stato e relativi contatti per lo sport del corso  -> nested-table t1
+-- 2) tutte gli elementi di portfolio consumati da iscrizioni di tutte le fasce del corso -> nested-table t2
 -- 3) elenco dei contatti il cui elemento di portfolio per lo sport del corso, non è consumato da nessuna iscrizione
 --
 ---------------------------------------------------------------------------
@@ -20,8 +20,7 @@ select
                 inner join contatto
                     on contatto.id_contatto = elemento_portfolio.id_contatto
 
-            where elemento_portfolio.stato = 'Carico'
-              and elemento_portfolio.sport = '#SPORT#'
+            where elemento_portfolio.sport = '#SPORT#'
 
         ) as t1
 

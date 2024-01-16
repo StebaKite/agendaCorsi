@@ -89,8 +89,9 @@ public class FasciaDAO implements Database_itf {
             String giornoSettimana = cursor.getString(FasciaCorso.GIORNO_SETTIMANA);
             String totaleFascia = cursor.getString(FasciaCorso.TOTALE_FASCIA);
             String idCorso = cursor.getString(FasciaCorso.ID_CORSO);
+            String tipoCorso = cursor.getString((FasciaCorso.TIPO_CORSO));
 
-            Object fasciaCorso = new FasciaCorso(descrizioneCorso, stato, sport, numeroGiorno, descrizioneFascia, idFascia, capienza, giornoSettimana, totaleFascia, idCorso);
+            Object fasciaCorso = new FasciaCorso(descrizioneCorso, stato, sport, numeroGiorno, descrizioneFascia, idFascia, capienza, giornoSettimana, totaleFascia, idCorso, tipoCorso);
             list.add(fasciaCorso);
             cursor.moveToNext();
         }

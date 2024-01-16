@@ -9,25 +9,28 @@ public class Corso implements BaseColumns {
     public static Integer DESCRIZIONE = 1;
     public static Integer SPORT = 2;
     public static Integer STATO = 3;
-    public static Integer DATA_INIZIO_VALIDITA = 4;
-    public static Integer DATA_FINE_VALIDITA = 5;
-    public static Integer DATA_CREAZIONE = 6;
-    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 7;
+    public static Integer TIPO = 4;
+    public static Integer DATA_INIZIO_VALIDITA = 5;
+    public static Integer DATA_FINE_VALIDITA = 6;
+    public static Integer DATA_CREAZIONE = 7;
+    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 8;
 
     public String idCorso;
     public String descrizione;
     public String sport;
     public String stato;
+    public String tipo;
     public String dataInizioValidita;
     public String dataFineValidita;
     public String dataCreazione;
     public String dataUltimoAggiornamento;
 
-    public Corso(String idCorso, String descrizione, String sport, String stato, String dataInizioValidita, String dataFineValidita, String dataCreazione, String dataUltimoAggiornamento) {
+    public Corso(String idCorso, String descrizione, String sport, String stato, String tipo, String dataInizioValidita, String dataFineValidita, String dataCreazione, String dataUltimoAggiornamento) {
         this.idCorso = idCorso;
         this.descrizione = descrizione;
         this.sport = sport;
         this.stato = stato;
+        this.tipo = tipo;
         this.dataInizioValidita = dataInizioValidita;
         this.dataFineValidita = dataFineValidita;
         this.dataCreazione = dataCreazione;
@@ -96,5 +99,13 @@ public class Corso implements BaseColumns {
 
     public void setDataUltimoAggiornamento(String dataUltimoAggiornamento) {
         this.dataUltimoAggiornamento = dataUltimoAggiornamento;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

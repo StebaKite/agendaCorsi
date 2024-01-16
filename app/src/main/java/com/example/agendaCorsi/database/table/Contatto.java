@@ -7,23 +7,26 @@ public class Contatto implements BaseColumns {
     public static String TABLE_NAME = "contatto";
     public static Integer ID_CONTATTO = 0;
     public static Integer NOME = 1;
-    public static Integer INDIRIZZO = 2;
-    public static Integer TELEFONO = 3;
-    public static Integer EMAIL = 4;
-    public static Integer DATA_CREAZIONE = 5;
-    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 6;
+    public static Integer DATA_NASCITA = 2;
+    public static Integer INDIRIZZO = 3;
+    public static Integer TELEFONO = 4;
+    public static Integer EMAIL = 5;
+    public static Integer DATA_CREAZIONE = 6;
+    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 7;
 
     public String id;
     public String nome;
+    public String dataNascita;
     public String indirizzo;
     public String telefono;
     public String email;
     public String dataCreazione;
     public String dataUltimoAggiornamento;
 
-    public Contatto(String id, String nome, String indirizzo, String telefono, String email) {
+    public Contatto(String id, String nome, String dataNascita, String indirizzo, String telefono, String email) {
         this.id = id;
         this.nome = nome;
+        this.dataNascita = dataNascita;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.email = email;
@@ -85,5 +88,13 @@ public class Contatto implements BaseColumns {
 
     public void setDataUltimoAggiornamento(String dataUltimoAggiornamento) {
         this.dataUltimoAggiornamento = dataUltimoAggiornamento;
+    }
+
+    public String getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
     }
 }

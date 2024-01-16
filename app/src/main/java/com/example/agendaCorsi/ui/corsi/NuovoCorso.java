@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 public class NuovoCorso extends FunctionBase {
 
-    RadioButton skate, basket, pattini, pallavolo;
+    RadioButton skate, basket, pattini, pallavolo, normale, aperto;
     TextView descrizione, sport;
     EditText dataInizioValidita, dataFineValidita;
     Context nuovoCorso;
@@ -85,6 +85,9 @@ public class NuovoCorso extends FunctionBase {
         pattini = findViewById(R.id.radio_pattini);
         pallavolo = findViewById(R.id.radio_pallavolo);
 
+        normale = findViewById(R.id.radio_normale);
+        aperto = findViewById(R.id.radio_aperto);
+
         nuovoCorso = this;
         /**
          * Listener sui bottoni
@@ -101,8 +104,12 @@ public class NuovoCorso extends FunctionBase {
         if (pattini.isChecked()) { sport = Pattini; }
         if (pallavolo.isChecked()) { sport = Pallavolo; }
 
+        String tipo = "";
+        if (normale.isChecked()) { tipo = Normale; }
+        if (aperto.isChecked()) { tipo = Aperto; }
+
         Corso corso = new Corso(null, descrizione.getText().toString(),
-                sport, STATO_APERTO,
+                sport, STATO_APERTO, tipo,
                 dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"), null, null);
 
@@ -128,5 +135,6 @@ public class NuovoCorso extends FunctionBase {
         dataInizioValidita.setText("");
         dataFineValidita.setText("");
         skate.setChecked(true);
+        normale.setChecked(true);
     }
 }

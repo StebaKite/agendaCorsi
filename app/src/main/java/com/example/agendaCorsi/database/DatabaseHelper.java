@@ -16,7 +16,11 @@ import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
+import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.table.Fascia;
+import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
@@ -25,7 +29,7 @@ import java.util.Properties;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 5;
+    public static final int SCHEMA_VERSION = 6;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public PropertyReader propertyReader;
@@ -85,25 +89,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          *  Sequenza di DROP secondo le constraint dello schema (vedi modello ER)
          */
-        //sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists giorno_settimana");
+        sqLiteDatabase.execSQL("drop table if exists credenziale");
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        //ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
-        //ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
-        //CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
-        //FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
-        //IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
+        ContattiDAO.getInstance().create(CREATE_TABLE_CONTATTO);
+        ElementoPortfolioDAO.getInstance().create(CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        CorsoDAO.getInstance().create(CREATE_TABLE_CORSO);
+        FasciaDAO.getInstance().create(CREATE_TABLE_FASCIA);
+        IscrizioneDAO.getInstance().create(CREATE_TABLE_ISCRIZIONE);
         //GiornoSettimanaDAO.getInstance().create(CREATE_TABLE_GIORNO_SETTIMANA);
         CredenzialeDAO.getInstance().create(CREATE_TABLE_CREDENZIALE);
         /*
          * Initial Load
          */
-        initialLoadGiornoSettimana(sqLiteDatabase);
+        //initialLoadGiornoSettimana(sqLiteDatabase);
     }
 
     /**

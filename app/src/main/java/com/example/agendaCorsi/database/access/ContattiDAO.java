@@ -96,11 +96,12 @@ public class ContattiDAO implements Database_itf {
         while (!cursor.isAfterLast()) {
             String id = String.valueOf(cursor.getInt(Contatto.ID_CONTATTO));
             String nome = cursor.getString(Contatto.NOME);
+            String dataNascita = cursor.getString(Contatto.DATA_NASCITA);
             String indirizzo = cursor.getString(Contatto.INDIRIZZO);
             String telefono = cursor.getString(Contatto.TELEFONO);
             String email = cursor.getString(Contatto.EMAIL);
 
-            Contatto contatto = new Contatto(id, nome, indirizzo, telefono, email);
+            Contatto contatto = new Contatto(id, nome, dataNascita, indirizzo, telefono, email);
             list.add(contatto);
             cursor.moveToNext();
         }
@@ -117,6 +118,7 @@ public class ContattiDAO implements Database_itf {
             Contatto contatto = Contatto.class.cast(entity);
             String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).
                     replace("#NOME#", contatto.getNome()).
+                    replace("#DATNAS#", contatto.getDataNascita()).
                     replace("#INDIR#", contatto.getIndirizzo()).
                     replace("#TEL#", contatto.getTelefono()).
                     replace("#EMAIL#", contatto.getEmail());
@@ -139,6 +141,7 @@ public class ContattiDAO implements Database_itf {
             Contatto contatto = Contatto.class.cast(entity);
             String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME).
                     replace("#NOME#", contatto.getNome()).
+                    replace("#DATNAS#", contatto.getDataNascita()).
                     replace("#INDIR#", contatto.getIndirizzo()).
                     replace("#TEL#", contatto.getTelefono()).
                     replace("#EMAIL#", contatto.getEmail()).
@@ -166,6 +169,7 @@ public class ContattiDAO implements Database_itf {
             final Cursor resultSet = database.rawQuery(sql, null);
             while (resultSet.moveToNext()) {
                 contatto.setNome(resultSet.getString(Contatto.NOME));
+                contatto.setDataNascita(resultSet.getString(Contatto.DATA_NASCITA));
                 contatto.setIndirizzo(resultSet.getString(Contatto.INDIRIZZO));
                 contatto.setTelefono(resultSet.getString(Contatto.TELEFONO));
                 contatto.setEmail(resultSet.getString(Contatto.EMAIL));

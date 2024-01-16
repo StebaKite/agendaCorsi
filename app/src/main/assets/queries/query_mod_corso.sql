@@ -1,6 +1,5 @@
 update #TABLENAME# set
     descrizione = '#DESC#',
-    sport = '#SPORT#',
     stato = '#STATO#',
     data_inizio_validita = '#DATINI#',
     data_fine_validita = '#DATFIN#',

@@ -1,5 +1,6 @@
 update #TABLENAME# set
     nome = '#NOME#',
+    data_nascita = '#DATNAS#',
     indirizzo = '#INDIR#',
     telefono = '#TEL#',
     email = '#EMAIL#',

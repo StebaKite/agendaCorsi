@@ -119,71 +119,9 @@
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
         app:layout_constraintWidth_percent="0.75" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
 
-        <RadioButton
-            android:id="@+id/radio_skate"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:checkedButton="@+id/radio_skate"
-            android:text="Skate"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="268dp" />
 
-        <RadioButton
-            android:id="@+id/radio_basket"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Basket"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
 
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/radioGroup1"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="50dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine">
-
-        <RadioButton
-            android:id="@+id/radio_pattini"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pattini"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
-
-        <RadioButton
-            android:id="@+id/radio_pallavolo"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pallavolo"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
-    </RadioGroup>
 
     <!-- Bottoni -->
 
@@ -198,7 +136,7 @@
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
@@ -212,7 +150,7 @@
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
         app:layout_constraintWidth_percent="0.30" />
 
     <Button
@@ -225,7 +163,7 @@
         android:text="Elimina"
         android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
         app:layout_constraintWidth_percent="0.2" />
 
     <Button
@@ -239,7 +177,7 @@
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bElimina"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
         app:layout_constraintWidth_percent="0.30" />
 
     <Button
@@ -301,7 +239,7 @@
     <ScrollView
         android:id="@+id/scrollViewTabellaFasce"
         android:layout_width="409dp"
-        android:layout_height="120dp"
+        android:layout_height="250dp"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -314,8 +252,7 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:scrollbars="vertical"
-            android:stretchColumns="0,1">
-        </TableLayout>
+            android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
     <Button

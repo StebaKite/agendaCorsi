@@ -51,12 +51,13 @@ public class CorsoDAO implements Database_itf {
             String descrizione = String.valueOf(cursor.getString(Corso.DESCRIZIONE));
             String sport = String.valueOf(cursor.getString(Corso.SPORT));
             String stato = String.valueOf(cursor.getString(Corso.STATO));
+            String tipo = String.valueOf(cursor.getString(Corso.TIPO));
             String dataInizioValidita = String.valueOf(cursor.getString(Corso.DATA_INIZIO_VALIDITA));
             String dataFineValidita = String.valueOf(cursor.getString(Corso.DATA_FINE_VALIDITA));
             String dataCreazione = String.valueOf(cursor.getString(Corso.DATA_CREAZIONE));
             String dataUltimoAggiornamento = String.valueOf(cursor.getString(Corso.DATA_ULTIMO_AGGIORNAMENTO));
 
-            Object corso = new Corso(idCorso, descrizione, sport, stato, dataInizioValidita, dataFineValidita, dataCreazione, dataUltimoAggiornamento);
+            Object corso = new Corso(idCorso, descrizione, sport, stato, tipo, dataInizioValidita, dataFineValidita, dataCreazione, dataUltimoAggiornamento);
             list.add(corso);
             cursor.moveToNext();
         }
@@ -74,6 +75,7 @@ public class CorsoDAO implements Database_itf {
                     replace("#DESC#", corso.getDescrizione()).
                     replace("#SPORT#", corso.getSport()).
                     replace("#STATO#", corso.getStato()).
+                    replace("TIPO", corso.getTipo()).
                     replace("#DATINI", corso.getDataInizioValidita()).
                     replace("#DATFIN", corso.getDataFineValidita());
 
@@ -95,7 +97,6 @@ public class CorsoDAO implements Database_itf {
             Corso corso = Corso.class.cast(entity);
             String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).
                     replace("#DESC#", corso.getDescrizione()).
-                    replace("#SPORT#", corso.getSport()).
                     replace("#STATO#", corso.getStato()).
                     replace("#DATINI#", corso.getDataInizioValidita()).
                     replace("#DATFIN#", corso.getDataFineValidita()).
@@ -142,6 +143,7 @@ public class CorsoDAO implements Database_itf {
                 corso.setDescrizione(resultSet.getString(Corso.DESCRIZIONE));
                 corso.setSport(resultSet.getString(Corso.SPORT));
                 corso.setStato(resultSet.getString(Corso.STATO));
+                corso.setTipo(resultSet.getString(Corso.TIPO));
                 corso.setDataInizioValidita(resultSet.getString(Corso.DATA_INIZIO_VALIDITA));
                 corso.setDataFineValidita(resultSet.getString(Corso.DATA_FINE_VALIDITA));
                 corso.setDataCreazione(resultSet.getString(Corso.DATA_CREAZIONE));

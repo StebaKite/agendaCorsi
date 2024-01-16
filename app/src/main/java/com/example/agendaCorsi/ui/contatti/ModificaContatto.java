@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.contatti;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -23,19 +25,22 @@ import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.corsi.ModificaCorso;
 import com.example.agendacorsi.R;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 public class ModificaContatto extends FunctionBase {
 
     String idContatto;
-    String nome, indirizzo, telefono, email;
-    EditText _nome, _indirizzo, _telefono, _email;
+    String nome, indirizzo, telefono, email, dataNascita;
+    EditText _nome, _indirizzo, _telefono, _email, _dataNascita;
     Context modificaContatto;
     TableLayout tabellaElePortfolio;
     TextView descrizione, stato, id_elemento;
+    final Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +65,29 @@ public class ModificaContatto extends FunctionBase {
         inserisci = findViewById(R.id.NuovoElemModButton);
 
         /**
+         * Date picker data nascita
+         */
+        _dataNascita = findViewById(R.id.editDataNascita);
+
+        DatePickerDialog.OnDateSetListener dataNasc = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH,month);
+                myCalendar.set(Calendar.DAY_OF_MONTH,day);
+                updateLabel(_dataNascita, myCalendar);
+            }
+        };
+        _dataNascita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(ModificaContatto.this, dataNasc, myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        /**
          * Caricamento dati contatto selezionato
          */
-        Contatto contatto = new Contatto(null, null, null, null, null);
+        Contatto contatto = new Contatto(null, null, null,null, null, null);
         contatto.setId(idContatto);
 
         ContattiDAO.getInstance().select(contatto, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTO));
@@ -72,10 +97,12 @@ public class ModificaContatto extends FunctionBase {
         }
         else {
             _nome.setText(contatto.getNome());
+            _dataNascita.setText(contatto.getDataNascita());
             _indirizzo.setText(contatto.getIndirizzo());
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());
             nome = _nome.getText().toString();
+            dataNascita = _dataNascita.getText().toString();
             indirizzo = _indirizzo.getText().toString();
             telefono = _telefono.getText().toString();
             email = _email.getText().toString();
@@ -158,7 +185,7 @@ public class ModificaContatto extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null, null, null);
+                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null,null, null, null);
 
                 if (ContattiDAO.getInstance().delete(contatto, QueryComposer.getInstance().getQuery(QUERY_DEL_CONTATTO))) {
                     esci.callOnClick();
@@ -186,12 +213,13 @@ public class ModificaContatto extends FunctionBase {
          */
         Contatto contatto = new Contatto(idContatto,
                 _nome.getText().toString(),
+                dateFormat(_dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 _indirizzo.getText().toString(),
                 _telefono.getText().toString(),
                 _email.getText().toString());
 
-        if (contatto.getNome().equals("") || contatto.getIndirizzo().equals("") ||
-            contatto.getTelefono().equals("") || contatto.getEmail().equals("")) {
+        if (contatto.getNome().equals("") || contatto.getDataNascita().equals("") ||
+            contatto.getTelefono().equals("")) {
             displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
@@ -206,6 +234,7 @@ public class ModificaContatto extends FunctionBase {
 
     public void makeAnnulla() {
         _nome.setText(nome);
+        _dataNascita.setText(dataNascita);
         _indirizzo.setText(indirizzo);
         _telefono.setText(telefono);
         _email.setText(email);

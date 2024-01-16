@@ -14,7 +14,7 @@ public class FasciaCorso implements BaseColumns {
     public static Integer GIORNO_SETTIMANA = 7;
     public static Integer TOTALE_FASCIA = 8;
     public static Integer ID_CORSO = 9;
-    public static Integer EMAIL_CONTATTO;
+    public static Integer TIPO_CORSO = 10;
 
     public String descrizioneCorso;
     public String stato;
@@ -26,8 +26,9 @@ public class FasciaCorso implements BaseColumns {
     public String giornoSettimana;
     public String totaleFascia;
     public String idCorso;
+    public String tipoCorso;
 
-    public FasciaCorso(String descrizioneCorso, String stato, String sport, String numeroGiorno, String descrizioneFascia, String idFascia, String capienza, String giornoSettimana, String totaleFascia, String idCorso) {
+    public FasciaCorso(String descrizioneCorso, String stato, String sport, String numeroGiorno, String descrizioneFascia, String idFascia, String capienza, String giornoSettimana, String totaleFascia, String idCorso, String tipoCorso) {
         this.descrizioneCorso = descrizioneCorso;
         this.stato = stato;
         this.sport = sport;
@@ -38,6 +39,7 @@ public class FasciaCorso implements BaseColumns {
         this.giornoSettimana = giornoSettimana;
         this.totaleFascia = totaleFascia;
         this.idCorso = idCorso;
+        this.tipoCorso = tipoCorso;
     }
 
     public String getDescrizioneCorso() {
@@ -120,4 +122,11 @@ public class FasciaCorso implements BaseColumns {
         this.idCorso = idCorso;
     }
 
+    public String getTipoCorso() {
+        return tipoCorso;
+    }
+
+    public void setTipoCorso(String tipoCorso) {
+        this.tipoCorso = tipoCorso;
+    }
 }
