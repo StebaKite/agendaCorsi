@@ -7,23 +7,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
@@ -32,7 +39,6 @@ public class ModificaCorso extends FunctionBase {
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
-    TableLayout tabellaFasce;
     TextView capienza, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -41,9 +47,6 @@ public class ModificaCorso extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_corso);
         tabellaFasce = findViewById(R.id.tabellaFasce);
-
-        //scrollViewTabellaFasce = findViewById(R.id.scrollViewTabellaFasce);
-        //scrollViewTabellaFasce.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
         idCorso = intent.getStringExtra("idCorso");
@@ -255,13 +258,74 @@ public class ModificaCorso extends FunctionBase {
                 apri.setVisibility(View.INVISIBLE);
             }
 
+            loadFasceOrarie();
+        }
+    }
+
+    public void loadFasceOrarie() {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.1);
+
+        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
+
+        for (Object object : fasceCorsoList) {
+            FasciaCorso fasciaCorso = (FasciaCorso) object;
+
+            tableRow = new TableRow(AgendaCorsiApp.getContext());
+            tableRow.setClickable(true);
+
+            TextView giorno_settimana = new TextView(AgendaCorsiApp.getContext());
+            giorno_settimana.setTextSize(16);
+            giorno_settimana.setPadding(10,20,10,20);
+            giorno_settimana.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            giorno_settimana.setGravity(Gravity.CENTER);
+            giorno_settimana.setText(String.valueOf(fasciaCorso.getGiornoSettimana()));
+            giorno_settimana.setWidth(larghezzaColonna1);
+            tableRow.addView(giorno_settimana);
+
+            TextView fascia_oraria = new TextView(AgendaCorsiApp.getContext());
+            fascia_oraria.setTextSize(16);
+            fascia_oraria.setPadding(10,20,10,20);
+            fascia_oraria.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            fascia_oraria.setGravity(Gravity.CENTER);
+            fascia_oraria.setText(fasciaCorso.getDescrizioneFascia());
+            fascia_oraria.setWidth(larghezzaColonna2);
+            tableRow.addView((fascia_oraria));
+
+            TextView capienza = new TextView(AgendaCorsiApp.getContext());
+            capienza.setTextSize(16);
+            capienza.setPadding(10,20,10,20);
+            capienza.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            capienza.setGravity(Gravity.CENTER);
+            capienza.setText(fasciaCorso.getCapienza());
+            capienza.setWidth(larghezzaColonna3);
+            tableRow.addView((capienza));
+
+            TextView id_fascia = new TextView(AgendaCorsiApp.getContext());
+            id_fascia.setText(String.valueOf(fasciaCorso.getIdFascia()));
+            id_fascia.setVisibility(View.INVISIBLE);
+            tableRow.addView(id_fascia);
+
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idCorso", String.valueOf(idCorso));
             intentMap.put("descrizioneCorso", descrizioneCorso);
 
-            loadFasceOrarie(ModificaFascia.class, intentMap, tabellaFasce, idCorso);
+            listenerTableRow(AgendaCorsiApp.getContext(), ModificaFascia.class, "idFascia", intentMap, 3);
+            tabellaFasce.addView(tableRow);
         }
     }
+
+
+
+
 
     @Override
     public void makeElimina() {

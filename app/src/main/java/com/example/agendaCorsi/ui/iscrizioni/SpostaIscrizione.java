@@ -64,7 +64,7 @@ public class SpostaIscrizione extends FunctionBase {
         intentMap.put("nomeIscritto", nomeIscritto);
         intentMap.put("stato", statoIscrizione);
 
-        loadFasceOrarie(ModificaFasciaIscrizione.class, intentMap, tabellaFasce, idCorso);
+        loadFasceOrarie(ModificaFasciaIscrizione.class, intentMap, idCorso);
 
         listenerEsci(AgendaCorsiApp.getContext(), ModificaIscrizione.class, null);
 

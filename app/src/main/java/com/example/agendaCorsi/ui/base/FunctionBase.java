@@ -99,6 +99,7 @@ public class FunctionBase extends AppCompatActivity {
     public PropertyReader propertyReader;
     public Properties properties;
     public Mail mail;
+    public TableLayout tabellaFasce;
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
@@ -305,22 +306,21 @@ public class FunctionBase extends AppCompatActivity {
         }
     }
 
-    public void loadFasceOrarie(Class classTo, Map<String, String> intentMap, TableLayout tableLayout,
-                                String idCorso) {
+    public void loadFasceOrarie(Class classTo, Map<String, String> intentMap, String idCorso) {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
-        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.1);
 
         List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
 
         for (Object object : fasceCorsoList) {
             FasciaCorso fasciaCorso = (FasciaCorso) object;
 
-            tableRow = new TableRow(this);
+            tableRow = new TableRow(AgendaCorsiApp.getContext());
             tableRow.setClickable(true);
 
             TextView giorno_settimana = new TextView(AgendaCorsiApp.getContext());
@@ -351,7 +351,7 @@ public class FunctionBase extends AppCompatActivity {
             capienza.setGravity(Gravity.CENTER);
             capienza.setText(fasciaCorso.getCapienza());
             capienza.setWidth(larghezzaColonna3);
-            tableRow.addView((fascia_oraria));
+            tableRow.addView((capienza));
 
             TextView id_fascia = new TextView(AgendaCorsiApp.getContext());
             id_fascia.setText(String.valueOf(fasciaCorso.getIdFascia()));
@@ -359,7 +359,7 @@ public class FunctionBase extends AppCompatActivity {
             tableRow.addView(id_fascia);
 
             listenerTableRow(AgendaCorsiApp.getContext(), classTo, "idFascia", intentMap, 3);
-            tableLayout.addView(tableRow);
+            tabellaFasce.addView(tableRow);
         }
     }
 

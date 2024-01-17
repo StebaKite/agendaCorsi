@@ -74,7 +74,7 @@ public class CorsoDAO implements Database_itf {
                     replace("#DESC#", corso.getDescrizione()).
                     replace("#SPORT#", corso.getSport()).
                     replace("#STATO#", corso.getStato()).
-                    replace("TIPO", corso.getTipo()).
+                    replace("#TIPO#", corso.getTipo()).
                     replace("#DATINI", corso.getDataInizioValidita()).
                     replace("#DATFIN", corso.getDataFineValidita());
 
