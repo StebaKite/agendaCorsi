@@ -74,8 +74,9 @@ public class ContattiDAO implements Database_itf {
         while (!cursor.isAfterLast()) {
             String nomeContatto = cursor.getString(ContattoIscritto.NOME_CONTATTO);
             String idIscrizione = cursor.getString(ContattoIscritto.ID_ISCRIZIONE);
+            String stato = cursor.getString(ContattoIscritto.STATO);
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto,idIscrizione);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }

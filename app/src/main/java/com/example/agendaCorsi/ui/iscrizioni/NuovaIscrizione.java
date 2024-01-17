@@ -23,7 +23,6 @@ import com.example.agendaCorsi.database.table.ContattoIscrivibile;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;;
-import com.example.agendaCorsi.ui.base.Mail;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
@@ -61,7 +60,7 @@ public class NuovaIscrizione extends FunctionBase {
         _giornoSettimana.setText(giornoSettimana);
         _descrizioneFascia.setText(descrizioneFascia);
 
-        if (tipoCorso.equals(Aperto)) {
+        if (tipoCorso.equals(Test)) {
             loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN);
         }
         else {
@@ -128,6 +127,7 @@ public class NuovaIscrizione extends FunctionBase {
                             }
                         }
                         makeInvioNotificaIscrizione(emailContatto, nomeContatto, descrizioneCorso);
+                        Toast.makeText(AgendaCorsiApp.getContext(), "Iscrizione creata con successo.", Toast.LENGTH_LONG).show();
                         esci.callOnClick();
                     }
                     else {

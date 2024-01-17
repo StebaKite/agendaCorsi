@@ -2,7 +2,6 @@ package com.example.agendaCorsi.ui.iscrizioni;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -45,7 +44,7 @@ public class ElencoFasceCorsi extends FunctionBase {
         int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
-        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsi(QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSI));
+        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsi(QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_CORSI));
 
         String descrizione_corso_save = "";
 

@@ -8,8 +8,11 @@ import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -99,6 +102,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         int numLezioni = Integer.parseInt(_numeroLezioni.getText().toString());
         int newNumLezioni = numLezioni + ricarica;
         _numeroLezioni.setText(String.valueOf(newNumLezioni));
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ricarica eseguita, fai click su Salva.", Toast.LENGTH_LONG).show();
     }
 
     public void makeElimina() {
@@ -114,6 +118,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
                 elementoPortfolio.setIdElemento(String.valueOf(idElemento));
 
                 if (ElementoPortfolioDAO.getInstance().delete(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_DEL_ELEMENTO))) {
+                    Toast.makeText(AgendaCorsiApp.getContext(), "Elemento portfolio eliminato con successo.", Toast.LENGTH_LONG).show();
                     esci.callOnClick();
                 }
                 else {
@@ -154,6 +159,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         } else {
             if (ElementoPortfolioDAO.getInstance().update(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_MOD_ELEMENTS))) {
+                Toast.makeText(AgendaCorsiApp.getContext(), "Elemento portfolio aggiornato con successo.", Toast.LENGTH_LONG).show();
                 esci.callOnClick();
             } else {
                 displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
@@ -164,5 +170,6 @@ public class ModificaElementoPortfolio extends FunctionBase {
     public void makeAnnulla() {
         _descrizione.setText(descrizione);
         _numeroLezioni.setText(numeroLezioni);
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 }

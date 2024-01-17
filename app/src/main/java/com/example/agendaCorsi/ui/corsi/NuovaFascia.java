@@ -9,7 +9,9 @@ import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -117,6 +119,7 @@ public class NuovaFascia extends FunctionBase {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
                     if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_INS_FASCIA))) {
+                        Toast.makeText(AgendaCorsiApp.getContext(), "Fascia creata con successo.", Toast.LENGTH_LONG).show();
                         esci.callOnClick();
                     }
                     else {
@@ -139,5 +142,6 @@ public class NuovaFascia extends FunctionBase {
         _oraFine.setText("");
         _giornoSettimana.setText("");
         _capienza.setText("");
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 }

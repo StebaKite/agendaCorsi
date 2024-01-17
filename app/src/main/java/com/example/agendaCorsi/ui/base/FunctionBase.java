@@ -4,22 +4,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.database.access.FasciaDAO;
+import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -34,8 +42,8 @@ public class FunctionBase extends AppCompatActivity {
     public static String Pallavolo = "PALLAVOLO";
     public static String Pattini = "PATTINI";
 
-    public static String Normale = "NORMALE";
-    public static String Aperto = "APERTO";
+    public static String Produzione = "PROD";
+    public static String Test = "TEST";
     /*
      * Gli stati
      */
@@ -47,7 +55,7 @@ public class FunctionBase extends AppCompatActivity {
      * Le query
      */
     public static String QUERY_TOTALS_CORSI = "query_totals_corsi";
-    public static String QUERY_GET_FASCE_CORSI = "query_get_fasce_corsi";
+    public static String QUERY_GETALL_FASCE_CORSI = "query_getall_fasce_corsi";
     public static String QUERY_GETALL_CORSI = "query_getall_corsi";
     public static String QUERY_GET_CORSO = "query_get_corso";
     public static String QUERY_DEL_CORSO = "query_del_corso";
@@ -79,10 +87,14 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_INS_CREDENZIALE = "query_ins_credenziale";
     public static String QUERY_MOD_CREDENZIALE = "query_mod_credenziale";
     public static String QUERY_DEL_CREDENZIALE = "query_del_credenziale";
+    public static String QUERY_GET_FASCE_CORSO = "query_get_fasce_corso";
+    public static String QUERY_MOD_STATO_ISCRIZIONE = "query_mod_stato_iscrizione";
+    public static String QUERY_DEL_ISCRIZIONE = "query_del_iscrizione";
+    public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
     /*
      * I bottoni
      */
-    public Button annulla, esci, elimina, salva, chiudi, sospendi, apri, inserisci, ricarica5, ricarica10;
+    public Button annulla, esci, elimina, salva, chiudi, sospendi, apri, inserisci, ricarica5, ricarica10, sposta;
     public TableRow tableRow;
     public PropertyReader propertyReader;
     public Properties properties;
@@ -239,6 +251,14 @@ public class FunctionBase extends AppCompatActivity {
         });
     }
 
+    public void listenerSpostaIscrizione(String idIscrizione) {
+        ricarica10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeSpostaIscrizione(idIscrizione);
+            }
+        });
+    }
     public void updateLabel(EditText data, Calendar calendar){
         String myFormat="dd-MM-yyyy";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
@@ -285,6 +305,63 @@ public class FunctionBase extends AppCompatActivity {
         }
     }
 
+    public void loadFasceOrarie(Class classTo, Map<String, String> intentMap, TableLayout tableLayout,
+                                String idCorso) {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
+        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
+
+        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
+
+        for (Object object : fasceCorsoList) {
+            FasciaCorso fasciaCorso = (FasciaCorso) object;
+
+            tableRow = new TableRow(this);
+            tableRow.setClickable(true);
+
+            TextView giorno_settimana = new TextView(AgendaCorsiApp.getContext());
+            giorno_settimana.setTextSize(16);
+            giorno_settimana.setPadding(10,20,10,20);
+            giorno_settimana.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            giorno_settimana.setGravity(Gravity.CENTER);
+            giorno_settimana.setText(String.valueOf(fasciaCorso.getGiornoSettimana()));
+            giorno_settimana.setWidth(larghezzaColonna1);
+            tableRow.addView(giorno_settimana);
+
+            TextView fascia_oraria = new TextView(AgendaCorsiApp.getContext());
+            fascia_oraria.setTextSize(16);
+            fascia_oraria.setPadding(10,20,10,20);
+            fascia_oraria.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            fascia_oraria.setGravity(Gravity.CENTER);
+            fascia_oraria.setText(fasciaCorso.getDescrizioneFascia());
+            fascia_oraria.setWidth(larghezzaColonna2);
+            tableRow.addView((fascia_oraria));
+
+            TextView capienza = new TextView(AgendaCorsiApp.getContext());
+            capienza.setTextSize(16);
+            capienza.setPadding(10,20,10,20);
+            capienza.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            capienza.setGravity(Gravity.CENTER);
+            capienza.setText(fasciaCorso.getCapienza());
+            capienza.setWidth(larghezzaColonna3);
+            tableRow.addView((fascia_oraria));
+
+            TextView id_fascia = new TextView(AgendaCorsiApp.getContext());
+            id_fascia.setText(String.valueOf(fasciaCorso.getIdFascia()));
+            id_fascia.setVisibility(View.INVISIBLE);
+            tableRow.addView(id_fascia);
+
+            listenerTableRow(AgendaCorsiApp.getContext(), classTo, "idFascia", intentMap, 3);
+            tableLayout.addView(tableRow);
+        }
+    }
 
     public void makeAnnulla() {}
 
@@ -299,4 +376,6 @@ public class FunctionBase extends AppCompatActivity {
     public void makeChiudi() {}
 
     public void makeRicarica(int value) {}
+
+    public void makeSpostaIscrizione(String idIscrizione) {}
 }

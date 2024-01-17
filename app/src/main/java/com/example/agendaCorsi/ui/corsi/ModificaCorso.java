@@ -6,32 +6,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.ArrayMap;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
-import com.example.agendaCorsi.database.table.Fascia;
-import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
@@ -41,7 +33,7 @@ public class ModificaCorso extends FunctionBase {
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
     TableLayout tabellaFasce;
-    TextView descrizione, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
+    TextView capienza, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
     final Calendar myCalendar = Calendar.getInstance();
 
     @SuppressLint("WrongViewCast")
@@ -134,6 +126,7 @@ public class ModificaCorso extends FunctionBase {
         _descrizione.setText(descrizioneCorso);
         _dataInizioValidita.setText(dataInizioValidita);
         _dataFineValidita.setText(dataFineValidita);
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -149,6 +142,7 @@ public class ModificaCorso extends FunctionBase {
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
+            Toast.makeText(AgendaCorsiApp.getContext(), "Corso aperto con successo", Toast.LENGTH_LONG).show();
             esci.callOnClick();
         }
         else {
@@ -169,6 +163,7 @@ public class ModificaCorso extends FunctionBase {
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
+            Toast.makeText(AgendaCorsiApp.getContext(), "Corso sospeso con successo", Toast.LENGTH_LONG).show();
             esci.callOnClick();
         }
         else {
@@ -189,6 +184,7 @@ public class ModificaCorso extends FunctionBase {
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
+            Toast.makeText(AgendaCorsiApp.getContext(), "Corso chiuso con successo", Toast.LENGTH_LONG).show();
             esci.callOnClick();
         }
         else {
@@ -214,6 +210,7 @@ public class ModificaCorso extends FunctionBase {
         }
         else {
             if (CorsoDAO.getInstance().update(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_CORSO))) {
+                Toast.makeText(AgendaCorsiApp.getContext(), "Corso aggiornato con successo.", Toast.LENGTH_LONG).show();
                 esci.callOnClick();
             }
             else {
@@ -258,67 +255,11 @@ public class ModificaCorso extends FunctionBase {
                 apri.setVisibility(View.INVISIBLE);
             }
 
-            loadFasceOrarie(idCorso, corso.getDescrizione());
-        }
-    }
-
-    private void loadFasceOrarie(String idCorso, String descrizioneCorso) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
-        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
-
-        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSI));
-
-        for (Object object : fasceCorsoList) {
-            Fascia fascia = (Fascia) object;
-
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-
-            giorno_settimana = new TextView(modificaCorso);
-            giorno_settimana.setTextSize(16);
-            giorno_settimana.setPadding(10,20,10,20);
-            giorno_settimana.setBackground(ContextCompat.getDrawable(ModificaCorso.this, R.drawable.cell_border));
-            giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            giorno_settimana.setGravity(Gravity.CENTER);
-            giorno_settimana.setText(String.valueOf(fascia.getGiornoSettimana()));
-            giorno_settimana.setWidth(larghezzaColonna1);
-            tableRow.addView(giorno_settimana);
-
-            descrizione = new TextView(modificaCorso);
-            descrizione.setTextSize(16);
-            descrizione.setPadding(10,20,10,20);
-            descrizione.setBackground(ContextCompat.getDrawable(ModificaCorso.this, R.drawable.cell_border));
-            descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            descrizione.setGravity(Gravity.CENTER);
-            descrizione.setText(String.valueOf(fascia.getDescrizione()));
-            descrizione.setWidth(larghezzaColonna2);
-            tableRow.addView(descrizione);
-
-            fascia_oraria = new TextView(modificaCorso);
-            fascia_oraria.setTextSize(16);
-            fascia_oraria.setPadding(10,20,10,20);
-            fascia_oraria.setBackground(ContextCompat.getDrawable(ModificaCorso.this, R.drawable.cell_border));
-            fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            fascia_oraria.setGravity(Gravity.CENTER);
-            fascia_oraria.setText(fascia.getOraInizio() + "-" + fascia.getOraFine());
-            fascia_oraria.setWidth(larghezzaColonna3);
-            tableRow.addView((fascia_oraria));
-
-            id_fascia = new TextView(modificaCorso);
-            id_fascia.setText(String.valueOf(fascia.getIdFascia()));
-            id_fascia.setVisibility(View.INVISIBLE);
-            tableRow.addView(id_fascia);
-
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idCorso", String.valueOf(idCorso));
             intentMap.put("descrizioneCorso", descrizioneCorso);
 
-            listenerTableRow(modificaCorso, ModificaFascia.class, "idFascia", intentMap, 3);
-            tabellaFasce.addView(tableRow);
+            loadFasceOrarie(ModificaFascia.class, intentMap, tabellaFasce, idCorso);
         }
     }
 
@@ -337,6 +278,7 @@ public class ModificaCorso extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
                 if (CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
+                    Toast.makeText(AgendaCorsiApp.getContext(), "Corso eliminato con successo.", Toast.LENGTH_LONG).show();
                     esci.callOnClick();
                 }
                 else {

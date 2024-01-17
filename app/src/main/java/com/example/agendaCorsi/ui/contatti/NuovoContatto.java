@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -86,6 +88,7 @@ public class NuovoContatto extends FunctionBase {
         }
         else {
             if (ContattiDAO.getInstance().insert(contatto, QueryComposer.getInstance().getQuery(QUERY_INS_CONTATTO))) {
+                Toast.makeText(AgendaCorsiApp.getContext(), "Contatto creato con successo.", Toast.LENGTH_LONG).show();
                 esci.callOnClick();
             }
             else {

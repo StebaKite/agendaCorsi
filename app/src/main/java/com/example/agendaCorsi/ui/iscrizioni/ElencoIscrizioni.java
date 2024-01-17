@@ -28,7 +28,7 @@ public class ElencoIscrizioni extends FunctionBase {
 
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
-    TextView nome_contatto, id_iscrizione;
+    TextView nome_contatto, id_iscrizione, stato;
     TableLayout _tabellaContattiIscritti;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +96,28 @@ public class ElencoIscrizioni extends FunctionBase {
             tableRow.addView(nome_contatto);
 
             id_iscrizione = new TextView(this);
-            id_iscrizione.setText(String.valueOf(contattoIscritto.getIdIscrizione()));
+            id_iscrizione.setText(contattoIscritto.getIdIscrizione());
             id_iscrizione.setVisibility(View.INVISIBLE);
             tableRow.addView(id_iscrizione);
 
-            listenerTableRow(AgendaCorsiApp.getContext(), ModificaIscrizione.class, "idIscrizione", null, 1);
+            stato = new TextView(this);
+            stato.setText(contattoIscritto.getStato());
+            stato.setVisibility(View.INVISIBLE);
+            tableRow.addView(stato);
+
+            Map<String, String> intentMap = new ArrayMap<>();
+            intentMap.put("descrizioneCorso", descrizioneCorso);
+            intentMap.put("descrizioneFascia", descrizioneFascia);
+            intentMap.put("giornoSettimana", giornoSettimana);
+            intentMap.put("sport", sport);
+            intentMap.put("idCorso", idCorso);
+            intentMap.put("idFascia", idFascia);
+            intentMap.put("idIscrizione", contattoIscritto.getIdIscrizione());
+            intentMap.put("statoCorso", statoCorso);
+            intentMap.put("nomeIscritto", contattoIscritto.getNomeContatto());
+            intentMap.put("stato", contattoIscritto.getStato());
+
+            listenerTableRow(AgendaCorsiApp.getContext(), ModificaIscrizione.class, "idIscrizione", intentMap, 1);
         }
         _tabellaContattiIscritti.addView(tableRow);
     }

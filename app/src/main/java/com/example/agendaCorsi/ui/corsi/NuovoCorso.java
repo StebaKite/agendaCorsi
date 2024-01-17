@@ -8,7 +8,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -105,8 +107,8 @@ public class NuovoCorso extends FunctionBase {
         if (pallavolo.isChecked()) { sport = Pallavolo; }
 
         String tipo = "";
-        if (normale.isChecked()) { tipo = Normale; }
-        if (aperto.isChecked()) { tipo = Aperto; }
+        if (normale.isChecked()) { tipo = Produzione; }
+        if (aperto.isChecked()) { tipo = Test; }
 
         Corso corso = new Corso(null, descrizione.getText().toString(),
                 sport, STATO_APERTO, tipo,
@@ -123,6 +125,7 @@ public class NuovoCorso extends FunctionBase {
         }
         else {
             if (CorsoDAO.getInstance().insert(corso, QueryComposer.getInstance().getQuery(QUERY_INS_CORSO))) {
+                Toast.makeText(AgendaCorsiApp.getContext(), "Corso creato con successo.", Toast.LENGTH_LONG).show();
                 esci.callOnClick();
             }
             else {
@@ -137,5 +140,6 @@ public class NuovoCorso extends FunctionBase {
         dataFineValidita.setText("");
         skate.setChecked(true);
         normale.setChecked(true);
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 }

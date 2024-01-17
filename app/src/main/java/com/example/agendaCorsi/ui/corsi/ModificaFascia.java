@@ -14,9 +14,11 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -144,6 +146,7 @@ public class ModificaFascia extends FunctionBase {
         _oraInizio.setText(oraInizio);
         _oraFine.setText(oraFine);
         _capienza.setText(capienza);
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 
     public void makeSalva() {
@@ -167,6 +170,7 @@ public class ModificaFascia extends FunctionBase {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
                     if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
+                        Toast.makeText(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.", Toast.LENGTH_LONG).show();
                         esci.callOnClick();
                     }
                     else {
@@ -198,6 +202,7 @@ public class ModificaFascia extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Fascia fascia = new Fascia(String.valueOf(idFascia), null, null, null, null, null, null, null, null);
                 if (FasciaDAO.getInstance().delete(fascia, QueryComposer.getInstance().getQuery(QUERY_DEL_FASCIA))) {
+                    Toast.makeText(AgendaCorsiApp.getContext(), "Fascia eliminatas con successo.", Toast.LENGTH_LONG).show();
                     esci.callOnClick();
                 }
                 else {

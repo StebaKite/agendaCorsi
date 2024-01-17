@@ -48,19 +48,15 @@ public class FasciaDAO implements Database_itf {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String idFascia = String.valueOf(cursor.getInt(Fascia.ID_FASCIA));
-            String idCorso = String.valueOf(cursor.getInt(Fascia.ID_CORSO));
-            String descrizione = String.valueOf(cursor.getString(Fascia.DESCRIZIONE));
-            String numeroGiorno = String.valueOf(cursor.getString(Fascia.NUMERO_GIORNO));
-            String giornoSettimana = String.valueOf(cursor.getString(Fascia.GIORNO_SETTIMANA));
-            String oraInizio = String.valueOf(cursor.getString(Fascia.ORA_INIZIO));
-            String oraFine = String.valueOf(cursor.getString(Fascia.ORA_FINE));
-            String capienza = String.valueOf(cursor.getString(Fascia.CAPIENZA));
-            String dataCreazione = String.valueOf(cursor.getString(Fascia.DATA_CREAZIONE));
-            String dataUltimoAggiornamento = String.valueOf(cursor.getString(Fascia.DATA_ULTIMO_AGGIORNAMENTO));
+            String descrizioneCorso = cursor.getString(FasciaCorso.DESCRIZIONE_CORSO);
+            String descrizioneFascia = cursor.getString(FasciaCorso.DESCRIZIONE_FASCIA);
+            String idFascia = cursor.getString(FasciaCorso.ID_FASCIA);
+            String giornoSettimana = cursor.getString(FasciaCorso.GIORNO_SETTIMANA);
+            String capienza = cursor.getString(FasciaCorso.CAPIENZA);
+            String totaleFascia = cursor.getString(FasciaCorso.TOTALE_FASCIA);
 
-            Object fascia = new Fascia(idFascia, idCorso, descrizione, giornoSettimana, oraInizio, oraFine, capienza, dataCreazione, dataUltimoAggiornamento);
-            list.add(fascia);
+            Object fasciaCorso = new FasciaCorso(descrizioneCorso, null, null, null, descrizioneFascia, idFascia, capienza, giornoSettimana, totaleFascia, null, null);
+            list.add(fasciaCorso);
             cursor.moveToNext();
         }
         cursor.close();

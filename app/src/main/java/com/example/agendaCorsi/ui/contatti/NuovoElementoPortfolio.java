@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -77,6 +79,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
             if (ElementoPortfolioDAO.getInstance().isNew(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_ISNEW_ELEMENTO))) {
                 if (ElementoPortfolioDAO.getInstance().insert(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_INS_ELEMENTS))) {
+                    Toast.makeText(AgendaCorsiApp.getContext(), "Elemento portfolio creato con successo.", Toast.LENGTH_LONG).show();
                     esci.callOnClick();
                 }
                 else {
@@ -92,5 +95,6 @@ public class NuovoElementoPortfolio extends FunctionBase {
     public void makeAnnulla() {
         descrizione.setText("");
         numeroLezioni.setText("0");
+        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
     }
 }

@@ -15,10 +15,12 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
@@ -224,6 +226,7 @@ public class ModificaContatto extends FunctionBase {
         }
         else {
             if (ContattiDAO.getInstance().update(contatto, QueryComposer.getInstance().getQuery(QUERY_MOD_CONTATTO))) {
+                Toast.makeText(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.", Toast.LENGTH_LONG).show();
                 esci.callOnClick();
             }
             else {

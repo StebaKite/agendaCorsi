@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
@@ -61,8 +62,39 @@ public class IscrizioneDAO implements Database_itf {
         return false;
     }
 
+    public boolean updateStato(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Iscrizione iscrizione = (Iscrizione) entity;
+            String sql = query.replace("#STATO#", iscrizione.getStato()).replace("#IDISCR#", iscrizione.getIdIscrizione());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
     @Override
     public boolean update(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Iscrizione iscrizione = (Iscrizione) entity;
+            String sql = query.replace("#IDFASCIA#", iscrizione.getIdFascia()).
+                    replace("#IDISCR#", iscrizione.getIdIscrizione());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
         return false;
     }
 
