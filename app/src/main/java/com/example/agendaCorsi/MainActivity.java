@@ -125,7 +125,7 @@ public class MainActivity extends FunctionBase {
         tableRow = new TableRow(this);
 
         fascia = new TextView(this);
-        fascia.setTextSize(16);
+        fascia.setTextSize(14);
         fascia.setPadding(10,20,10,20);
         fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
         fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -140,7 +140,7 @@ public class MainActivity extends FunctionBase {
             GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
 
             totaleGiorno = new TextView(this);
-            totaleGiorno.setTextSize(16);
+            totaleGiorno.setTextSize(14);
             totaleGiorno.setPadding(10,20,10,20);
             totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
             totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
@@ -156,7 +156,7 @@ public class MainActivity extends FunctionBase {
     public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna) {
         tableRow = new TableRow(this);
         fascia = new TextView(this);
-        fascia.setTextSize(16);
+        fascia.setTextSize(14);
         fascia.setPadding(10,20,10,20);
         fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
         fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -170,7 +170,7 @@ public class MainActivity extends FunctionBase {
     public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
         //fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(16);
+        totaleGiorno.setTextSize(14);
         totaleGiorno.setPadding(10,20,10,20);
         totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
         totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
