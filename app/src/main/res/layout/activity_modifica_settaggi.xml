@@ -8,8 +8,9 @@
 
     <TextView
         android:id="@+id/lScheda3"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Modifica Settaggi"
         android:textColor="#F69910"
@@ -21,13 +22,13 @@
 
     <TextView
         android:id="@+id/lScheda4"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="6dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Sicurezza"
+        android:text="Credenziali invio notifiche"
         android:textColor="#F69910"
         android:textSize="16sp"
         android:textStyle="italic"
@@ -49,9 +50,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lScheda4"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editUtente"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
@@ -79,9 +81,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lUtente"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editPassword"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
@@ -99,8 +102,11 @@
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,9 +114,11 @@
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

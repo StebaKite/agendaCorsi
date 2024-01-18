@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/lScheda2"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Modifica Iscrizione"
@@ -34,9 +34,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -67,9 +68,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizioneCorso"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editGiornoSettimana"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -100,9 +102,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lGiornoSettimana"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editFascia"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -133,9 +136,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lFascia"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editNomeIscritto"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -156,78 +160,82 @@
 
     <Button
         android:id="@+id/bSospendi"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
-        android:text="Sospendi"
+        android:text="Sosp."
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto"
+        app:layout_constraintTop_toBottomOf="@+id/bSposta"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bChiudi"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Chiudi"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bSospendi"
-        app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto"
+        app:layout_constraintTop_toBottomOf="@+id/bElimina"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bApri"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Apri"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bChiudi"
-        app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto"
+        app:layout_constraintTop_toBottomOf="@+id/bElimina"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bSposta"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bSposta"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:background="#d0d0d0"
         android:text="Sposta"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bExit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lNomeIscritto"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bElimina"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:background="#d0d0d0"
         android:text="Elimina"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bSposta"
+        app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto"
         app:layout_constraintWidth_percent="0.27" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

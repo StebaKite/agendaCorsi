@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tIntestazioneNome"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/cell_heading"
@@ -18,17 +18,17 @@
         android:paddingRight="4dp"
         android:text="Nome corso"
         android:textColor="#ffffff"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.79" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/bInserisciCorso"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
@@ -42,38 +42,26 @@
 
     <Button
         android:id="@+id/bInserisciCorso"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:text="Nuovo"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bExit"
         app:layout_constraintWidth_percent="0.9" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:text="Esci"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bInserisciCorso"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.9" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="110dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/cell_heading"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Stato"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/tIntestazioneNome"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

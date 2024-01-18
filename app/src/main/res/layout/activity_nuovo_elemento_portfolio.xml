@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/lScheda"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
@@ -33,7 +33,7 @@
 
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -58,9 +58,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editNumeroLezioni"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -78,44 +79,44 @@
 
     <Button
         android:id="@+id/bReset"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Reset"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bSalva"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.30" />
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         app:layout_constraintWidth_percent="0.30" />
 
     <RadioGroup

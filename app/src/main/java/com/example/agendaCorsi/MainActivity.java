@@ -3,7 +3,11 @@ package com.example.agendaCorsi;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass;
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass;
 import androidx.core.content.ContextCompat;
+import androidx.window.layout.WindowMetrics;
+import androidx.window.layout.WindowMetricsCalculator;
 
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -11,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,6 +33,8 @@ import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendaCorsi.ui.settaggi.ModificaSettaggi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
+import com.example.agendacorsi.databinding.ActivityElencoContattiBinding;
+import com.example.agendacorsi.databinding.ActivityMainBinding;
 
 import java.util.List;
 

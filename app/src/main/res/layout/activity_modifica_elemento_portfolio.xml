@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/lScheda"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
@@ -30,9 +30,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -60,7 +61,7 @@
 
     <EditText
         android:id="@+id/editNumeroLezioni"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -80,38 +81,37 @@
         android:id="@+id/bReset"
         android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Annulla"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataUltRicarica"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintWidth_percent="0.35" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/dataUltRicarica"
-        app:layout_constraintWidth_percent="0.17" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bSalva"
         android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/bExit"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
         app:layout_constraintTop_toBottomOf="@+id/dataUltRicarica"
         app:layout_constraintWidth_percent="0.17" />
 
@@ -119,7 +119,7 @@
         android:id="@+id/bElimina"
         android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="30dp"
         android:background="#d0d0d0"
         android:text="Elimina"
@@ -130,22 +130,27 @@
 
     <Button
         android:id="@+id/bRicarica5"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Ricarica 5"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
+        android:text="+ 5"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/bExit" />
 
     <Button
         android:id="@+id/bRicarica10"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Ricarica 10"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
+        android:text="+ 10"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bRicarica5"/>
+        app:layout_constraintStart_toEndOf="@+id/bRicarica5" />
 
     <TextView
         android:id="@+id/textView2"
@@ -159,7 +164,7 @@
 
     <TextView
         android:id="@+id/dataUltRicarica"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

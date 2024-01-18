@@ -48,6 +48,8 @@ dependencies {
     implementation("androidx.databinding:compilerCommon:3.2.0-alpha11")
     implementation("javax.activation:activation:1.1.1")
     implementation("javax.mail:mail:1.5.0-b01")
+    implementation("androidx.window:window:1.3.0-alpha01")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

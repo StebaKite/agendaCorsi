@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-public class FunctionBase extends AppCompatActivity {
+public class FunctionBase extends Activity {
     /*
      * Gli sport
      */

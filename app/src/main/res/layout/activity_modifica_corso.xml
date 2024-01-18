@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/lScheda2"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Modifica Corso"
@@ -34,9 +34,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -66,7 +67,7 @@
 
     <EditText
         android:id="@+id/editDataInizio"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -101,7 +102,7 @@
 
     <EditText
         android:id="@+id/editDataFine"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -127,51 +128,37 @@
 
     <Button
         android:id="@+id/bReset"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Annulla"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
+        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
-        android:id="@+id/bExit"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#d0d0d0"
-        android:text="Esci"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
-        app:layout_constraintWidth_percent="0.30" />
-
-    <Button
         android:id="@+id/bElimina"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Elimina"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/bExit"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
         app:layout_constraintTop_toBottomOf="@+id/editDataFine"
         app:layout_constraintWidth_percent="0.2" />
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
@@ -182,10 +169,10 @@
 
     <Button
         android:id="@+id/bChiudi"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Chiudi"
         android:textAllCaps="false"
@@ -196,12 +183,12 @@
 
     <Button
         android:id="@+id/bSospendi"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
-        android:text="Sospendi"
+        android:text="Sosp."
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bChiudi"
@@ -210,10 +197,10 @@
 
     <Button
         android:id="@+id/bApri"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="#d0d0d0"
         android:text="Apri"
         android:textAllCaps="false"
@@ -237,12 +224,12 @@
         app:layout_constraintTop_toBottomOf="@+id/bSospendi" />
 
     <ScrollView
-        android:id="@+id/scrollViewTabellaFasce"
-        android:layout_width="409dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/NuovaFasciaButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -250,19 +237,34 @@
             android:id="@+id/tabellaFasce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
             android:scrollbars="vertical"
             android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
     <Button
+        android:id="@+id/bExit"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
+        android:text="Esci"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.30" />
+
+    <Button
         android:id="@+id/NuovaFasciaButton"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:text="Nuova fascia oraria"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
+        android:text="Nuova"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/bExit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

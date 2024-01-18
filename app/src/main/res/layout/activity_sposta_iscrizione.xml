@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/lScheda2"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Sposta Iscrizione"
@@ -34,9 +34,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -67,9 +68,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizioneCorso"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editGiornoSettimana"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -100,9 +102,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lGiornoSettimana"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editFascia"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -133,9 +136,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lFascia"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editNomeIscritto"
-        android:layout_width="316dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -154,26 +158,26 @@
 
     <TextView
         android:id="@+id/lScheda3"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Fasce orarie disponibili"
-        android:textColor="#F69910"
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto" />
 
+
     <ScrollView
         android:id="@+id/scrollViewTabellaFasce"
-        android:layout_width="409dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/bExit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lScheda3">
 
@@ -181,20 +185,19 @@
             android:id="@+id/tabellaFasce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
             android:scrollbars="vertical"
-            android:stretchColumns="0,1">
-        </TableLayout>
+            android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
     <!-- Bottoni -->
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="4dp"
+        android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

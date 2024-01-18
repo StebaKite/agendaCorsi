@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/lScheda2"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Nuovo Contatto"
@@ -34,9 +34,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editNome"
-        android:layout_width="316dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
@@ -44,6 +45,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
+        android:text="XXXXXXXXXXXX"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lNome"
         app:layout_constraintTop_toTopOf="parent"
@@ -63,22 +65,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lNome"
         app:layout_constraintWidth_percent="0.18" />
+
     <EditText
         android:id="@+id/editDataNascita"
-        android:layout_width="316dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLength="30"
-        android:textSize="16sp"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:text="XXXXXXXXXXX"
 
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDataNascita"
         app:layout_constraintTop_toBottomOf="@+id/editNome"
         app:layout_constraintWidth_percent="0.75" />
@@ -100,7 +104,7 @@
 
     <EditText
         android:id="@+id/editIndirizzo"
-        android:layout_width="316dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -108,6 +112,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="35"
+        android:text="XXXXXXXXXXXXX"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lIndirizzo"
         app:layout_constraintTop_toBottomOf="@+id/editDataNascita"
@@ -130,7 +135,7 @@
 
     <EditText
         android:id="@+id/editTelefono"
-        android:layout_width="316dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -138,6 +143,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="20"
+        android:text="XXXXXXXXXXXX"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lTelefono"
         app:layout_constraintTop_toBottomOf="@+id/editIndirizzo"
@@ -160,13 +166,14 @@
 
     <EditText
         android:id="@+id/editEmail"
-        android:layout_width="316dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
+        android:text="XXXXXXXXXXXX"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTelefono"
@@ -176,44 +183,44 @@
 
     <Button
         android:id="@+id/bReset"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
-        android:text="Reset"
+        android:text="Annulla"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bSalva"
         app:layout_constraintWidth_percent="0.27" />
 
     <Button
         android:id="@+id/bExit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.30" />
 
     <Button
         android:id="@+id/bSalva"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail"
         app:layout_constraintWidth_percent="0.30" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
