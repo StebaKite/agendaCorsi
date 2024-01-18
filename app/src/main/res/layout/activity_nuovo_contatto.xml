@@ -30,23 +30,21 @@
         android:layout_marginTop="50dp"
         android:gravity="center|end"
         android:text="Nome"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
         android:id="@+id/editNome"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="300dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:maxLength="30"
-        android:text="XXXXXXXXXXXX"
-        android:textSize="16sp"
+        android:maxLines="1"
         app:layout_constraintStart_toEndOf="@+id/lNome"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
@@ -61,14 +59,15 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Nato il"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:maxLength="30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lNome"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
         android:id="@+id/editDataNascita"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -80,9 +79,8 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:text="XXXXXXXXXXX"
 
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDataNascita"
         app:layout_constraintTop_toBottomOf="@+id/editNome"
         app:layout_constraintWidth_percent="0.75" />
@@ -97,14 +95,14 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Indirizzo"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDataNascita"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
         android:id="@+id/editIndirizzo"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -112,8 +110,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="35"
-        android:text="XXXXXXXXXXXXX"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lIndirizzo"
         app:layout_constraintTop_toBottomOf="@+id/editDataNascita"
         app:layout_constraintWidth_percent="0.80" />
@@ -128,14 +125,14 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Telefono"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lIndirizzo"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
         android:id="@+id/editTelefono"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -143,8 +140,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="20"
-        android:text="XXXXXXXXXXXX"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lTelefono"
         app:layout_constraintTop_toBottomOf="@+id/editIndirizzo"
         app:layout_constraintWidth_percent="0.80" />
@@ -159,22 +155,21 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Email"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lTelefono"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
         android:id="@+id/editEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:text="XXXXXXXXXXXX"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTelefono"
         app:layout_constraintWidth_percent="0.80" />

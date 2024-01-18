@@ -16,9 +16,9 @@
         android:paddingLeft="4dp"
         android:paddingTop="8dp"
         android:paddingRight="4dp"
-        android:text="Nome corso"
+        android:text="Elenco corsi"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.79" />

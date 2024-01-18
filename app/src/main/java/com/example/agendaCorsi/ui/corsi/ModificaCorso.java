@@ -27,6 +27,7 @@ import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
@@ -39,14 +40,15 @@ public class ModificaCorso extends FunctionBase {
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
-    TextView capienza, giorno_settimana, id_fascia, fascia_oraria, scrollViewTabellaFasce;
+    TextView capienza, giorno_settimana, id_fascia, fascia_oraria;
     final Calendar myCalendar = Calendar.getInstance();
+    public TableLayout tabellaFasceModCorso;
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_corso);
-        tabellaFasce = findViewById(R.id.tabellaFasce);
+        tabellaFasceModCorso = findViewById(R.id.tabellaFasceModCorso);
 
         Intent intent = getIntent();
         idCorso = intent.getStringExtra("idCorso");
@@ -106,7 +108,31 @@ public class ModificaCorso extends FunctionBase {
 
         modificaCorso = this;
 
-        loadCorso();
+        Corso corso = loadCorso();
+        loadFasceOrarie();
+
+        /*
+         * La visibilità dei bottoni di cambio stato rispetta le regole
+         * documentate dal diagramma degli stati del Corso
+         */
+        if (corso.getStato().equals(STATO_CHIUSO)) {
+            chiudi.setVisibility(View.INVISIBLE);
+            sospendi.setVisibility(View.INVISIBLE);
+            apri.setVisibility(View.INVISIBLE);
+        } else if (corso.getStato().equals(STATO_APERTO)) {
+            apri.setVisibility(View.INVISIBLE);
+            listenerChiudi();
+            listenerSospendi();
+        } else if (corso.getStato().equals(STATO_SOSPESO)) {
+            chiudi.setVisibility(View.INVISIBLE);
+            sospendi.setVisibility(View.INVISIBLE);
+            listenerApri();
+        } else if (corso.getStato().equals(STATO_ATTIVO)) {
+            apri.setVisibility(View.INVISIBLE);
+            listenerChiudi();
+            listenerSospendi();
+        }
+
         /*
          * Set dei listeners sui bottoni
          */
@@ -114,9 +140,6 @@ public class ModificaCorso extends FunctionBase {
         intentMap.put("idCorso", String.valueOf(idCorso));
         intentMap.put("descrizioneCorso", descrizioneCorso);
 
-        listenerChiudi();
-        listenerSospendi();
-        listenerApri();
         listenerEsci(modificaCorso, ElencoCorsi.class, intentMap);
         listenerAnnulla();
         listenerElimina();
@@ -222,7 +245,7 @@ public class ModificaCorso extends FunctionBase {
         }
     }
 
-    private void loadCorso() {
+    private Corso loadCorso() {
         /**
          * Carico i dati del corso selezionato
          */
@@ -240,26 +263,8 @@ public class ModificaCorso extends FunctionBase {
             descrizioneCorso = _descrizione.getText().toString();
             dataInizioValidita = _dataInizioValidita.getText().toString();
             dataFineValidita = _dataFineValidita.getText().toString();
-
-            /*
-             * La visibilità dei bottoni di cambio stato rispetta le regole
-             * documentate dal diagramma degli stati del Corso
-             */
-            if (corso.getStato().equals(STATO_CHIUSO)) {
-                chiudi.setVisibility(View.INVISIBLE);
-                sospendi.setVisibility(View.INVISIBLE);
-                apri.setVisibility(View.INVISIBLE);
-            } else if (corso.getStato().equals(STATO_APERTO)) {
-                apri.setVisibility(View.INVISIBLE);
-            } else if (corso.getStato().equals(STATO_SOSPESO)) {
-                chiudi.setVisibility(View.INVISIBLE);
-                sospendi.setVisibility(View.INVISIBLE);
-            } else if (corso.getStato().equals(STATO_ATTIVO)) {
-                apri.setVisibility(View.INVISIBLE);
-            }
-
-            loadFasceOrarie();
         }
+        return corso;
     }
 
     public void loadFasceOrarie() {
@@ -268,7 +273,7 @@ public class ModificaCorso extends FunctionBase {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.1);
 
         List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
@@ -276,40 +281,40 @@ public class ModificaCorso extends FunctionBase {
         for (Object object : fasceCorsoList) {
             FasciaCorso fasciaCorso = (FasciaCorso) object;
 
-            tableRow = new TableRow(AgendaCorsiApp.getContext());
+            tableRow = new TableRow(this);
             tableRow.setClickable(true);
 
-            TextView giorno_settimana = new TextView(AgendaCorsiApp.getContext());
+            giorno_settimana = new TextView(this);
             giorno_settimana.setTextSize(14);
             giorno_settimana.setPadding(10,20,10,20);
-            giorno_settimana.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            giorno_settimana.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
             giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             giorno_settimana.setGravity(Gravity.CENTER);
-            giorno_settimana.setText(String.valueOf(fasciaCorso.getGiornoSettimana()));
+            giorno_settimana.setText(fasciaCorso.getGiornoSettimana());
             giorno_settimana.setWidth(larghezzaColonna1);
             tableRow.addView(giorno_settimana);
 
-            TextView fascia_oraria = new TextView(AgendaCorsiApp.getContext());
+            fascia_oraria = new TextView(this);
             fascia_oraria.setTextSize(14);
             fascia_oraria.setPadding(10,20,10,20);
-            fascia_oraria.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            fascia_oraria.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
             fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             fascia_oraria.setGravity(Gravity.CENTER);
             fascia_oraria.setText(fasciaCorso.getDescrizioneFascia());
             fascia_oraria.setWidth(larghezzaColonna2);
             tableRow.addView((fascia_oraria));
 
-            TextView capienza = new TextView(AgendaCorsiApp.getContext());
+            capienza = new TextView(this);
             capienza.setTextSize(14);
             capienza.setPadding(10,20,10,20);
-            capienza.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
+            capienza.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
             capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             capienza.setGravity(Gravity.CENTER);
             capienza.setText(fasciaCorso.getCapienza());
             capienza.setWidth(larghezzaColonna3);
             tableRow.addView((capienza));
 
-            TextView id_fascia = new TextView(AgendaCorsiApp.getContext());
+            id_fascia = new TextView(this);
             id_fascia.setText(String.valueOf(fasciaCorso.getIdFascia()));
             id_fascia.setVisibility(View.INVISIBLE);
             tableRow.addView(id_fascia);
@@ -318,8 +323,8 @@ public class ModificaCorso extends FunctionBase {
             intentMap.put("idCorso", String.valueOf(idCorso));
             intentMap.put("descrizioneCorso", descrizioneCorso);
 
-            listenerTableRow(AgendaCorsiApp.getContext(), ModificaFascia.class, "idFascia", intentMap, 3);
-            tabellaFasce.addView(tableRow);
+            listenerTableRow(this, ModificaFascia.class, "idFascia", intentMap, 3);
+            tabellaFasceModCorso.addView(tableRow);
         }
     }
 

@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-public class FunctionBase extends Activity {
+public class FunctionBase extends AppCompatActivity {
     /*
      * Gli sport
      */
@@ -100,7 +100,6 @@ public class FunctionBase extends Activity {
     public PropertyReader propertyReader;
     public Properties properties;
     public Mail mail;
-    public TableLayout tabellaFasce;
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
@@ -360,7 +359,7 @@ public class FunctionBase extends Activity {
             tableRow.addView(id_fascia);
 
             listenerTableRow(AgendaCorsiApp.getContext(), classTo, "idFascia", intentMap, 3);
-            tabellaFasce.addView(tableRow);
+            //tabellaFasce.addView(tableRow);
         }
     }
 

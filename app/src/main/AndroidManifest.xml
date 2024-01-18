@@ -23,27 +23,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.agendaCorsi.ui.settaggi.ModificaSettaggi" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.settaggi.ModificaSettaggi" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaContatto" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoContatto" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.contatti.ElencoContatti" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoElementoPortfolio" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaContatto" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoContatto" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ElencoContatti" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.NuovoElementoPortfolio" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.contatti.ModificaElementoPortfolio" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name="com.example.agendaCorsi.ui.corsi.ElencoCorsi" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.corsi.ModificaCorso" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.corsi.NuovoCorso" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.corsi.NuovaFascia" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.corsi.ModificaFascia" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.corsi.ElencoCorsi" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.corsi.ModificaCorso" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.corsi.NuovoCorso" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.corsi.NuovaFascia" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.corsi.ModificaFascia" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.NuovaIscrizione" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ModificaIscrizione" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ModificaFasciaIscrizione" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.SpostaIscrizione" android:screenOrientation="portrait"/>
-        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.NuovaIscrizione" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ModificaIscrizione" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ModificaFasciaIscrizione" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.SpostaIscrizione" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

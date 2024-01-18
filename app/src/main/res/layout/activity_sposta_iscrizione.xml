@@ -30,7 +30,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center|end"
         android:text="Corso"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
@@ -49,7 +49,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizioneCorso"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
@@ -64,7 +64,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Giorno"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizioneCorso"
         app:layout_constraintWidth_percent="0.18" />
@@ -83,7 +83,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -98,7 +98,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Fascia"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lGiornoSettimana"
         app:layout_constraintWidth_percent="0.18" />
@@ -117,7 +117,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lFascia"
         app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
         app:layout_constraintWidth_percent="0.75" />
@@ -132,7 +132,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Iscritto"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lFascia"
         app:layout_constraintWidth_percent="0.18" />
@@ -151,7 +151,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lNomeIscritto"
         app:layout_constraintTop_toBottomOf="@+id/editFascia"
         app:layout_constraintWidth_percent="0.75" />

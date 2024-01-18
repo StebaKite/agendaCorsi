@@ -30,7 +30,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center|end"
         android:text="Descriz."
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
@@ -45,7 +45,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
@@ -60,7 +60,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Inizio"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
         app:layout_constraintWidth_percent="0.18" />
@@ -79,7 +79,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
@@ -95,7 +95,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Fine"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDataInizio"
         app:layout_constraintWidth_percent="0.18" />
@@ -114,7 +114,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
@@ -136,10 +136,10 @@
             android:id="@+id/radio_normale"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:checkedButton="@+id/radio_normale"
+            android:checked="true"
             android:text="PROD"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <RadioButton
             android:id="@+id/radio_aperto"
@@ -147,7 +147,7 @@
             android:layout_height="40dp"
             android:text="TEST"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </RadioGroup>
 
@@ -167,10 +167,10 @@
             android:id="@+id/radio_skate"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:checkedButton="@+id/radio_skate"
+            android:checked="true"
             android:text="Skate"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:layout_editor_absoluteX="84dp"
             tools:layout_editor_absoluteY="268dp" />
 
@@ -180,7 +180,7 @@
             android:layout_height="40dp"
             android:text="Basket"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
 
@@ -190,7 +190,7 @@
             android:layout_height="40dp"
             android:text="Pattini"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
 
@@ -200,7 +200,7 @@
             android:layout_height="40dp"
             android:text="Pallavolo"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
     </RadioGroup>

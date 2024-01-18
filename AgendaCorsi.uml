@@ -11498,7 +11498,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[16]" type="UMLActionStateView" guid="y/n4sFREAEK+bwIWLq+Q0AAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">620</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">652</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">107</XPD:ATTR>
@@ -11570,7 +11570,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[19]" type="UMLActionStateView" guid="NQV2cdM3K0muuTC2PDPjEwAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">424</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">660</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">110</XPD:ATTR>
@@ -11642,7 +11642,7 @@ consumato.
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[22]" type="UMLActionStateView" guid="n7coAv0UFEGmJSOVP18EZQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00FFFF80</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">208</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">596</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">91</XPD:ATTR>

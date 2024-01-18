@@ -30,7 +30,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center|end"
         android:text="Descriz."
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
@@ -45,7 +45,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
@@ -60,7 +60,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Inizio"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
         app:layout_constraintWidth_percent="0.18" />
@@ -79,7 +79,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
@@ -95,7 +95,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Fine"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDataInizio"
         app:layout_constraintWidth_percent="0.18" />
@@ -114,7 +114,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="16sp"
+        android:textSize="14sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
@@ -234,7 +234,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <TableLayout
-            android:id="@+id/tabellaFasce"
+            android:id="@+id/tabellaFasceModCorso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
