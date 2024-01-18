@@ -142,7 +142,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.setClickable(true);
 
             descrizione = new TextView(this);
-            descrizione.setTextSize(16);
+            descrizione.setTextSize(14);
             descrizione.setPadding(10, 20, 10, 20);
             descrizione.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
             descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -152,7 +152,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.addView(descrizione);
 
             stato = new TextView(this);
-            stato.setTextSize(16);
+            stato.setTextSize(14);
             stato.setPadding(10, 20, 10, 20);
             stato.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
             stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);

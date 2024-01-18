@@ -55,7 +55,7 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.setClickable(true);
 
             corso = new TextView(this);
-            corso.setTextSize(16);
+            corso.setTextSize(14);
             corso.setPadding(10,20,10,20);
             corso.setBackground(ContextCompat.getDrawable(ElencoFasceCorsi.this, R.drawable.cell_border));
             corso.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -65,7 +65,7 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.addView(corso);
 
             giorno = new TextView(this);
-            giorno.setTextSize(16);
+            giorno.setTextSize(14);
             giorno.setPadding(10,20,10,20);
             giorno.setBackground(ContextCompat.getDrawable(ElencoFasceCorsi.this, R.drawable.cell_border));
             giorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -75,7 +75,7 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.addView(giorno);
 
             fascia = new TextView(this);
-            fascia.setTextSize(16);
+            fascia.setTextSize(14);
             fascia.setPadding(10,20,10,20);
             fascia.setBackground(ContextCompat.getDrawable(ElencoFasceCorsi.this, R.drawable.cell_border));
             fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -85,7 +85,7 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.addView(fascia);
 
             totaleFascia = new TextView(this);
-            totaleFascia.setTextSize(16);
+            totaleFascia.setTextSize(14);
             totaleFascia.setPadding(10,20,10,20);
             totaleFascia.setBackground(ContextCompat.getDrawable(ElencoFasceCorsi.this, R.drawable.cell_border));
             totaleFascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);

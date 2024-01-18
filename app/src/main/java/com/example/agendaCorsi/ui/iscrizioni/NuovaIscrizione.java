@@ -85,7 +85,7 @@ public class NuovaIscrizione extends FunctionBase {
             tableRow.setClickable(true);
 
             nome_contatto = new TextView(this);
-            nome_contatto.setTextSize(16);
+            nome_contatto.setTextSize(14);
             nome_contatto.setPadding(10,20,10,20);
             nome_contatto.setBackground(ContextCompat.getDrawable(NuovaIscrizione.this, R.drawable.cell_border));
             nome_contatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);

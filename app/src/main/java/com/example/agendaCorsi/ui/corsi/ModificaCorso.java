@@ -280,7 +280,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow.setClickable(true);
 
             TextView giorno_settimana = new TextView(AgendaCorsiApp.getContext());
-            giorno_settimana.setTextSize(16);
+            giorno_settimana.setTextSize(14);
             giorno_settimana.setPadding(10,20,10,20);
             giorno_settimana.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
             giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -290,7 +290,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow.addView(giorno_settimana);
 
             TextView fascia_oraria = new TextView(AgendaCorsiApp.getContext());
-            fascia_oraria.setTextSize(16);
+            fascia_oraria.setTextSize(14);
             fascia_oraria.setPadding(10,20,10,20);
             fascia_oraria.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
             fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -300,7 +300,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow.addView((fascia_oraria));
 
             TextView capienza = new TextView(AgendaCorsiApp.getContext());
-            capienza.setTextSize(16);
+            capienza.setTextSize(14);
             capienza.setPadding(10,20,10,20);
             capienza.setBackground(ContextCompat.getDrawable(AgendaCorsiApp.getContext(), R.drawable.cell_border));
             capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
