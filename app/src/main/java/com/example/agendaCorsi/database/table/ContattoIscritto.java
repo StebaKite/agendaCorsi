@@ -6,16 +6,19 @@ public class ContattoIscritto implements BaseColumns {
 
     public static Integer NOME_CONTATTO = 0;
     public static Integer ID_ISCRIZIONE = 1;
-    public static Integer STATO = 3;
+    public static Integer STATO = 2;
+    public static Integer DATA_NASCITA = 3;
 
     public String nomeContatto;
     public String idIscrizione;
     public String stato;
+    public String dataNascita;
 
-    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato) {
+    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato, String data_nascita) {
         this.nomeContatto = nomeContatto;
         this.idIscrizione = idIscrizione;
         this.stato = stato;
+        this.dataNascita = data_nascita;
     }
 
     public String getNomeContatto() {
@@ -40,5 +43,13 @@ public class ContattoIscritto implements BaseColumns {
 
     public void setStato(String stato) {
         this.stato = stato;
+    }
+
+    public String getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
     }
 }

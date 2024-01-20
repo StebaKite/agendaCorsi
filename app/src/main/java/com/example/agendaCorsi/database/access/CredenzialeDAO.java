@@ -43,7 +43,12 @@ public class CredenzialeDAO implements Database_itf {
     }
 
     public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
-        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        try {
+            sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        }
+        catch (SQLException e) {
+            Log.e(">>> " + DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
     }
 
     @Override

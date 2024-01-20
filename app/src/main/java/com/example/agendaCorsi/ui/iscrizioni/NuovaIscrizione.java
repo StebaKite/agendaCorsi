@@ -1,8 +1,11 @@
 package com.example.agendaCorsi.ui.iscrizioni;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -15,7 +18,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
@@ -27,17 +29,20 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class NuovaIscrizione extends FunctionBase {
 
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
-    TextView nome_contatto, id_elemento, emailContatto;
+    TextView nome_contatto, id_elemento, emailContatto, eta;
     TableLayout _tabellaContattiIscrivibili;
+    Context nuovaIscrizione;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuova_iscrizione);
+        nuovaIscrizione = this;
 
         esci = findViewById(R.id.bExit);
 
@@ -67,7 +72,17 @@ public class NuovaIscrizione extends FunctionBase {
             loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI);
         }
 
-        listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsi.class, null);
+        Map<String, String> intentMap = new ArrayMap<>();
+        intentMap.put("descrizioneCorso", descrizioneCorso);
+        intentMap.put("descrizioneFascia", descrizioneFascia);
+        intentMap.put("giornoSettimana", giornoSettimana);
+        intentMap.put("sport", sport);
+        intentMap.put("idCorso", idCorso);
+        intentMap.put("idFascia", idFascia);
+        intentMap.put("statoCorso", statoCorso);
+        intentMap.put("tipoCorso", tipoCorso);
+
+        listenerEsci(nuovaIscrizione, ElencoIscrizioni.class, intentMap);
     }
 
     private void loadContattiIscrvibili(String queryName) {
@@ -75,15 +90,20 @@ public class NuovaIscrizione extends FunctionBase {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
+        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
 
         List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(queryName));
+
+        makeIntestazioneTabella(larghezzaColonna1, larghezzaColonna2);
 
         for (Object object : contattiIscrivibiliList) {
             ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-
+            /**
+             * Cella 0
+             */
             nome_contatto = new TextView(this);
             nome_contatto.setTextSize(14);
             nome_contatto.setPadding(10,20,10,20);
@@ -93,12 +113,28 @@ public class NuovaIscrizione extends FunctionBase {
             nome_contatto.setText(String.valueOf(contattoIscrivibile.getNomeContatto()));
             nome_contatto.setWidth(larghezzaColonna1);
             tableRow.addView(nome_contatto);
-
+            /**
+             * Cella 1
+             */
+            eta = new TextView(this);
+            eta.setTextSize(14);
+            eta.setPadding(10,20,10,20);
+            eta.setBackground(ContextCompat.getDrawable(NuovaIscrizione.this, R.drawable.cell_border));
+            eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            eta.setGravity(Gravity.CENTER);
+            eta.setText(String.valueOf(computeAge(contattoIscrivibile.getDataNascita())));
+            eta.setWidth(larghezzaColonna2);
+            tableRow.addView(eta);
+            /**
+             * Cella 2
+             */
             id_elemento = new TextView(this);
             id_elemento.setText(String.valueOf(contattoIscrivibile.getIdElemento()));
             id_elemento.setVisibility(View.INVISIBLE);
             tableRow.addView(id_elemento);
-
+            /**
+             * Cella 3
+             */
             emailContatto = new TextView(this);
             emailContatto.setText(String.valueOf(contattoIscrivibile.getEmailContatto()));
             emailContatto.setVisibility(View.INVISIBLE);
@@ -112,10 +148,10 @@ public class NuovaIscrizione extends FunctionBase {
                     TextView textView = (TextView) tableRow.getChildAt(0);
                     String nomeContatto = textView.getText().toString();
 
-                    textView = (TextView) tableRow.getChildAt(1);
+                    textView = (TextView) tableRow.getChildAt(2);
                     String idSelezionato = textView.getText().toString();
 
-                    textView = (TextView) tableRow.getChildAt(2);
+                    textView = (TextView) tableRow.getChildAt(3);
                     String emailContatto = textView.getText().toString();
 
                     Iscrizione iscrizione = new Iscrizione(null, idFascia, idSelezionato, "Attiva", null, null);
@@ -123,15 +159,14 @@ public class NuovaIscrizione extends FunctionBase {
                         if (!statoCorso.equals(STATO_ATTIVO)) {
                             Corso corso = new Corso(idCorso,null,null, STATO_ATTIVO, null, null, null, null, null);
                             if (!CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-                                displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Cambio stato corso fallito, contatta il supporto tecnico");
+                                displayAlertDialog(nuovaIscrizione, "Attenzione!", "Cambio stato corso fallito, contatta il supporto tecnico");
                             }
                         }
-                        makeInvioNotificaIscrizione(emailContatto, nomeContatto, descrizioneCorso);
-                        Toast.makeText(AgendaCorsiApp.getContext(), "Iscrizione creata con successo.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(nuovaIscrizione, "Iscrizione creata con successo.", Toast.LENGTH_LONG).show();
                         esci.callOnClick();
                     }
                     else {
-                        displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Inserimento fallita, contatta il supporto tecnico");
+                        displayAlertDialog(nuovaIscrizione, "Attenzione!", "Inserimento fallita, contatta il supporto tecnico");
                     }
                 }
             });
@@ -139,40 +174,34 @@ public class NuovaIscrizione extends FunctionBase {
         }
     }
 
-    private void makeInvioNotificaIscrizione(String email, String nome, String corso) {
-        AlertDialog.Builder messaggio = new AlertDialog.Builder(AgendaCorsiApp.getContext(), R.style.Theme_InfoDialog);
-        messaggio.setTitle("Notifica");
-        messaggio.setMessage("Contatto iscritto con successo.\n\nVuoi inviare una mail di notifica al contatto?");
-        messaggio.setCancelable(false);
-        /**
-         * implemento i listener sui bottoni della conferma invio notifica
-         */
-        messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    String emailText = properties.getProperty("EMAIL_INSCRIZIONE_NOTIFICATION_BODY").replace("#NOME#", nome).replace("#CORSO#", corso);
-                    if (sendEmail("Iscrizione corso " + descrizioneCorso, emailText, email)) {
-                        Toast.makeText(AgendaCorsiApp.getContext(), "Notifica inviata con successo al contatto.", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Invio notifica fallito, contatta il supporto tecnico");
-                    }
-                }
-                catch (Exception e) {
-                    displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Invio notifica fallito, contatta il supporto tecnico");
-                }
-            }
-        }).getContext();
+    private void makeIntestazioneTabella(int larghezzaColonna1, int larghezzaColonna2) {
+        tableRow = new TableRow(this);
+        tableRow.setClickable(false);
 
-        messaggio.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
+        nome_contatto = new TextView(this);
+        nome_contatto.setTextSize(16);
+        nome_contatto.setPadding(10,20,10,20);
+        nome_contatto.setBackground(ContextCompat.getDrawable(NuovaIscrizione.this, R.drawable.cell_border_heading));
+        nome_contatto.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        nome_contatto.setTypeface(null, Typeface.BOLD);
+        nome_contatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        nome_contatto.setGravity(Gravity.CENTER);
+        nome_contatto.setText("Nome");
+        nome_contatto.setWidth(larghezzaColonna1);
+        tableRow.addView(nome_contatto);
 
-        AlertDialog ad = messaggio.create();
-        ad.show();
+        eta = new TextView(this);
+        eta.setTextSize(16);
+        eta.setPadding(10,20,10,20);
+        eta.setBackground(ContextCompat.getDrawable(NuovaIscrizione.this, R.drawable.cell_border_heading));
+        eta.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        eta.setTypeface(null, Typeface.BOLD);
+        eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        eta.setGravity(Gravity.CENTER);
+        eta.setText("Età");
+        eta.setWidth(larghezzaColonna2);
+        tableRow.addView(eta);
+
+        _tabellaContattiIscrivibili.addView(tableRow);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.agendaCorsi.database.access;
 
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GiornoSettimanaDAO implements Database_itf {
 
@@ -31,7 +33,12 @@ public class GiornoSettimanaDAO implements Database_itf {
     }
 
     public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
-        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        try {
+            sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        }
+        catch (SQLException e) {
+            Log.e(">>> " + DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
     }
 
     @Override

@@ -34,7 +34,12 @@ public class IscrizioneDAO implements Database_itf {
     }
 
     public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
-        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        try {
+            sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        }
+        catch (SQLException e) {
+            Log.e(">>> " + DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
     }
 
     @Override
@@ -105,6 +110,19 @@ public class IscrizioneDAO implements Database_itf {
 
     @Override
     public boolean delete(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Iscrizione iscrizione = (Iscrizione) entity;
+            String sql = query.replace("#IDISCR#", iscrizione.getIdIscrizione());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
         return false;
     }
 

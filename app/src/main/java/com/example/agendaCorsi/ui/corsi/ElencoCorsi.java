@@ -1,10 +1,10 @@
 package com.example.agendaCorsi.ui.corsi;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +25,8 @@ public class ElencoCorsi extends FunctionBase {
     TableLayout tabCorsi;
     TextView descrizione, stato, idCorso;
 
+    int larghezzaColonna1, larghezzaColonna2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,17 +35,55 @@ public class ElencoCorsi extends FunctionBase {
         inserisci = findViewById(R.id.bInserisciCorso);
         esci = findViewById(R.id.bExit);
 
-        displayElencoCorsi();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
+        larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+
+        testataElenco();
+        loadCorsi();
+
         listenerEsci(ElencoCorsi.this, MainActivity.class, null);
         listenerInserisci(ElencoCorsi.this, NuovoCorso.class, null);
     }
 
-    private void displayElencoCorsi() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    private void testataElenco() {
+        tableRow = new TableRow(this);
+        tableRow.setClickable(false);
+        /**
+         * Cella 0
+         */
+        descrizione = new TextView(this);
+        descrizione.setTextSize(14);
+        descrizione.setPadding(10,20,10,20);
+        descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_heading));
+        descrizione.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        descrizione.setTypeface(null, Typeface.BOLD);
+        descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        descrizione.setGravity(Gravity.CENTER);
+        descrizione.setText("Nome corso");
+        descrizione.setWidth(larghezzaColonna1);
+        tableRow.addView(descrizione);
+        /**
+         * Cella 1
+         */
+        stato = new TextView(this);
+        stato.setTextSize(14);
+        stato.setPadding(10,20,10,20);
+        stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_heading));
+        stato.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        stato.setTypeface(null, Typeface.BOLD);
+        stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        stato.setGravity(Gravity.CENTER);
+        stato.setText("Stato");
+        stato.setWidth(larghezzaColonna2);
+        tableRow.addView(stato);
 
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+        tabCorsi.addView(tableRow);
+    }
+
+    private void loadCorsi() {
 
         List<Object> corsiList = CorsoDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CORSI));
 
@@ -53,7 +93,7 @@ public class ElencoCorsi extends FunctionBase {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
             /**
-             * Caricamento descrizione corso sulla view scrollable
+             * Cella 0
              */
             descrizione = new TextView(this);
             descrizione.setTextSize(14);
@@ -64,7 +104,9 @@ public class ElencoCorsi extends FunctionBase {
             descrizione.setText(String.valueOf(corso.getDescrizione()));
             descrizione.setWidth(larghezzaColonna1);
             tableRow.addView(descrizione);
-
+            /**
+             * Cella 1
+             */
             stato = new TextView(this);
             stato.setTextSize(14);
             stato.setPadding(10,20,10,20);
@@ -74,7 +116,9 @@ public class ElencoCorsi extends FunctionBase {
             stato.setText(String.valueOf(corso.getStato()));
             stato.setWidth(larghezzaColonna2);
             tableRow.addView(stato);
-
+            /**
+             * Cella 2
+             */
             idCorso = new TextView(this);
             idCorso.setVisibility(View.INVISIBLE);
             idCorso.setText(String.valueOf(corso.getIdCorso()));

@@ -36,7 +36,12 @@ public class ContattiDAO implements Database_itf {
 
     @Override
     public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
-        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        try {
+            sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        }
+        catch (SQLException e) {
+            Log.e(">>> " + DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
     }
 
     public List<Object> getIscrivibili(String idCorso, String idFascia, String sport, String query) {
@@ -52,8 +57,9 @@ public class ContattiDAO implements Database_itf {
             String nomeContatto = cursor.getString(ContattoIscrivibile.NOME_CONTATTO);
             String idElemento = cursor.getString(ContattoIscrivibile.ID_ELEMENTO);
             String emailContatto = cursor.getString(ContattoIscrivibile.EMAIL_CONTATTO);
+            String dataNascita = cursor.getString(ContattoIscrivibile.DATA_NASCITA);
 
-            ContattoIscrivibile contattoIscrivibile = new ContattoIscrivibile(nomeContatto, idElemento, emailContatto, idFascia, idCorso, sport);
+            ContattoIscrivibile contattoIscrivibile = new ContattoIscrivibile(nomeContatto, idElemento, emailContatto, idFascia, idCorso, sport, dataNascita);
             list.add(contattoIscrivibile);
             cursor.moveToNext();
         }
@@ -75,8 +81,9 @@ public class ContattiDAO implements Database_itf {
             String nomeContatto = cursor.getString(ContattoIscritto.NOME_CONTATTO);
             String idIscrizione = cursor.getString(ContattoIscritto.ID_ISCRIZIONE);
             String stato = cursor.getString(ContattoIscritto.STATO);
+            String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }

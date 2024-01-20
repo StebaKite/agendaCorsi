@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
@@ -43,6 +44,8 @@ public class ModificaCorso extends FunctionBase {
     TextView capienza, giorno_settimana, id_fascia, fascia_oraria;
     final Calendar myCalendar = Calendar.getInstance();
     public TableLayout tabellaFasceModCorso;
+
+    int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,15 @@ public class ModificaCorso extends FunctionBase {
 
         modificaCorso = this;
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
+        larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
+
         Corso corso = loadCorso();
+        testataElenco();
         loadFasceOrarie();
 
         /*
@@ -267,15 +278,56 @@ public class ModificaCorso extends FunctionBase {
         return corso;
     }
 
+    private void testataElenco() {
+        tableRow = new TableRow(this);
+        tableRow.setClickable(false);
+        /**
+         * Cella 0
+         */
+        giorno_settimana = new TextView(this);
+        giorno_settimana.setTextSize(14);
+        giorno_settimana.setPadding(10,20,10,20);
+        giorno_settimana.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
+        giorno_settimana.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        giorno_settimana.setTypeface(null, Typeface.BOLD);
+        giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        giorno_settimana.setGravity(Gravity.CENTER);
+        giorno_settimana.setText("Giorno");
+        giorno_settimana.setWidth(larghezzaColonna1);
+        tableRow.addView(giorno_settimana);
+        /**
+         * Cella 1
+         */
+        fascia_oraria = new TextView(this);
+        fascia_oraria.setTextSize(14);
+        fascia_oraria.setPadding(10,20,10,20);
+        fascia_oraria.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
+        fascia_oraria.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        fascia_oraria.setTypeface(null, Typeface.BOLD);
+        fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        fascia_oraria.setGravity(Gravity.CENTER);
+        fascia_oraria.setText("Fascia oraria");
+        fascia_oraria.setWidth(larghezzaColonna2);
+        tableRow.addView((fascia_oraria));
+        /**
+         * Cella 2
+         */
+        capienza = new TextView(this);
+        capienza.setTextSize(14);
+        capienza.setPadding(10,20,10,20);
+        capienza.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
+        capienza.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        capienza.setTypeface(null, Typeface.BOLD);
+        capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        capienza.setGravity(Gravity.CENTER);
+        capienza.setText("Capienza");
+        capienza.setWidth(larghezzaColonna3);
+        tableRow.addView((capienza));
+
+        tabellaFasceModCorso.addView(tableRow);
+    }
+
     public void loadFasceOrarie() {
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
-        int larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.1);
-
         List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
 
         for (Object object : fasceCorsoList) {
@@ -283,7 +335,9 @@ public class ModificaCorso extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-
+            /**
+             * Cella 0
+             */
             giorno_settimana = new TextView(this);
             giorno_settimana.setTextSize(14);
             giorno_settimana.setPadding(10,20,10,20);
@@ -293,7 +347,9 @@ public class ModificaCorso extends FunctionBase {
             giorno_settimana.setText(fasciaCorso.getGiornoSettimana());
             giorno_settimana.setWidth(larghezzaColonna1);
             tableRow.addView(giorno_settimana);
-
+            /**
+             * Cella 1
+             */
             fascia_oraria = new TextView(this);
             fascia_oraria.setTextSize(14);
             fascia_oraria.setPadding(10,20,10,20);
@@ -303,7 +359,9 @@ public class ModificaCorso extends FunctionBase {
             fascia_oraria.setText(fasciaCorso.getDescrizioneFascia());
             fascia_oraria.setWidth(larghezzaColonna2);
             tableRow.addView((fascia_oraria));
-
+            /**
+             * Cella 2
+             */
             capienza = new TextView(this);
             capienza.setTextSize(14);
             capienza.setPadding(10,20,10,20);

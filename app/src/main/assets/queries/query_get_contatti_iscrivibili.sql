@@ -12,9 +12,10 @@
 select
         t1.nome,
         t1.id_elemento,
-        t1.email
+        t1.email,
+        t1.data_nascita
     from (
-        select contatto.nome, contatto.email, elemento_portfolio.id_elemento
+        select contatto.nome, contatto.email, elemento_portfolio.id_elemento, contatto.data_nascita
           from elemento_portfolio
 
                 inner join contatto

@@ -2,21 +2,21 @@
 -- Contatti iscritti ad una fascia oraria di un corso
 --------------------------------------------------------------
 
-select t1.nome, t1.id_iscrizione, t1.stato
-  from (
+select
+    contatto.nome,
+    iscrizione.id_iscrizione,
+    iscrizione.stato,
+    contatto.data_nascita
 
-    select contatto.nome, t2.id_elemento, t2.id_iscrizione, t2.stato
-      from contatto
+  from iscrizione
 
-        inner join elemento_portfolio
-            on elemento_portfolio.id_contatto = contatto.id_contatto
+    inner join elemento_portfolio
+        on elemento_portfolio.id_elemento = iscrizione.id_elemento
 
-        inner join (
-            select id_iscrizione, id_elemento, stato
-              from iscrizione
-             where iscrizione.id_fascia = #IDFASCIA#
-            ) as t2
-            on t2.id_elemento = elemento_portfolio.id_elemento
+    inner join contatto
+        on contatto.id_contatto = elemento_portfolio.id_contatto
 
-  ) as t1
-  order by t1.nome
+  where iscrizione.id_fascia = #IDFASCIA#
+
+  order by contatto.nome
+

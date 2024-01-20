@@ -35,7 +35,12 @@ public class FasciaDAO implements Database_itf {
     }
 
     public void create(SQLiteDatabase sqLiteDatabase, String tableName) {
-        sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        try {
+            sqLiteDatabase.execSQL(QueryComposer.getInstance().getQuery(tableName));
+        }
+        catch (SQLException e) {
+            Log.e(">>> " + DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
     }
 
     public List<Object> getFasceCorso(String idCorsoToRead, String query) {

@@ -1,5 +1,6 @@
 package com.example.agendaCorsi;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
@@ -72,20 +74,18 @@ public class MainActivity extends FunctionBase {
                     // aggiungo il totale per il giorno della settimana
                     cellNum++;
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
-                    cellNum = Integer.parseInt(dashboard.getGiornoSettimana());
                 }
                 else {
-                    cellNum++;
                     if (!descrizione_fascia_save.equals("")) {
                         // non è la prima row quindi aggiungo in tabella la row finita
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
                         tabSettimana.addView(tableRow);
-                        cellNum = 0;
+                        cellNum = 1;
                     }
                     else {
                         // è la prima row quindi preparo solo la nuova riga
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        cellNum = 0;
+                        cellNum = 1;
                     }
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
@@ -103,7 +103,7 @@ public class MainActivity extends FunctionBase {
                 intestaTabella(descrizione_corso_save, larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
                 tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
                 tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
-                cellNum = 1;
+                cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
             }
         }
         if (totaliCorsoList.size() > 0) {
@@ -114,7 +114,7 @@ public class MainActivity extends FunctionBase {
     public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
         tableRow = new TableRow(this);
         corso = new TextView(this);
-        corso.setTextSize(20);
+        corso.setTextSize(16);
         corso.setPadding(10,50,10,50);
         corso.setWidth(larghezzaColonna);
         corso.setText(descrizioneCorso);
@@ -167,7 +167,7 @@ public class MainActivity extends FunctionBase {
     }
 
     public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
-        //fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
+        fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
         totaleGiorno.setTextSize(14);
         totaleGiorno.setPadding(10,20,10,20);
@@ -220,6 +220,9 @@ public class MainActivity extends FunctionBase {
             Intent intent = new Intent(MainActivity.this, ModificaSettaggi.class);
             startActivity(intent);
             return true;
+        }
+        else if (item.getTitle().equals("Esci")) {
+            System.exit(0);
         }
         return super.onOptionsItemSelected(item);
     }

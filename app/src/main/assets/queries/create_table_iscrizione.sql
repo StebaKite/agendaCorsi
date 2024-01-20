@@ -1,10 +1,10 @@
 create table if not exists iscrizione (
 
     id_iscrizione integer primary key autoincrement,
-    id_fascia integer,
-    id_elemento integer,
-    stato text,
-    data_creazione text,
+    id_fascia integer not null,
+    id_elemento integer not null,
+    stato text not null,
+    data_creazione text not null,
     data_ultimo_aggiornamento text,
 
     constraint fk_fascia

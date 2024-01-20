@@ -1,17 +1,13 @@
 package com.example.agendaCorsi.database;
 
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
-import com.example.agendaCorsi.database.access.DashboardDAO;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
@@ -21,19 +17,13 @@ import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
-import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-
-import java.util.Properties;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 6;
+    public static final int SCHEMA_VERSION = 9;
     public static final String DATABASE_NAME = "contattiPersonali.db";
-
-    public PropertyReader propertyReader;
-    public Properties properties;
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
     public static String CREATE_TABLE_ELEMENTO_PORTFOLIO = "create_table_elemento_portfolio";
@@ -127,6 +117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(query.replace("#NUMGIO#","6").replace("#NGIOBV#","Sa").replace("#NGIOES#", "Sabato"));
         sqLiteDatabase.execSQL(query.replace("#NUMGIO#","7").replace("#NGIOBV#","Do").replace("#NGIOES#", "Domenica"));
     }
+
+    
 
 }
 

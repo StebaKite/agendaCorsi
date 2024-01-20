@@ -1,10 +1,10 @@
 package com.example.agendaCorsi.ui.contatti;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,7 +23,9 @@ import java.util.List;
 public class ElencoContatti extends FunctionBase {
 
     TableLayout tabContatti;
-    TextView nomeContatto, idContatto;
+    TextView nomeContatto, idContatto, eta;
+
+    int larghezzaColonna1, larghezzaColonna2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +35,55 @@ public class ElencoContatti extends FunctionBase {
         inserisci = findViewById(R.id.bInserisciContatto);
         esci = findViewById(R.id.bExit);
 
-        displayElencoContatti();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.6);
+        larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
+
+        testataElenco();
+        loadContatti();
+
         listenerEsci(ElencoContatti.this , MainActivity.class, null);
         listenerInserisci(ElencoContatti.this, NuovoContatto.class, null);
     }
 
-    private void displayElencoContatti() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    private void testataElenco() {
+        tableRow = new TableRow(this);
+        tableRow.setClickable(false);
+        /**
+         * Cella 0
+         */
+        nomeContatto = new TextView(this);
+        nomeContatto.setTextSize(14);
+        nomeContatto.setPadding(10,20,10,20);
+        nomeContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border_heading));
+        nomeContatto.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        nomeContatto.setTypeface(null, Typeface.BOLD);
+        nomeContatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        nomeContatto.setGravity(Gravity.CENTER);
+        nomeContatto.setText("Nome");
+        nomeContatto.setWidth(larghezzaColonna1);
+        tableRow.addView(nomeContatto);
+        /**
+         * Cella 1
+         */
+        eta = new TextView(this);
+        eta.setTextSize(14);
+        eta.setPadding(10,20,10,20);
+        eta.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border_heading));
+        eta.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+        eta.setTypeface(null, Typeface.BOLD);
+        eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        eta.setGravity(Gravity.CENTER);
+        eta.setText("Età");
+        eta.setWidth(larghezzaColonna2);
+        tableRow.addView(eta);
 
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+        tabContatti.addView(tableRow);
+    }
+
+    private void loadContatti() {
 
         propertyReader = new PropertyReader(this);
         properties = propertyReader.getMyProperties("config.properties");
@@ -55,7 +95,7 @@ public class ElencoContatti extends FunctionBase {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
             /**
-             * Caricamento del nome sul textView
+             * Cella 0
              */
             nomeContatto = new TextView(this);
             nomeContatto.setTextSize(14);
@@ -67,19 +107,26 @@ public class ElencoContatti extends FunctionBase {
             nomeContatto.setWidth(larghezzaColonna1);
             tableRow.addView(nomeContatto);
             /**
-             * Caricamento ID contatto sul textView
+             * Cella 1
+             */
+            eta = new TextView(this);
+            eta.setTextSize(14);
+            eta.setPadding(10,20,10,20);
+            eta.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
+            eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            eta.setGravity(Gravity.CENTER);
+            eta.setText(String.valueOf(computeAge(contatto.getDataNascita())));
+            eta.setWidth(larghezzaColonna2);
+            tableRow.addView(eta);
+            /**
+             * Cella 2
              */
             idContatto = new TextView(this);
-            idContatto.setTextSize(14);
             idContatto.setVisibility(View.INVISIBLE);
-            idContatto.setPadding(10,20,10,20);
-            idContatto.setBackground(ContextCompat.getDrawable(ElencoContatti.this, R.drawable.cell_border));
-            idContatto.setGravity(Gravity.CENTER);
             idContatto.setText(String.valueOf(contatto.getId()));
-            idContatto.setWidth(larghezzaColonna2);
             tableRow.addView(idContatto);
 
-            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 1);
+            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 2);
             tabContatti.addView(tableRow);
         }
     }

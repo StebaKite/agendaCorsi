@@ -11141,7 +11141,7 @@ consumato.
 <XPD:OBJ name="DiagramView" type="UMLActivityDiagramView" guid="Du+tHPC9Kkm6iwrdRVd0kwAA">
 <XPD:REF name="Model">S8FCNLvC6UOUTx6dIYWDKgAA</XPD:REF>
 <XPD:REF name="Diagram">S8FCNLvC6UOUTx6dIYWDKgAA</XPD:REF>
-<XPD:ATTR name="#OwnedViews" type="integer">37</XPD:ATTR>
+<XPD:ATTR name="#OwnedViews" type="integer">35</XPD:ATTR>
 <XPD:OBJ name="OwnedViews[0]" type="UMLTextView" guid="uCG9iIusfk+vJ7PiOlnHRQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
@@ -11801,26 +11801,7 @@ funzione porta lo stato del corso a &quot;Aperto&quot;. (stato iniziale del cors
 <XPD:REF name="Head">0XNUfW7pP0i+9zfBEDz23AAA</XPD:REF>
 <XPD:REF name="Tail">n7coAv0UFEGmJSOVP18EZQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[32]" type="UMLNoteView" guid="KI+yd77zEEqG+OzLGQTLSgAA">
-<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00E0E0E0</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">480</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">744</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">421</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">65</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">Questa funzione porta lo stato dell'iscrizione a &quot;Sospesa&quot;.
-Dopo la sospensione, se non c'&#232; un'altra iscrizione &quot;Attiva&quot; sulla fascia, la
-funzione porta lo stato del corso a &quot;Aperto&quot;. (stato iniziale del corso senza iscrizioni)
-</XPD:ATTR>
-</XPD:OBJ>
-<XPD:OBJ name="OwnedViews[33]" type="UMLNoteLinkView" guid="p9erpqvJtkmpMot0Ny36fgAA">
-<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">522,699;620,744</XPD:ATTR>
-<XPD:REF name="Head">KI+yd77zEEqG+OzLGQTLSgAA</XPD:REF>
-<XPD:REF name="Tail">NQV2cdM3K0muuTC2PDPjEwAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="OwnedViews[34]" type="UMLPseudostateView" guid="S8ApXEb+bkurGneKIOkQAgAA">
+<XPD:OBJ name="OwnedViews[32]" type="UMLPseudostateView" guid="S8ApXEb+bkurGneKIOkQAgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">456</XPD:ATTR>
@@ -11829,7 +11810,7 @@ funzione porta lo stato del corso a &quot;Aperto&quot;. (stato iniziale del cors
 <XPD:ATTR name="Height" type="integer">30</XPD:ATTR>
 <XPD:REF name="Model">7EvA3cHxoUGuXM2Jk0IAUwAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[35]" type="UMLTransitionView" guid="PA+ZeNVUWkO7wQbsN4oNSgAA">
+<XPD:OBJ name="OwnedViews[33]" type="UMLTransitionView" guid="PA+ZeNVUWkO7wQbsN4oNSgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Points" type="Points">480,349;482,412</XPD:ATTR>
@@ -11855,7 +11836,7 @@ funzione porta lo stato del corso a &quot;Aperto&quot;. (stato iniziale del cors
 <XPD:REF name="Model">1xy1rJUmI0eN3rNbAcTiMAAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[36]" type="UMLTransitionView" guid="s25p0H1ROUqM2IDUTMXS0wAA">
+<XPD:OBJ name="OwnedViews[34]" type="UMLTransitionView" guid="s25p0H1ROUqM2IDUTMXS0wAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Points" type="Points">505,334;768,332;769,412</XPD:ATTR>
