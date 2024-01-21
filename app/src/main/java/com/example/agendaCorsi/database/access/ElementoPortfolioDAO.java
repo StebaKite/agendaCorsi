@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
@@ -71,7 +72,30 @@ public class ElementoPortfolioDAO implements Database_itf {
 
     @Override
     public List<Object> getAll(String query) {
-        return null;
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+
+        String sql = query;
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String idElemento = String.valueOf(cursor.getInt(ElementoPortfolio.ID_ELEMENTO));
+            String idContatto = String.valueOf(cursor.getInt(ElementoPortfolio.ID_CONTATTO));
+            String descrizione = String.valueOf(cursor.getString(ElementoPortfolio.DESCRIZIONE));
+            String sport = String.valueOf(cursor.getString(ElementoPortfolio.SPORT));
+            String numeroLezioni = String.valueOf(cursor.getString(ElementoPortfolio.NUMERO_LEZIONI));
+            String dataUltimaRicarica = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
+            String stato = String.valueOf(cursor.getString(ElementoPortfolio.STATO));
+
+            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento,idContatto,descrizione,sport,numeroLezioni,dataUltimaRicarica,stato);
+            list.add(elementoPortfolio);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
     }
 
     @Override
@@ -102,7 +126,7 @@ public class ElementoPortfolioDAO implements Database_itf {
     public boolean update(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
-            ElementoPortfolio elementoPortfolio = ElementoPortfolio.class.cast(entity);
+            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
             String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).
                     replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).
                     replace("#DESC#", elementoPortfolio.getDescrizione()).
@@ -110,6 +134,23 @@ public class ElementoPortfolioDAO implements Database_itf {
                     replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
                     replace("#STATO#", elementoPortfolio.getStato()).
                     replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
+    public boolean updateStato(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
+            String sql = query.replace("#STATO#", elementoPortfolio.getStato()).replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);

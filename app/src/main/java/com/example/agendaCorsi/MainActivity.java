@@ -1,6 +1,5 @@
 package com.example.agendaCorsi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
@@ -14,15 +13,19 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Credenziale;
 import com.example.agendaCorsi.database.table.Dashboard;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
@@ -49,7 +52,50 @@ public class MainActivity extends FunctionBase {
         Credenziale credenziale = new Credenziale(null, null, null, null);
         CredenzialeDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
 
+        checkValiditaCorsi();
+        checkValiditaElementiPortoflio();
         displayQuadroIscrizioni();
+    }
+
+    /**
+     * Tutti gli elementi di portfolio trovati, la cui data di ultima ricarica è più vecchia di un perido temporale
+     * configurato (property PORTFOLIO_ELEMENT_DURATION_YEAR), vengono posti in stato "Scaduto"
+     */
+    private void checkValiditaElementiPortoflio() {
+        List<Object> elementiList = ElementoPortfolioDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_ELEMENTO));
+        for (Object entity : elementiList) {
+            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
+            /*
+             * La data ultima ricarica deve essere impostata e lo stato deve essere "Carico"
+             */
+            if (!elementoPortfolio.getDataUltimaRicarica().equals("") && elementoPortfolio.getStato().equals(STATO_CARICO)) {
+                propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
+                properties = propertyReader.getMyProperties("config.properties");
+                int portfolioElementDurationYear = Integer.parseInt(properties.getProperty("PORTFOLIO_ELEMENT_DURATION_YEAR"));
+
+                if (checkObsolescenceDate(addYearToDate(elementoPortfolio.getDataUltimaRicarica(), portfolioElementDurationYear))) {
+                    elementoPortfolio.setStato(STATO_SCADUTO);
+                    if (!ElementoPortfolioDAO.getInstance().updateStato(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_DEL_ELEMENTO))) {
+                        displayAlertDialog(this, "Attenzione!", "Aggiornamento stato elemento_portfolio fallito, contatta il supporto tecnico");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Tutti i corsi trovati outDated vengono eliminati
+     */
+    private void checkValiditaCorsi() {
+        List<Object> corsiList = CorsoDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CORSI));
+        for (Object entity : corsiList) {
+            Corso corso = Corso.class.cast(entity);
+            if (checkObsolescenceDate(corso.getDataFineValidita())) {
+                if (!CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
+                    displayAlertDialog(this, "Attenzione!", "Cancellazione corso fallito, contatta il supporto tecnico");
+                }
+            }
+        }
     }
 
     private void displayQuadroIscrizioni() {

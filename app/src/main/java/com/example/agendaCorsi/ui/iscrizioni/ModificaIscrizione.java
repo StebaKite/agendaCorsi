@@ -56,7 +56,7 @@ public class ModificaIscrizione extends FunctionBase {
         statoCorso = intent.getStringExtra("statoCorso");
         tipoCorso = intent.getStringExtra("tipoCorso");
         nomeIscritto = intent.getStringExtra("nomeIscritto");
-        statoIscrizione = intent.getStringExtra("stato");
+        statoIscrizione = intent.getStringExtra("statoIscrizione");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -93,13 +93,14 @@ public class ModificaIscrizione extends FunctionBase {
         intentMap.put("idFascia", idFascia);
         intentMap.put("statoCorso", statoCorso);
         intentMap.put("tipoCorso", tipoCorso);
+        intentMap.put("statoIscrizione", statoIscrizione);
 
         listenerSpostaIscrizione(idIscrizione);
         listenerChiudi();
         listenerSospendi();
         listenerApri();
         listenerElimina();
-        listenerEsci(AgendaCorsiApp.getContext(), ElencoIscrizioni.class, intentMap);
+        listenerEsci(modificaIscrizione, ElencoIscrizioni.class, intentMap);
     }
 
 
@@ -190,6 +191,7 @@ public class ModificaIscrizione extends FunctionBase {
         intent.putExtra("idIscrizione", idIscrizione);
         intent.putExtra("statoCorso", statoCorso);
         intent.putExtra("nomeIscritto", nomeIscritto);
+        intent.putExtra("statoIscrizione", statoIscrizione);
 
         startActivity(intent);
     }

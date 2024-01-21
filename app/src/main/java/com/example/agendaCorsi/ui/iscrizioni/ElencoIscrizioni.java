@@ -156,7 +156,7 @@ public class ElencoIscrizioni extends FunctionBase {
             intentMap.put("idIscrizione", contattoIscritto.getIdIscrizione());
             intentMap.put("statoCorso", statoCorso);
             intentMap.put("nomeIscritto", contattoIscritto.getNomeContatto());
-            intentMap.put("stato", contattoIscritto.getStato());
+            intentMap.put("statoIscrizione", contattoIscritto.getStato());
             intentMap.put("tipoCorso", tipoCorso);
 
             listenerTableRow(elencoIscrizioni, ModificaIscrizione.class, "idIscrizione", intentMap, 2);

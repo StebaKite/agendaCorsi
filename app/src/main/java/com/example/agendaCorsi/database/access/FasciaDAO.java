@@ -69,6 +69,32 @@ public class FasciaDAO implements Database_itf {
         return list;
     }
 
+    public List<Object> getAllFasceDisponibili(String idCorso, String idFasciaAttuale, String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+        String sql = query.replace("#IDCORSO#", idCorso).replace("#IDFASCIA#", idFasciaAttuale);
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String descrizioneCorso = cursor.getString(FasciaCorso.DESCRIZIONE_CORSO);
+            String descrizioneFascia = cursor.getString(FasciaCorso.DESCRIZIONE_FASCIA);
+            String idFascia = cursor.getString(FasciaCorso.ID_FASCIA);
+            String giornoSettimana = cursor.getString(FasciaCorso.GIORNO_SETTIMANA);
+            String capienza = cursor.getString(FasciaCorso.CAPIENZA);
+            String totaleFascia = cursor.getString(FasciaCorso.TOTALE_FASCIA);
+
+            Object fasciaCorso = new FasciaCorso(descrizioneCorso, null, null, null, descrizioneFascia, idFascia, capienza, giornoSettimana, totaleFascia, null, null);
+            list.add(fasciaCorso);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
+    }
+
     public List<Object> getAllFasceCorsi(String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();

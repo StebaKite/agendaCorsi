@@ -3,7 +3,6 @@ package com.example.agendaCorsi.ui.base;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +14,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
-import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -53,6 +48,9 @@ public class FunctionBase extends AppCompatActivity {
     public static String STATO_ATTIVO = "Attivo";
     public static String STATO_ATTIVA = "Attiva";
     public static String STATO_SOSPESO = "Sospeso";
+    public static String STATO_CARICO = "Carico";
+    public static String STATO_SCADUTO = "Scaduto";
+    public static String STATO_ESAURITO = "Esaurito";
     /*
      * Le query
      */
@@ -93,6 +91,8 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_STATO_ISCRIZIONE = "query_mod_stato_iscrizione";
     public static String QUERY_DEL_ISCRIZIONE = "query_del_iscrizione";
     public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
+    public static String QUERY_GETALL_FASCE_DISPONIBILI = "query_getall_fasce_disponibili";
+    public static String QUERY_GETALL_ELEMENTO = "query_getall_elemento";
     /*
      * I bottoni
      */
@@ -300,10 +300,42 @@ public class FunctionBase extends AppCompatActivity {
             return age;
         }
         catch(ParseException e) {
-            Log.e("MyApplication","Can not compute age from date:"+sDate,e);
+            Log.e("AgendaCorsi","Can not compute age from date:"+sDate,e);
             return 0;
         }
     }
+
+    public boolean checkObsolescenceDate(String dataFineValidita) {
+        try {
+            Date fineDate = null;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            fineDate = (Date)dateFormat.parse(dataFineValidita);
+
+            long now = System.currentTimeMillis();
+
+            if (now > fineDate.getTime()) {
+                return true;        // ok, obsolescenza
+            }
+        }
+        catch(ParseException e) {
+            Log.e("AgendaCorsi","Can not check course date:",e);
+            return false;
+        }
+        return false;
+    }
+
+    public String addYearToDate(String data, int yearQuantity) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.YEAR, yearQuantity);
+        Date modifiedDate = cal.getTime();
+
+        return dateFormat.format(modifiedDate);
+    }
+
 
     public void makeAnnulla() {}
 

@@ -34,5 +34,11 @@ select
 
     ) as t3
 
-    inner join corso on corso.id_corso = t3.id_corso
+    inner join (select id_corso, corso.descrizione
+                    from corso
+                    where corso.stato != 'Chiuso'
+            ) as corso
+        on corso.id_corso = t3.id_corso
+
 	order by 1,2,3
+

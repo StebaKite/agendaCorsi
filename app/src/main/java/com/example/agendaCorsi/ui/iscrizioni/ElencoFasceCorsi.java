@@ -111,8 +111,6 @@ public class ElencoFasceCorsi extends FunctionBase {
     }
 
     private void loadFasceCorsi() {
-
-
         List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsi(QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_CORSI));
 
         String descrizione_corso_save = "";

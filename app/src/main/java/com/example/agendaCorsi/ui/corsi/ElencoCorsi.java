@@ -98,7 +98,12 @@ public class ElencoCorsi extends FunctionBase {
             descrizione = new TextView(this);
             descrizione.setTextSize(14);
             descrizione.setPadding(10,20,10,20);
-            descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
+            if (corso.getStato().equals(STATO_CHIUSO)) {
+                descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_closed));
+            }
+            else {
+                descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
+            }
             descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             descrizione.setGravity(Gravity.CENTER);
             descrizione.setText(String.valueOf(corso.getDescrizione()));
@@ -110,7 +115,12 @@ public class ElencoCorsi extends FunctionBase {
             stato = new TextView(this);
             stato.setTextSize(14);
             stato.setPadding(10,20,10,20);
-            stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
+            if (corso.getStato().equals(STATO_CHIUSO)) {
+                stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_closed));
+            }
+            else {
+                stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
+            }
             stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             stato.setGravity(Gravity.CENTER);
             stato.setText(String.valueOf(corso.getStato()));
@@ -124,7 +134,9 @@ public class ElencoCorsi extends FunctionBase {
             idCorso.setText(String.valueOf(corso.getIdCorso()));
             tableRow.addView(idCorso);
 
-            listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);
+            if (!corso.getStato().equals(STATO_CHIUSO)) {
+                listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);
+            }
             tabCorsi.addView(tableRow);
         }
     }

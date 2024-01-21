@@ -38,6 +38,7 @@ select
                     on iscrizione.id_fascia = fascia.id_fascia
 
            where corso.id_corso = #IDCORSO#
+             and corso.stato != 'Chiuso'
         )
 
   order by t1.nome
