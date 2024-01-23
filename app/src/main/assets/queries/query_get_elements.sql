@@ -8,5 +8,7 @@ select
     stato,
     data_creazione,
     data_ultimo_aggiornamento
-from #TABLENAME#
+
+from elemento_portfolio
+
 where id_contatto = #IDCONTATTO#

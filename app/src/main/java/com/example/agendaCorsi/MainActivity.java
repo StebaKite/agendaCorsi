@@ -29,6 +29,8 @@ import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
+import com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning;
+import com.example.agendaCorsi.ui.presenze.RegistraPresenze;
 import com.example.agendaCorsi.ui.settaggi.ModificaSettaggi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
@@ -118,8 +120,8 @@ public class MainActivity extends FunctionBase {
             if (dashboard.getDescrizioneCorso().equals(descrizione_corso_save)) {
                 if (dashboard.getDescrizioneFascia().equals(descrizione_fascia_save)) {
                     // aggiungo il totale per il giorno della settimana
-                    cellNum++;
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                    cellNum++;
                 }
                 else {
                     if (!descrizione_fascia_save.equals("")) {
@@ -159,6 +161,7 @@ public class MainActivity extends FunctionBase {
 
     public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
         tableRow = new TableRow(this);
+        tableRow.setClickable(false);
         corso = new TextView(this);
         corso.setTextSize(16);
         corso.setPadding(10,50,10,50);
@@ -168,31 +171,14 @@ public class MainActivity extends FunctionBase {
         tabSettimana.addView(tableRow);
 
         tableRow = new TableRow(this);
-
-        fascia = new TextView(this);
-        fascia.setTextSize(14);
-        fascia.setPadding(10,20,10,20);
-        fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-        fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        fascia.setGravity(Gravity.CENTER);
-        fascia.setWidth(larghezzaColonnaFascia);
-        fascia.setText("Fascia");
-        tableRow.addView(fascia);
+        tableRow.setClickable(false);
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonnaFascia,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
 
         List<Object> giorniSettimanaList = GiornoSettimanaDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
 
         for (Object entity : giorniSettimanaList) {
             GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
-
-            totaleGiorno = new TextView(this);
-            totaleGiorno.setTextSize(14);
-            totaleGiorno.setPadding(10,20,10,20);
-            totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-            totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            totaleGiorno.setGravity(Gravity.CENTER);
-            totaleGiorno.setWidth(larghezzaColonnaTotale);
-            totaleGiorno.setText(giornoSettimana.getNomeGiornoAbbreviato());
-            tableRow.addView(totaleGiorno);
+            tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonnaTotale,giornoSettimana.getNomeGiornoAbbreviato(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }
         tabSettimana.addView(tableRow);
     }
@@ -200,42 +186,20 @@ public class MainActivity extends FunctionBase {
 
     public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna) {
         tableRow = new TableRow(this);
-        fascia = new TextView(this);
-        fascia.setTextSize(14);
-        fascia.setPadding(10,20,10,20);
-        fascia.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_heading));
-        fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        fascia.setGravity(Gravity.CENTER);
-        fascia.setText(descrizioneFascia);
-        fascia.setWidth(larghezzaColonna);
-        tableRow.addView(fascia);
+        tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         return tableRow;
     }
 
     public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
         fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
-        totaleGiorno.setTextSize(14);
-        totaleGiorno.setPadding(10,20,10,20);
-        totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-        totaleGiorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        totaleGiorno.setGravity(Gravity.CENTER);
-        totaleGiorno.setText(totale);
-        totaleGiorno.setWidth(larghezzaColonna);
-
-        tRow.addView(totaleGiorno);
-
+        tRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         return tRow;
     }
 
     private TableRow fillRow(int giornoSettimana, int cellNum, int larghezzaColonna, TableRow tRow) {
         for (int i = cellNum; i < giornoSettimana; i++) {
-            totaleGiorno = new TextView(this);
-            totaleGiorno.setTextSize(16);
-            totaleGiorno.setPadding(10, 20, 10, 20);
-            totaleGiorno.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-            totaleGiorno.setWidth(larghezzaColonna);
-            tRow.addView(totaleGiorno);
+            tRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }
         return tRow;
     }
@@ -262,8 +226,8 @@ public class MainActivity extends FunctionBase {
             startActivity(intent);
             return true;
         }
-        else if (item.getTitle().equals("Settaggi")) {
-            Intent intent = new Intent(MainActivity.this, ModificaSettaggi.class);
+        else if (item.getTitle().equals("Presenze")) {
+            Intent intent = new Intent(MainActivity.this, ElencoFasceCorsiRunning.class);
             startActivity(intent);
             return true;
         }

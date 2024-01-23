@@ -3,6 +3,7 @@ package com.example.agendaCorsi.database.access;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
@@ -15,6 +16,7 @@ import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -83,7 +85,36 @@ public class ContattiDAO implements Database_itf {
             String stato = cursor.getString(ContattoIscritto.STATO);
             String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, null, null, null);
+            list.add(contattoIscritto);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
+    }
+
+    public List<Object> getIscrittiRunning(String idFascia, String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+        String oggi = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+        String sql = query.replace("#IDFASCIA#", idFascia).replace("#OGGI#", oggi);
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String nomeContatto = cursor.getString(ContattoIscritto.NOME_CONTATTO);
+            String idIscrizione = cursor.getString(ContattoIscritto.ID_ISCRIZIONE);
+            String stato = cursor.getString(ContattoIscritto.STATO);
+            String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
+            String idElemento = cursor.getString(ContattoIscritto.ID_ELEMENTO);
+            String idPresenza = cursor.getString(ContattoIscritto.ID_PRESENZA);
+            String dataConferma = cursor.getString(ContattoIscritto.DATA_CONFERMA);
+
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, idElemento, idPresenza, dataConferma);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }
@@ -95,7 +126,7 @@ public class ContattiDAO implements Database_itf {
     public List<Object> getAll(String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
-        String sql = query.replace("#TABLENAME#", Contatto.TABLE_NAME);
+        String sql = query;
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -108,8 +139,9 @@ public class ContattiDAO implements Database_itf {
             String indirizzo = cursor.getString(Contatto.INDIRIZZO);
             String telefono = cursor.getString(Contatto.TELEFONO);
             String email = cursor.getString(Contatto.EMAIL);
+            String statoElemento = cursor.getString(Contatto.STATO_ELEMENTO);
 
-            Contatto contatto = new Contatto(id, nome, dataNascita, indirizzo, telefono, email);
+            Contatto contatto = new Contatto(id, nome, dataNascita, indirizzo, telefono, email, statoElemento);
             list.add(contatto);
             cursor.moveToNext();
         }

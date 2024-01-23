@@ -6,6 +6,7 @@ import java.security.PublicKey;
 
 public class Credenziale implements BaseColumns {
 
+    public static String TABLE_NAME = "credenziale";
     public static Integer UTENTE = 0;
     public static Integer PASSWORD = 1;
     public static Integer DATA_CREAZIONE = 2;

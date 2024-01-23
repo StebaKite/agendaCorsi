@@ -23,6 +23,7 @@ select t2.*
                 id_fascia,
                 count(*) as totale_fascia
               from iscrizione
+              where stato != 'Chiuso'
               group by id_fascia
             ) as t1
               on t1.id_fascia = fascia.id_fascia

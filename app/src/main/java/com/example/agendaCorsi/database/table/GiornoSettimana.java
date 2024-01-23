@@ -4,6 +4,7 @@ import android.provider.BaseColumns;
 
 public class GiornoSettimana implements BaseColumns {
 
+    public static String TABLE_NAME = "giorno_settimana";
     public static Integer NUMERO_GIORNO = 0;
     public static Integer NOME_GIORNO_ABBREVIATO = 1;
     public static Integer NOME_GIORNO_ESTESO = 2;

@@ -3,6 +3,7 @@ package com.example.agendaCorsi.database.access;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
@@ -15,7 +16,10 @@ import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class FasciaDAO implements Database_itf {
@@ -126,6 +130,43 @@ public class FasciaDAO implements Database_itf {
         return list;
     }
 
+    public List<Object> getAllFasceCorsiRunning(String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+        String HHmm = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
+
+        Calendar c = Calendar.getInstance(new Locale("en","UK"));
+        c.setTime(new Date());
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+
+        String sql = query.replace("#OGGI#", String.valueOf(dayOfWeek)).replace("#ADESSO#", HHmm);
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String descrizioneCorso = cursor.getString(FasciaCorso.DESCRIZIONE_CORSO);
+            String stato = cursor.getString(FasciaCorso.STATO);
+            String sport = cursor.getString(FasciaCorso.SPORT); //no
+            String numeroGiorno = cursor.getString(FasciaCorso.NUMERO_GIORNO);
+            String descrizioneFascia = cursor.getString(FasciaCorso.DESCRIZIONE_FASCIA);
+            String idFascia = cursor.getString(FasciaCorso.ID_FASCIA);
+            String capienza = cursor.getString(FasciaCorso.CAPIENZA);
+            String giornoSettimana = cursor.getString(FasciaCorso.GIORNO_SETTIMANA);
+            String totaleFascia = cursor.getString(FasciaCorso.TOTALE_FASCIA);
+            String idCorso = cursor.getString(FasciaCorso.ID_CORSO);
+            String tipoCorso = cursor.getString((FasciaCorso.TIPO_CORSO));
+
+            Object fasciaCorso = new FasciaCorso(descrizioneCorso, stato, sport, numeroGiorno, descrizioneFascia, idFascia, capienza, giornoSettimana, totaleFascia, idCorso, tipoCorso);
+            list.add(fasciaCorso);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
+    }
+
     @Override
     public List<Object> getAll(String query) {
         return null;
@@ -164,7 +205,7 @@ public class FasciaDAO implements Database_itf {
                     replace("#DESC#", fascia.getDescrizione()).
                     replace("#GIOSET#", fascia.getGiornoSettimana()).
                     replace("#ORAINI#", fascia.getOraInizio()).
-                    replace("##ORAFIN", fascia.getOraFine()).
+                    replace("#ORAFIN#", fascia.getOraFine()).
                     replace("#CAPIEN#", fascia.getCapienza()).
                     replace("#IDFASCIA#", fascia.getIdFascia());
 

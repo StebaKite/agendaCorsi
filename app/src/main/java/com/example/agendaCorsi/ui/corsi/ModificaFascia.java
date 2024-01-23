@@ -169,7 +169,7 @@ public class ModificaFascia extends FunctionBase {
         else {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
-                    if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
+                    if (FasciaDAO.getInstance().update(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
                         Toast.makeText(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.", Toast.LENGTH_LONG).show();
                         esci.callOnClick();
                     }

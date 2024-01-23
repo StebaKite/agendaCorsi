@@ -68,8 +68,10 @@ public class NuovoElementoPortfolio extends FunctionBase {
         if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
         if (radio_pattini.isChecked()) { sport = Pattini; }
 
+        String statoElemento = (Integer.parseInt(String.valueOf(numeroLezioni.getText())) > 0) ? STATO_CARICO : STATO_APERTO;
+
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
-                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, STATO_APERTO);
+                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, statoElemento);
 
         if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
             displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");

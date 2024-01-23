@@ -31,6 +31,10 @@ select t2.*
         left outer join giorno_settimana
             on giorno_settimana.numero_giorno = fascia.giorno_settimana
 
+        where fascia.giorno_settimana = '#OGGI#'
+          and fascia.ora_inizio <= '#ADESSO#'
+          and fascia.ora_fine >= '#ADESSO#'
+
     ) as t2
     where t2.stato != 'Chiuso'
 

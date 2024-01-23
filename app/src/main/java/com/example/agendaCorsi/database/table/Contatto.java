@@ -11,8 +11,7 @@ public class Contatto implements BaseColumns {
     public static Integer INDIRIZZO = 3;
     public static Integer TELEFONO = 4;
     public static Integer EMAIL = 5;
-    public static Integer DATA_CREAZIONE = 6;
-    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 7;
+    public static Integer STATO_ELEMENTO = 6;
 
     public String id;
     public String nome;
@@ -20,16 +19,18 @@ public class Contatto implements BaseColumns {
     public String indirizzo;
     public String telefono;
     public String email;
+    public String statoElemento;
     public String dataCreazione;
     public String dataUltimoAggiornamento;
 
-    public Contatto(String id, String nome, String dataNascita, String indirizzo, String telefono, String email) {
+    public Contatto(String id, String nome, String dataNascita, String indirizzo, String telefono, String email, String statoElemento) {
         this.id = id;
         this.nome = nome;
         this.dataNascita = dataNascita;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.email = email;
+        this.statoElemento = statoElemento;
         this.dataCreazione = "";
         this.dataUltimoAggiornamento = "";
     }
@@ -96,5 +97,13 @@ public class Contatto implements BaseColumns {
 
     public void setDataNascita(String dataNascita) {
         this.dataNascita = dataNascita;
+    }
+
+    public String getStatoElemento() {
+        return statoElemento;
+    }
+
+    public void setStatoElemento(String statoElemento) {
+        this.statoElemento = statoElemento;
     }
 }

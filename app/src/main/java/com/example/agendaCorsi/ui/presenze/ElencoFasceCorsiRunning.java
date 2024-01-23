@@ -1,6 +1,8 @@
-package com.example.agendaCorsi.ui.iscrizioni;
+package com.example.agendaCorsi.ui.presenze;
 
+import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -8,23 +10,28 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+
 import com.example.agendacorsi.R;
+
+import java.util.Calendar;
 import java.util.List;
 
-public class ElencoFasceCorsi extends FunctionBase {
+public class ElencoFasceCorsiRunning extends FunctionBase {
 
     TableLayout tabellaFasceCorsi;
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3, larghezzaColonna4;
+    Context elencoFasceCorsiRunning;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_elenco_fasce_corsi);
+        setContentView(R.layout.activity_elenco_fasce_corsi_running);
+        elencoFasceCorsiRunning = this;
+
         esci = findViewById(R.id.bExit);
         tabellaFasceCorsi = findViewById(R.id.tabellaFasceCorsi);
 
@@ -38,21 +45,11 @@ public class ElencoFasceCorsi extends FunctionBase {
 
         testataElenco();
         loadFasceCorsi();
-        listenerEsci(ElencoFasceCorsi.this, MainActivity.class, null);
-    }
-
-    private void testataElenco() {
-        tableRow = new TableRow(this);
-        tableRow.setClickable(true);
-        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna1,"Nome corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna2,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna3,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna4,"Totale", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tabellaFasceCorsi.addView(tableRow);
+        listenerEsci(ElencoFasceCorsiRunning.this, MainActivity.class, null);
     }
 
     private void loadFasceCorsi() {
-        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsi(QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_CORSI));
+        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceCorsiRunning(QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_CORSI_RUNNING));
 
         String descrizione_corso_save = "";
 
@@ -70,7 +67,7 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna1, fasciaCorso.getDescrizioneCorso(), View.TEXT_ALIGNMENT_TEXT_START, cellVisibility));
             tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna2, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna3, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna4, fasciaCorso.getTotaleFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna4, fasciaCorso.getTotaleFascia(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, 0, fasciaCorso.getIdFascia(), 0, View.GONE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, 0, fasciaCorso.getSport(), 0, View.GONE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, 0, fasciaCorso.getIdCorso(), 0, View.GONE));
@@ -110,39 +107,32 @@ public class ElencoFasceCorsi extends FunctionBase {
                         textView = (TextView) tableRow.getChildAt(8);
                         String tipoCorso = textView.getText().toString();
 
-                        /**
-                         * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
-                         */
-                        if (totaleFascia == 0) {
-                            Intent intent = new Intent(AgendaCorsiApp.getContext(), NuovaIscrizione.class);
-                            intent.putExtra("idFascia", idSelezionato);
-                            intent.putExtra("descrizioneCorso", descrizioneCorso);
-                            intent.putExtra("giornoSettimana", giornoSettimana);
-                            intent.putExtra("descrizioneFascia", descrizioneFascia);
-                            intent.putExtra("sport", sport);
-                            intent.putExtra("idCorso", idCorso);
-                            intent.putExtra("statoCorso", statoCorso);
-                            intent.putExtra("tipoCorso", tipoCorso);
 
-                            startActivity(intent);
-                        }
-                        else {
-                            Intent intent = new Intent(AgendaCorsiApp.getContext(), ElencoIscrizioni.class);
-                            intent.putExtra("idFascia", idSelezionato);
-                            intent.putExtra("descrizioneCorso", descrizioneCorso);
-                            intent.putExtra("giornoSettimana", giornoSettimana);
-                            intent.putExtra("descrizioneFascia", descrizioneFascia);
-                            intent.putExtra("sport", sport);
-                            intent.putExtra("idCorso", idCorso);
-                            intent.putExtra("statoCorso", statoCorso);
-                            intent.putExtra("tipoCorso", tipoCorso);
+                        Intent intent = new Intent(elencoFasceCorsiRunning, RegistraPresenze.class);
+                        intent.putExtra("idFascia", idSelezionato);
+                        intent.putExtra("descrizioneCorso", descrizioneCorso);
+                        intent.putExtra("giornoSettimana", giornoSettimana);
+                        intent.putExtra("descrizioneFascia", descrizioneFascia);
+                        intent.putExtra("sport", sport);
+                        intent.putExtra("idCorso", idCorso);
+                        intent.putExtra("statoCorso", statoCorso);
+                        intent.putExtra("tipoCorso", tipoCorso);
 
-                            startActivity(intent);
-                        }
+                        startActivity(intent);
                     }
                 });
             }
             tabellaFasceCorsi.addView(tableRow);
         }
+    }
+
+    private void testataElenco() {
+        tableRow = new TableRow(this);
+        tableRow.setClickable(true);
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna1,"Nome corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna2,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna3,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna4,"Totale", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+        tabellaFasceCorsi.addView(tableRow);
     }
 }

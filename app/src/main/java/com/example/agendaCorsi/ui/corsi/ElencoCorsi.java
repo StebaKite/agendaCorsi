@@ -23,8 +23,6 @@ import java.util.List;
 public class ElencoCorsi extends FunctionBase {
 
     TableLayout tabCorsi;
-    TextView descrizione, stato, idCorso;
-
     int larghezzaColonna1, larghezzaColonna2;
 
     @Override
@@ -51,35 +49,8 @@ public class ElencoCorsi extends FunctionBase {
     private void testataElenco() {
         tableRow = new TableRow(this);
         tableRow.setClickable(false);
-        /**
-         * Cella 0
-         */
-        descrizione = new TextView(this);
-        descrizione.setTextSize(14);
-        descrizione.setPadding(10,20,10,20);
-        descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_heading));
-        descrizione.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        descrizione.setTypeface(null, Typeface.BOLD);
-        descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        descrizione.setGravity(Gravity.CENTER);
-        descrizione.setText("Nome corso");
-        descrizione.setWidth(larghezzaColonna1);
-        tableRow.addView(descrizione);
-        /**
-         * Cella 1
-         */
-        stato = new TextView(this);
-        stato.setTextSize(14);
-        stato.setPadding(10,20,10,20);
-        stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_heading));
-        stato.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        stato.setTypeface(null, Typeface.BOLD);
-        stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        stato.setGravity(Gravity.CENTER);
-        stato.setText("Stato");
-        stato.setWidth(larghezzaColonna2);
-        tableRow.addView(stato);
-
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tabCorsi.addView(tableRow);
     }
 
@@ -92,47 +63,9 @@ public class ElencoCorsi extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            /**
-             * Cella 0
-             */
-            descrizione = new TextView(this);
-            descrizione.setTextSize(14);
-            descrizione.setPadding(10,20,10,20);
-            if (corso.getStato().equals(STATO_CHIUSO)) {
-                descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_closed));
-            }
-            else {
-                descrizione.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
-            }
-            descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            descrizione.setGravity(Gravity.CENTER);
-            descrizione.setText(String.valueOf(corso.getDescrizione()));
-            descrizione.setWidth(larghezzaColonna1);
-            tableRow.addView(descrizione);
-            /**
-             * Cella 1
-             */
-            stato = new TextView(this);
-            stato.setTextSize(14);
-            stato.setPadding(10,20,10,20);
-            if (corso.getStato().equals(STATO_CHIUSO)) {
-                stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border_closed));
-            }
-            else {
-                stato.setBackground(ContextCompat.getDrawable(ElencoCorsi.this, R.drawable.cell_border));
-            }
-            stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            stato.setGravity(Gravity.CENTER);
-            stato.setText(String.valueOf(corso.getStato()));
-            stato.setWidth(larghezzaColonna2);
-            tableRow.addView(stato);
-            /**
-             * Cella 2
-             */
-            idCorso = new TextView(this);
-            idCorso.setVisibility(View.INVISIBLE);
-            idCorso.setText(String.valueOf(corso.getIdCorso()));
-            tableRow.addView(idCorso);
+            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna1, corso.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna2, corso.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), 0, corso.getIdCorso(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
 
             if (!corso.getStato().equals(STATO_CHIUSO)) {
                 listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);

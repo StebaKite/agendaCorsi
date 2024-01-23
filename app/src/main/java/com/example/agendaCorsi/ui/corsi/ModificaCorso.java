@@ -41,7 +41,7 @@ public class ModificaCorso extends FunctionBase {
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
-    TextView capienza, giorno_settimana, id_fascia, fascia_oraria;
+
     final Calendar myCalendar = Calendar.getInstance();
     public TableLayout tabellaFasceModCorso;
 
@@ -281,49 +281,9 @@ public class ModificaCorso extends FunctionBase {
     private void testataElenco() {
         tableRow = new TableRow(this);
         tableRow.setClickable(false);
-        /**
-         * Cella 0
-         */
-        giorno_settimana = new TextView(this);
-        giorno_settimana.setTextSize(14);
-        giorno_settimana.setPadding(10,20,10,20);
-        giorno_settimana.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
-        giorno_settimana.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        giorno_settimana.setTypeface(null, Typeface.BOLD);
-        giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        giorno_settimana.setGravity(Gravity.CENTER);
-        giorno_settimana.setText("Giorno");
-        giorno_settimana.setWidth(larghezzaColonna1);
-        tableRow.addView(giorno_settimana);
-        /**
-         * Cella 1
-         */
-        fascia_oraria = new TextView(this);
-        fascia_oraria.setTextSize(14);
-        fascia_oraria.setPadding(10,20,10,20);
-        fascia_oraria.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
-        fascia_oraria.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        fascia_oraria.setTypeface(null, Typeface.BOLD);
-        fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        fascia_oraria.setGravity(Gravity.CENTER);
-        fascia_oraria.setText("Fascia oraria");
-        fascia_oraria.setWidth(larghezzaColonna2);
-        tableRow.addView((fascia_oraria));
-        /**
-         * Cella 2
-         */
-        capienza = new TextView(this);
-        capienza.setTextSize(14);
-        capienza.setPadding(10,20,10,20);
-        capienza.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border_heading));
-        capienza.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        capienza.setTypeface(null, Typeface.BOLD);
-        capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        capienza.setGravity(Gravity.CENTER);
-        capienza.setText("Capienza");
-        capienza.setWidth(larghezzaColonna3);
-        tableRow.addView((capienza));
-
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Fascia oraria", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Capienza", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tabellaFasceModCorso.addView(tableRow);
     }
 
@@ -335,47 +295,10 @@ public class ModificaCorso extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            /**
-             * Cella 0
-             */
-            giorno_settimana = new TextView(this);
-            giorno_settimana.setTextSize(14);
-            giorno_settimana.setPadding(10,20,10,20);
-            giorno_settimana.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-            giorno_settimana.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            giorno_settimana.setGravity(Gravity.CENTER);
-            giorno_settimana.setText(fasciaCorso.getGiornoSettimana());
-            giorno_settimana.setWidth(larghezzaColonna1);
-            tableRow.addView(giorno_settimana);
-            /**
-             * Cella 1
-             */
-            fascia_oraria = new TextView(this);
-            fascia_oraria.setTextSize(14);
-            fascia_oraria.setPadding(10,20,10,20);
-            fascia_oraria.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-            fascia_oraria.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            fascia_oraria.setGravity(Gravity.CENTER);
-            fascia_oraria.setText(fasciaCorso.getDescrizioneFascia());
-            fascia_oraria.setWidth(larghezzaColonna2);
-            tableRow.addView((fascia_oraria));
-            /**
-             * Cella 2
-             */
-            capienza = new TextView(this);
-            capienza.setTextSize(14);
-            capienza.setPadding(10,20,10,20);
-            capienza.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_border));
-            capienza.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            capienza.setGravity(Gravity.CENTER);
-            capienza.setText(fasciaCorso.getCapienza());
-            capienza.setWidth(larghezzaColonna3);
-            tableRow.addView((capienza));
-
-            id_fascia = new TextView(this);
-            id_fascia.setText(String.valueOf(fasciaCorso.getIdFascia()));
-            id_fascia.setVisibility(View.INVISIBLE);
-            tableRow.addView(id_fascia);
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idCorso", String.valueOf(idCorso));
@@ -385,10 +308,6 @@ public class ModificaCorso extends FunctionBase {
             tabellaFasceModCorso.addView(tableRow);
         }
     }
-
-
-
-
 
     @Override
     public void makeElimina() {

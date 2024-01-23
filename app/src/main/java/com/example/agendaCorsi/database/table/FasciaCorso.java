@@ -58,7 +58,7 @@ public class FasciaCorso implements BaseColumns {
         this.stato = stato;
     }
 
-    public String getSSport() {
+    public String getSport() {
         return sport;
     }
 

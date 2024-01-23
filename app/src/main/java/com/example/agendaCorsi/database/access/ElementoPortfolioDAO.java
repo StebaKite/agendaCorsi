@@ -44,7 +44,7 @@ public class ElementoPortfolioDAO implements Database_itf {
     public List<ElementoPortfolio> getContattoElements(String idContattoToRead, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<ElementoPortfolio> list = new ArrayList<>();
-        String sql = query.replace("#TABLENAME#", ElementoPortfolio.TABLE_NAME).replace("#IDCONTATTO#", String.valueOf(idContattoToRead));
+        String sql = query.replace("#IDCONTATTO#", String.valueOf(idContattoToRead));
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);
@@ -229,6 +229,52 @@ public class ElementoPortfolioDAO implements Database_itf {
             elementoPortfolio.setIdContatto("");
         }
         return true;
+    }
+
+    public boolean decrementaNumeroLezioni(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
+
+            int numLezioni = Integer.parseInt(elementoPortfolio.getNumeroLezioni()) - 1;
+            String stato = (numLezioni == 0) ? "Esaurito" : elementoPortfolio.getStato();
+
+            String sql = query.replace("#STATO#", stato).
+                    replace("#IDELEMENTO#", elementoPortfolio.getIdElemento()).
+                    replace("#NUMLEZ#", String.valueOf(numLezioni));
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
+    public boolean incrementaNumeroLezioni(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
+
+            int numLezioni = Integer.parseInt(elementoPortfolio.getNumeroLezioni()) + 1;
+            String stato = "Carico";
+
+            String sql = query.replace("#STATO#", stato).
+                    replace("#IDELEMENTO#", elementoPortfolio.getIdElemento()).
+                    replace("#NUMLEZ#", String.valueOf(numLezioni));
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
     }
 
     public SQLiteDatabase getSqLiteDatabase() {

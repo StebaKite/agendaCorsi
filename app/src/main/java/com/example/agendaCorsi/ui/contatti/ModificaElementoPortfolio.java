@@ -142,10 +142,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
-        String stato = "Aperto";
-        if (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) {
-            stato = "Carico";
-        }
+        String stato = (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) ? STATO_CARICO : STATO_ESAURITO;
 
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(String.valueOf(idElemento),
                 String.valueOf(idContatto),

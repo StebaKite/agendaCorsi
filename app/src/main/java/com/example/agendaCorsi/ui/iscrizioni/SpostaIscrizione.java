@@ -32,13 +32,12 @@ import java.util.Map;
 
 public class SpostaIscrizione extends FunctionBase {
 
-    TextView _corso, _giorno, _fascia, _totaleFascia, _idFascia, _idCorso, _sport, _statoCorso, _tipoCorso;
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, nomeIscritto, idIscrizione, statoIscrizione;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana, _nomeIscritto;
     TableLayout tabellaFasce;
     Context spostaIscrizione;
 
-    int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3, larghezzaColonna4;
+    int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +73,9 @@ public class SpostaIscrizione extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.3);
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
-        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
-        larghezzaColonna4 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
 
         Map<String, String> intentMap = new ArrayMap<>();
         intentMap.put("descrizioneCorso", descrizioneCorso);
@@ -100,117 +98,27 @@ public class SpostaIscrizione extends FunctionBase {
     private void testataelenco() {
         tableRow = new TableRow(this);
         tableRow.setClickable(false);
-        /**
-         * Cella 0
-         */
-        _giorno = new TextView(this);
-        _giorno.setTextSize(14);
-        _giorno.setPadding(10,20,10,20);
-        _giorno.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_heading));
-        _giorno.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        _giorno.setTypeface(null, Typeface.BOLD);
-        _giorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        _giorno.setGravity(Gravity.CENTER);
-        _giorno.setText("Giorno");
-        _giorno.setWidth(larghezzaColonna2);
-        tableRow.addView(_giorno);
-        /**
-         * Cella 1
-         */
-        _fascia = new TextView(this);
-        _fascia.setTextSize(14);
-        _fascia.setPadding(10,20,10,20);
-        _fascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_heading));
-        _fascia.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        _fascia.setTypeface(null, Typeface.BOLD);
-        _fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        _fascia.setGravity(Gravity.CENTER);
-        _fascia.setText("Fascia");
-        _fascia.setWidth(larghezzaColonna3);
-        tableRow.addView(_fascia);
-        /**
-         * Cella 2
-         */
-        _totaleFascia = new TextView(this);
-        _totaleFascia.setTextSize(14);
-        _totaleFascia.setPadding(10,20,10,20);
-        _totaleFascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_heading));
-        _totaleFascia.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        _totaleFascia.setTypeface(null, Typeface.BOLD);
-        _totaleFascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        _totaleFascia.setGravity(Gravity.CENTER);
-        _totaleFascia.setText("Totale");
-        _totaleFascia.setWidth(larghezzaColonna4);
-        tableRow.addView(_totaleFascia);
-
-        tabellaFasce.addView(tableRow);
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna1,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna2,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna3,"Totale", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
     }
 
     private void loadFasceCorso() {
         List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceDisponibili(idCorso, idFascia, QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_DISPONIBILI));
 
-        tableRow = new TableRow(this);
-        tableRow.setClickable(true);
-
         for (Object entity : fasceCorsiList) {
             FasciaCorso fasciaCorso = (FasciaCorso) entity;
-            /**
-             * Cella 0
-             */
-            _giorno = new TextView(this);
-            _giorno.setTextSize(14);
-            _giorno.setPadding(10,20,10,20);
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
-                _giorno.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border));
-            } else {
-                _giorno.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_closed));
-            }
-            _giorno.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            _giorno.setGravity(Gravity.CENTER);
-            _giorno.setText(fasciaCorso.getGiornoSettimana());
-            _giorno.setWidth(larghezzaColonna2);
-            tableRow.addView(_giorno);
-            /**
-             * Cella 1
-             */
-            _fascia = new TextView(this);
-            _fascia.setTextSize(14);
-            _fascia.setPadding(10,20,10,20);
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
-                _fascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border));
-            } else {
-                _fascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_closed));
-            }
-            _fascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            _fascia.setGravity(Gravity.CENTER);
-            _fascia.setText(fasciaCorso.getDescrizioneFascia());
-            _fascia.setWidth(larghezzaColonna3);
-            tableRow.addView(_fascia);
-            /**
-             * Cella 2
-             */
-            _totaleFascia = new TextView(this);
-            _totaleFascia.setTextSize(14);
-            _totaleFascia.setPadding(10,20,10,20);
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
-                _totaleFascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border));
-            } else {
-                _totaleFascia.setBackground(ContextCompat.getDrawable(SpostaIscrizione.this, R.drawable.cell_border_closed));
-            }
-            _totaleFascia.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            _totaleFascia.setGravity(Gravity.CENTER);
-            _totaleFascia.setText(fasciaCorso.getTotaleFascia());
-            _totaleFascia.setWidth(larghezzaColonna4);
-            tableRow.addView(_totaleFascia);
-            /**
-             * Cella 3
-             */
-            _idFascia = new TextView(this);
-            _idFascia.setVisibility(View.INVISIBLE);
-            _idFascia.setText(fasciaCorso.getIdFascia());
-            tableRow.addView(_idFascia);
 
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
+            tableRow = new TableRow(this);
+            tableRow.setClickable(true);
+            String stato = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL : DETAIL_CLOSED;
+
+            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna3, fasciaCorso.getTotaleFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), stato, 0, fasciaCorso.getIdFascia(), 0, View.GONE));
+
+            if (stato.equals(DETAIL)) {
 
                 tableRow.setOnClickListener(new View.OnClickListener() {
                     @Override

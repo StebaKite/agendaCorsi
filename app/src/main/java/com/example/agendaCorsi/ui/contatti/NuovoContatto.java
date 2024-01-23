@@ -76,7 +76,8 @@ public class NuovoContatto extends FunctionBase {
                 dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 indirizzo.getText().toString(),
                 telefono.getText().toString(),
-                email.getText().toString());
+                email.getText().toString(),
+                null);
         /**
          * controllo validità campi inseriti
          */

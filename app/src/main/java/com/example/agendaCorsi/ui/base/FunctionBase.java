@@ -3,8 +3,10 @@ package com.example.agendaCorsi.ui.base;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,16 +15,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 public class FunctionBase extends AppCompatActivity {
@@ -41,6 +48,17 @@ public class FunctionBase extends AppCompatActivity {
     public static String Produzione = "PROD";
     public static String Test = "TEST";
     /*
+     * Cell formats
+     */
+    public static String DETAIL = "Aperto";
+    public static String DETAIL_CLOSED = "Chiuso";
+    public static String DETAIL_OPENED = "Aperto";
+    public static String DETAIL_CONFIRMED = "Confirmed";
+    public static String DETAIL_EXHAUSTED = "Esaurito";
+    public static String DETAIL_EXPIRED = "Scaduto";
+    public static String DETAIL_INOPERATIVE = "";
+    public static String HEADER = "HD";
+    /*
      * Gli stati
      */
     public static String STATO_APERTO = "Aperto";
@@ -56,6 +74,7 @@ public class FunctionBase extends AppCompatActivity {
      */
     public static String QUERY_TOTALS_CORSI = "query_totals_corsi";
     public static String QUERY_GETALL_FASCE_CORSI = "query_getall_fasce_corsi";
+    public static String QUERY_GETALL_FASCE_CORSI_RUNNING = "query_getall_fasce_corsi_running";
     public static String QUERY_GETALL_CORSI = "query_getall_corsi";
     public static String QUERY_GET_CORSO = "query_get_corso";
     public static String QUERY_DEL_CORSO = "query_del_corso";
@@ -83,6 +102,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
     public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
     public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";
+    public static String QUERY_GET_CONTATTI_ISCRITTI_RUNNING = "query_get_contatti_iscritti_running";
     public static String QUERY_GET_CREDENZIALE = "query_get_credenziale";
     public static String QUERY_INS_CREDENZIALE = "query_ins_credenziale";
     public static String QUERY_MOD_CREDENZIALE = "query_mod_credenziale";
@@ -93,6 +113,9 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
     public static String QUERY_GETALL_FASCE_DISPONIBILI = "query_getall_fasce_disponibili";
     public static String QUERY_GETALL_ELEMENTO = "query_getall_elemento";
+    public static String QUERY_INS_PRESENZA = "query_ins_presenza";
+    public static String QUERY_DEL_PRESENZA = "query_del_presenza";
+    public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
     /*
      * I bottoni
      */
@@ -100,6 +123,42 @@ public class FunctionBase extends AppCompatActivity {
     public TableRow tableRow;
     public PropertyReader propertyReader;
     public Properties properties;
+
+    public TextView makeCell(Context context, TextView name, String type, int width, String value, int alignment, int visibility) {
+        //name = new TextView(context);
+        name.setTextSize(14);
+        name.setPadding(10,20,10,20);
+
+        if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER)) {
+            if (type.equals(DETAIL_EXHAUSTED)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
+            } else if (type.equals(DETAIL_EXPIRED)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_expired));
+            } else if (type.equals(DETAIL_INOPERATIVE)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_inoperative));
+            } else if (type.equals(DETAIL_CONFIRMED)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
+            }
+            else {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+            }
+        } else if (type.equals(DETAIL_CLOSED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
+        } else {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading));
+            name.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
+            name.setTypeface(null, Typeface.BOLD);
+        }
+
+        name.setTextAlignment(alignment);
+        name.setGravity(Gravity.CENTER);
+        name.setVisibility(visibility);
+        name.setText(value);
+        name.setWidth(width);
+
+        return name;
+    }
+
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
@@ -335,7 +394,6 @@ public class FunctionBase extends AppCompatActivity {
 
         return dateFormat.format(modifiedDate);
     }
-
 
     public void makeAnnulla() {}
 

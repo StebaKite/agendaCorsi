@@ -43,6 +43,7 @@ public class ModificaContatto extends FunctionBase {
     TableLayout tabellaElePortfolio;
     TextView descrizione, stato, id_elemento;
     final Calendar myCalendar = Calendar.getInstance();
+    int larghezzaColonna1, larghezzaColonna2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class ModificaContatto extends FunctionBase {
         /**
          * Caricamento dati contatto selezionato
          */
-        Contatto contatto = new Contatto(null, null, null,null, null, null);
+        Contatto contatto = new Contatto(null, null, null,null, null, null, null);
         contatto.setId(idContatto);
 
         ContattiDAO.getInstance().select(contatto, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTO));
@@ -108,6 +109,12 @@ public class ModificaContatto extends FunctionBase {
             indirizzo = _indirizzo.getText().toString();
             telefono = _telefono.getText().toString();
             email = _email.getText().toString();
+            
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
+            larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
 
             displayElencoElementiPortfolio(idContatto, contatto.getNome());
             esci.requestFocus();
@@ -129,42 +136,14 @@ public class ModificaContatto extends FunctionBase {
 
 
     private void displayElencoElementiPortfolio(String idContatto, String nomeContatto) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
-        int larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
-
         List<ElementoPortfolio> elementiPortfoList = ElementoPortfolioDAO.getInstance().getContattoElements(idContatto, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTS));
 
         for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-
-            descrizione = new TextView(this);
-            descrizione.setTextSize(14);
-            descrizione.setPadding(10, 20, 10, 20);
-            descrizione.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
-            descrizione.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            descrizione.setGravity(Gravity.CENTER);
-            descrizione.setText(String.valueOf(elementoPortfolio.getDescrizione()));
-            descrizione.setWidth(larghezzaColonna1);
-            tableRow.addView(descrizione);
-
-            stato = new TextView(this);
-            stato.setTextSize(14);
-            stato.setPadding(10, 20, 10, 20);
-            stato.setBackground(ContextCompat.getDrawable(ModificaContatto.this, R.drawable.cell_border));
-            stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            stato.setGravity(Gravity.CENTER);
-            stato.setText(String.valueOf(elementoPortfolio.getStato()));
-            stato.setWidth(larghezzaColonna2);
-            tableRow.addView(stato);
-
-            id_elemento = new TextView(this);
-            id_elemento.setText(String.valueOf(elementoPortfolio.getIdElemento()));
-            id_elemento.setVisibility(View.INVISIBLE);
-            tableRow.addView(id_elemento);
+            tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna1, elementoPortfolio.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna2, elementoPortfolio.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, elementoPortfolio.getIdElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idContatto", idContatto);
@@ -187,7 +166,7 @@ public class ModificaContatto extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null,null, null, null);
+                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null,null, null, null, null);
 
                 if (ContattiDAO.getInstance().delete(contatto, QueryComposer.getInstance().getQuery(QUERY_DEL_CONTATTO))) {
                     esci.callOnClick();
@@ -218,7 +197,8 @@ public class ModificaContatto extends FunctionBase {
                 dateFormat(_dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 _indirizzo.getText().toString(),
                 _telefono.getText().toString(),
-                _email.getText().toString());
+                _email.getText().toString(),
+                null);
 
         if (contatto.getNome().equals("") || contatto.getDataNascita().equals("") ||
             contatto.getTelefono().equals("")) {

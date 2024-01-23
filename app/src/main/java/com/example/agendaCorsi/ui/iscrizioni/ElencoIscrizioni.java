@@ -29,7 +29,6 @@ public class ElencoIscrizioni extends FunctionBase {
 
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
-    TextView nome_contatto, id_iscrizione, stato, eta;
     TableLayout _tabellaContattiIscritti;
     Context elencoIscrizioni;
 
@@ -71,7 +70,7 @@ public class ElencoIscrizioni extends FunctionBase {
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
         larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
 
-        makeIntestazioneTabella(larghezzaColonna1, larghezzaColonna2, larghezzaColonna3);
+        makeIntestazioneTabella();
         loadContattiIscritti();
 
         Map<String, String> intentMap = new ArrayMap<>();
@@ -89,8 +88,6 @@ public class ElencoIscrizioni extends FunctionBase {
     }
 
     private void loadContattiIscritti() {
-
-
         List<Object> contattiIscrittiList = ContattiDAO.getInstance().getIscritti(idFascia, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRITTI));
 
         for (Object object : contattiIscrittiList) {
@@ -98,53 +95,10 @@ public class ElencoIscrizioni extends FunctionBase {
 
             tableRow = new TableRow(elencoIscrizioni);
             tableRow.setClickable(true);
-
-            nome_contatto = new TextView(elencoIscrizioni);
-            nome_contatto.setTextSize(14);
-            nome_contatto.setPadding(10,20,10,20);
-            if (contattoIscritto.getStato().equals(STATO_CHIUSO)) {
-                nome_contatto.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_closed));
-            } else {
-                nome_contatto.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border));
-            }
-            nome_contatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            nome_contatto.setGravity(Gravity.CENTER);
-            nome_contatto.setText(contattoIscritto.getNomeContatto());
-            nome_contatto.setWidth(larghezzaColonna1);
-            tableRow.addView(nome_contatto);
-
-            eta = new TextView(elencoIscrizioni);
-            eta.setTextSize(14);
-            eta.setPadding(10,20,10,20);
-            if (contattoIscritto.getStato().equals(STATO_CHIUSO)) {
-                eta.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_closed));
-            } else {
-                eta.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border));
-            }
-            eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            eta.setGravity(Gravity.CENTER);
-            eta.setText(String.valueOf(computeAge(contattoIscritto.getDataNascita())));
-            eta.setWidth(larghezzaColonna2);
-            tableRow.addView(eta);
-
-            stato = new TextView(elencoIscrizioni);
-            stato.setTextSize(14);
-            stato.setPadding(10,20,10,20);
-            if (contattoIscritto.getStato().equals(STATO_CHIUSO)) {
-                stato.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_closed));
-            } else {
-                stato.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border));
-            }
-            stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            stato.setGravity(Gravity.CENTER);
-            stato.setText(contattoIscritto.getStato());
-            stato.setWidth(larghezzaColonna3);
-            tableRow.addView(stato);
-
-            id_iscrizione = new TextView(elencoIscrizioni);
-            id_iscrizione.setText(contattoIscritto.getIdIscrizione());
-            id_iscrizione.setVisibility(View.INVISIBLE);
-            tableRow.addView(id_iscrizione);
+            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna2, contattoIscritto.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("descrizioneCorso", descrizioneCorso);
@@ -165,46 +119,12 @@ public class ElencoIscrizioni extends FunctionBase {
         }
     }
 
-    private void makeIntestazioneTabella(int larghezzaColonna1, int larghezzaColonna2, int larghezzaColonna3) {
+    private void makeIntestazioneTabella() {
         tableRow = new TableRow(elencoIscrizioni);
         tableRow.setClickable(false);
-
-        nome_contatto = new TextView(elencoIscrizioni);
-        nome_contatto.setTextSize(16);
-        nome_contatto.setPadding(10,20,10,20);
-        nome_contatto.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_heading));
-        nome_contatto.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        nome_contatto.setTypeface(null, Typeface.BOLD);
-        nome_contatto.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        nome_contatto.setGravity(Gravity.CENTER);
-        nome_contatto.setText("Nome");
-        nome_contatto.setWidth(larghezzaColonna1);
-        tableRow.addView(nome_contatto);
-
-        eta = new TextView(elencoIscrizioni);
-        eta.setTextSize(16);
-        eta.setPadding(10,20,10,20);
-        eta.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_heading));
-        eta.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        eta.setTypeface(null, Typeface.BOLD);
-        eta.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        eta.setGravity(Gravity.CENTER);
-        eta.setText("Età");
-        eta.setWidth(larghezzaColonna2);
-        tableRow.addView(eta);
-
-        stato = new TextView(elencoIscrizioni);
-        stato.setTextSize(16);
-        stato.setPadding(10,20,10,20);
-        stato.setBackground(ContextCompat.getDrawable(ElencoIscrizioni.this, R.drawable.cell_border_heading));
-        stato.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-        stato.setTypeface(null, Typeface.BOLD);
-        stato.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        stato.setGravity(Gravity.CENTER);
-        stato.setText("Stato");
-        stato.setWidth(larghezzaColonna3);
-        tableRow.addView(stato);
-
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         _tabellaContattiIscritti.addView(tableRow);
     }
 }
