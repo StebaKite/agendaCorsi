@@ -70,7 +70,7 @@ public class ElencoContatti extends FunctionBase {
             tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna1, contatto.getNome(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna2, String.valueOf(computeAge(contatto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna3, contatto.getStatoElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contatto.getId(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contatto.getId(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 3);
             tabContatti.addView(tableRow);

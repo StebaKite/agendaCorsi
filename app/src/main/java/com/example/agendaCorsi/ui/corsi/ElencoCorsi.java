@@ -65,7 +65,7 @@ public class ElencoCorsi extends FunctionBase {
             tableRow.setClickable(true);
             tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna1, corso.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna2, corso.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), 0, corso.getIdCorso(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), 0, corso.getIdCorso(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             if (!corso.getStato().equals(STATO_CHIUSO)) {
                 listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);

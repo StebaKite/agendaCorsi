@@ -2,10 +2,8 @@ package com.example.agendaCorsi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +28,6 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning;
-import com.example.agendaCorsi.ui.presenze.RegistraPresenze;
-import com.example.agendaCorsi.ui.settaggi.ModificaSettaggi;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
@@ -186,20 +182,20 @@ public class MainActivity extends FunctionBase {
 
     public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna) {
         tableRow = new TableRow(this);
-        tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         return tableRow;
     }
 
     public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
         fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
-        tRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+        tRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         return tRow;
     }
 
     private TableRow fillRow(int giornoSettimana, int cellNum, int larghezzaColonna, TableRow tRow) {
         for (int i = cellNum; i < giornoSettimana; i++) {
-            tRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+            tRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }
         return tRow;
     }
@@ -232,6 +228,7 @@ public class MainActivity extends FunctionBase {
             return true;
         }
         else if (item.getTitle().equals("Esci")) {
+            MainActivity.this.finish();
             System.exit(0);
         }
         return super.onOptionsItemSelected(item);

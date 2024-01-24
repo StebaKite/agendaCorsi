@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class ElencoIscrizioni extends FunctionBase {
 
-    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
+    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, capienza, totaleFascia;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
     TableLayout _tabellaContattiIscritti;
     Context elencoIscrizioni;
@@ -53,6 +53,8 @@ public class ElencoIscrizioni extends FunctionBase {
         idCorso = intent.getStringExtra("idCorso");
         statoCorso = intent.getStringExtra("statoCorso");
         tipoCorso = intent.getStringExtra("tipoCorso");
+        capienza = intent.getStringExtra("capienza");
+        totaleFascia = intent.getStringExtra("totaleFascia");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -83,8 +85,14 @@ public class ElencoIscrizioni extends FunctionBase {
         intentMap.put("statoCorso", statoCorso);
         intentMap.put("tipoCorso", tipoCorso);
 
+        if (isFasciaCapiente(totaleFascia, capienza)) {
+            listenerInserisci(AgendaCorsiApp.getContext(), NuovaIscrizione.class, intentMap);
+        }
+        else {
+            inserisci.setVisibility(View.GONE);
+        }
+
         listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsi.class, null);
-        listenerInserisci(AgendaCorsiApp.getContext(), NuovaIscrizione.class, intentMap);
     }
 
     private void loadContattiIscritti() {

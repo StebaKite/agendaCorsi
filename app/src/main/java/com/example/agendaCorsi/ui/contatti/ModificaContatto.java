@@ -143,7 +143,7 @@ public class ModificaContatto extends FunctionBase {
             tableRow.setClickable(true);
             tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna1, elementoPortfolio.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna2, elementoPortfolio.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, elementoPortfolio.getIdElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, elementoPortfolio.getIdElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idContatto", idContatto);

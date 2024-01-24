@@ -18,18 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.DatabaseHelper;
-import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Properties;
 
 public class FunctionBase extends AppCompatActivity {
@@ -51,6 +47,7 @@ public class FunctionBase extends AppCompatActivity {
      * Cell formats
      */
     public static String DETAIL = "Aperto";
+    public static String DETAIL_SIMPLE = "None";
     public static String DETAIL_CLOSED = "Chiuso";
     public static String DETAIL_OPENED = "Aperto";
     public static String DETAIL_CONFIRMED = "Confirmed";
@@ -138,6 +135,8 @@ public class FunctionBase extends AppCompatActivity {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_inoperative));
             } else if (type.equals(DETAIL_CONFIRMED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
+            } else if (type.equals(DETAIL_OPENED)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
             }
             else {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));

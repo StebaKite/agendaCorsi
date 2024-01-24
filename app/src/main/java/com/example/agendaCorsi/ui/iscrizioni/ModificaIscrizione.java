@@ -73,15 +73,15 @@ public class ModificaIscrizione extends FunctionBase {
          * documentate dal diagramma degli stati del Corso
          */
         if (statoIscrizione.equals(STATO_ATTIVA)) {
-            apri.setVisibility(View.INVISIBLE);
+            apri.setVisibility(View.GONE);
         } else if (statoIscrizione.equals(STATO_SOSPESO)) {
-            sospendi.setVisibility(View.INVISIBLE);
-            sposta.setVisibility(View.INVISIBLE);
+            sospendi.setVisibility(View.GONE);
+            sposta.setVisibility(View.GONE);
         } else if (statoIscrizione.equals(STATO_CHIUSO)) {
-            chiudi.setVisibility(View.INVISIBLE);
-            sospendi.setVisibility(View.INVISIBLE);
-            apri.setVisibility(View.INVISIBLE);
-            sposta.setVisibility(View.INVISIBLE);
+            chiudi.setVisibility(View.GONE);
+            sospendi.setVisibility(View.GONE);
+            apri.setVisibility(View.GONE);
+            sposta.setVisibility(View.GONE);
         }
 
         Map<String, String> intentMap = new ArrayMap<>();

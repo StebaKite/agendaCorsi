@@ -59,7 +59,7 @@ public class ElencoFasceCorsi extends FunctionBase {
         for (Object entity : fasceCorsiList) {
             FasciaCorso fasciaCorso = (FasciaCorso) entity;
 
-            String detailType = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL : DETAIL_CLOSED;
+            String detailType = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL_SIMPLE : DETAIL_CLOSED;
             int cellVisibility = (fasciaCorso.getDescrizioneCorso().equals(descrizione_corso_save)) ? View.INVISIBLE : View.VISIBLE;
             if (cellVisibility == View.VISIBLE) {
                 descrizione_corso_save = fasciaCorso.getDescrizioneCorso();
@@ -77,71 +77,70 @@ public class ElencoFasceCorsi extends FunctionBase {
             tableRow.addView(makeCell(this, new TextView(this), detailType, 0, fasciaCorso.getStato(), 0, View.GONE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, 0, fasciaCorso.getTipoCorso(), 0, View.GONE));
 
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TableRow tableRow = (TableRow) view;
+                    TextView textView = (TextView) tableRow.getChildAt(4);
+                    String idSelezionato = textView.getText().toString();
 
-                tableRow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        TableRow tableRow = (TableRow) view;
-                        TextView textView = (TextView) tableRow.getChildAt(4);
-                        String idSelezionato = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(3);
+                    int totaleFascia = Integer.parseInt(textView.getText().toString());
 
-                        textView = (TextView) tableRow.getChildAt(3);
-                        int totaleFascia = Integer.parseInt(textView.getText().toString());
+                    textView = (TextView) tableRow.getChildAt(0);
+                    String descrizioneCorso = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(0);
-                        String descrizioneCorso = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(1);
+                    String giornoSettimana = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(1);
-                        String giornoSettimana = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(2);
+                    String descrizioneFascia = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(2);
-                        String descrizioneFascia = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(5);
+                    String sport = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(5);
-                        String sport = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(6);
+                    String idCorso = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(6);
-                        String idCorso = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(7);
+                    String statoCorso = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(7);
-                        String statoCorso = textView.getText().toString();
+                    textView = (TextView) tableRow.getChildAt(8);
+                    String tipoCorso = textView.getText().toString();
 
-                        textView = (TextView) tableRow.getChildAt(8);
-                        String tipoCorso = textView.getText().toString();
+                    /**
+                     * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
+                     */
+                    if (totaleFascia == 0) {
+                        Intent intent = new Intent(AgendaCorsiApp.getContext(), NuovaIscrizione.class);
+                        intent.putExtra("idFascia", idSelezionato);
+                        intent.putExtra("descrizioneCorso", descrizioneCorso);
+                        intent.putExtra("giornoSettimana", giornoSettimana);
+                        intent.putExtra("descrizioneFascia", descrizioneFascia);
+                        intent.putExtra("sport", sport);
+                        intent.putExtra("idCorso", idCorso);
+                        intent.putExtra("statoCorso", statoCorso);
+                        intent.putExtra("tipoCorso", tipoCorso);
 
-                        /**
-                         * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
-                         */
-                        if (totaleFascia == 0) {
-                            Intent intent = new Intent(AgendaCorsiApp.getContext(), NuovaIscrizione.class);
-                            intent.putExtra("idFascia", idSelezionato);
-                            intent.putExtra("descrizioneCorso", descrizioneCorso);
-                            intent.putExtra("giornoSettimana", giornoSettimana);
-                            intent.putExtra("descrizioneFascia", descrizioneFascia);
-                            intent.putExtra("sport", sport);
-                            intent.putExtra("idCorso", idCorso);
-                            intent.putExtra("statoCorso", statoCorso);
-                            intent.putExtra("tipoCorso", tipoCorso);
-
-                            startActivity(intent);
-                        }
-                        else {
-                            Intent intent = new Intent(AgendaCorsiApp.getContext(), ElencoIscrizioni.class);
-                            intent.putExtra("idFascia", idSelezionato);
-                            intent.putExtra("descrizioneCorso", descrizioneCorso);
-                            intent.putExtra("giornoSettimana", giornoSettimana);
-                            intent.putExtra("descrizioneFascia", descrizioneFascia);
-                            intent.putExtra("sport", sport);
-                            intent.putExtra("idCorso", idCorso);
-                            intent.putExtra("statoCorso", statoCorso);
-                            intent.putExtra("tipoCorso", tipoCorso);
-
-                            startActivity(intent);
-                        }
+                        startActivity(intent);
                     }
-                });
-            }
+                    else {
+                        Intent intent = new Intent(AgendaCorsiApp.getContext(), ElencoIscrizioni.class);
+                        intent.putExtra("idFascia", idSelezionato);
+                        intent.putExtra("descrizioneCorso", descrizioneCorso);
+                        intent.putExtra("giornoSettimana", giornoSettimana);
+                        intent.putExtra("descrizioneFascia", descrizioneFascia);
+                        intent.putExtra("sport", sport);
+                        intent.putExtra("idCorso", idCorso);
+                        intent.putExtra("statoCorso", statoCorso);
+                        intent.putExtra("tipoCorso", tipoCorso);
+                        intent.putExtra("totaleFascia", String.valueOf(totaleFascia));
+                        intent.putExtra("capienza", fasciaCorso.getCapienza());
+
+                        startActivity(intent);
+                    }
+                }
+            });
             tabellaFasceCorsi.addView(tableRow);
         }
     }

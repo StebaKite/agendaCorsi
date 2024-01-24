@@ -127,19 +127,19 @@ public class ModificaCorso extends FunctionBase {
          * documentate dal diagramma degli stati del Corso
          */
         if (corso.getStato().equals(STATO_CHIUSO)) {
-            chiudi.setVisibility(View.INVISIBLE);
-            sospendi.setVisibility(View.INVISIBLE);
-            apri.setVisibility(View.INVISIBLE);
+            chiudi.setVisibility(View.GONE);
+            sospendi.setVisibility(View.GONE);
+            apri.setVisibility(View.GONE);
         } else if (corso.getStato().equals(STATO_APERTO)) {
-            apri.setVisibility(View.INVISIBLE);
+            apri.setVisibility(View.GONE);
             listenerChiudi();
             listenerSospendi();
         } else if (corso.getStato().equals(STATO_SOSPESO)) {
-            chiudi.setVisibility(View.INVISIBLE);
-            sospendi.setVisibility(View.INVISIBLE);
+            chiudi.setVisibility(View.GONE);
+            sospendi.setVisibility(View.GONE);
             listenerApri();
         } else if (corso.getStato().equals(STATO_ATTIVO)) {
-            apri.setVisibility(View.INVISIBLE);
+            apri.setVisibility(View.GONE);
             listenerChiudi();
             listenerSospendi();
         }
@@ -298,7 +298,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.INVISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idCorso", String.valueOf(idCorso));
