@@ -48,6 +48,7 @@ public class FunctionBase extends AppCompatActivity {
      */
     public static String DETAIL = "Aperto";
     public static String DETAIL_SIMPLE = "None";
+    public static String DETAIL_EVIDENCE = "DTEV";
     public static String DETAIL_CLOSED = "Chiuso";
     public static String DETAIL_OPENED = "Aperto";
     public static String DETAIL_CONFIRMED = "Confirmed";
@@ -55,6 +56,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String DETAIL_EXPIRED = "Scaduto";
     public static String DETAIL_INOPERATIVE = "";
     public static String HEADER = "HD";
+    public static String HEADER_EVIDENCE = "HDEV";
     /*
      * Gli stati
      */
@@ -113,6 +115,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_INS_PRESENZA = "query_ins_presenza";
     public static String QUERY_DEL_PRESENZA = "query_del_presenza";
     public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
+    public static String QUERY_GET_GIORNO_SETTIMANA = "query_get_giorno_settimana";
     /*
      * I bottoni
      */
@@ -126,7 +129,7 @@ public class FunctionBase extends AppCompatActivity {
         name.setTextSize(14);
         name.setPadding(10,20,10,20);
 
-        if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER)) {
+        if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
             } else if (type.equals(DETAIL_EXPIRED)) {
@@ -137,6 +140,8 @@ public class FunctionBase extends AppCompatActivity {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
             } else if (type.equals(DETAIL_OPENED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
+            } else if (type.equals(DETAIL_EVIDENCE)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
             }
             else {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
@@ -144,9 +149,15 @@ public class FunctionBase extends AppCompatActivity {
         } else if (type.equals(DETAIL_CLOSED)) {
             name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
         } else {
-            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading));
-            name.setTextColor(getResources().getColor(R.color.table_border, getResources().newTheme()));
-            name.setTypeface(null, Typeface.BOLD);
+            if (type.equals(HEADER)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading));
+                name.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
+                name.setTypeface(null, Typeface.BOLD);
+            } else if (type.equals(HEADER_EVIDENCE)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
+                name.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
+                name.setTypeface(null, Typeface.BOLD);
+            }
         }
 
         name.setTextAlignment(alignment);
@@ -393,6 +404,23 @@ public class FunctionBase extends AppCompatActivity {
 
         return dateFormat.format(modifiedDate);
     }
+
+    public int getDayOfWeek() {
+        Calendar calendar = Calendar.getInstance(new Locale("en","UK"));
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
+    }
+
+    public boolean isFasciaRunning(String fascia) {
+        String HHmm = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
+        String[] estremiFascia = fascia.split("-");
+        if (Float.parseFloat(HHmm) >= Float.parseFloat(estremiFascia[0]) &&
+            Float.parseFloat(HHmm) <= Float.parseFloat(estremiFascia[1])) {
+            return true;
+        }
+        return false;
+    }
+
 
     public void makeAnnulla() {}
 

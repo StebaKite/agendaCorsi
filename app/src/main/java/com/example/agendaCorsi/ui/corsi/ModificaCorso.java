@@ -295,10 +295,10 @@ public class ModificaCorso extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idCorso", String.valueOf(idCorso));

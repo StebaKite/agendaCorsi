@@ -133,7 +133,7 @@ public class ModificaFascia extends FunctionBase {
             _capienza.setText(fascia.getCapienza());
 
             descrizione = _descrizione.getText().toString();
-            giornoSettimana = _descrizione.getText().toString();
+            giornoSettimana = _giornoSettimana.getText().toString();
             oraInizio = _oraInizio.getText().toString();
             oraFine = _oraFine.getText().toString();
             capienza = _capienza.getText().toString();
@@ -169,12 +169,16 @@ public class ModificaFascia extends FunctionBase {
         else {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
-                    if (FasciaDAO.getInstance().update(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
-                        Toast.makeText(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.", Toast.LENGTH_LONG).show();
-                        esci.callOnClick();
-                    }
-                    else {
-                        displayAlertDialog(modificaFascia, "Attenzione!", "Modifica fallita, contatta il supporto tecnico");
+                    if (Integer.parseInt(String.valueOf(_capienza.getText())) >= Integer.parseInt(capienza)) {
+                        if (FasciaDAO.getInstance().update(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
+                            Toast.makeText(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.", Toast.LENGTH_LONG).show();
+                            esci.callOnClick();
+                        }
+                        else {
+                            displayAlertDialog(modificaFascia, "Attenzione!", "Modifica fallita, contatta il supporto tecnico");
+                        }
+                    } else {
+                        displayAlertDialog(modificaFascia, "Attenzione!", "Riduzione capienza fascia non permessa");
                     }
                 }
                 else {

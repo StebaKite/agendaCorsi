@@ -56,7 +56,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         for (Object entity : fasceCorsiList) {
             FasciaCorso fasciaCorso = (FasciaCorso) entity;
 
-            String detailType = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL : DETAIL_CLOSED;
+            String detailType = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL_SIMPLE : DETAIL_CLOSED;
             int cellVisibility = (fasciaCorso.getDescrizioneCorso().equals(descrizione_corso_save)) ? View.INVISIBLE : View.VISIBLE;
             if (cellVisibility == View.VISIBLE) {
                 descrizione_corso_save = fasciaCorso.getDescrizioneCorso();

@@ -137,16 +137,16 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:checked="true"
-            android:text="PROD"
-            android:textColor="@color/white"
+            android:text="Corso"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <RadioButton
             android:id="@+id/radio_aperto"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:text="TEST"
-            android:textColor="@color/white"
+            android:text="Openday"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </RadioGroup>
@@ -169,7 +169,7 @@
             android:layout_height="40dp"
             android:checked="true"
             android:text="Skate"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"
             tools:layout_editor_absoluteX="84dp"
             tools:layout_editor_absoluteY="268dp" />
@@ -179,7 +179,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Basket"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
@@ -189,7 +189,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Pattini"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />
@@ -199,7 +199,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Pallavolo"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="329dp" />

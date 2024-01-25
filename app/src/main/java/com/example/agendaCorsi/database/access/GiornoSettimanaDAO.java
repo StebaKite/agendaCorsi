@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.QueryComposer;
@@ -76,7 +77,26 @@ public class GiornoSettimanaDAO implements Database_itf {
 
     @Override
     public Object select(Object entity, String query) {
-        return null;
+        GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            String sql = query.replace("#NUMGIO#", giornoSettimana.getNumeroGiorno());
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+
+            final Cursor resultSet = database.rawQuery(sql, null);
+            while (resultSet.moveToNext()) {
+                giornoSettimana.setNumeroGiorno(resultSet.getString(GiornoSettimana.NUMERO_GIORNO));
+                giornoSettimana.setNomeGiornoAbbreviato(resultSet.getString(GiornoSettimana.NOME_GIORNO_ABBREVIATO));
+                giornoSettimana.setNomeGiornoEsteso(resultSet.getString(GiornoSettimana.NOME_GIORNO_ESTESO));
+            }
+            resultSet.close();
+            database.close();
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+            giornoSettimana.setNumeroGiorno("");
+        }
+        return giornoSettimana;
     }
 
     @Override

@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_agenda"
+        android:icon="@mipmap/vibes3_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_agenda"
+        android:roundIcon="@mipmap/vibes3_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AgendaCorsi"
         tools:targetApi="31">
