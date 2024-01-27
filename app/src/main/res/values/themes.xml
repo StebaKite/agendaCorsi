@@ -37,6 +37,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AgendaCorsi.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/table_border</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#E52727</item>
     </style>

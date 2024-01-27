@@ -76,9 +76,9 @@
         android:id="@+id/SalvaModButton"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
-        android:background="#d0d0d0"
+        android:background="@drawable/mybutton"
         android:text="Salva"
         android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/AnnullaModButton"
@@ -91,9 +91,9 @@
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:background="#d0d0d0"
         android:text="Annulla"
         android:textAllCaps="false"
+        android:background="@drawable/mybutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
         app:layout_constraintWidth_percent="0.35" />
@@ -147,9 +147,9 @@
         android:id="@+id/EliminaModButton"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
-        android:background="#d0d0d0"
+        android:background="@drawable/mybutton"
         android:text="Elimina"
         android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/SalvaModButton"
@@ -242,7 +242,8 @@
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/NuovoElemModButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0">
 
         <TableLayout
             android:id="@+id/tabellaElePortfolio"
@@ -258,9 +259,9 @@
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
-        android:background="#d0d0d0"
         android:text="Nuovo"
         android:textAllCaps="false"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ExitModButton" />
 
@@ -270,9 +271,9 @@
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
-        android:background="#d0d0d0"
         android:text="Esci"
         android:textAllCaps="false"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

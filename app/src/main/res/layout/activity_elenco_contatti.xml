@@ -55,11 +55,12 @@
     <Button
         android:id="@+id/bInserisciContatto"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:text="Nuovo"
         android:textAllCaps="false"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
         app:layout_constraintWidth_percent="0.9" />
@@ -67,11 +68,12 @@
     <Button
         android:id="@+id/bExit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:text="Esci"
         android:textAllCaps="false"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
