@@ -4,7 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.AgendaCorsi">
+    android:theme="@style/Theme.AgendaCorsi"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="40dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints" />
+
+    <!-- DESCRIZIONE -->
 
     <TextView
         android:id="@+id/lScheda2"
@@ -15,24 +33,21 @@
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editDescrizione"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- DESCRIZIONE -->
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <TextView
         android:id="@+id/lDescrizione"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="50dp"
         android:gravity="center|end"
         android:text="Descriz."
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.18" />
 
     <EditText
@@ -40,14 +55,13 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />
 
     <!-- DATA INIZIO -->
@@ -57,7 +71,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Inizio"
         android:textSize="14sp"
@@ -70,7 +83,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
@@ -79,8 +91,8 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
 
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -92,7 +104,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
         android:gravity="center|end"
         android:text="Fine"
         android:textSize="14sp"
@@ -105,7 +116,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
@@ -126,8 +136,8 @@
         android:id="@+id/radioGroup2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editDataFine">
@@ -139,7 +149,9 @@
             android:checked="true"
             android:text="Corso"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="50dp"
+            tools:layout_editor_absoluteY="242dp" />
 
         <RadioButton
             android:id="@+id/radio_aperto"
@@ -147,7 +159,9 @@
             android:layout_height="40dp"
             android:text="Openday"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="242dp" />
 
     </RadioGroup>
 
@@ -157,8 +171,8 @@
         android:id="@+id/radioGroup"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup2">
@@ -171,8 +185,8 @@
             android:text="Skate"
             android:textColor="@color/black"
             android:textSize="14sp"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="268dp" />
+            tools:layout_editor_absoluteX="50dp"
+            tools:layout_editor_absoluteY="302dp" />
 
         <RadioButton
             android:id="@+id/radio_basket"
@@ -181,8 +195,8 @@
             android:text="Basket"
             android:textColor="@color/black"
             android:textSize="14sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
+            tools:layout_editor_absoluteX="50dp"
+            tools:layout_editor_absoluteY="342dp" />
 
         <RadioButton
             android:id="@+id/radio_pattini"
@@ -191,8 +205,8 @@
             android:text="Pattini"
             android:textColor="@color/black"
             android:textSize="14sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
+            tools:layout_editor_absoluteX="50dp"
+            tools:layout_editor_absoluteY="382dp" />
 
         <RadioButton
             android:id="@+id/radio_pallavolo"
@@ -201,8 +215,8 @@
             android:text="Pallavolo"
             android:textColor="@color/black"
             android:textSize="14sp"
-            tools:layout_editor_absoluteX="82dp"
-            tools:layout_editor_absoluteY="329dp" />
+            tools:layout_editor_absoluteX="50dp"
+            tools:layout_editor_absoluteY="422dp" />
     </RadioGroup>
 
     <!-- Bottoni -->

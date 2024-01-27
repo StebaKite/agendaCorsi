@@ -2,14 +2,21 @@ package com.example.agendaCorsi.ui.contatti;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -30,6 +37,11 @@ public class NuovoContatto extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuovo_contatto);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
@@ -71,6 +83,29 @@ public class NuovoContatto extends FunctionBase {
         listenerSalva();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
+    }
+
     public void makeSalva() {
         Contatto contatto = new Contatto(null, nome.getText().toString(),
                 dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
@@ -96,5 +131,15 @@ public class NuovoContatto extends FunctionBase {
                 displayAlertDialog(nuovoContatto, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            Intent intent = new Intent(NuovoContatto.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

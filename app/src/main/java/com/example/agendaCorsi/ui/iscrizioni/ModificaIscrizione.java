@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -12,29 +14,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
 import java.util.Map;
 
 public class ModificaIscrizione extends FunctionBase {
 
-    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, nomeIscritto, idIscrizione, statoIscrizione;
+    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, nomeIscritto, idIscrizione, statoIscrizione, capienza, totaleFascia;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana, _nomeIscritto;
-    TextView nome_contatto, id_elemento, emailContatto;
-    TableLayout _tabellaContattiIscrivibili;
     Context modificaIscrizione;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_iscrizione);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
+
         modificaIscrizione = this;
 
         chiudi = findViewById(R.id.bChiudi);
@@ -57,6 +67,8 @@ public class ModificaIscrizione extends FunctionBase {
         tipoCorso = intent.getStringExtra("tipoCorso");
         nomeIscritto = intent.getStringExtra("nomeIscritto");
         statoIscrizione = intent.getStringExtra("statoIscrizione");
+        capienza = intent.getStringExtra("capienza");
+        totaleFascia = intent.getStringExtra("totaleFascia");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -94,6 +106,8 @@ public class ModificaIscrizione extends FunctionBase {
         intentMap.put("statoCorso", statoCorso);
         intentMap.put("tipoCorso", tipoCorso);
         intentMap.put("statoIscrizione", statoIscrizione);
+        intentMap.put("totaleFascia", totaleFascia);
+        intentMap.put("capienza", capienza);
 
         listenerSpostaIscrizione(idIscrizione);
         listenerChiudi();
@@ -103,6 +117,28 @@ public class ModificaIscrizione extends FunctionBase {
         listenerEsci(modificaIscrizione, ElencoIscrizioni.class, intentMap);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
+    }
 
     public void makeApri() {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_ATTIVA,null,null);
@@ -192,8 +228,20 @@ public class ModificaIscrizione extends FunctionBase {
         intent.putExtra("statoCorso", statoCorso);
         intent.putExtra("nomeIscritto", nomeIscritto);
         intent.putExtra("statoIscrizione", statoIscrizione);
+        intent.putExtra("capienza", capienza);
+        intent.putExtra("totaleFascia", totaleFascia);
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            Intent intent = new Intent(ModificaIscrizione.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

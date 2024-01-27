@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -12,12 +14,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendaCorsi.ui.iscrizioni.ModificaIscrizione;
 import com.example.agendacorsi.R;
 
@@ -36,6 +42,12 @@ public class RegistraPresenze extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registra_presenze);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
+
         registraPresenze = this;
 
         esci = findViewById(R.id.bExit);
@@ -72,6 +84,29 @@ public class RegistraPresenze extends FunctionBase {
         listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsiRunning.class, null);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
+    }
+
     private void loadContattiIscritti() {
 
         List<Object> contattiIscrittiList = ContattiDAO.getInstance().getIscrittiRunning(idFascia, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRITTI_RUNNING));
@@ -79,7 +114,7 @@ public class RegistraPresenze extends FunctionBase {
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
 
-            String detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL : DETAIL_CONFIRMED;
+            String detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL_SIMPLE : DETAIL_CONFIRMED;
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
@@ -154,4 +189,13 @@ public class RegistraPresenze extends FunctionBase {
         _tabellaContattiIscritti.addView(tableRow);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            Intent intent = new Intent(RegistraPresenze.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.AgendaCorsi">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Fasce orarie"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bSospendi" />
+
+    <Button
+        android:id="@+id/bElimina"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="#d0d0d0"
+        android:text="Elimina"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <TextView
+        android:id="@+id/lDataFine"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center|end"
+        android:text="Fine"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lDataInizio"
+        app:layout_constraintWidth_percent="0.18" />
+
+    <EditText
+        android:id="@+id/editDescrizione"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/lDescrizione"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda2"
+        app:layout_constraintWidth_percent="0.75" />
 
     <TextView
         android:id="@+id/lScheda2"
@@ -15,97 +68,15 @@
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editDescrizione"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- DESCRIZIONE -->
-
-    <TextView
-        android:id="@+id/lDescrizione"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center|end"
-        android:text="Descriz."
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.18" />
-
-    <EditText
-        android:id="@+id/editDescrizione"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center_vertical"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLength="30"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/lDescrizione"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.75" />
-
-    <!-- DATA INIZIO -->
-
-    <TextView
-        android:id="@+id/lDataInizio"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center|end"
-        android:text="Inizio"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
-        app:layout_constraintWidth_percent="0.18" />
-
-    <EditText
-        android:id="@+id/editDataInizio"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:gravity="center_vertical"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLength="30"
-        android:textSize="14sp"
-
-        app:layout_constraintStart_toEndOf="@+id/lDataInizio"
-        app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
-        app:layout_constraintWidth_percent="0.75" />
-
-    <!-- DATA FINE -->
-
-    <TextView
-        android:id="@+id/lDataFine"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center|end"
-        android:text="Fine"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lDataInizio"
-        app:layout_constraintWidth_percent="0.18" />
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <EditText
         android:id="@+id/editDataFine"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
@@ -120,66 +91,43 @@
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
         app:layout_constraintWidth_percent="0.75" />
 
-
-
-
-
-    <!-- Bottoni -->
-
-    <Button
-        android:id="@+id/bReset"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="#d0d0d0"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
-        app:layout_constraintWidth_percent="0.27" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/bElimina"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/lDataInizio"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="#d0d0d0"
-        android:text="Elimina"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
-        app:layout_constraintWidth_percent="0.2" />
-
-    <Button
-        android:id="@+id/bSalva"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="#d0d0d0"
-        android:text="Salva"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bElimina"
-        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
-        app:layout_constraintWidth_percent="0.30" />
-
-    <Button
-        android:id="@+id/bChiudi"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="#d0d0d0"
-        android:text="Chiudi"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:gravity="center|end"
+        android:text="Inizio"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bReset"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
+        app:layout_constraintWidth_percent="0.18" />
+
+    <TextView
+        android:id="@+id/lDescrizione"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center|end"
+        android:text="Descriz."
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda2"
+        app:layout_constraintWidth_percent="0.18" />
 
     <Button
         android:id="@+id/bSospendi"
@@ -209,19 +157,66 @@
         app:layout_constraintTop_toBottomOf="@+id/bReset"
         app:layout_constraintWidth_percent="0.30" />
 
-    <!-- Fasce -->
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="400dp"
-        android:layout_height="30dp"
+    <Button
+        android:id="@+id/bSalva"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Fasce orarie"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#d0d0d0"
+        android:text="Salva"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/bElimina"
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine"
+        app:layout_constraintWidth_percent="0.30" />
+
+    <Button
+        android:id="@+id/bReset"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="#d0d0d0"
+        android:text="Annulla"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSospendi" />
+        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
+        app:layout_constraintWidth_percent="0.27" />
+
+    <Button
+        android:id="@+id/bChiudi"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="#d0d0d0"
+        android:text="Chiudi"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bReset"
+        app:layout_constraintWidth_percent="0.30" />
+
+    <EditText
+        android:id="@+id/editDataInizio"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textSize="14sp"
+
+        app:layout_constraintStart_toEndOf="@+id/lDataInizio"
+        app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
+        app:layout_constraintWidth_percent="0.75" />
 
     <ScrollView
         android:id="@+id/scrollView"

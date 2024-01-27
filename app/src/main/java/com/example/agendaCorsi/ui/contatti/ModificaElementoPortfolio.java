@@ -5,14 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -39,6 +44,11 @@ public class ModificaElementoPortfolio extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_elemento_portfolio);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
 
         Intent intent = getIntent();
         idElemento = intent.getStringExtra("idElemento");
@@ -96,6 +106,29 @@ public class ModificaElementoPortfolio extends FunctionBase {
         }
         listenerRicarica5();
         listenerRicarica10();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
     }
 
     public void makeRicarica(int ricarica) {
@@ -168,5 +201,15 @@ public class ModificaElementoPortfolio extends FunctionBase {
         _descrizione.setText(descrizione);
         _numeroLezioni.setText(numeroLezioni);
         Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            Intent intent = new Intent(ModificaElementoPortfolio.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.agendaCorsi;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.util.DisplayMetrics;
@@ -11,6 +12,10 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
@@ -43,6 +48,12 @@ public class MainActivity extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
+
         tabSettimana = findViewById(R.id.tabellaSettimana);
         /**
          * Prelievo delle credenziali
@@ -163,6 +174,7 @@ public class MainActivity extends FunctionBase {
         corso.setPadding(10,50,10,50);
         corso.setWidth(larghezzaColonna);
         corso.setText(descrizioneCorso);
+        corso.setTypeface(Typeface.DEFAULT_BOLD);
         tableRow.addView(corso);
         tabSettimana.addView(tableRow);
 
@@ -209,6 +221,10 @@ public class MainActivity extends FunctionBase {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+        MenuItem homeItem = menu.findItem(R.id.navigation_home);
+        homeItem.setVisible(false);
+
         return true;
     }
 

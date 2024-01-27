@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -14,15 +16,18 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
+import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendaCorsi.ui.corsi.ModificaFascia;
 import com.example.agendacorsi.R;
 
@@ -32,7 +37,7 @@ import java.util.Map;
 
 public class SpostaIscrizione extends FunctionBase {
 
-    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, nomeIscritto, idIscrizione, statoIscrizione;
+    String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso, nomeIscritto, idIscrizione, statoIscrizione, capienza, totaleFascia;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana, _nomeIscritto;
     TableLayout tabellaFasce;
     Context spostaIscrizione;
@@ -42,6 +47,12 @@ public class SpostaIscrizione extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sposta_iscrizione);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
+
         spostaIscrizione = this;
 
         esci = findViewById(R.id.bExit);
@@ -58,6 +69,8 @@ public class SpostaIscrizione extends FunctionBase {
         tipoCorso = intent.getStringExtra("tipoCorso");
         nomeIscritto = intent.getStringExtra("nomeIscritto");
         statoIscrizione = intent.getStringExtra("statoIscrizione");
+        capienza = intent.getStringExtra("capienza");
+        totaleFascia = intent.getStringExtra("totaleFascia");
 
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
@@ -88,11 +101,36 @@ public class SpostaIscrizione extends FunctionBase {
         intentMap.put("statoCorso", statoCorso);
         intentMap.put("nomeIscritto", nomeIscritto);
         intentMap.put("statoIscrizione", statoIscrizione);
+        intentMap.put("totaleFascia", totaleFascia);
+        intentMap.put("capienza", capienza);
 
         testataelenco();
         loadFasceCorso();
 
         listenerEsci(spostaIscrizione, ElencoIscrizioni.class, intentMap);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
     }
 
     private void testataelenco() {
@@ -111,14 +149,14 @@ public class SpostaIscrizione extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            String stato = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL : DETAIL_CLOSED;
+            String stato = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL_SIMPLE : DETAIL_CLOSED;
 
             tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna3, fasciaCorso.getTotaleFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), stato, 0, fasciaCorso.getIdFascia(), 0, View.GONE));
 
-            if (stato.equals(DETAIL)) {
+            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
 
                 tableRow.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -139,5 +177,15 @@ public class SpostaIscrizione extends FunctionBase {
             }
             tabellaFasce.addView(tableRow);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("Home")) {
+            Intent intent = new Intent(SpostaIscrizione.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

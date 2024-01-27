@@ -6678,7 +6678,7 @@ eliminata e creata nuovamente
 <XPD:OBJ name="DiagramView" type="UMLClassDiagramView" guid="6gMtC0y5k0qxOhLgw4q52QAA">
 <XPD:REF name="Model">I/K4v1IJM0+ynLae4MntDAAA</XPD:REF>
 <XPD:REF name="Diagram">I/K4v1IJM0+ynLae4MntDAAA</XPD:REF>
-<XPD:ATTR name="#OwnedViews" type="integer">14</XPD:ATTR>
+<XPD:ATTR name="#OwnedViews" type="integer">18</XPD:ATTR>
 <XPD:OBJ name="OwnedViews[0]" type="UMLClassView" guid="TgbKQkEY80KmnpwukVnjtQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
@@ -7330,36 +7330,53 @@ eliminata e creata nuovamente
 <XPD:REF name="Model">0auMs179BUqeyQgOIXRNYwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[13]" type="UMLClassView" guid="jJlHF+zB80CK7oCoFeQjTQAA">
+<XPD:OBJ name="OwnedViews[13]" type="UMLNoteView" guid="OMiyeHro30+u0beNru+zVQAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$008AFF8A</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">40</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">600</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">200</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">38</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Permettere l'incemento della capienza
+non il decremento
+</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedViews[14]" type="UMLNoteLinkView" guid="wtJyL2fCfUy7rdwBIB8+HAAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">920</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">380</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">152</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">95</XPD:ATTR>
-<XPD:REF name="Model">F0cSGY0oi06kkkcvfgzLAwAA</XPD:REF>
-<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="myn8P/30NkmAZtbAoFr0IgAA">
-<XPD:OBJ name="NameLabel" type="LabelView" guid="rm18pj6ASkqKna7snCUzJQAA">
-<XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">credenziale</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">156,527;142,600</XPD:ATTR>
+<XPD:REF name="Head">OMiyeHro30+u0beNru+zVQAA</XPD:REF>
+<XPD:REF name="Tail">jvg6jBlthkSojuKSeLvRcQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="OO/otuQEuEGaHXjdOfNjUAAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+<XPD:OBJ name="OwnedViews[15]" type="UMLNoteView" guid="RlKZmzo+Zk6wpmaahFBCRwAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$008AFF8A</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">940</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">224</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">261</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">30</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">mettere tema chiaro sfondo bianco e caratteri neri
+</XPD:ATTR>
 </XPD:OBJ>
-<XPD:OBJ name="PropertyLabel" type="LabelView" guid="r7kQb9erd0OwTSlgR9RjewAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+<XPD:OBJ name="OwnedViews[16]" type="UMLNoteView" guid="7odJMONpfU6wGQRm6cBmYQAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$008AFF8A</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">940</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">276</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">97</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">30</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">cambio logo app
+</XPD:ATTR>
 </XPD:OBJ>
-</XPD:OBJ>
-<XPD:OBJ name="AttributeCompartment" type="UMLAttributeCompartmentView" guid="7Gcm+BqoFEKZz2Mn/QKWJAAA">
-<XPD:REF name="Model">F0cSGY0oi06kkkcvfgzLAwAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="OperationCompartment" type="UMLOperationCompartmentView" guid="/9ao+nPWr0mUamPmGRBmDQAA">
-<XPD:REF name="Model">F0cSGY0oi06kkkcvfgzLAwAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="TemplateParameterCompartment" type="UMLTemplateParameterCompartmentView" guid="Ero7iZZHCEySL37JSDaSngAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-<XPD:REF name="Model">F0cSGY0oi06kkkcvfgzLAwAA</XPD:REF>
-</XPD:OBJ>
+<XPD:OBJ name="OwnedViews[17]" type="UMLNoteView" guid="LzZZNKK9k0aqDoVHgHuB7AAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$008AFF8A</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">940</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">332</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">234</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">30</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Crea corso : tipo_corso &quot;Corso&quot; / &quot;OpenDay&quot;
+</XPD:ATTR>
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
@@ -8371,11 +8388,6 @@ sempre in apertura
 <XPD:OBJ name="OwnedElements[19]" type="UMLClass" guid="F0cSGY0oi06kkkcvfgzLAwAA">
 <XPD:ATTR name="Name" type="string">credenziale</XPD:ATTR>
 <XPD:REF name="Namespace">MbXskll7ZUCNYDgbo4oUgQAA</XPD:REF>
-<XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
-<XPD:REF name="Views[0]">jJlHF+zB80CK7oCoFeQjTQAA</XPD:REF>
-<XPD:REF name="Views[1]">7Gcm+BqoFEKZz2Mn/QKWJAAA</XPD:REF>
-<XPD:REF name="Views[2]">/9ao+nPWr0mUamPmGRBmDQAA</XPD:REF>
-<XPD:REF name="Views[3]">Ero7iZZHCEySL37JSDaSngAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="XxC/3f6C2EaLckRX2MfdBQAA">
 <XPD:ATTR name="Name" type="string">utente &lt;PK&gt;</XPD:ATTR>

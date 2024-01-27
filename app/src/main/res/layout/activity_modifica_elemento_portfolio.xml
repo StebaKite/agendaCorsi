@@ -1,94 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/lScheda"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="TextView"
-        android:textColor="#F69910"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editDescrizione"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lDescrizione"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center|end"
-        android:text="Descrizione"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.18" />
-
-    <EditText
-        android:id="@+id/editDescrizione"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center_vertical"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLength="30"
-        android:text="Lezioni Skate"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/lDescrizione"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.75" />
-
-    <TextView
-        android:id="@+id/lNumeroLezioni"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center|end"
-        android:text="N. Lezioni"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
-        app:layout_constraintWidth_percent="0.18" />
-
-    <EditText
-        android:id="@+id/editNumeroLezioni"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:maxLength="30"
-        android:text="0"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
-        app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
-        app:layout_constraintWidth_percent="0.75" />
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AgendaCorsi">
 
     <!-- Bottoni -->
-
-    <Button
-        android:id="@+id/bReset"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
-        android:background="#d0d0d0"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintWidth_percent="0.35" />
 
     <Button
         android:id="@+id/bExit"
@@ -106,8 +25,8 @@
         android:id="@+id/bSalva"
         android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:background="#d0d0d0"
         android:text="Salva"
         android:textAllCaps="false"
@@ -115,12 +34,128 @@
         app:layout_constraintTop_toBottomOf="@+id/dataUltRicarica"
         app:layout_constraintWidth_percent="0.17" />
 
+    <TextView
+        android:id="@+id/lDescrizione"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center|end"
+        android:text="Descrizione"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda"
+        app:layout_constraintWidth_percent="0.18" />
+
+    <EditText
+        android:id="@+id/editNumeroLezioni"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="30"
+        android:text="0"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
+        app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/bReset"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:background="#d0d0d0"
+        android:text="Annulla"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintWidth_percent="0.35" />
+
+    <TextView
+        android:id="@+id/lNumeroLezioni"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center|end"
+        android:text="N. Lezioni"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
+        app:layout_constraintWidth_percent="0.18" />
+
+    <TextView
+        android:id="@+id/dataUltRicarica"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:gravity="left|center_vertical"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni" />
+
+    <EditText
+        android:id="@+id/editDescrizione"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:text="Lezioni Skate"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/lDescrizione"
+        app:layout_constraintTop_toBottomOf="@+id/lScheda"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:gravity="right|center_vertical"
+        android:text="Ult. Ricarica"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lNumeroLezioni" />
+
+    <TextView
+        android:id="@+id/lScheda"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="TextView"
+        android:textColor="#F69910"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
+
     <Button
         android:id="@+id/bElimina"
         android:layout_width="90dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:background="#d0d0d0"
         android:text="Elimina"
         android:textAllCaps="false"
@@ -151,27 +186,5 @@
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bRicarica5" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:gravity="right|center_vertical"
-        android:text="Ult. Ricarica"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lNumeroLezioni" />
-
-    <TextView
-        android:id="@+id/dataUltRicarica"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="left|center_vertical"
-        android:text="TextView"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
