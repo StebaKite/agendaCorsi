@@ -1,10 +1,8 @@
 package com.example.agendaCorsi.ui.corsi;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,14 +18,13 @@ import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
 import java.util.List;
 
 public class ElencoCorsi extends FunctionBase {
 
-    TableLayout tabCorsi;
+    TableLayout tabCorsi, headerTabCorsi;
     int larghezzaColonna1, larghezzaColonna2;
 
     @Override
@@ -40,6 +37,7 @@ public class ElencoCorsi extends FunctionBase {
         myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
         myToolbar.setLogo(R.mipmap.vibes3_logo);
 
+        headerTabCorsi = findViewById(R.id.headerTabellaContattiIscritti);
         tabCorsi = findViewById(R.id.tabellaCorsi);
         inserisci = findViewById(R.id.bInserisciCorso);
         esci = findViewById(R.id.bExit);
@@ -85,7 +83,7 @@ public class ElencoCorsi extends FunctionBase {
         tableRow.setClickable(false);
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tabCorsi.addView(tableRow);
+        headerTabCorsi.addView(tableRow);
     }
 
     private void loadCorsi() {

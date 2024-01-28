@@ -6,7 +6,7 @@ select
 	t2.descrizione_corso,
 	'' as stato,
 	'' as sport,
-	'' as numero_giorno,
+	t2.giorno_settimana as numero_giorno,
 	t2.ora_inizio || '-' || t2.ora_fine as descrizione_fascia,
 	t2.id_fascia,
 	t2.capienza,
@@ -24,6 +24,7 @@ select
 		fascia.ora_inizio,
 		fascia.ora_fine,
 		fascia.capienza,
+		fascia.giorno_settimana,
 		giorno_settimana.nome_giorno_abbreviato,
 		t1.totale_fascia
 
@@ -46,4 +47,4 @@ select
       where corso.id_corso = #IDCORSO#
 
 	) as t2
-	order by 1,2,3,4
+	order by t2.descrizione_corso,t2.giorno_settimana

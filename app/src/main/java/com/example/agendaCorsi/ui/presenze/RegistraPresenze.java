@@ -23,8 +23,6 @@ import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-import com.example.agendaCorsi.ui.iscrizioni.ModificaIscrizione;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -34,7 +32,7 @@ public class RegistraPresenze extends FunctionBase {
 
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
-    TableLayout _tabellaContattiIscritti;
+    TableLayout tabellaContattiIscritti, headerTabellaContattiIscritti;
     Context registraPresenze;
 
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
@@ -65,7 +63,9 @@ public class RegistraPresenze extends FunctionBase {
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
         _descrizioneFascia = findViewById(R.id.editFascia);
-        _tabellaContattiIscritti = findViewById(R.id.tabellaContattiIscritti);
+
+        headerTabellaContattiIscritti = findViewById(R.id.headerTabellaContattiIscritti);
+        tabellaContattiIscritti = findViewById(R.id.tabellaContattiIscritti);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -177,7 +177,7 @@ public class RegistraPresenze extends FunctionBase {
                     finish();
                 }
             });
-            _tabellaContattiIscritti.addView(tableRow);
+            tabellaContattiIscritti.addView(tableRow);
         }
     }
 
@@ -187,7 +187,7 @@ public class RegistraPresenze extends FunctionBase {
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        _tabellaContattiIscritti.addView(tableRow);
+        headerTabellaContattiIscritti.addView(tableRow);
     }
 
     @Override

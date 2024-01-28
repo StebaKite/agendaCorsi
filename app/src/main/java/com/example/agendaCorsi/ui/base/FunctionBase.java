@@ -183,7 +183,7 @@ public class FunctionBase extends AppCompatActivity {
 
 
     public void displayAlertDialog(Context context, String title, String message) {
-        AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_AlertDialog);
+        AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_InfoDialog);
         messaggio.setTitle(title);
         messaggio.setMessage(message);
         messaggio.setCancelable(false);

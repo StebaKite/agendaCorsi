@@ -1,10 +1,8 @@
 package com.example.agendaCorsi.ui.contatti;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +17,6 @@ import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
-import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
-import com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
@@ -29,7 +24,7 @@ import java.util.List;
 
 public class ElencoContatti extends FunctionBase {
 
-    TableLayout tabContatti;
+    TableLayout tabContatti, headerTabContatti;
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
 
     @Override
@@ -42,6 +37,7 @@ public class ElencoContatti extends FunctionBase {
         myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
         myToolbar.setLogo(R.mipmap.vibes3_logo);
 
+        headerTabContatti = findViewById(R.id.headerTabellaContattiIscritti);
         tabContatti = findViewById(R.id.tabellaContatti);
         inserisci = findViewById(R.id.bInserisciContatto);
         esci = findViewById(R.id.bExit);
@@ -89,7 +85,7 @@ public class ElencoContatti extends FunctionBase {
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tabContatti.addView(tableRow);
+        headerTabContatti.addView(tableRow);
     }
 
     private void loadContatti() {

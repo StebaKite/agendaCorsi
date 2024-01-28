@@ -5,11 +5,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +30,6 @@ import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
-import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
@@ -48,7 +44,7 @@ public class ModificaCorso extends FunctionBase {
     Context modificaCorso;
 
     final Calendar myCalendar = Calendar.getInstance();
-    public TableLayout tabellaFasceModCorso;
+    public TableLayout tabellaFasceModCorso, headerTabellaFasceCorso;
 
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
 
@@ -62,6 +58,7 @@ public class ModificaCorso extends FunctionBase {
         myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
         myToolbar.setLogo(R.mipmap.vibes3_logo);
 
+        headerTabellaFasceCorso = findViewById(R.id.headerTabellaContattiIscritti);
         tabellaFasceModCorso = findViewById(R.id.tabellaFasceModCorso);
 
         Intent intent = getIntent();
@@ -318,7 +315,7 @@ public class ModificaCorso extends FunctionBase {
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Fascia oraria", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Capienza", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
-        tabellaFasceModCorso.addView(tableRow);
+        headerTabellaFasceCorso.addView(tableRow);
     }
 
     public void loadFasceOrarie() {

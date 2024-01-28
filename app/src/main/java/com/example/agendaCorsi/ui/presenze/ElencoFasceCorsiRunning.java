@@ -2,7 +2,6 @@ package com.example.agendaCorsi.ui.presenze;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -21,15 +20,13 @@ import com.example.agendaCorsi.database.table.FasciaCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class ElencoFasceCorsiRunning extends FunctionBase {
 
-    TableLayout tabellaFasceCorsi;
+    TableLayout tabellaFasceCorsi, headerTabellaFasceCorsi;
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3, larghezzaColonna4;
     Context elencoFasceCorsiRunning;
 
@@ -45,6 +42,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         elencoFasceCorsiRunning = this;
 
         esci = findViewById(R.id.bExit);
+        headerTabellaFasceCorsi = findViewById(R.id.headerTabellaContattiIscritti);
         tabellaFasceCorsi = findViewById(R.id.tabellaFasceCorsi);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -165,7 +163,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna2,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna3,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna4,"Totale", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
-        tabellaFasceCorsi.addView(tableRow);
+        headerTabellaFasceCorsi.addView(tableRow);
     }
 
     @Override
