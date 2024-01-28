@@ -158,6 +158,7 @@ public class ElencoFasceCorsi extends FunctionBase {
                         intent.putExtra("tipoCorso", tipoCorso);
 
                         startActivity(intent);
+                        finish();
                     }
                     else {
                         Intent intent = new Intent(AgendaCorsiApp.getContext(), ElencoIscrizioni.class);
@@ -173,6 +174,7 @@ public class ElencoFasceCorsi extends FunctionBase {
                         intent.putExtra("capienza", fasciaCorso.getCapienza());
 
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

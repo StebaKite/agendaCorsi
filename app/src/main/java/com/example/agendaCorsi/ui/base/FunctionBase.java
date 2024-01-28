@@ -137,24 +137,20 @@ public class FunctionBase extends AppCompatActivity {
 
         if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
-                name.setTextColor(getResources().getColor(R.color.red));
-                name.setTypeface(Typeface.DEFAULT_BOLD);
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
 
             } else if (type.equals(DETAIL_EXPIRED)) {
-                name.setTextColor(getResources().getColor(R.color.blue));
-                name.setTypeface(Typeface.DEFAULT_BOLD);
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_expired));
 
             } else if (type.equals(DETAIL_INOPERATIVE)) {
                 name.setTextColor(getResources().getColor(R.color.grayligth));
                 name.setTypeface(Typeface.DEFAULT_BOLD);
 
             } else if (type.equals(DETAIL_CONFIRMED)) {
-                name.setTextColor(getResources().getColor(R.color.greenligth));
-                name.setTypeface(Typeface.DEFAULT_BOLD);
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
 
             } else if (type.equals(DETAIL_OPENED)) {
-                name.setTextColor(getResources().getColor(R.color.gray));
-                name.setTypeface(Typeface.DEFAULT_BOLD);
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
 
             } else if (type.equals(DETAIL_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));

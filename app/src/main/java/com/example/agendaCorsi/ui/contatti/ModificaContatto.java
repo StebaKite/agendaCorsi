@@ -109,7 +109,7 @@ public class ModificaContatto extends FunctionBase {
         }
         else {
             _nome.setText(contatto.getNome());
-            _dataNascita.setText(contatto.getDataNascita());
+            _dataNascita.setText(dateFormat(contatto.getDataNascita(), "yyyy-MM-dd", "dd-MM-yyyy"));
             _indirizzo.setText(contatto.getIndirizzo());
             _telefono.setText(contatto.getTelefono());
             _email.setText(contatto.getEmail());

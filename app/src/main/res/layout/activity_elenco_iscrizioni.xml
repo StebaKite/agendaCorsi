@@ -101,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Elenco Iscrizioni"
+        android:text="Iscrizioni"
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"

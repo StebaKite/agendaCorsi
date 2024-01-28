@@ -50,7 +50,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.3);
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.2);
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
         larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
         larghezzaColonna4 = (int) (displayMetrics.widthPixels * 0.2);
@@ -151,6 +151,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
                     intent.putExtra("tipoCorso", tipoCorso);
 
                     startActivity(intent);
+                    finish();
                 }
             });
             tabellaFasceCorsi.addView(tableRow);
@@ -160,7 +161,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
     private void testataElenco() {
         tableRow = new TableRow(this);
         tableRow.setClickable(true);
-        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna1,"Nome corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna1,"Corso", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna2,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna3,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this, new TextView(this), HEADER, larghezzaColonna4,"Totale", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));

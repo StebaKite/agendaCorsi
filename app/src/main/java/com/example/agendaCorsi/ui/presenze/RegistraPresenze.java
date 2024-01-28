@@ -174,6 +174,7 @@ public class RegistraPresenze extends FunctionBase {
                         }
                     }
                     startActivity(intent);
+                    finish();
                 }
             });
             _tabellaContattiIscritti.addView(tableRow);
