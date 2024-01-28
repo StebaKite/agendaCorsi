@@ -22,11 +22,14 @@ import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Credenziale;
 import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
+import com.example.agendaCorsi.database.table.TotaleCorso;
+import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
@@ -100,11 +103,41 @@ public class MainActivity extends FunctionBase {
         for (Object entity : corsiList) {
             Corso corso = Corso.class.cast(entity);
             if (checkObsolescenceDate(corso.getDataFineValidita())) {
-                if (!CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
-                    displayAlertDialog(this, "Attenzione!", "Cancellazione corso fallito, contatta il supporto tecnico");
+                /**
+                 *  La cancellazione del corso la fa solo se i totali statistici vengono racolti
+                 */
+                if (raccogliTotaliCorso(corso.getIdCorso())) {
+                    if (!CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
+                        displayAlertDialog(this, "Attenzione!", "Cancellazione corso fallito, contatta il supporto tecnico");
+                    }
                 }
             }
         }
+    }
+
+    private boolean raccogliTotaliCorso(String idCorso) {
+        /*
+         *  Totale delle iscrizioni
+         */
+        TotaleIscrizioniCorso totaleIscrizioniCorso = new TotaleIscrizioniCorso(idCorso, null, null, null);
+        TotaleCorsoDAO.getInstance().selectTotaleIscrizioni(totaleIscrizioniCorso, QueryComposer.getInstance().getQuery(QUERY_TOT_ISCRIZIONI));
+
+        TotaleCorso totaleCorso = new TotaleCorso(null,
+                totaleIscrizioniCorso.getDescrizioneCorso(),
+                totaleIscrizioniCorso.getAnnoSvolgimento(), "TOTISC", totaleIscrizioniCorso.getTotaleIscrizioni());
+
+        if (!TotaleCorsoDAO.getInstance().insert(totaleCorso, QueryComposer.getInstance().getQuery(QUERY_INS_TOTALE_CORSO))) {
+            displayAlertDialog(this, "Attenzione!", "Raccolta totale iscrizioni fallito, contatta il supporto tecnico");
+            return false;
+        }
+
+        /*
+         *   Altri totali qui sotto
+         */
+
+
+
+        return false;
     }
 
     private void displayQuadroIscrizioni() {

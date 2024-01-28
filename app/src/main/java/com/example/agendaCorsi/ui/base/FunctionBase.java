@@ -121,6 +121,9 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_DEL_PRESENZA = "query_del_presenza";
     public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
     public static String QUERY_GET_GIORNO_SETTIMANA = "query_get_giorno_settimana";
+
+    public static String QUERY_TOT_ISCRIZIONI = "query_tot_iscrizioni";
+    public static String QUERY_INS_TOTALE_CORSO = "query_ins_totale_corso";
     /*
      * I bottoni
      */

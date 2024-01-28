@@ -13,6 +13,7 @@ import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.access.PresenzaDAO;
+import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Credenziale;
@@ -21,12 +22,13 @@ import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.database.table.Presenza;
+import com.example.agendaCorsi.database.table.TotaleCorso;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 10;
+    public static final int SCHEMA_VERSION = 12;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -37,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_GIORNO_SETTIMANA = "create_table_giorno_settimana";
     public static String CREATE_TABLE_CREDENZIALE = "create_table_credenziale";
     public static String CREATE_TABLE_PRESENZA = "create_table_presenza";
+    public static String CREATE_TABLE_TOTALE_CORSO = "create_table_totale_corso";
     public static String QUERY_INS_GIORNO_SETTIMANA = "query_ins_giorno_settimana";
 
     public DatabaseHelper(Context context) {
@@ -63,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
         CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
+        TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
         /*
          * Initial Load
          */
@@ -85,25 +89,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          *  Sequenza di DROP secondo le constraint dello schema (vedi modello ER)
          */
-        sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
         //sqLiteDatabase.execSQL("drop table if exists " + GiornoSettimana.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + TotaleCorso.TABLE_NAME);
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
-        ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
-        CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
-        FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
-        IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
+        //ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
+        //ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        //CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
+        //FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
+        //IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
         //GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
-        CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
-        PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
+        //CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
+        //PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
+        TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
         /*
          * Initial Load
          */

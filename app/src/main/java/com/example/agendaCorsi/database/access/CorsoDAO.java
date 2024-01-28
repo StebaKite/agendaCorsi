@@ -80,8 +80,8 @@ public class CorsoDAO implements Database_itf {
                     replace("#SPORT#", corso.getSport()).
                     replace("#STATO#", corso.getStato()).
                     replace("#TIPO#", corso.getTipo()).
-                    replace("#DATINI", corso.getDataInizioValidita()).
-                    replace("#DATFIN", corso.getDataFineValidita());
+                    replace("#DATINI#", corso.getDataInizioValidita()).
+                    replace("#DATFIN#", corso.getDataFineValidita());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);
