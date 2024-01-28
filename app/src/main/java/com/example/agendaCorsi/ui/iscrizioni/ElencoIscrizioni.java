@@ -176,6 +176,7 @@ public class ElencoIscrizioni extends FunctionBase {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(ElencoIscrizioni.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

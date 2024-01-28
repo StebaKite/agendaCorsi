@@ -232,25 +232,32 @@ public class MainActivity extends FunctionBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("Contatti")) {
             Intent intent = new Intent(MainActivity.this, ElencoContatti.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         } else if (item.getTitle().equals("Corsi")) {
             Intent intent = new Intent(MainActivity.this, ElencoCorsi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         } else if (item.getTitle().equals("Iscrizioni")) {
             Intent intent = new Intent(MainActivity.this, ElencoFasceCorsi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         }
         else if (item.getTitle().equals("Presenze")) {
             Intent intent = new Intent(MainActivity.this, ElencoFasceCorsiRunning.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         }
         else if (item.getTitle().equals("Esci")) {
-            MainActivity.this.finish();
-            System.exit(0);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

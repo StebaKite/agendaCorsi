@@ -63,7 +63,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="XXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lUtente"
         app:layout_constraintTop_toBottomOf="@+id/lScheda4"
         app:layout_constraintWidth_percent="0.20" />
@@ -94,7 +94,7 @@
         android:inputType="textPassword"
         android:maxLength="30"
         android:text="XXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lPassword"
         app:layout_constraintTop_toBottomOf="@+id/editUtente"
         app:layout_constraintWidth_percent="0.20" />

@@ -127,7 +127,7 @@ public class ModificaCorso extends FunctionBase {
 
         larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
-        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
 
         Corso corso = loadCorso();
         testataElenco();
@@ -317,7 +317,7 @@ public class ModificaCorso extends FunctionBase {
         tableRow.setClickable(false);
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Giorno", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Fascia oraria", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Capienza", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Capienza", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         tabellaFasceModCorso.addView(tableRow);
     }
 
@@ -331,7 +331,7 @@ public class ModificaCorso extends FunctionBase {
             tableRow.setClickable(true);
             tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
             tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
@@ -383,6 +383,7 @@ public class ModificaCorso extends FunctionBase {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(ModificaCorso.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

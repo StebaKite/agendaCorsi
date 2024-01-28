@@ -58,7 +58,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="Lezioni Skate Base"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda"
         app:layout_constraintWidth_percent="0.75" />
@@ -85,7 +85,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="0"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -154,7 +154,7 @@
             android:checked="true"
             android:text="Skate"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="262dp" />
 
@@ -164,7 +164,7 @@
             android:layout_height="40dp"
             android:text="Basket"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="302dp" />
 
@@ -174,7 +174,7 @@
             android:layout_height="40dp"
             android:text="Pattini"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="342dp" />
 
@@ -184,7 +184,7 @@
             android:layout_height="40dp"
             android:text="Pallavolo"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="382dp" />
     </RadioGroup>

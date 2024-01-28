@@ -13,4 +13,10 @@
     <color name="overflow_background">#5A3602</color>
     <color name="alt_background_row">#46000000</color>
     <color name="customBorderless">#CE8212</color>
+    <color name="red">#F44336</color>
+    <color name="blue">#5D8CEA</color>
+    <color name="grayligth">#D1D2D3</color>
+    <color name="gray">#ED737271</color>
+    <color name="greenligth">#6DC671</color>
+
 </resources>

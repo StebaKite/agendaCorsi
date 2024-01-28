@@ -35,7 +35,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />
@@ -53,7 +53,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lOraInizio"
         app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
         app:layout_constraintWidth_percent="0.75" />
@@ -95,7 +95,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lCapienza"
         app:layout_constraintTop_toBottomOf="@+id/editOraFine"
         app:layout_constraintWidth_percent="0.75" />
@@ -137,7 +137,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lOraFine"
         app:layout_constraintTop_toBottomOf="@+id/editOraInizio"
         app:layout_constraintWidth_percent="0.75" />
@@ -151,7 +151,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />

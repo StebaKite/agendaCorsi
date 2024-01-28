@@ -172,6 +172,7 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(ElencoFasceCorsiRunning.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

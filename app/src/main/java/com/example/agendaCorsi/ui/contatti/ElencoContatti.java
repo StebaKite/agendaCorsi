@@ -117,7 +117,9 @@ public class ElencoContatti extends FunctionBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(ElencoContatti.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

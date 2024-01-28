@@ -56,7 +56,7 @@
         android:inputType="number"
         android:maxLength="30"
         android:text="0"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -107,7 +107,7 @@
         android:layout_marginStart="12dp"
         android:gravity="left|center_vertical"
         android:text="TextView"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni" />
 
@@ -121,7 +121,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="Lezioni Skate"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda"
         app:layout_constraintWidth_percent="0.75" />

@@ -21,12 +21,17 @@ import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.TimeZone;
 
 public class FunctionBase extends AppCompatActivity {
 
@@ -126,20 +131,31 @@ public class FunctionBase extends AppCompatActivity {
 
     public TextView makeCell(Context context, TextView name, String type, int width, String value, int alignment, int visibility) {
         //name = new TextView(context);
-        name.setTextSize(14);
-        name.setPadding(10,20,10,20);
+        name.setTextSize(16);
+        name.setPadding(10,10,10,10);
+        name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
 
         if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
+                name.setTextColor(getResources().getColor(R.color.red));
+                name.setTypeface(Typeface.DEFAULT_BOLD);
+
             } else if (type.equals(DETAIL_EXPIRED)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_expired));
+                name.setTextColor(getResources().getColor(R.color.blue));
+                name.setTypeface(Typeface.DEFAULT_BOLD);
+
             } else if (type.equals(DETAIL_INOPERATIVE)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_inoperative));
+                name.setTextColor(getResources().getColor(R.color.grayligth));
+                name.setTypeface(Typeface.DEFAULT_BOLD);
+
             } else if (type.equals(DETAIL_CONFIRMED)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
+                name.setTextColor(getResources().getColor(R.color.greenligth));
+                name.setTypeface(Typeface.DEFAULT_BOLD);
+
             } else if (type.equals(DETAIL_OPENED)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
+                name.setTextColor(getResources().getColor(R.color.gray));
+                name.setTypeface(Typeface.DEFAULT_BOLD);
+
             } else if (type.equals(DETAIL_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
             }
@@ -208,6 +224,7 @@ public class FunctionBase extends AppCompatActivity {
                     }
                 }
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -241,6 +258,7 @@ public class FunctionBase extends AppCompatActivity {
                     }
                 }
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -299,6 +317,7 @@ public class FunctionBase extends AppCompatActivity {
                     }
                 }
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -408,7 +427,8 @@ public class FunctionBase extends AppCompatActivity {
     public int getDayOfWeek() {
         Calendar calendar = Calendar.getInstance(new Locale("en","UK"));
         calendar.setTime(new Date());
-        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        if (weekDay == 0) {return 7;} else {return weekDay;}
     }
 
     public boolean isFasciaRunning(String fascia) {

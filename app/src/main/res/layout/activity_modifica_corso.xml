@@ -54,7 +54,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />
@@ -85,7 +85,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
@@ -212,7 +212,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"

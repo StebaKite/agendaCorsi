@@ -55,7 +55,7 @@
         android:inputType="number"
         android:maxLength="20"
         android:text="XXXXXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lTelefono2"
         app:layout_constraintTop_toBottomOf="@+id/editIndirizzoMod"
         app:layout_constraintWidth_percent="0.80" />
@@ -108,7 +108,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="XXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDataNascita"
         app:layout_constraintTop_toBottomOf="@+id/editNomeMod"
         app:layout_constraintWidth_percent="0.20" />
@@ -123,7 +123,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="XXXXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lIndirizzo2"
         app:layout_constraintTop_toBottomOf="@+id/editDataNascita"
         app:layout_constraintWidth_percent="0.80" />
@@ -138,7 +138,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="XXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lNome2"
         app:layout_constraintTop_toBottomOf="@+id/lScheda3"
         app:layout_constraintWidth_percent="0.20" />
@@ -190,7 +190,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:text="XXXXXXXX"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lEmail2"
         app:layout_constraintTop_toBottomOf="@+id/editTelefonoMod"
         app:layout_constraintWidth_percent="0.80" />

@@ -139,6 +139,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(NuovoElementoPortfolio.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

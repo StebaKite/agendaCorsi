@@ -59,7 +59,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />
@@ -92,7 +92,7 @@
         android:inputType="text"
         android:maxLength="30"
 
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -124,7 +124,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-        android:textSize="14sp"
+        android:textSize="16sp"
 
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
@@ -149,7 +149,7 @@
             android:checked="true"
             android:text="Corso"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="242dp" />
 
@@ -159,7 +159,7 @@
             android:layout_height="40dp"
             android:text="Openday"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="200dp"
             tools:layout_editor_absoluteY="242dp" />
 
@@ -184,7 +184,7 @@
             android:checked="true"
             android:text="Skate"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="302dp" />
 
@@ -194,7 +194,7 @@
             android:layout_height="40dp"
             android:text="Basket"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="342dp" />
 
@@ -204,7 +204,7 @@
             android:layout_height="40dp"
             android:text="Pattini"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="382dp" />
 
@@ -214,7 +214,7 @@
             android:layout_height="40dp"
             android:text="Pallavolo"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="422dp" />
     </RadioGroup>

@@ -185,6 +185,7 @@ public class NuovoCorso extends FunctionBase {
         if (item.getTitle().equals("Home")) {
             Intent intent = new Intent(NuovoCorso.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
