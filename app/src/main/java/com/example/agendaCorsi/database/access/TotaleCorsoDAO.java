@@ -9,12 +9,12 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.TotaleCorso;
 import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,9 +46,43 @@ public class TotaleCorsoDAO implements Database_itf {
         }
     }
 
+
+    public boolean existRows(String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Log.i(DatabaseHelper.DATABASE_NAME, query);
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            return false;
+        }
+        return true;
+    }
+
+
     @Override
     public List<Object> getAll(String query) {
-        return null;
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        List<Object> list = new ArrayList<>();
+        String sql = query;
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String id_totale = cursor.getString(TotaleCorso.ID_TOTALE);
+            String descrizione_corso = cursor.getString(TotaleCorso.DESCRIZIONE_CORSO);
+            String anno_svolgimento = cursor.getString(TotaleCorso.ANNO_SVOLGIMENTO);
+            String nome_totale = cursor.getString(TotaleCorso.NOME_TOTALE);
+            String valore_totale = cursor.getString(TotaleCorso.VALORE_TOTALE);
+
+            TotaleCorso totaleCorso = new TotaleCorso(id_totale, descrizione_corso, anno_svolgimento, nome_totale, valore_totale);
+            list.add(totaleCorso);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        database.close();
+        return list;
     }
 
     @Override
@@ -57,7 +91,7 @@ public class TotaleCorsoDAO implements Database_itf {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             TotaleCorso totaleCorso = (TotaleCorso) entity;
             String sql = query.replace("#DESCR#", totaleCorso.getDescrizioneCorso()).
-                    replace("#ANNO#", totaleCorso.getAnnosvolgimento()).
+                    replace("#ANNO#", totaleCorso.getAnnoSvolgimento()).
                     replace("#NOMTOT#", totaleCorso.getNomeTotale()).
                     replace("#VALTOT#", totaleCorso.getValoreTotale());
 
@@ -89,13 +123,18 @@ public class TotaleCorsoDAO implements Database_itf {
             String sql = query.replace("#IDCORSO#", totaleIscrizioniCorso.getIdCorso());
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
-            final Cursor resultSet = database.rawQuery(sql, null);
-            while (resultSet.moveToNext()) {
-                totaleIscrizioniCorso.setDescrizioneCorso(resultSet.getString(TotaleIscrizioniCorso.DESCRIZIONE_CORSO));
-                totaleIscrizioniCorso.setAnnoSvolgimento(getYearFromDate(resultSet.getString(TotaleIscrizioniCorso.ANNO_SVOLGIMENTO)));
-                totaleIscrizioniCorso.setTotaleIscrizioni(resultSet.getString(TotaleIscrizioniCorso.TOTALE_ISCRIZIONI));
+            Cursor cursor = database.rawQuery(sql, null);
+            int totaleCorso = 0;
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                totaleIscrizioniCorso.setDescrizioneCorso(cursor.getString(TotaleIscrizioniCorso.DESCRIZIONE_CORSO));
+                totaleIscrizioniCorso.setAnnoSvolgimento(getYearFromDate(cursor.getString(TotaleIscrizioniCorso.ANNO_SVOLGIMENTO)));
+                totaleCorso = totaleCorso + Integer.parseInt(cursor.getString(TotaleIscrizioniCorso.TOTALE_ISCRIZIONI));
+                cursor.moveToNext();
             }
-            resultSet.close();
+            totaleIscrizioniCorso.setTotaleIscrizioni(String.valueOf(totaleCorso));
+            cursor.close();
             database.close();
         }
         catch (SQLException e) {

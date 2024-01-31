@@ -25,9 +25,11 @@ import androidx.core.content.ContextCompat;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.FasciaDAO;
+import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
+import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -58,7 +60,7 @@ public class ModificaCorso extends FunctionBase {
         myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
         myToolbar.setLogo(R.mipmap.vibes3_logo);
 
-        headerTabellaFasceCorso = findViewById(R.id.headerTabellaContattiIscritti);
+        headerTabellaFasceCorso = findViewById(R.id.headerTabellaContattiIscrivibili);
         tabellaFasceModCorso = findViewById(R.id.tabellaFasceModCorso);
 
         Intent intent = getIntent();
@@ -166,28 +168,6 @@ public class ModificaCorso extends FunctionBase {
         listenerInserisci(modificaCorso, NuovaFascia.class, intentMap);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
-        contattiItem.setVisible(false);
-
-        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
-        corsiItem.setVisible(false);
-
-        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
-        iscrizioniItem.setVisible(false);
-
-        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
-        presenzeItem.setVisible(false);
-
-        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
-        exitItem.setVisible(false);
-
-        return true;
-    }
 
     @Override
     public void makeAnnulla() {
@@ -202,18 +182,29 @@ public class ModificaCorso extends FunctionBase {
         Corso corso = new Corso(String.valueOf(idCorso),
                 null,
                 null,
-                STATO_APERTO,
+                null,
                 null,
                 null,
                 null,
                 null,
                 null);
 
+        TotaleIscrizioniCorso totaleIscrizioniCorso = new TotaleIscrizioniCorso(idCorso, null, null, null);
+        TotaleCorsoDAO.getInstance().selectTotaleIscrizioni(totaleIscrizioniCorso, QueryComposer.getInstance().getQuery(QUERY_TOT_ISCRIZIONI));
+        if (totaleIscrizioniCorso.getDescrizioneCorso() != null) {
+            if (Integer.parseInt(totaleIscrizioniCorso.getTotaleIscrizioni()) > 0) {
+                corso.setStato(STATO_ATTIVO);
+            } else {
+                corso.setStato(STATO_APERTO);
+            }
+        } else {
+            corso.setStato(STATO_APERTO);
+        }
+
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
             Toast.makeText(AgendaCorsiApp.getContext(), "Corso aperto con successo", Toast.LENGTH_LONG).show();
             esci.callOnClick();
-        }
-        else {
+        } else {
             displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
         }
     }

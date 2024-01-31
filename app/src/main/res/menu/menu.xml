@@ -29,6 +29,11 @@
         android:title="@string/title_presenza"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/navigation_totali"
+        android:icon="@drawable/baseline_query_stats_24"
+        android:title="@string/title_totali"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/navigation_esci"
         android:icon="@drawable/baseline_exit_to_app_24"
         android:title="Esci"

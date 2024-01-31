@@ -37,7 +37,7 @@ public class ElencoCorsi extends FunctionBase {
         myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
         myToolbar.setLogo(R.mipmap.vibes3_logo);
 
-        headerTabCorsi = findViewById(R.id.headerTabellaContattiIscritti);
+        headerTabCorsi = findViewById(R.id.headerTabellaContattiIscrivibili);
         tabCorsi = findViewById(R.id.tabellaCorsi);
         inserisci = findViewById(R.id.bInserisciCorso);
         esci = findViewById(R.id.bExit);
@@ -55,28 +55,6 @@ public class ElencoCorsi extends FunctionBase {
         listenerInserisci(ElencoCorsi.this, NuovoCorso.class, null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
-        contattiItem.setVisible(false);
-
-        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
-        corsiItem.setVisible(false);
-
-        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
-        iscrizioniItem.setVisible(false);
-
-        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
-        presenzeItem.setVisible(false);
-
-        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
-        exitItem.setVisible(false);
-
-        return true;
-    }
 
     private void testataElenco() {
         tableRow = new TableRow(this);

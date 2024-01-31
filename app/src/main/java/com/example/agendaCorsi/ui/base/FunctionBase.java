@@ -7,6 +7,8 @@ import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendacorsi.R;
 
@@ -59,6 +62,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String DETAIL_CONFIRMED = "Confirmed";
     public static String DETAIL_EXHAUSTED = "Esaurito";
     public static String DETAIL_EXPIRED = "Scaduto";
+    public static String DETAIL_SUSPENDED = "Sospeso";
     public static String DETAIL_INOPERATIVE = "";
     public static String HEADER = "HD";
     public static String HEADER_EVIDENCE = "HDEV";
@@ -124,6 +128,7 @@ public class FunctionBase extends AppCompatActivity {
 
     public static String QUERY_TOT_ISCRIZIONI = "query_tot_iscrizioni";
     public static String QUERY_INS_TOTALE_CORSO = "query_ins_totale_corso";
+    public static String QUERY_GETALL_TOT_ISCRIZIONI = "query_getall_tot_iscrizioni";
     /*
      * I bottoni
      */
@@ -158,6 +163,9 @@ public class FunctionBase extends AppCompatActivity {
             } else if (type.equals(DETAIL_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
             }
+            else if (type.equals(DETAIL_SUSPENDED)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
+            }
             else {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
             }
@@ -184,6 +192,31 @@ public class FunctionBase extends AppCompatActivity {
         return name;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
+        contattiItem.setVisible(false);
+
+        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
+        corsiItem.setVisible(false);
+
+        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
+        iscrizioniItem.setVisible(false);
+
+        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
+        presenzeItem.setVisible(false);
+
+        MenuItem totaliItem = menu.findItem(R.id.navigation_totali);
+        totaliItem.setVisible(false);
+
+        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
+        exitItem.setVisible(false);
+
+        return true;
+    }
 
     public void displayAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(context, R.style.Theme_InfoDialog);
@@ -396,12 +429,12 @@ public class FunctionBase extends AppCompatActivity {
         try {
             Date fineDate = null;
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            fineDate = (Date)dateFormat.parse(dataFineValidita);
+            fineDate = (Date)dateFormat.parse(dataFineValidita.replaceAll("#", ""));
 
             long now = System.currentTimeMillis();
 
             if (now > fineDate.getTime()) {
-                return true;        // ok, obsolescenza
+                return true;        // ok, la data è obsolescente
             }
         }
         catch(ParseException e) {

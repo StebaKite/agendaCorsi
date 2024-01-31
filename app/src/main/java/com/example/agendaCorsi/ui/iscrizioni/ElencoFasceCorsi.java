@@ -53,28 +53,6 @@ public class ElencoFasceCorsi extends FunctionBase {
         listenerEsci(ElencoFasceCorsi.this, MainActivity.class, null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
-        contattiItem.setVisible(false);
-
-        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
-        corsiItem.setVisible(false);
-
-        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
-        iscrizioniItem.setVisible(false);
-
-        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
-        presenzeItem.setVisible(false);
-
-        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
-        exitItem.setVisible(false);
-
-        return true;
-    }
 
     private void testataElenco() {
         tableRow = new TableRow(this);

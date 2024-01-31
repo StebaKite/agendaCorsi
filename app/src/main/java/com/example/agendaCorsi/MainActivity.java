@@ -36,6 +36,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning;
+import com.example.agendaCorsi.ui.totali.ElencoTotali;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
@@ -144,8 +145,8 @@ public class MainActivity extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.25);
-        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.25);
+        int larghezzaColonnaCorso = (int) (displayMetrics.widthPixels * 0.3);
+        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.3);
         int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.1);
 
         List<Object> totaliCorsoList = DashboardDAO.getInstance().getTotals(QueryComposer.getInstance().getQuery(QUERY_TOTALS_CORSI));
@@ -258,6 +259,10 @@ public class MainActivity extends FunctionBase {
         MenuItem homeItem = menu.findItem(R.id.navigation_home);
         homeItem.setVisible(false);
 
+        if (!TotaleCorsoDAO.getInstance().existRows(QueryComposer.getInstance().getQuery(QUERY_GETALL_TOT_ISCRIZIONI))) {
+            MenuItem totaliItem = menu.findItem(R.id.navigation_totali);
+            totaliItem.setVisible(false);
+        }
         return true;
     }
 
@@ -284,6 +289,13 @@ public class MainActivity extends FunctionBase {
         }
         else if (item.getTitle().equals("Presenze")) {
             Intent intent = new Intent(MainActivity.this, ElencoFasceCorsiRunning.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        else if (item.getTitle().equals("Totali")) {
+            Intent intent = new Intent(MainActivity.this, ElencoTotali.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

@@ -13,14 +13,14 @@ public class TotaleCorso implements BaseColumns {
 
     public String idTotale;
     public String descrizioneCorso;
-    public String annosvolgimento;
+    public String annoSvolgimento;
     public String nomeTotale;
     public String valoreTotale;
 
     public TotaleCorso(String idTotale, String descrizioneCorso, String annosvolgimento, String nomeTotale, String valoreTotale) {
         this.idTotale = idTotale;
         this.descrizioneCorso = descrizioneCorso;
-        this.annosvolgimento = annosvolgimento;
+        this.annoSvolgimento = annosvolgimento;
         this.nomeTotale = nomeTotale;
         this.valoreTotale = valoreTotale;
     }
@@ -41,12 +41,12 @@ public class TotaleCorso implements BaseColumns {
         this.descrizioneCorso = descrizioneCorso;
     }
 
-    public String getAnnosvolgimento() {
-        return annosvolgimento;
+    public String getAnnoSvolgimento() {
+        return annoSvolgimento;
     }
 
-    public void setAnnosvolgimento(String annosvolgimento) {
-        this.annosvolgimento = annosvolgimento;
+    public void setAnnoSvolgimento(String annoSvolgimento) {
+        this.annoSvolgimento = annoSvolgimento;
     }
 
     public String getNomeTotale() {

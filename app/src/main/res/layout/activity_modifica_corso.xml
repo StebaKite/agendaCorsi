@@ -209,14 +209,14 @@
         android:id="@+id/textView"
         android:layout_width="400dp"
         android:layout_height="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="100dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Fasce orarie"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSospendi" />
+        app:layout_constraintTop_toTopOf="@+id/bSalva" />
 
     <ScrollView
         android:id="@+id/headerTab"
@@ -226,7 +226,7 @@
         tools:layout_editor_absoluteX="35dp">
 
         <TableLayout
-            android:id="@+id/headerTabellaContattiIscritti"
+            android:id="@+id/headerTabellaContattiIscrivibili"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="0,1"></TableLayout>

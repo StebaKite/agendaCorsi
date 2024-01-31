@@ -47,6 +47,8 @@
         <activity android:name="com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
         <activity android:name="com.example.agendaCorsi.ui.presenze.RegistraPresenze" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 
+        <activity android:name="com.example.agendaCorsi.ui.totali.ElencoTotali" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
+
     </application>
 
 </manifest>

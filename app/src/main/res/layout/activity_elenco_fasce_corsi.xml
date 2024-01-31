@@ -41,7 +41,7 @@
         tools:layout_editor_absoluteX="35dp">
 
         <TableLayout
-            android:id="@+id/headerTabellaContattiIscritti"
+            android:id="@+id/headerTabellaContattiIscrivibili"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="0,1"></TableLayout>

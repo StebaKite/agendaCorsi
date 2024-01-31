@@ -20,7 +20,9 @@ import androidx.core.content.ContextCompat;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.ContattiDAO;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -64,7 +66,7 @@ public class RegistraPresenze extends FunctionBase {
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
         _descrizioneFascia = findViewById(R.id.editFascia);
 
-        headerTabellaContattiIscritti = findViewById(R.id.headerTabellaContattiIscritti);
+        headerTabellaContattiIscritti = findViewById(R.id.headerTabellaContattiIscrivibili);
         tabellaContattiIscritti = findViewById(R.id.tabellaContattiIscritti);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -84,28 +86,6 @@ public class RegistraPresenze extends FunctionBase {
         listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsiRunning.class, null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
-        contattiItem.setVisible(false);
-
-        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
-        corsiItem.setVisible(false);
-
-        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
-        iscrizioniItem.setVisible(false);
-
-        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
-        presenzeItem.setVisible(false);
-
-        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
-        exitItem.setVisible(false);
-
-        return true;
-    }
 
     private void loadContattiIscritti() {
 
@@ -154,7 +134,15 @@ public class RegistraPresenze extends FunctionBase {
 
                     if (idPresenzaSelezionato.equals("")) {
                         if (CreaPresenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato,idElementoSelezionato)) {
-                            Toast.makeText(registraPresenze, "Presenza creata con successo.", Toast.LENGTH_LONG).show();
+                            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
+                            ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+                            if (!elementoPortfolio.getIdElemento().equals("")) {    // non lo trovo con quell'idElemento
+                                if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                                    Toast.makeText(registraPresenze, "Presenza confermata, " + contattoIscritto.getNomeContatto() + " ha terminato le lezioni", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(registraPresenze, "Presenza confermata, " + elementoPortfolio.getNumeroLezioni() + "lezioni rimanenti", Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
                     } else {
                         if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenzaSelezionato,idElementoSelezionato)) {

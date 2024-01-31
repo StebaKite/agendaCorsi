@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Corsi in svolgimento"
+        android:text="Totali"
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -42,7 +42,7 @@
         tools:layout_editor_absoluteX="35dp">
 
         <TableLayout
-            android:id="@+id/headerTabellaContattiIscrivibili"
+            android:id="@+id/headerTabellaTotali"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="0,1"></TableLayout>
@@ -54,14 +54,12 @@
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/bExit"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerTab">
 
         <TableLayout
-            android:id="@+id/tabellaFasceCorsi"
+            android:id="@+id/tabellaTotali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
             android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 

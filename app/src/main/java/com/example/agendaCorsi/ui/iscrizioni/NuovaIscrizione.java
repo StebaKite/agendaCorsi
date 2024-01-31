@@ -26,7 +26,6 @@ import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;;
 import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -36,7 +35,7 @@ public class NuovaIscrizione extends FunctionBase {
 
     String idFascia, idCorso, descrizioneCorso, giornoSettimana, descrizioneFascia, sport, statoCorso, tipoCorso;
     EditText _descrizioneCorso, _descrizioneFascia, _giornoSettimana;
-    TableLayout _tabellaContattiIscrivibili;
+    TableLayout tabellaContattiIscrivibili, headerTabellaContattiIscrivibili;
     Context nuovaIscrizione;
 
     int larghezzaColonna1, larghezzaColonna2;
@@ -67,7 +66,9 @@ public class NuovaIscrizione extends FunctionBase {
         _descrizioneCorso = findViewById(R.id.editDescrizione);
         _giornoSettimana = findViewById(R.id.editGiornoSettimana);
         _descrizioneFascia = findViewById(R.id.editFascia);
-        _tabellaContattiIscrivibili = findViewById(R.id.tabellaContattiIscrivibili);
+
+        tabellaContattiIscrivibili = findViewById(R.id.tabellaContattiIscrivibili);
+        headerTabellaContattiIscrivibili = findViewById(R.id.headerTabellaContattiIscrivibili);
 
         _descrizioneCorso.setText(descrizioneCorso);
         _giornoSettimana.setText(giornoSettimana);
@@ -101,28 +102,6 @@ public class NuovaIscrizione extends FunctionBase {
         listenerEsci(nuovaIscrizione, ElencoFasceCorsi.class, intentMap);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem contattiItem = menu.findItem(R.id.navigation_contatti);
-        contattiItem.setVisible(false);
-
-        MenuItem corsiItem = menu.findItem(R.id.navigation_corsi);
-        corsiItem.setVisible(false);
-
-        MenuItem iscrizioniItem = menu.findItem(R.id.navigation_iscrizioni);
-        iscrizioniItem.setVisible(false);
-
-        MenuItem presenzeItem = menu.findItem(R.id.navigation_presenze);
-        presenzeItem.setVisible(false);
-
-        MenuItem exitItem = menu.findItem(R.id.navigation_esci);
-        exitItem.setVisible(false);
-
-        return true;
-    }
 
     private void loadContattiIscrvibili(String queryName) {
         List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(queryName));
@@ -132,10 +111,10 @@ public class NuovaIscrizione extends FunctionBase {
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna1, contattoIscrivibile.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, larghezzaColonna2, String.valueOf(computeAge(contattoIscrivibile.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscrivibile.getIdElemento(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscrivibile.getEmailContatto(), 0, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna1, contattoIscrivibile.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna2, String.valueOf(computeAge(contattoIscrivibile.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, contattoIscrivibile.getIdElemento(), 0, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, contattoIscrivibile.getEmailContatto(), 0, View.GONE));
 
             tableRow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,7 +146,7 @@ public class NuovaIscrizione extends FunctionBase {
                     }
                 }
             });
-            _tabellaContattiIscrivibili.addView(tableRow);
+            tabellaContattiIscrivibili.addView(tableRow);
         }
     }
 
@@ -176,7 +155,7 @@ public class NuovaIscrizione extends FunctionBase {
         tableRow.setClickable(false);
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        _tabellaContattiIscrivibili.addView(tableRow);
+        headerTabellaContattiIscrivibili.addView(tableRow);
     }
 
     @Override
