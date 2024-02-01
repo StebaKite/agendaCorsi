@@ -174,7 +174,7 @@ public class ModificaCorso extends FunctionBase {
         _descrizione.setText(descrizioneCorso);
         _dataInizioValidita.setText(dataInizioValidita);
         _dataFineValidita.setText(dataFineValidita);
-        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+        makeToastMessage(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito").show();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class ModificaCorso extends FunctionBase {
         }
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-            Toast.makeText(AgendaCorsiApp.getContext(), "Corso aperto con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(AgendaCorsiApp.getContext(), "Corso aperto con successo").show();
             esci.callOnClick();
         } else {
             displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
@@ -222,7 +222,7 @@ public class ModificaCorso extends FunctionBase {
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-            Toast.makeText(AgendaCorsiApp.getContext(), "Corso sospeso con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(AgendaCorsiApp.getContext(), "Corso sospeso con successo").show();
             esci.callOnClick();
         }
         else {
@@ -243,7 +243,7 @@ public class ModificaCorso extends FunctionBase {
                 null);
 
         if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-            Toast.makeText(AgendaCorsiApp.getContext(), "Corso chiuso con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(AgendaCorsiApp.getContext(), "Corso chiuso con successo").show();
             esci.callOnClick();
         }
         else {
@@ -269,7 +269,7 @@ public class ModificaCorso extends FunctionBase {
         }
         else {
             if (CorsoDAO.getInstance().update(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_CORSO))) {
-                Toast.makeText(AgendaCorsiApp.getContext(), "Corso aggiornato con successo.", Toast.LENGTH_LONG).show();
+                makeToastMessage(AgendaCorsiApp.getContext(), "Corso aggiornato con successo.").show();
                 esci.callOnClick();
             }
             else {
@@ -346,7 +346,7 @@ public class ModificaCorso extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
                 if (CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
-                    Toast.makeText(AgendaCorsiApp.getContext(), "Corso eliminato con successo.", Toast.LENGTH_LONG).show();
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Corso eliminato con successo.").show();
                     esci.callOnClick();
                 }
                 else {

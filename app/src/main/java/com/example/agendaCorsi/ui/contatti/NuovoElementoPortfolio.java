@@ -93,7 +93,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
             if (ElementoPortfolioDAO.getInstance().isNew(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_ISNEW_ELEMENTO))) {
                 if (ElementoPortfolioDAO.getInstance().insert(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_INS_ELEMENTS))) {
-                    Toast.makeText(AgendaCorsiApp.getContext(), "Elemento portfolio creato con successo.", Toast.LENGTH_LONG).show();
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio creato con successo.").show();
                     esci.callOnClick();
                 }
                 else {
@@ -109,7 +109,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
     public void makeAnnulla() {
         descrizione.setText("");
         numeroLezioni.setText("0");
-        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+        makeToastMessage(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito").show();
     }
 
     @Override

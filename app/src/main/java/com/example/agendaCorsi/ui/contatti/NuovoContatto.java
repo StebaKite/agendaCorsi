@@ -102,7 +102,7 @@ public class NuovoContatto extends FunctionBase {
         }
         else {
             if (ContattiDAO.getInstance().insert(contatto, QueryComposer.getInstance().getQuery(QUERY_INS_CONTATTO))) {
-                Toast.makeText(AgendaCorsiApp.getContext(), "Contatto creato con successo.", Toast.LENGTH_LONG).show();
+                makeToastMessage(AgendaCorsiApp.getContext(), "Contatto creato con successo.").show();
                 esci.callOnClick();
             }
             else {

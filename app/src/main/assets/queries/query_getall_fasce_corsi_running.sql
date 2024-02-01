@@ -37,5 +37,6 @@ select t2.*
 
     ) as t2
     where t2.stato != 'Chiuso'
+      and t2.tipo != 'TEST'
 
 order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

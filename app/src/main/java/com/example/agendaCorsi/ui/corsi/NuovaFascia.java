@@ -132,7 +132,7 @@ public class NuovaFascia extends FunctionBase {
             if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
                     if (FasciaDAO.getInstance().insert(fascia, QueryComposer.getInstance().getQuery(QUERY_INS_FASCIA))) {
-                        Toast.makeText(AgendaCorsiApp.getContext(), "Fascia creata con successo.", Toast.LENGTH_LONG).show();
+                        makeToastMessage(AgendaCorsiApp.getContext(), "Fascia creata con successo.").show();
                         esci.callOnClick();
                     }
                     else {
@@ -155,7 +155,7 @@ public class NuovaFascia extends FunctionBase {
         _oraFine.setText("");
         _giornoSettimana.setText("");
         _capienza.setText("");
-        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+        makeToastMessage(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito").show();
     }
 
 

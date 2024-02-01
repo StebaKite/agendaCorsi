@@ -69,7 +69,8 @@ public class ModificaSettaggi extends FunctionBase {
                 displayAlertDialog(AgendaCorsiApp.getContext(), "Attenzione!", "Inserire tutti i campi");
             }
             else {
-                if (CredenzialeDAO.getInstance().insert(credenziale, QueryComposer.getInstance().getQuery(QUERY_INS_CREDENZIALE))) {Toast.makeText(AgendaCorsiApp.getContext(), "Settaggi creati con successo.", Toast.LENGTH_LONG).show();
+                if (CredenzialeDAO.getInstance().insert(credenziale, QueryComposer.getInstance().getQuery(QUERY_INS_CREDENZIALE))) {
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Settaggi creati con successo.").show();
                     esci.callOnClick();
                 }
                 else {
@@ -86,7 +87,7 @@ public class ModificaSettaggi extends FunctionBase {
             }
             else {
                 if (CredenzialeDAO.getInstance().update(credenziale, QueryComposer.getInstance().getQuery(QUERY_MOD_CREDENZIALE))) {
-                    Toast.makeText(AgendaCorsiApp.getContext(), "Settaggi aggiornati con successo.", Toast.LENGTH_LONG).show();
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Settaggi aggiornati con successo.").show();
                     esci.callOnClick();
                 }
                 else {
@@ -99,7 +100,7 @@ public class ModificaSettaggi extends FunctionBase {
              * Elimino le credenziali
              */
             if (CredenzialeDAO.getInstance().delete(credenziale, QueryComposer.getInstance().getQuery(QUERY_DEL_CREDENZIALE))) {
-                Toast.makeText(AgendaCorsiApp.getContext(), "Settaggi eliminati con successo.", Toast.LENGTH_LONG).show();
+                makeToastMessage(AgendaCorsiApp.getContext(), "Settaggi eliminati con successo.").show();
                 esci.callOnClick();
             }
         }

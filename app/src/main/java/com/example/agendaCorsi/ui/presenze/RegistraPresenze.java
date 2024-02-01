@@ -2,6 +2,7 @@ package com.example.agendaCorsi.ui.presenze;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
@@ -94,7 +95,12 @@ public class RegistraPresenze extends FunctionBase {
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
 
-            String detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL_SIMPLE : DETAIL_CONFIRMED;
+            String detailType = "";
+            if (contattoIscritto.getStato().equals(STATO_CHIUSO)) {
+                detailType = DETAIL_CLOSED;
+            } else {
+                detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL_SIMPLE : DETAIL_CONFIRMED;
+            }
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
@@ -119,52 +125,59 @@ public class RegistraPresenze extends FunctionBase {
             intentMap.put("tipoCorso", tipoCorso);
             intentMap.put("idElemento", contattoIscritto.getIdElemento());
 
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;
-                    TextView textView = (TextView) tableRow.getChildAt(3);
-                    String idElementoSelezionato = textView.getText().toString();
+            if (contattoIscritto.getStato().equals(STATO_ATTIVA)) {
 
-                    textView = (TextView) tableRow.getChildAt(4);
-                    String idPresenzaSelezionato = textView.getText().toString();
+                tableRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TableRow tableRow = (TableRow) view;
+                        TextView textView = (TextView) tableRow.getChildAt(3);
+                        String idElementoSelezionato = textView.getText().toString();
 
-                    textView = (TextView) tableRow.getChildAt(5);
-                    String idIscrizioneSelezionato = textView.getText().toString();
+                        textView = (TextView) tableRow.getChildAt(4);
+                        String idPresenzaSelezionato = textView.getText().toString();
 
-                    if (idPresenzaSelezionato.equals("")) {
-                        if (CreaPresenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato,idElementoSelezionato)) {
-                            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
-                            ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
-                            if (!elementoPortfolio.getIdElemento().equals("")) {    // non lo trovo con quell'idElemento
-                                if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
-                                    Toast.makeText(registraPresenze, "Presenza confermata, " + contattoIscritto.getNomeContatto() + " ha terminato le lezioni", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(registraPresenze, "Presenza confermata, " + elementoPortfolio.getNumeroLezioni() + "lezioni rimanenti", Toast.LENGTH_LONG).show();
+                        textView = (TextView) tableRow.getChildAt(5);
+                        String idIscrizioneSelezionato = textView.getText().toString();
+
+                        if (idPresenzaSelezionato.equals("")) {
+                            if (CreaPresenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato,idElementoSelezionato)) {
+                                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
+                                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+                                if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
+                                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                                        makeToastMessage(registraPresenze, "Presenza confermata, " + contattoIscritto.getNomeContatto() + " ha terminato le lezioni").show();
+                                    } else {
+                                        makeToastMessage(registraPresenze, "Presenza confermata, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
+                                    }
+                                }
+                            }
+                        } else {
+                            if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenzaSelezionato,idElementoSelezionato)) {
+                                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
+                                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+                                if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
+                                    makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
                                 }
                             }
                         }
-                    } else {
-                        if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenzaSelezionato,idElementoSelezionato)) {
-                            Toast.makeText(registraPresenze, "Presenza rimossa con successo.", Toast.LENGTH_LONG).show();
+
+                        Intent intent = getIntent();
+
+                        intentMap.put("idElemento", idElementoSelezionato);
+                        intentMap.put("idPresenza", idPresenzaSelezionato);
+                        intentMap.put("idIscrizione", idIscrizioneSelezionato);
+
+                        if (intentMap != null) {
+                            for (Map.Entry<String, String> entry : intentMap.entrySet()) {
+                                intent.putExtra(entry.getKey(), entry.getValue());
+                            }
                         }
+                        startActivity(intent);
+                        finish();
                     }
-
-                    Intent intent = getIntent();
-
-                    intentMap.put("idElemento", idElementoSelezionato);
-                    intentMap.put("idPresenza", idPresenzaSelezionato);
-                    intentMap.put("idIscrizione", idIscrizioneSelezionato);
-
-                    if (intentMap != null) {
-                        for (Map.Entry<String, String> entry : intentMap.entrySet()) {
-                            intent.putExtra(entry.getKey(), entry.getValue());
-                        }
-                    }
-                    startActivity(intent);
-                    finish();
-                }
-            });
+                });
+            }
             tabellaContattiIscritti.addView(tableRow);
         }
     }

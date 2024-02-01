@@ -3,6 +3,8 @@ package com.example.agendaCorsi.ui.base;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -191,6 +194,19 @@ public class FunctionBase extends AppCompatActivity {
 
         return name;
     }
+
+    public Toast makeToastMessage(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        View toastView = toast.getView();
+        toastView.setBackground(ContextCompat.getDrawable(context, R.drawable.toast_bg_gradient));
+
+        TextView text = (TextView) toastView.findViewById(android.R.id.message);
+        text.setTextColor(Color.BLACK);
+        text.setTextSize(16);
+
+        return toast;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

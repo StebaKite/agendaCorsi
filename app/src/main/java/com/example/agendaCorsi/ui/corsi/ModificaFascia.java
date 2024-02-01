@@ -157,7 +157,7 @@ public class ModificaFascia extends FunctionBase {
         _oraInizio.setText(oraInizio);
         _oraFine.setText(oraFine);
         _capienza.setText(capienza);
-        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+        makeToastMessage(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito").show();
     }
 
     public void makeSalva() {
@@ -182,7 +182,7 @@ public class ModificaFascia extends FunctionBase {
                 if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
                     if (Integer.parseInt(String.valueOf(_capienza.getText())) >= Integer.parseInt(capienza)) {
                         if (FasciaDAO.getInstance().update(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
-                            Toast.makeText(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.", Toast.LENGTH_LONG).show();
+                            makeToastMessage(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.").show();
                             esci.callOnClick();
                         }
                         else {
@@ -217,7 +217,7 @@ public class ModificaFascia extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Fascia fascia = new Fascia(String.valueOf(idFascia), null, null, null, null, null, null, null, null);
                 if (FasciaDAO.getInstance().delete(fascia, QueryComposer.getInstance().getQuery(QUERY_DEL_FASCIA))) {
-                    Toast.makeText(AgendaCorsiApp.getContext(), "Fascia eliminatas con successo.", Toast.LENGTH_LONG).show();
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Fascia eliminatas con successo.").show();
                     esci.callOnClick();
                 }
                 else {

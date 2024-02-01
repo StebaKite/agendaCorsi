@@ -139,7 +139,7 @@ public class NuovoCorso extends FunctionBase {
         }
         else {
             if (CorsoDAO.getInstance().insert(corso, QueryComposer.getInstance().getQuery(QUERY_INS_CORSO))) {
-                Toast.makeText(AgendaCorsiApp.getContext(), "Corso creato con successo.", Toast.LENGTH_LONG).show();
+                makeToastMessage(AgendaCorsiApp.getContext(), "Corso creato con successo.").show();
                 esci.callOnClick();
             }
             else {
@@ -154,7 +154,7 @@ public class NuovoCorso extends FunctionBase {
         dataFineValidita.setText("");
         skate.setChecked(true);
         normale.setChecked(true);
-        Toast.makeText(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito", Toast.LENGTH_LONG).show();
+        makeToastMessage(AgendaCorsiApp.getContext(), "Ripristino dati originali eseguito").show();
     }
 
 

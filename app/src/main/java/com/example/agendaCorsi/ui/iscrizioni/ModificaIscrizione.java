@@ -121,7 +121,7 @@ public class ModificaIscrizione extends FunctionBase {
     public void makeApri() {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_ATTIVA,null,null);
         if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE))) {
-            Toast.makeText(modificaIscrizione, "Iscrizione aperta con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(modificaIscrizione, "Iscrizione aperta con successo").show();
             esci.callOnClick();
         }
         else {
@@ -132,7 +132,7 @@ public class ModificaIscrizione extends FunctionBase {
     public void makeChiudi() {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_CHIUSO,null,null);
         if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE))) {
-            Toast.makeText(modificaIscrizione, "Iscrizione chiusa con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(modificaIscrizione, "Iscrizione chiusa con successo").show();
             esci.callOnClick();
         }
         else {
@@ -143,7 +143,7 @@ public class ModificaIscrizione extends FunctionBase {
     public void makeSospendi() {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_SOSPESO,null,null);
         if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE))) {
-            Toast.makeText(modificaIscrizione, "Iscrizione sospesa con successo", Toast.LENGTH_LONG).show();
+            makeToastMessage(modificaIscrizione, "Iscrizione sospesa con successo").show();
             esci.callOnClick();
         }
         else {
@@ -166,7 +166,7 @@ public class ModificaIscrizione extends FunctionBase {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Iscrizione iscrizione = new Iscrizione(idIscrizione, null, null, null, null, null);
                 if (IscrizioneDAO.getInstance().delete(iscrizione, QueryComposer.getInstance().getQuery(QUERY_DEL_ISCRIZIONE))) {
-                    Toast.makeText(modificaIscrizione, "Iscrizione eliminata con successo.", Toast.LENGTH_LONG).show();
+                    makeToastMessage(modificaIscrizione, "Iscrizione eliminata con successo.").show();
                     esci.callOnClick();
                 }
                 else {

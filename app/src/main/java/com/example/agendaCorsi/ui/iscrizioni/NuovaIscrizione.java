@@ -138,7 +138,7 @@ public class NuovaIscrizione extends FunctionBase {
                                 displayAlertDialog(nuovaIscrizione, "Attenzione!", "Cambio stato corso fallito, contatta il supporto tecnico");
                             }
                         }
-                        Toast.makeText(nuovaIscrizione, "Iscrizione creata con successo.", Toast.LENGTH_LONG).show();
+                        makeToastMessage(nuovaIscrizione, "Iscrizione creata con successo.").show();
                         esci.callOnClick();
                     }
                     else {

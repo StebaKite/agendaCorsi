@@ -145,7 +145,7 @@ public class SpostaIscrizione extends FunctionBase {
 
                         Iscrizione iscrizione = new Iscrizione(idIscrizione, idSelezionato, null, null, null, null);
                         if (IscrizioneDAO.getInstance().update(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_ISCRIZIONE))) {
-                            Toast.makeText(spostaIscrizione, "Iscrizione spostata con successo.", Toast.LENGTH_LONG).show();
+                            makeToastMessage(spostaIscrizione, "Iscrizione spostata con successo.").show();
                             esci.callOnClick();
                         } else {
                             displayAlertDialog(spostaIscrizione, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");

@@ -215,7 +215,7 @@ public class ModificaContatto extends FunctionBase {
         }
         else {
             if (ContattiDAO.getInstance().update(contatto, QueryComposer.getInstance().getQuery(QUERY_MOD_CONTATTO))) {
-                Toast.makeText(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.", Toast.LENGTH_LONG).show();
+                makeToastMessage(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.").show();
                 esci.callOnClick();
             }
             else {

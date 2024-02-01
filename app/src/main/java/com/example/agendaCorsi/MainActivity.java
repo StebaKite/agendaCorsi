@@ -118,7 +118,7 @@ public class MainActivity extends FunctionBase {
 
     private boolean raccogliTotaliCorso(String idCorso) {
         /*
-         *  Totale delle iscrizioni
+         *  TOTISC : totale delle iscrizioni
          */
         TotaleIscrizioniCorso totaleIscrizioniCorso = new TotaleIscrizioniCorso(idCorso, null, null, null);
         TotaleCorsoDAO.getInstance().selectTotaleIscrizioni(totaleIscrizioniCorso, QueryComposer.getInstance().getQuery(QUERY_TOT_ISCRIZIONI));
@@ -138,7 +138,7 @@ public class MainActivity extends FunctionBase {
 
 
 
-        return false;
+        return true;
     }
 
     private void displayQuadroIscrizioni() {
