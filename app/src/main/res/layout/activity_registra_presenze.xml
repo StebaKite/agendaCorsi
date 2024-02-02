@@ -61,6 +61,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -79,6 +80,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lFascia"
         app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
         app:layout_constraintWidth_percent="0.75" />
@@ -111,6 +113,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDescrizioneCorso"
         app:layout_constraintTop_toBottomOf="@+id/lScheda"
         app:layout_constraintWidth_percent="0.75" />

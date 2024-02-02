@@ -7,15 +7,6 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.AgendaCorsi">
 
-    <!-- DESCRIZIONE CORSO-->
-
-    <!-- GIORNO SETTIMANA-->
-
-    <!-- FASCIA -->
-
-    <!-- CONTATTO ISCRITTO -->
-
-
     <TextView
         android:id="@+id/lScheda3"
         android:layout_width="match_parent"
@@ -70,6 +61,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lNomeIscritto"
         app:layout_constraintTop_toBottomOf="@+id/editFascia"
         app:layout_constraintWidth_percent="0.75" />
@@ -102,6 +94,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lGiornoSettimana"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -156,6 +149,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lFascia"
         app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
         app:layout_constraintWidth_percent="0.75" />
@@ -174,6 +168,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDescrizioneCorso"
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />

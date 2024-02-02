@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.iscrizioni;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -27,10 +28,13 @@ public class ElencoFasceCorsi extends FunctionBase {
 
     TableLayout tabellaFasceCorsi;
     int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3, larghezzaColonna4;
+    Context elencoFasceCorsi;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elenco_fasce_corsi);
+
+        elencoFasceCorsi = this;
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -120,6 +124,8 @@ public class ElencoFasceCorsi extends FunctionBase {
 
                     textView = (TextView) tableRow.getChildAt(8);
                     String tipoCorso = textView.getText().toString();
+
+                    tableRow.setBackground(ContextCompat.getDrawable(elencoFasceCorsi, R.drawable.cell_bg_gradient));
 
                     /**
                      * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap

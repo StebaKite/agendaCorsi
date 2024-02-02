@@ -57,6 +57,7 @@
         android:maxLength="30"
         android:text="0"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -122,6 +123,7 @@
         android:maxLength="30"
         android:text="Lezioni Skate"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda"
         app:layout_constraintWidth_percent="0.75" />

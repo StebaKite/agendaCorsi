@@ -60,6 +60,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDescrizione"
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.75" />
@@ -91,8 +92,8 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="30"
-
         android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDataInizio"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
@@ -125,7 +126,7 @@
         android:inputType="text"
         android:maxLength="30"
         android:textSize="16sp"
-
+        android:theme="@style/EditTextTheme"
         app:layout_constraintStart_toEndOf="@+id/lDataFine"
         app:layout_constraintTop_toBottomOf="@+id/editDataInizio"
         app:layout_constraintWidth_percent="0.75" />
@@ -150,6 +151,7 @@
             android:text="Corso"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="242dp" />
 
@@ -160,6 +162,7 @@
             android:text="Openday"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="200dp"
             tools:layout_editor_absoluteY="242dp" />
 
@@ -185,6 +188,7 @@
             android:text="Skate"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="302dp" />
 
@@ -195,6 +199,7 @@
             android:text="Basket"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="342dp" />
 
@@ -205,6 +210,7 @@
             android:text="Pattini"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="382dp" />
 
@@ -215,6 +221,7 @@
             android:text="Pallavolo"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="422dp" />
     </RadioGroup>
