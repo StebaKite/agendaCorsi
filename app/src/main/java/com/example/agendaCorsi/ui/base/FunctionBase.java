@@ -24,6 +24,14 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
+import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.access.FasciaDAO;
+import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.Fascia;
+import com.example.agendaCorsi.database.table.GiornoSettimana;
+import com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni;
+import com.example.agendaCorsi.ui.iscrizioni.NuovaIscrizione;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
@@ -194,6 +202,47 @@ public class FunctionBase extends AppCompatActivity {
 
         return name;
     }
+
+    public TextView listenerOn(TextView name, int id, String corso, String totale, Context context) {
+        name.setId(id);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int idCellaSelezionata = view.getId();      // l'id della cella è stato settato con l'id della fascia
+
+                view.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_gradient));
+
+                Intent intent = new Intent(context, ElencoIscrizioni.class);
+                intent.putExtra("idFascia", String.valueOf(idCellaSelezionata));
+                intent.putExtra("descrizioneCorso", corso);
+                intent.putExtra("totaleFascia", totale);
+
+                Fascia fascia = new Fascia(String.valueOf(idCellaSelezionata), null, null, null, null, null, null, null, null);
+                FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
+
+                intent.putExtra("capienza", fascia.getCapienza());
+                intent.putExtra("descrizioneFascia", fascia.getOraInizio() + "-" + fascia.getOraFine());
+
+                GiornoSettimana giornoSettimana = new GiornoSettimana(fascia.getGiornoSettimana(), null, null);
+                GiornoSettimanaDAO.getInstance().select(giornoSettimana, QueryComposer.getInstance().getQuery(QUERY_GET_GIORNO_SETTIMANA));
+
+                intent.putExtra("giornoSettimana", giornoSettimana.getNomeGiornoEsteso());
+
+                Corso corso = new Corso(fascia.getIdCorso(), null, null, null, null, null, null, null, null);
+                CorsoDAO.getInstance().select(corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
+
+                intent.putExtra("sport", corso.getSport());
+                intent.putExtra("idCorso", corso.getIdCorso());
+                intent.putExtra("statoCorso", corso.getStato());
+                intent.putExtra("tipoCorso", corso.getTipo());
+
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
 
     public Toast makeToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -423,8 +472,12 @@ public class FunctionBase extends AppCompatActivity {
     }
 
     public boolean isFasciaCapiente(String totaleIscrizioni, String capienza) {
-        if (Integer.parseInt(totaleIscrizioni) < Integer.parseInt(capienza)) {
-            return true;
+        if (totaleIscrizioni == null || capienza == null) {
+            return false;
+        } else {
+            if (Integer.parseInt(totaleIscrizioni) < Integer.parseInt(capienza)) {
+                return true;
+            }
         }
         return false;
     }

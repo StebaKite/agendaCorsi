@@ -1,5 +1,6 @@
 package com.example.agendaCorsi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -47,11 +48,14 @@ public class MainActivity extends FunctionBase {
 
     TableLayout tabSettimana;
     TextView corso, fascia, totaleGiorno;
+    Context main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        main = this;
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -161,7 +165,7 @@ public class MainActivity extends FunctionBase {
             if (dashboard.getDescrizioneCorso().equals(descrizione_corso_save)) {
                 if (dashboard.getDescrizioneFascia().equals(descrizione_fascia_save)) {
                     // aggiungo il totale per il giorno della settimana
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                     cellNum++;
                 }
                 else {
@@ -177,7 +181,7 @@ public class MainActivity extends FunctionBase {
                         cellNum = 1;
                     }
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
                 }
             }
@@ -191,7 +195,7 @@ public class MainActivity extends FunctionBase {
                 descrizione_fascia_save = dashboard.getDescrizioneFascia();
                 intestaTabella(descrizione_corso_save, larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
                 tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
-                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana());
+                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                 cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
             }
         }
@@ -237,10 +241,14 @@ public class MainActivity extends FunctionBase {
         return tableRow;
     }
 
-    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana) {
+    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana, int idFascia, String corso) {
         fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
-        tRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+        if (Integer.parseInt(totale) > 0) {
+            tRow.addView(listenerOn(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE), idFascia, corso, totale, main));
+        } else {
+            tRow.addView(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+        }
         return tRow;
     }
 
