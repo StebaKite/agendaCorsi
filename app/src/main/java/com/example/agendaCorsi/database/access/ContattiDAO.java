@@ -85,7 +85,7 @@ public class ContattiDAO implements Database_itf {
             String stato = cursor.getString(ContattoIscritto.STATO);
             String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, null, null, null);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, null, null, null, null);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }
@@ -113,8 +113,9 @@ public class ContattiDAO implements Database_itf {
             String idElemento = cursor.getString(ContattoIscritto.ID_ELEMENTO);
             String idPresenza = cursor.getString(ContattoIscritto.ID_PRESENZA);
             String dataConferma = cursor.getString(ContattoIscritto.DATA_CONFERMA);
+            String statoElemento = cursor.getString(ContattoIscritto.STATO_ELEMENTO);
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, idElemento, idPresenza, dataConferma);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, idElemento, idPresenza, dataConferma, statoElemento);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }

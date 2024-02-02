@@ -22,8 +22,10 @@ import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -96,7 +98,7 @@ public class RegistraPresenze extends FunctionBase {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
 
             String detailType = "";
-            if (contattoIscritto.getStato().equals(STATO_CHIUSO)) {
+            if (contattoIscritto.getStato().equals(STATO_CHIUSO) || contattoIscritto.getStatoElemento().equals(STATO_ESAURITO)) {
                 detailType = DETAIL_CLOSED;
             } else {
                 detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL_SIMPLE : DETAIL_CONFIRMED;
@@ -125,7 +127,7 @@ public class RegistraPresenze extends FunctionBase {
             intentMap.put("tipoCorso", tipoCorso);
             intentMap.put("idElemento", contattoIscritto.getIdElemento());
 
-            if (contattoIscritto.getStato().equals(STATO_ATTIVA)) {
+            if (contattoIscritto.getStato().equals(STATO_ATTIVA) && contattoIscritto.getStatoElemento().equals(STATO_CARICO)) {
 
                 tableRow.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -146,6 +148,8 @@ public class RegistraPresenze extends FunctionBase {
                                 ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
                                 if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
                                     if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                                        Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, STATO_DISATTIVA, null, null);
+                                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
                                         makeToastMessage(registraPresenze, "Presenza confermata, " + contattoIscritto.getNomeContatto() + " ha terminato le lezioni").show();
                                     } else {
                                         makeToastMessage(registraPresenze, "Presenza confermata, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
@@ -157,7 +161,12 @@ public class RegistraPresenze extends FunctionBase {
                                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
                                 ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
                                 if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
-                                    makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
+                                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                                        Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, STATO_ATTIVA, null, null);
+                                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
+
+                                        makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
+                                    }
                                 }
                             }
                         }

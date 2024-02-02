@@ -9,7 +9,8 @@ select
     contatto.data_nascita,
     iscrizione.id_elemento,
     coalesce(t1.id_presenza, '') as id_presenza,
-    coalesce(t1.data_conferma, '') as data_conferma
+    coalesce(t1.data_conferma, '') as data_conferma,
+    elemento_portfolio.stato as stato_elemento
 
   from iscrizione
 

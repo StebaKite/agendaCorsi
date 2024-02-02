@@ -11,6 +11,7 @@ public class ContattoIscritto implements BaseColumns {
     public static Integer ID_ELEMENTO = 4;
     public static Integer ID_PRESENZA = 5;
     public static Integer DATA_CONFERMA = 6;
+    public static Integer STATO_ELEMENTO = 7;
 
     public String nomeContatto;
     public String idIscrizione;
@@ -19,8 +20,9 @@ public class ContattoIscritto implements BaseColumns {
     public String idElemento;
     public String idPresenza;
     public String dataConferma;
+    public String statoElemento;
 
-    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato, String data_nascita, String idElemento, String idPresenza, String dataConferma) {
+    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato, String data_nascita, String idElemento, String idPresenza, String dataConferma, String statoElemento) {
         this.nomeContatto = nomeContatto;
         this.idIscrizione = idIscrizione;
         this.stato = stato;
@@ -28,6 +30,7 @@ public class ContattoIscritto implements BaseColumns {
         this.idElemento = idElemento;
         this.idPresenza = idPresenza;
         this.dataConferma = dataConferma;
+        this.statoElemento = statoElemento;
     }
 
     public String getNomeContatto() {
@@ -84,5 +87,13 @@ public class ContattoIscritto implements BaseColumns {
 
     public void setDataConferma(String dataConferma) {
         this.dataConferma = dataConferma;
+    }
+
+    public String getStatoElemento() {
+        return statoElemento;
+    }
+
+    public void setStatoElemento(String statoElemento) {
+        this.statoElemento = statoElemento;
     }
 }

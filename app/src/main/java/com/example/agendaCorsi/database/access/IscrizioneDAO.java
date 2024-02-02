@@ -103,6 +103,25 @@ public class IscrizioneDAO implements Database_itf {
         return false;
     }
 
+    public boolean updateStatoIscrizioni(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Iscrizione iscrizione = (Iscrizione) entity;
+            String sql = query.replace("#IDELEM#", iscrizione.getIdElemento()).replace("#STATO#", iscrizione.getStato());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
+
+
     @Override
     public Object select(Object entity, String query) {
         return null;

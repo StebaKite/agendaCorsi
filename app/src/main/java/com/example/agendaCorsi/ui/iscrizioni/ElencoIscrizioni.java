@@ -112,12 +112,20 @@ public class ElencoIscrizioni extends FunctionBase {
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
 
+            String detailType = "";
+            if (contattoIscritto.getStato().equals(STATO_CHIUSA) || contattoIscritto.getStato().equals(STATO_DISATTIVA)) {
+                detailType = DETAIL_CLOSED;
+            } else {
+                detailType = DETAIL_SIMPLE;
+            }
+
+
             tableRow = new TableRow(elencoIscrizioni);
             tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), larghezzaColonna2, contattoIscritto.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), contattoIscritto.getStato(), 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna2, contattoIscritto.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), detailType, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("descrizioneCorso", descrizioneCorso);

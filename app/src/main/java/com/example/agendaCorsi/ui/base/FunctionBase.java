@@ -82,8 +82,10 @@ public class FunctionBase extends AppCompatActivity {
      */
     public static String STATO_APERTO = "Aperto";
     public static String STATO_CHIUSO = "Chiuso";
+    public static String STATO_CHIUSA = "Chiusa";
     public static String STATO_ATTIVO = "Attivo";
     public static String STATO_ATTIVA = "Attiva";
+    public static String STATO_DISATTIVA = "Disattiva";
     public static String STATO_SOSPESO = "Sospeso";
     public static String STATO_CARICO = "Carico";
     public static String STATO_SCADUTO = "Scaduto";
@@ -130,6 +132,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_STATO_ISCRIZIONE = "query_mod_stato_iscrizione";
     public static String QUERY_DEL_ISCRIZIONE = "query_del_iscrizione";
     public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
+    public static String QUERY_MOD_STATO_ISCRIZIONI_ELEMENTO = "query_mod_stato_iscrizioni_elemento";
     public static String QUERY_GETALL_FASCE_DISPONIBILI = "query_getall_fasce_disponibili";
     public static String QUERY_GETALL_ELEMENTO = "query_getall_elemento";
     public static String QUERY_INS_PRESENZA = "query_ins_presenza";

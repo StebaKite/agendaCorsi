@@ -18,8 +18,10 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -166,8 +168,22 @@ public class ModificaElementoPortfolio extends FunctionBase {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         } else {
             if (ElementoPortfolioDAO.getInstance().update(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_MOD_ELEMENTS))) {
+
+                if (Integer.parseInt(numeroLezioni) == 0) {
+                    if (Integer.parseInt(String.valueOf(_numeroLezioni.getText())) > 0 ) {
+
+                        /**
+                         * Aggiorno lo stato di tutte le iscrizioni di questo elemento che si trovano in stato "Disattiva"
+                         */
+                        Iscrizione iscrizione = new Iscrizione(null, null, elementoPortfolio.getIdElemento(), STATO_ATTIVA, null, null);
+                        if (!IscrizioneDAO.getInstance().updateStatoIscrizioni(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONI_ELEMENTO))) {
+                            displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento iscrizioni fallito, contatta il supporto tecnico");
+                        }
+                    }
+                }
                 makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio aggiornato con successo.").show();
                 esci.callOnClick();
+
             } else {
                 displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
             }
