@@ -354,6 +354,9 @@ public class FunctionBase extends AppCompatActivity {
                 TableRow tableRow = (TableRow) view;
                 TextView textView = (TextView) tableRow.getChildAt(idColNum);
                 String idSelezionato = textView.getText().toString();
+
+                tableRow.setBackground(ContextCompat.getDrawable(contextFrom, R.drawable.cell_bg_gradient));
+
                 /**
                  * Passo alla classe destinazione l'id della riga selezionata più tutti gli item inseriti nella intentMap
                  */
