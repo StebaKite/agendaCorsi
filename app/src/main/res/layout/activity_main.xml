@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:tag="dashboard-title"
     android:theme="@style/Theme.AgendaCorsi">
 
     <androidx.appcompat.widget.Toolbar
@@ -25,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
+        android:tag="dashboard-title"
         android:text="D a s h b o a r d"
         android:textColor="#F69910"
         android:textSize="20sp"
@@ -33,21 +35,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tIntestazioneNome">
-
-        <TableLayout
-            android:id="@+id/tabellaSettimana"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1"></TableLayout>
-    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

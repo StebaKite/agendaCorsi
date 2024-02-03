@@ -231,7 +231,7 @@
         app:layout_constraintTop_toBottomOf="@+id/SalvaModButton" />
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/dashboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
