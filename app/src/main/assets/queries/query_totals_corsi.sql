@@ -3,6 +3,7 @@
 --------------------------------------------------------
 
 select
+    corso.id_corso,
     corso.descrizione as descrizione_corso,
     t3.descrizione_fascia,
     t3.giorno_settimana,
@@ -42,5 +43,5 @@ select
             ) as corso
         on corso.id_corso = t3.id_corso
 
-	order by 1,2,3,4
+	order by 1,2,3,4,5
 

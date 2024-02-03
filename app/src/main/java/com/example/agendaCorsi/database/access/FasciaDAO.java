@@ -47,10 +47,17 @@ public class FasciaDAO implements Database_itf {
         }
     }
 
-    public List<Object> getFasceCorso(String idCorsoToRead, String query) {
+    public List<Object> getFasceCorso(String idCorsoToRead, String oraInizioFascia, String oraFineFascia, String query) {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         List<Object> list = new ArrayList<>();
-        String sql = query.replace("#TABLENAME#", Fascia.TABLE_NAME).replace("#IDCORSO#", String.valueOf(idCorsoToRead));
+
+        String sql = "";
+        if (oraInizioFascia == null && oraFineFascia == null) {
+            sql = query.replace("#IDCORSO#", String.valueOf(idCorsoToRead)).replace("#FILTRO_FASCIE#", "");
+        } else {
+            String filtroFascie = "and fascia.ora_inizio = '" + oraInizioFascia + "' and fascia.ora_fine = '" + oraFineFascia + "'";
+            sql = query.replace("#IDCORSO#", String.valueOf(idCorsoToRead)).replace("#FILTRO_FASCIE#", filtroFascie);
+        }
 
         Log.i(DatabaseHelper.DATABASE_NAME, sql);
         Cursor cursor = database.rawQuery(sql, null);

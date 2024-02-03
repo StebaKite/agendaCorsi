@@ -101,7 +101,6 @@ public class CorsoDAO implements Database_itf {
             Corso corso = Corso.class.cast(entity);
             String sql = query.replace("#TABLENAME#", Corso.TABLE_NAME).
                     replace("#DESC#", corso.getDescrizione()).
-                    replace("#STATO#", corso.getStato()).
                     replace("#DATINI#", corso.getDataInizioValidita()).
                     replace("#DATFIN#", corso.getDataFineValidita()).
                     replace("#IDCORSO#", corso.getIdCorso());

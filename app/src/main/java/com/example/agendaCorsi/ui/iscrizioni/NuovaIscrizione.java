@@ -130,6 +130,8 @@ public class NuovaIscrizione extends FunctionBase {
                     textView = (TextView) tableRow.getChildAt(3);
                     String emailContatto = textView.getText().toString();
 
+                    tableRow.setBackground(ContextCompat.getDrawable(nuovaIscrizione, R.drawable.cell_bg_gradient));
+
                     Iscrizione iscrizione = new Iscrizione(null, idFascia, idSelezionato, "Attiva", null, null);
                     if (IscrizioneDAO.getInstance().insert(iscrizione, QueryComposer.getInstance().getQuery(QUERY_INS_ISCRIZIONE))) {
                         if (!statoCorso.equals(STATO_ATTIVO)) {

@@ -45,6 +45,7 @@ select
 		  on t1.id_fascia = fascia.id_fascia
 
       where corso.id_corso = #IDCORSO#
+      #FILTRO_FASCIE#
 
 	) as t2
 	order by t2.descrizione_corso,t2.giorno_settimana

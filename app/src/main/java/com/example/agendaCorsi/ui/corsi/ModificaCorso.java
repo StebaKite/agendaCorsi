@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class ModificaCorso extends FunctionBase {
 
-    String idCorso;
+    String idCorso, oraInizioFascia, oraFineFascia;
     String descrizioneCorso, sport, dataInizioValidita, dataFineValidita;
     EditText _descrizione, _sport, _dataInizioValidita, _dataFineValidita;
     Context modificaCorso;
@@ -65,6 +65,8 @@ public class ModificaCorso extends FunctionBase {
 
         Intent intent = getIntent();
         idCorso = intent.getStringExtra("idCorso");
+        oraInizioFascia = intent.getStringExtra("oraInizioFascia");
+        oraFineFascia = intent.getStringExtra("oraFineFascia");
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);
@@ -256,7 +258,7 @@ public class ModificaCorso extends FunctionBase {
         Corso corso = new Corso(idCorso,
                 _descrizione.getText().toString(),
                 null,
-                STATO_APERTO,
+                null,
                 null,
                 dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
                 dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
@@ -310,7 +312,7 @@ public class ModificaCorso extends FunctionBase {
     }
 
     public void loadFasceOrarie() {
-        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
+        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, oraInizioFascia, oraFineFascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
 
         for (Object object : fasceCorsoList) {
             FasciaCorso fasciaCorso = (FasciaCorso) object;

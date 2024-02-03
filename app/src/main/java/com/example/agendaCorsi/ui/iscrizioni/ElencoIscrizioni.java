@@ -119,7 +119,6 @@ public class ElencoIscrizioni extends FunctionBase {
                 detailType = DETAIL_SIMPLE;
             }
 
-
             tableRow = new TableRow(elencoIscrizioni);
             tableRow.setClickable(true);
             tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));

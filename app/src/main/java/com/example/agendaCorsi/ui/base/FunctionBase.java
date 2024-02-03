@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
@@ -22,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
@@ -30,22 +28,18 @@ import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
+import com.example.agendaCorsi.ui.corsi.ModificaCorso;
+import com.example.agendaCorsi.ui.corsi.ModificaFascia;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni;
-import com.example.agendaCorsi.ui.iscrizioni.NuovaIscrizione;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.TimeZone;
 
 public class FunctionBase extends AppCompatActivity {
 
@@ -206,7 +200,7 @@ public class FunctionBase extends AppCompatActivity {
         return name;
     }
 
-    public TextView listenerOn(TextView name, int id, String corso, String totale, Context context) {
+    public TextView listenerOnTotale(TextView name, int id, String corso, String totale, Context context) {
         name.setId(id);
         name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +240,51 @@ public class FunctionBase extends AppCompatActivity {
         return name;
     }
 
+    public TextView listenerOnCorso(TextView name, int id, Context context) {
+        name.setId(id);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int idCellaSelezionata = view.getId();      // l'id della cella è stato settato con l'id del corso
+
+                view.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_gradient));
+
+                Intent intent = new Intent(context, ModificaCorso.class);
+                intent.putExtra("idCorso", String.valueOf(idCellaSelezionata));
+
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
+    public TextView listenerOnFascia(TextView name, int id, String corso, Context context) {
+        name.setId(id);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int idCellaSelezionata = view.getId();      // l'id della cella è stato settato con l'id della fascia
+
+                view.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_gradient));
+
+                Intent intent = new Intent(context, ModificaCorso.class);
+                intent.putExtra("idFascia", String.valueOf(idCellaSelezionata));
+                intent.putExtra("descrizioneCorso", corso);
+
+                Fascia fascia = new Fascia(String.valueOf(idCellaSelezionata), null, null, null, null, null, null, null, null);
+                FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
+
+                intent.putExtra("idCorso", fascia.getIdCorso());
+                intent.putExtra("oraInizioFascia", fascia.getOraInizio());
+                intent.putExtra("oraFineFascia", fascia.getOraFine());
+
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
 
     public Toast makeToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);

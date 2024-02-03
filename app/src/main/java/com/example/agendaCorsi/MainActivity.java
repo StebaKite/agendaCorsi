@@ -180,7 +180,7 @@ public class MainActivity extends FunctionBase {
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
                         cellNum = 1;
                     }
-                    tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
+                    tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
                 }
@@ -193,8 +193,8 @@ public class MainActivity extends FunctionBase {
                 }
                 descrizione_corso_save = dashboard.getDescrizioneCorso();
                 descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                intestaTabella(descrizione_corso_save, larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
-                tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia);
+                intestaTabella(descrizione_corso_save, dashboard.getIdCorso(), larghezzaColonnaCorso, larghezzaColonnaFascia, larghezzaColonnaTotale);
+                tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                 tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
                 cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
             }
@@ -204,7 +204,7 @@ public class MainActivity extends FunctionBase {
         }
     }
 
-    public void intestaTabella(String descrizioneCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
+    public void intestaTabella(String descrizioneCorso, String idCorso, int larghezzaColonna, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
         tableRow = new TableRow(this);
         tableRow.setClickable(false);
         corso = new TextView(this);
@@ -213,6 +213,9 @@ public class MainActivity extends FunctionBase {
         corso.setWidth(larghezzaColonna);
         corso.setText(descrizioneCorso);
         corso.setTypeface(Typeface.DEFAULT_BOLD);
+
+        listenerOnCorso(corso, Integer.parseInt(idCorso), this);
+
         tableRow.addView(corso);
         tabSettimana.addView(tableRow);
 
@@ -234,10 +237,10 @@ public class MainActivity extends FunctionBase {
     }
 
 
-    public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna) {
+    public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna, int idFascia, String corso) {
         tableRow = new TableRow(this);
         String detailType = (isFasciaRunning(descrizioneFascia)) ? DETAIL_EVIDENCE : DETAIL_SIMPLE;
-        tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        tableRow.addView(listenerOnFascia(makeCell(this,new TextView(this), detailType, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE),  idFascia, corso, main));
         return tableRow;
     }
 
@@ -245,7 +248,7 @@ public class MainActivity extends FunctionBase {
         fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
         if (Integer.parseInt(totale) > 0) {
-            tRow.addView(listenerOn(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE), idFascia, corso, totale, main));
+            tRow.addView(listenerOnTotale(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE), idFascia, corso, totale, main));
         } else {
             tRow.addView(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }
