@@ -210,6 +210,7 @@ public class ModificaIscrizione extends FunctionBase {
         intent.putExtra("totaleFascia", totaleFascia);
 
         startActivity(intent);
+        finish();
     }
 
     @Override

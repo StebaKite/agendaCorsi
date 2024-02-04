@@ -136,6 +136,8 @@ public class RegistraPresenze extends FunctionBase {
                         TextView textView = (TextView) tableRow.getChildAt(3);
                         String idElementoSelezionato = textView.getText().toString();
 
+                        tableRow.setBackground(ContextCompat.getDrawable(registraPresenze, R.drawable.cell_bg_gradient));
+
                         textView = (TextView) tableRow.getChildAt(4);
                         String idPresenzaSelezionato = textView.getText().toString();
 
@@ -161,12 +163,7 @@ public class RegistraPresenze extends FunctionBase {
                                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
                                 ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
                                 if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
-                                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
-                                        Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, STATO_ATTIVA, null, null);
-                                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
-
-                                        makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
-                                    }
+                                    makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
                                 }
                             }
                         }

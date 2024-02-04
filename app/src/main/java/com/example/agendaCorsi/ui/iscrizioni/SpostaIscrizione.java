@@ -143,6 +143,8 @@ public class SpostaIscrizione extends FunctionBase {
                         TextView textView = (TextView) tableRow.getChildAt(3);
                         String idSelezionato = textView.getText().toString();
 
+                        tableRow.setBackground(ContextCompat.getDrawable(spostaIscrizione, R.drawable.cell_bg_gradient));
+
                         Iscrizione iscrizione = new Iscrizione(idIscrizione, idSelezionato, null, null, null, null);
                         if (IscrizioneDAO.getInstance().update(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_ISCRIZIONE))) {
                             makeToastMessage(spostaIscrizione, "Iscrizione spostata con successo.").show();

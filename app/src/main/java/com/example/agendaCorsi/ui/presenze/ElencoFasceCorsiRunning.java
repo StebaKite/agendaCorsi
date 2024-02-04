@@ -92,6 +92,8 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
                     TextView textView = (TextView) tableRow.getChildAt(4);
                     String idSelezionato = textView.getText().toString();
 
+                    tableRow.setBackground(ContextCompat.getDrawable(elencoFasceCorsiRunning, R.drawable.cell_bg_gradient));
+
                     textView = (TextView) tableRow.getChildAt(3);
                     int totaleFascia = Integer.parseInt(textView.getText().toString());
 
