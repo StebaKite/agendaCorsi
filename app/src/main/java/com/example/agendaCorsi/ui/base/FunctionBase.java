@@ -159,7 +159,7 @@ public class FunctionBase extends AppCompatActivity {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_expired));
 
             } else if (type.equals(DETAIL_INOPERATIVE)) {
-                name.setTextColor(getResources().getColor(R.color.grayligth));
+                name.setTextColor(getResources().getColor(R.color.grayligth, getTheme()));
                 name.setTypeface(Typeface.DEFAULT_BOLD);
 
             } else if (type.equals(DETAIL_CONFIRMED)) {
@@ -182,15 +182,16 @@ public class FunctionBase extends AppCompatActivity {
         } else {
             if (type.equals(HEADER)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading));
-                name.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
+                name.setTextColor(getResources().getColor(R.color.black, getTheme()));
                 name.setTypeface(null, Typeface.BOLD);
             } else if (type.equals(HEADER_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
-                name.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
+                name.setTextColor(getResources().getColor(R.color.black, getTheme()));
                 name.setTypeface(null, Typeface.BOLD);
             }
         }
 
+        name.setTextColor(getResources().getColor(R.color.black, getTheme()));
         name.setTextAlignment(alignment);
         name.setGravity(Gravity.CENTER);
         name.setVisibility(visibility);
