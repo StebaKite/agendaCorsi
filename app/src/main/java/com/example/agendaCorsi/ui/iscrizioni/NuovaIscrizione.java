@@ -44,12 +44,8 @@ public class NuovaIscrizione extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuova_iscrizione);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
-
         nuovaIscrizione = this;
+        makeToolBar(nuovaIscrizione);
 
         esci = findViewById(R.id.bExit);
 

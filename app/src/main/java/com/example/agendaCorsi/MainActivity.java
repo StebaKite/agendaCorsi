@@ -2,7 +2,10 @@ package com.example.agendaCorsi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.DisplayMetrics;
@@ -11,11 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -60,14 +61,9 @@ public class MainActivity extends FunctionBase {
         setContentView(R.layout.activity_main);
 
         main = this;
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(main);
 
         dashboardMain = findViewById(R.id.main);
-        main = this;
         /**
          * Prelievo delle credenziali
          */

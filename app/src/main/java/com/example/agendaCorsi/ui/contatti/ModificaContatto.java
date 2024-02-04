@@ -53,17 +53,13 @@ public class ModificaContatto extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_contatto);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        modificaContatto = this;
+        makeToolBar(modificaContatto);
 
         tabellaElePortfolio = findViewById(R.id.tabellaElePortfolio);
 
         Intent intent = getIntent();
         idContatto = intent.getStringExtra("idContatto");
-
-        modificaContatto = this;
 
         _nome = findViewById(R.id.editNomeMod);
         _indirizzo = findViewById(R.id.editIndirizzoMod);

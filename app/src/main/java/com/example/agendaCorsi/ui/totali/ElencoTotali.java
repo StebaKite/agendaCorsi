@@ -37,10 +37,7 @@ public class ElencoTotali extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elenco_totali);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         tabTotali = findViewById(R.id.tabellaTotali);
         headerTabTotali = findViewById(R.id.headerTabellaTotali);

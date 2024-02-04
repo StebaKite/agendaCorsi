@@ -35,11 +35,7 @@ public class ElencoFasceCorsi extends FunctionBase {
         setContentView(R.layout.activity_elenco_fasce_corsi);
 
         elencoFasceCorsi = this;
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(elencoFasceCorsi);
 
         esci = findViewById(R.id.bExit);
         tabellaFasceCorsi = findViewById(R.id.tabellaFasceCorsi);

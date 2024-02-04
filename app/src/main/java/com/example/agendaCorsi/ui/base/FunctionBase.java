@@ -3,6 +3,8 @@ package com.example.agendaCorsi.ui.base;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.DatabaseHelper;
@@ -144,6 +147,25 @@ public class FunctionBase extends AppCompatActivity {
     public TableRow tableRow;
     public PropertyReader propertyReader;
     public Properties properties;
+
+    public void makeToolBar(Context context) {
+
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_gradient));
+        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Agenda " + packageInfo.versionName);
+
+    }
+
 
     public TextView makeCell(Context context, TextView name, String type, int width, String value, int alignment, int visibility) {
         //name = new TextView(context);

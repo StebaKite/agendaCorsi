@@ -46,12 +46,8 @@ public class RegistraPresenze extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registra_presenze);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
-
         registraPresenze = this;
+        makeToolBar(registraPresenze);
 
         esci = findViewById(R.id.bExit);
 

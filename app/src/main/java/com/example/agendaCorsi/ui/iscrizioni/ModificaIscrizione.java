@@ -40,12 +40,8 @@ public class ModificaIscrizione extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_iscrizione);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
-
         modificaIscrizione = this;
+        makeToolBar(modificaIscrizione);
 
         chiudi = findViewById(R.id.bChiudi);
         sospendi = findViewById(R.id.bSospendi);

@@ -47,10 +47,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_elemento_portfolio);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         Intent intent = getIntent();
         idElemento = intent.getStringExtra("idElemento");

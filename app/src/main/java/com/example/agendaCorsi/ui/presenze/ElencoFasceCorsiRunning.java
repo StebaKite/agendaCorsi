@@ -34,12 +34,8 @@ public class ElencoFasceCorsiRunning extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elenco_fasce_corsi_running);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
-
         elencoFasceCorsiRunning = this;
+        makeToolBar(elencoFasceCorsiRunning);
 
         esci = findViewById(R.id.bExit);
         headerTabellaFasceCorsi = findViewById(R.id.headerTabellaContattiIscrivibili);

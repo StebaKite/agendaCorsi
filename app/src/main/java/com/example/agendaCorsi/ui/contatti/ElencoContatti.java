@@ -32,10 +32,7 @@ public class ElencoContatti extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elenco_contatti);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         headerTabContatti = findViewById(R.id.headerTabellaContattiIscrivibili);
         tabContatti = findViewById(R.id.tabellaContatti);

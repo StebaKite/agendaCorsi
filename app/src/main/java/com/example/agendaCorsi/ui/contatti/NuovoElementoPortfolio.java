@@ -35,10 +35,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuovo_elemento_portfolio);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);

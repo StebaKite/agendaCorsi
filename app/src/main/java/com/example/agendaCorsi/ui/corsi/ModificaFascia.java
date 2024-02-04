@@ -48,10 +48,7 @@ public class ModificaFascia extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_fascia);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         annulla = findViewById(R.id.bReset);
         esci = findViewById(R.id.bExit);

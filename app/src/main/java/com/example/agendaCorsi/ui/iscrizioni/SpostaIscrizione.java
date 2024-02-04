@@ -48,12 +48,8 @@ public class SpostaIscrizione extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sposta_iscrizione);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
-
         spostaIscrizione = this;
+        makeToolBar(spostaIscrizione);
 
         esci = findViewById(R.id.bExit);
 

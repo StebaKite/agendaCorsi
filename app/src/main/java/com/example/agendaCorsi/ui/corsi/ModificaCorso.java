@@ -55,10 +55,7 @@ public class ModificaCorso extends FunctionBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_corso);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient));
-        myToolbar.setLogo(R.mipmap.vibes3_logo);
+        makeToolBar(this);
 
         headerTabellaFasceCorso = findViewById(R.id.headerTabellaContattiIscrivibili);
         tabellaFasceModCorso = findViewById(R.id.tabellaFasceModCorso);
