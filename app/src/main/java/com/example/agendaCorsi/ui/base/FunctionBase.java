@@ -118,6 +118,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_GET_CONTATTI_ISCRIVIBILI = "query_get_contatti_iscrivibili";
     public static String QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN = "query_get_contatti_iscrivibili_open";
     public static String QUERY_INS_ISCRIZIONE = "query_ins_iscrizione";
+    public static String QUERY_GET_ISCRIZIONE = "query_get_iscrizione";
     public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
     public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";
     public static String QUERY_GET_CONTATTI_ISCRITTI_RUNNING = "query_get_contatti_iscritti_running";

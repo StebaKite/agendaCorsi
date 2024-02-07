@@ -1,6 +1,6 @@
 package com.example.agendaCorsi.database.access;
 
-import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -8,9 +8,6 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Corso;
-import com.example.agendaCorsi.database.table.ElementoPortfolio;
-import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
@@ -121,10 +118,31 @@ public class IscrizioneDAO implements Database_itf {
     }
 
 
-
     @Override
     public Object select(Object entity, String query) {
-        return null;
+        Iscrizione iscrizione = (Iscrizione) entity;
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            String sql = query.replace("#IDISCR#", iscrizione.getIdIscrizione());
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            final Cursor resultSet = database.rawQuery(sql, null);
+            while (resultSet.moveToNext()) {
+                iscrizione.setIdIscrizione(resultSet.getString(Iscrizione.ID_ISCRIZIONE));
+                iscrizione.setIdFascia(resultSet.getString(Iscrizione.ID_FASCIA));
+                iscrizione.setIdElemento(resultSet.getString(Iscrizione.ID_ELEMENTO));
+                iscrizione.setStato(resultSet.getString(Iscrizione.STATO));
+                iscrizione.setDataCreazione(resultSet.getString(Iscrizione.DATA_CREAZIONE));
+                iscrizione.setDataUltimoAggiornamento(resultSet.getString(Iscrizione.DATA_ULTIMO_AGGIORNAMENTO));
+            }
+            resultSet.close();
+            database.close();
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+            iscrizione.setIdFascia("");
+        }
+        return iscrizione;
     }
 
     @Override

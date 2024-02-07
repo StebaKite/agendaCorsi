@@ -9,5 +9,7 @@ select
     capienza,
     data_creazione,
     data_ultimo_aggiornamento
+
 from #TABLENAME#
+
 where id_fascia = #IDFASCIA#

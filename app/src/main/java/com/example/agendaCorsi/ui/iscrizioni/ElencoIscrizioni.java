@@ -112,7 +112,11 @@ public class ElencoIscrizioni extends FunctionBase {
             if (contattoIscritto.getStato().equals(STATO_CHIUSA) || contattoIscritto.getStato().equals(STATO_DISATTIVA)) {
                 detailType = DETAIL_CLOSED;
             } else {
-                detailType = DETAIL_SIMPLE;
+                if (contattoIscritto.getStato().equals(STATO_SOSPESO)) {
+                    detailType = DETAIL_SUSPENDED;
+                } else {
+                    detailType = DETAIL_SIMPLE;
+                }
             }
 
             tableRow = new TableRow(elencoIscrizioni);

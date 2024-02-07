@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
@@ -115,15 +117,30 @@ public class ModificaIscrizione extends FunctionBase {
 
 
     public void makeApri() {
-        Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_ATTIVA,null,null);
+        Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null, null,null,null);
+        IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(QUERY_GET_ISCRIZIONE));
+
+        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null);
+        ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+
+        String toastMessage = "";
+        if (elementoPortfolio.getStato().equals(STATO_ESAURITO)) {
+            iscrizione.setStato(STATO_DISATTIVA);
+            toastMessage = "Iscrizione disattiva a causa del portfolio esaurito";
+        } else {
+            iscrizione.setStato(STATO_ATTIVA);
+            toastMessage = "OK, iscrizione aperta";
+        }
+
         if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE))) {
-            makeToastMessage(modificaIscrizione, "Iscrizione aperta con successo").show();
+            makeToastMessage(modificaIscrizione, toastMessage).show();
             esci.callOnClick();
         }
         else {
             displayAlertDialog(modificaIscrizione, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
         }
     }
+
 
     public void makeChiudi() {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null,STATO_CHIUSO,null,null);
