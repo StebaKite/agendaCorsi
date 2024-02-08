@@ -54,12 +54,13 @@ public class DashboardDAO implements Database_itf {
         while (!cursor.isAfterLast()) {
             String idCorso = cursor.getString(Dashboard.ID_CORSO);
             String desCorso = cursor.getString(Dashboard.DESCRIZIONE_CORSO);
+            String staCorso = cursor.getString(Dashboard.STATO_CORSO);
             String desFascia = cursor.getString(Dashboard.DESCRIZIONE_FASCIA);
             String gioSet = cursor.getString(Dashboard.GIORNO_SETTIMANA);
             String idFascia = cursor.getString(Dashboard.ID_FASCIA);
             String totFascia = cursor.getString(Dashboard.TOTALE_FASCIA);
 
-            Object dashboard = new Dashboard(idCorso, desCorso, desFascia, gioSet, idFascia, totFascia);
+            Object dashboard = new Dashboard(idCorso, desCorso, staCorso, desFascia, gioSet, idFascia, totFascia);
             list.add(dashboard);
             cursor.moveToNext();
         }

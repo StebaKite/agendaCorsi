@@ -20,4 +20,7 @@
     <color name="green">#059B0C</color>
     <color name="ocra">#CFAA72</color>
 
+    <color name="orange_full">#F69910</color>
+    <color name="orange_light">#E9BD7C</color>
+
 </resources>

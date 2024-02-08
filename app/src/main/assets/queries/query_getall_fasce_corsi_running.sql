@@ -36,7 +36,7 @@ select t2.*
           and fascia.ora_fine >= '#ADESSO#'
 
     ) as t2
-    where t2.stato != 'Chiuso'
+    where t2.stato not in ('Chiuso', 'Sospeso')
       and t2.tipo != 'TEST'
 
 order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

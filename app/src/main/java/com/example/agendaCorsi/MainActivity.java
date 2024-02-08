@@ -172,7 +172,7 @@ public class MainActivity extends FunctionBase {
             if (dashboard.getDescrizioneCorso().equals(descrizione_corso_save)) {
                 if (dashboard.getDescrizioneFascia().equals(descrizione_fascia_save)) {
                     // aggiungo il totale per il giorno della settimana
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
                     cellNum++;
                 }
                 else {
@@ -187,8 +187,8 @@ public class MainActivity extends FunctionBase {
                         descrizione_fascia_save = dashboard.getDescrizioneFascia();
                         cellNum = 1;
                     }
-                    tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
+                    tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
+                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
                 }
             }
@@ -217,10 +217,10 @@ public class MainActivity extends FunctionBase {
                 idCorso_save = dashboard.getIdCorso();
                 descrizione_fascia_save = dashboard.getDescrizioneFascia();
 
-                previousId = titoloTabella(idCorso_save, previousId, linearLayout);
-                intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale);
-                tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
-                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save);
+                previousId = titoloTabella(idCorso_save, previousId, linearLayout, dashboard.getStatoCorso());
+                intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, dashboard.getStatoCorso());
+                tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
+                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
                 cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
             }
         }
@@ -240,7 +240,7 @@ public class MainActivity extends FunctionBase {
         setContentView(dashboardMain);
     }
 
-    public int titoloTabella(String idCorso, int tagToConstraint, LinearLayout linearLayout) {
+    public int titoloTabella(String idCorso, int tagToConstraint, LinearLayout linearLayout, String statoCorso) {
         Corso _corso = new Corso(idCorso, null, null, null, null, null, null, null, null);
         CorsoDAO.getInstance().select(_corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
         String dataDa = dateFormat(_corso.getDataInizioValidita().replace("#", ""), "yyyy-MM-dd", "dd-MM-yyyy");
@@ -257,7 +257,9 @@ public class MainActivity extends FunctionBase {
         corso.setId(Integer.parseInt(idCorso));
         corso.setTag(textViewTag);
 
-        listenerOnCorso(corso, Integer.parseInt(idCorso), this);
+        if (!statoCorso.equals(STATO_SOSPESO)) {
+            listenerOnCorso(corso, Integer.parseInt(idCorso), this);
+        }
 
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -272,11 +274,14 @@ public class MainActivity extends FunctionBase {
         return view.getId();
     }
 
-    public void intestaTabella(TableLayout tableLayout, int larghezzaColonnaFascia, int larghezzaColonnaTotale) {
+    public void intestaTabella(TableLayout tableLayout, int larghezzaColonnaFascia, int larghezzaColonnaTotale, String statoCorso) {
 
         tableRow = new TableRow(this);
         tableRow.setClickable(false);
-        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonnaFascia,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+        String headerType = (statoCorso.equals(STATO_ATTIVO)) ? HEADER : HEADER_OFF;
+
+        tableRow.addView(makeCell(this,new TextView(this), headerType, larghezzaColonnaFascia,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
 
         List<Object> giorniSettimanaList = GiornoSettimanaDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
 
@@ -284,26 +289,38 @@ public class MainActivity extends FunctionBase {
             GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
             GiornoSettimana gioSet = new GiornoSettimana(String.valueOf(getDayOfWeek()), null, null);
             GiornoSettimanaDAO.getInstance().select(gioSet, QueryComposer.getInstance().getQuery(QUERY_GET_GIORNO_SETTIMANA));
-            String headerType = (gioSet.getNomeGiornoAbbreviato().equals(giornoSettimana.getNomeGiornoAbbreviato())) ? HEADER_EVIDENCE : HEADER;
-
+            if (statoCorso.equals(STATO_ATTIVO)) {
+                headerType = (gioSet.getNomeGiornoAbbreviato().equals(giornoSettimana.getNomeGiornoAbbreviato())) ? HEADER_EVIDENCE : HEADER;
+            } else {
+                headerType = HEADER_OFF;
+            }
             tableRow.addView(makeCell(this,new TextView(this), headerType, larghezzaColonnaTotale,giornoSettimana.getNomeGiornoAbbreviato(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }
         tableLayout.addView(tableRow);
     }
 
 
-    public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna, int idFascia, String corso) {
+    public TableRow preparaTableRow(String descrizioneFascia, int larghezzaColonna, int idFascia, String corso, String statoCorso) {
         tableRow = new TableRow(this);
         String detailType = (isFasciaRunning(descrizioneFascia)) ? DETAIL_EVIDENCE : DETAIL_SIMPLE;
-        tableRow.addView(listenerOnFascia(makeCell(this,new TextView(this), detailType, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE),  idFascia, corso, main));
+        if (!statoCorso.equals(STATO_ATTIVO)) {
+            detailType = DETAIL_SIMPLE;
+            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        } else {
+            tableRow.addView(listenerOnFascia(makeCell(this,new TextView(this), detailType, larghezzaColonna, descrizioneFascia, View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE),  idFascia, corso, main));
+        }
         return tableRow;
     }
 
-    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana, int idFascia, String corso) {
+    public TableRow aggiungiTotaleGiorno(TableRow tRow, String totale, int larghezzaColonna, int cellNum, String giornoSettimana, int idFascia, String corso, String statoCorso) {
         fillRow(Integer.parseInt(giornoSettimana), cellNum, larghezzaColonna, tRow);
         totaleGiorno = new TextView(this);
-        if (Integer.parseInt(totale) > 0) {
-            tRow.addView(listenerOnTotale(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE), idFascia, corso, totale, main));
+        if (statoCorso.equals(STATO_ATTIVO)) {
+            if (Integer.parseInt(totale) > 0) {
+                tRow.addView(listenerOnTotale(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE), idFascia, corso, totale, main));
+            } else {
+                tRow.addView(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+            }
         } else {
             tRow.addView(makeCell(main, new TextView(this), DETAIL_SIMPLE, larghezzaColonna, totale, View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
         }

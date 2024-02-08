@@ -5,6 +5,7 @@
 select
     corso.id_corso,
     corso.descrizione as descrizione_corso,
+    corso.stato as stato_corso,
     t3.descrizione_fascia,
     t3.giorno_settimana,
     t3.id_fascia,
@@ -37,11 +38,11 @@ select
 
     ) as t3
 
-    inner join (select id_corso, corso.descrizione
+    inner join (select id_corso, corso.descrizione, stato
                     from corso
                     where corso.stato != 'Chiuso'
             ) as corso
         on corso.id_corso = t3.id_corso
 
-	order by 1,2,3,4,5
+	order by 1,2,3,4,5,6
 

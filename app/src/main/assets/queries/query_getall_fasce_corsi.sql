@@ -32,6 +32,6 @@ select t2.*
             on giorno_settimana.numero_giorno = fascia.giorno_settimana
 
     ) as t2
-    where t2.stato != 'Chiuso'
+    where t2.stato not in ('Chiuso', 'Sospeso')
 
 order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

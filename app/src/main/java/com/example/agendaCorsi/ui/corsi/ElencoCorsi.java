@@ -42,8 +42,8 @@ public class ElencoCorsi extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.8);
-        larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.6);
+        larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.3);
 
         testataElenco();
         loadCorsi();

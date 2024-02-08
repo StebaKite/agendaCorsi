@@ -74,6 +74,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String DETAIL_INOPERATIVE = "";
     public static String HEADER = "HD";
     public static String HEADER_EVIDENCE = "HDEV";
+    public static String HEADER_OFF = "HDOFF";
     /*
      * Gli stati
      */
@@ -174,7 +175,7 @@ public class FunctionBase extends AppCompatActivity {
         name.setPadding(10,10,10,10);
         name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
 
-        if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE)) {
+        if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE) && !type.equals(HEADER_OFF)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
 
@@ -209,6 +210,10 @@ public class FunctionBase extends AppCompatActivity {
                 name.setTypeface(null, Typeface.BOLD);
             } else if (type.equals(HEADER_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
+                name.setTextColor(getResources().getColor(R.color.black, getTheme()));
+                name.setTypeface(null, Typeface.BOLD);
+            } else if (type.equals(HEADER_OFF)) {
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_off));
                 name.setTextColor(getResources().getColor(R.color.black, getTheme()));
                 name.setTypeface(null, Typeface.BOLD);
             }
