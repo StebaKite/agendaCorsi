@@ -2,16 +2,8 @@ package com.example.agendaCorsi.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
-import com.example.agendaCorsi.database.access.ContattiDAO;
-import com.example.agendaCorsi.database.table.ContattoIscrivibile;
-
-import java.nio.MappedByteBuffer;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,35 +59,24 @@ public class ConcreteDataAccessor implements DataAccessor {
 
         Cursor cursor = sqLiteDatabase.rawQuery(buffer.toString(), null);
 
-
         List resultRows = new LinkedList();
         String[] columnsName = cursor.getColumnNames();
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            Row resultRow = new Row();
+            Row row = new Row();
             for (int i = 0; i <= cursor.getCount() - 1; i++) {
-                resultRow.addColumn(columnsName[i], cursor.getColumnName(i) );
+                row.addColumn(columnsName[i], cursor.getColumnIndex(columnsName[i]));
             }
-
-
-
-            String nomeContatto = cursor.getString(ContattoIscrivibile.NOME_CONTATTO);
-            String idElemento = cursor.getString(ContattoIscrivibile.ID_ELEMENTO);
-            String emailContatto = cursor.getString(ContattoIscrivibile.EMAIL_CONTATTO);
-            String dataNascita = cursor.getString(ContattoIscrivibile.DATA_NASCITA);
-
-            ContattoIscrivibile contattoIscrivibile = new ContattoIscrivibile(nomeContatto, idElemento, emailContatto, idFascia, idCorso, sport, dataNascita);
-            list.add(contattoIscrivibile);
+            resultRows.add(row);
             cursor.moveToNext();
         }
-
-
-
+        return resultRows;
     }
 
     @Override
     public void insert(String table, List rows) throws Exception {
+
 
     }
 
@@ -111,7 +92,7 @@ public class ConcreteDataAccessor implements DataAccessor {
 
     private String generateWhereClause(Row selectionRow) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(" where "),
+        buffer.append(" where ");
         boolean firstColumn = true;
         for (Iterator i = selectionRow.columns(); i.hasNext();) {
             if (!firstColumn) {
