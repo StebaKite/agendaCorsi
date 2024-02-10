@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -25,7 +27,12 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.corsi.NuovoCorso;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class NuovoContatto extends FunctionBase {
 
@@ -82,27 +89,34 @@ public class NuovoContatto extends FunctionBase {
 
 
     public void makeSalva() {
-        Contatto contatto = new Contatto(null, nome.getText().toString(),
-                dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                indirizzo.getText().toString(),
-                telefono.getText().toString(),
-                email.getText().toString(),
-                null);
-        /**
-         * controllo validità campi inseriti
-         */
-        if (contatto.getNome().equals("") ||
-            contatto.getDataNascita().equals("") ||
-            contatto.getTelefono().equals("")) {
+        if (nome.getText().toString().equals("") ||
+            dataNascita.getText().toString().equals("") ||
+            telefono.getText().toString().equals("")) {
 
             displayAlertDialog(nuovoContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (ContattiDAO.getInstance().insert(contatto, QueryComposer.getInstance().getQuery(QUERY_INS_CONTATTO))) {
+            try {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+
+                Row row = new Row();
+                row.addColumn(Contatto.contattoColumns.get(Contatto.NOME), nome.getText().toString());
+                row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_NASCITA), dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+                row.addColumn(Contatto.contattoColumns.get(Contatto.INDIRIZZO), indirizzo.getText().toString());
+                row.addColumn(Contatto.contattoColumns.get(Contatto.TELEFONO), telefono.getText().toString());
+                row.addColumn(Contatto.contattoColumns.get(Contatto.EMAIL), email.getText().toString());
+                row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_CREAZIONE), dateFormat.format(date));
+
+                List<Row> insertRows = new LinkedList<>();
+                insertRows.add(row);
+
+                ConcreteDataAccessor.getInstance().insert(Contatto.TABLE_NAME, insertRows);
+
                 makeToastMessage(AgendaCorsiApp.getContext(), "Contatto creato con successo.").show();
                 esci.callOnClick();
             }
-            else {
+            catch (Exception e) {
                 displayAlertDialog(nuovoContatto, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
             }
         }

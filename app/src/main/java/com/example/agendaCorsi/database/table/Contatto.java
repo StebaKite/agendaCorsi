@@ -17,6 +17,7 @@ public class Contatto implements BaseColumns {
     public static Integer TELEFONO = 4;
     public static Integer EMAIL = 5;
     public static Integer STATO_ELEMENTO = 6;
+    public static Integer DATA_CREAZIONE = 7;
 
     public static Map<Integer, String> contattoColumns;
     static {
@@ -28,6 +29,7 @@ public class Contatto implements BaseColumns {
         contattoColumns.put(TELEFONO, "telefono");
         contattoColumns.put(EMAIL, "email");
         contattoColumns.put(STATO_ELEMENTO, "stato_elemento");
+        contattoColumns.put(DATA_CREAZIONE, "data_creazione");
     }
 
     public String id;

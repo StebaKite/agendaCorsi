@@ -100,7 +100,6 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_STATO_CORSO = "query_mod_stato_corso";
     public static String QUERY_MOD_CORSO = "query_mod_corso";
     public static String QUERY_INS_CORSO = "query_ins_corso";
-    public static String QUERY_INS_CONTATTO = "query_ins_contatto";
     public static String QUERY_INS_ELEMENTS = "query_ins_elements";
     public static String QUERY_GET_ELEMENTO = "query_get_elemento";
     public static String QUERY_ISNEW_ELEMENTO = "query_isnew_elemento";
