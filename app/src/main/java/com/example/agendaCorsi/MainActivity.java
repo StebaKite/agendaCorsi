@@ -22,6 +22,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.DataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
@@ -55,6 +58,7 @@ public class MainActivity extends FunctionBase {
     TextView corso, fascia, totaleGiorno;
     Context main;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,52 +74,53 @@ public class MainActivity extends FunctionBase {
         Credenziale credenziale = new Credenziale(null, null, null, null);
         CredenzialeDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
 
-        checkValiditaCorsi();
-        checkValiditaElementiPortoflio();
+        try {
+            checkValiditaCorsi();
+            checkValiditaElementiPortoflio();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         displayQuadroIscrizioni();
     }
+
 
     /**
      * Tutti gli elementi di portfolio trovati, la cui data di ultima ricarica è più vecchia di un perido temporale
      * configurato (property PORTFOLIO_ELEMENT_DURATION_YEAR), vengono posti in stato "Scaduto"
      */
-    private void checkValiditaElementiPortoflio() {
-        List<Object> elementiList = ElementoPortfolioDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_ELEMENTO));
-        for (Object entity : elementiList) {
-            ElementoPortfolio elementoPortfolio = (ElementoPortfolio) entity;
+    private void checkValiditaElementiPortoflio() throws Exception {
+        List<Row> rows = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.TABLE_NAME, null, null, null);
+        for (Row row : rows) {
             /*
              * La data ultima ricarica deve essere impostata e lo stato deve essere "Carico"
              */
-            if (!elementoPortfolio.getDataUltimaRicarica().equals("") && elementoPortfolio.getStato().equals(STATO_CARICO)) {
+            if (!row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA)).equals("")
+            && row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)).equals(STATO_CARICO)) {
                 propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
                 properties = propertyReader.getMyProperties("config.properties");
                 int portfolioElementDurationYear = Integer.parseInt(properties.getProperty("PORTFOLIO_ELEMENT_DURATION_YEAR"));
 
-                if (checkObsolescenceDate(addYearToDate(elementoPortfolio.getDataUltimaRicarica(), portfolioElementDurationYear))) {
-                    elementoPortfolio.setStato(STATO_SCADUTO);
-                    if (!ElementoPortfolioDAO.getInstance().updateStato(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_DEL_ELEMENTO))) {
-                        displayAlertDialog(this, "Attenzione!", "Aggiornamento stato elemento_portfolio fallito, contatta il supporto tecnico");
-                    }
+                if (checkObsolescenceDate(addYearToDate(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA)).toString(), portfolioElementDurationYear))) {
+                    ConcreteDataAccessor.getInstance().update(ElementoPortfolio.TABLE_NAME, null, new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), STATO_SCADUTO));
                 }
             }
         }
     }
 
+
     /**
      * Tutti i corsi trovati outDated vengono eliminati
      */
-    private void checkValiditaCorsi() {
-        List<Object> corsiList = CorsoDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CORSI));
-        for (Object entity : corsiList) {
-            Corso corso = Corso.class.cast(entity);
-            if (checkObsolescenceDate(corso.getDataFineValidita())) {
+    private void checkValiditaCorsi() throws Exception {
+        List<Row> rows = ConcreteDataAccessor.getInstance().read(Corso.TABLE_NAME, null, null, null);
+        for (Row row : rows) {
+            if (checkObsolescenceDate(row.getColumnValue(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA)).toString())) {
                 /**
                  *  La cancellazione del corso la fa solo se i totali statistici vengono racolti
                  */
-                if (raccogliTotaliCorso(corso.getIdCorso())) {
-                    if (!CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
-                        displayAlertDialog(this, "Attenzione!", "Cancellazione corso fallito, contatta il supporto tecnico");
-                    }
+                if (raccogliTotaliCorso(row.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO)).toString())) {
+                    ConcreteDataAccessor.getInstance().delete(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), row.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO))));
                 }
             }
         }

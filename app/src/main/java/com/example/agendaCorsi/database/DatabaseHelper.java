@@ -28,7 +28,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 14;
+    public static final int SCHEMA_VERSION = 17;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -41,6 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_PRESENZA = "create_table_presenza";
     public static String CREATE_TABLE_TOTALE_CORSO = "create_table_totale_corso";
     public static String QUERY_INS_GIORNO_SETTIMANA = "query_ins_giorno_settimana";
+
+    public static String CREATE_VIEW_ALL_CONTATTI = "create_view_all_contatti";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -67,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
         TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+        /*
+         *  Viste
+         */
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_ALL_CONTATTI);
+
+
         /*
          * Initial Load
          */
@@ -97,7 +105,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("drop table if exists " + GiornoSettimana.TABLE_NAME);
         //sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
         //sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
-        sqLiteDatabase.execSQL("drop table if exists " + TotaleCorso.TABLE_NAME);
+        //sqLiteDatabase.execSQL("drop table if exists " + TotaleCorso.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop view if exists all_contatti_view");
+
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
@@ -109,7 +119,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
         //CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         //PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
-        TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+        //TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+        /*
+         *  Viste
+         */
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_ALL_CONTATTI);
         /*
          * Initial Load
          */

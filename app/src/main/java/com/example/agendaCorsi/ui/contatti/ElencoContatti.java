@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
 import com.example.agendaCorsi.ui.base.QueryComposer;
@@ -46,8 +48,12 @@ public class ElencoContatti extends FunctionBase {
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
         larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
 
-        testataElenco();
-        loadContatti();
+        try {
+            testataElenco();
+            loadContatti();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         listenerEsci(ElencoContatti.this , MainActivity.class, null);
         listenerInserisci(ElencoContatti.this, NuovoContatto.class, null);
@@ -62,16 +68,15 @@ public class ElencoContatti extends FunctionBase {
         headerTabContatti.addView(tableRow);
     }
 
-    private void loadContatti() {
-        List<Object> contattiList = ContattiDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CONTATTI));
-        for (Object entity : contattiList) {
-            Contatto contatto = Contatto.class.cast(entity);
+    private void loadContatti() throws Exception {
+        List<Row> rows = ConcreteDataAccessor.getInstance().read(Contatto.VIEW_ALL_CONTATTI, null, null, new String[]{Contatto.contattoColumns.get(Contatto.NOME)});
+        for (Row row : rows) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna1, contatto.getNome(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna2, String.valueOf(computeAge(contatto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), contatto.getStatoElemento(), larghezzaColonna3, contatto.getStatoElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contatto.getId(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna1, row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna2, String.valueOf(computeAge(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna3, row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, row.getColumnValue(Contatto.contattoColumns.get(Contatto.ID_CONTATTO)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 3);
             tabContatti.addView(tableRow);

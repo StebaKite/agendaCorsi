@@ -25,6 +25,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
@@ -95,48 +97,46 @@ public class ModificaContatto extends FunctionBase {
         /**
          * Caricamento dati contatto selezionato
          */
-        Contatto contatto = new Contatto(null, null, null,null, null, null, null);
-        contatto.setId(idContatto);
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(Contatto.TABLE_NAME, null, new Row(Contatto.contattoColumns.get(Contatto.ID_CONTATTO),idContatto), null);
+            for (Row row : rows) {
+                _nome.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString());
+                _dataNascita.setText(dateFormat(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
+                _indirizzo.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.INDIRIZZO)).toString());
+                _telefono.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.TELEFONO)).toString());
+                _email.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.EMAIL)).toString());
+                nome = _nome.getText().toString();
+                dataNascita = _dataNascita.getText().toString();
+                indirizzo = _indirizzo.getText().toString();
+                telefono = _telefono.getText().toString();
+                email = _email.getText().toString();
 
-        ContattiDAO.getInstance().select(contatto, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTO));
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        if (contatto.getId().equals("")) {
-            displayAlertDialog(modificaContatto, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
+                larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
+                larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
+
+                displayElencoElementiPortfolio(idContatto, row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString());
+                esci.requestFocus();
+                /**
+                 * Listener dei bottoni
+                 */
+                listenerAnnulla();
+                listenerEsci(ModificaContatto.this, ElencoContatti.class, null);
+                listenerSalva();
+                listenerElimina();
+
+                Map<String, String> intentMap = new ArrayMap<>();
+                intentMap.put("idContatto", idContatto);
+                intentMap.put("nomeContatto", row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString());
+
+                listenerInserisci(modificaContatto, NuovoElementoPortfolio.class, intentMap);
+            }
         }
-        else {
-            _nome.setText(contatto.getNome());
-            _dataNascita.setText(dateFormat(contatto.getDataNascita(), "yyyy-MM-dd", "dd-MM-yyyy"));
-            _indirizzo.setText(contatto.getIndirizzo());
-            _telefono.setText(contatto.getTelefono());
-            _email.setText(contatto.getEmail());
-            nome = _nome.getText().toString();
-            dataNascita = _dataNascita.getText().toString();
-            indirizzo = _indirizzo.getText().toString();
-            telefono = _telefono.getText().toString();
-            email = _email.getText().toString();
-            
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-            larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.5);
-            larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
-
-            displayElencoElementiPortfolio(idContatto, contatto.getNome());
-            esci.requestFocus();
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        /**
-         * Listener dei bottoni
-         */
-        listenerAnnulla();
-        listenerEsci(ModificaContatto.this, ElencoContatti.class, null);
-        listenerSalva();
-        listenerElimina();
-
-        Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("idContatto", idContatto);
-        intentMap.put("nomeContatto", contatto.getNome());
-
-        listenerInserisci(modificaContatto, NuovoElementoPortfolio.class, intentMap);
     }
 
 

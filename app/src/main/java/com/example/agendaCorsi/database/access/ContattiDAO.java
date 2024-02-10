@@ -12,7 +12,6 @@ import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
 import com.example.agendaCorsi.database.table.ContattoIscrivibile;
-import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
 import java.util.ArrayList;

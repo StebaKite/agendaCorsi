@@ -1,7 +1,10 @@
 package com.example.agendaCorsi.database;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import java.util.Iterator;
@@ -14,6 +17,11 @@ public class ConcreteDataAccessor implements DataAccessor {
     private static DatabaseHelper databaseHelper;
     private static SQLiteDatabase sqLiteDatabase;
 
+    /**
+     * Singleton pattern of "Gang of four"
+     * @return object instance
+     */
+
     public static ConcreteDataAccessor getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConcreteDataAccessor();
@@ -23,6 +31,18 @@ public class ConcreteDataAccessor implements DataAccessor {
         return INSTANCE;
     }
 
+    /**
+     * Read data from table
+     *
+     * @param table         The table
+     * @param columns       The columns to read, or null to read all columns in the table
+     * @param selectionRow  A set of filter columns and values used to subset the rows, or null
+     *                      to read all rows in the table
+     * @param sortColumns   The columns to sort, or null to read without sorting
+     *
+     * @return              The list of rows
+     */
+    @SuppressLint("Range")
     @Override
     public List read(String table, String[] columns, Row selectionRow, String[] sortColumns) throws Exception {
         StringBuffer buffer = new StringBuffer();
@@ -65,8 +85,8 @@ public class ConcreteDataAccessor implements DataAccessor {
 
         while (!cursor.isAfterLast()) {
             Row row = new Row();
-            for (int i = 0; i <= cursor.getCount() - 1; i++) {
-                row.addColumn(columnsName[i], cursor.getColumnIndex(columnsName[i]));
+            for (int i = 0; i < columnsName.length; i++) {
+                row.addColumn(columnsName[i], cursor.getString(cursor.getColumnIndex(columnsName[i])));
             }
             resultRows.add(row);
             cursor.moveToNext();
@@ -74,20 +94,121 @@ public class ConcreteDataAccessor implements DataAccessor {
         return resultRows;
     }
 
+    /**
+     * Insert data into table
+     *
+     * @param table         The table
+     * @param rows          The rows to insert
+     */
     @Override
     public void insert(String table, List rows) throws Exception {
+        try {
+            for (Iterator i = rows.iterator(); i.hasNext();) {
+                Row row = (Row) i.next();
 
+                StringBuffer buffer = new StringBuffer();
+                buffer.append("insert into ");
+                buffer.append(table);
 
+                // List the column names
+
+                buffer.append(" (");
+                boolean firstColumn = true;
+                for (Iterator j = row.columns(); j.hasNext();) {
+                    if (!firstColumn) {
+                        buffer.append(", ");
+                    } else {
+                        firstColumn = false;
+                    }
+                    buffer.append(j.next());
+                }
+
+                // List the column values
+
+                buffer.append(" values ");
+                firstColumn = true;
+                for (Iterator j = row.columns(); j.hasNext();) {
+                    if (!firstColumn) {
+                        buffer.append(", ");
+                    } else {
+                        firstColumn = false;
+                    }
+                    String column = (String) j.next();
+                    Object columnValue = row.getColumnValue(column);
+                    buffer.append(generateLiteralValue(columnValue));
+                }
+                sqLiteDatabase.execSQL(buffer.toString());
+            }
+        }
+        catch (SQLException e) {
+            Log.e("Unable to insert into table " + table, e.toString());
+            throw new SQLException("Unable to insert into table " + table);
+        }
     }
 
+    /**
+     * Update data in a table
+     *
+     * @param table         The table
+     * @param selectionRow  A set of filter columns and values used to subset the rows, or null
+     *                      to update all of rows in the table.
+     * @param updateRow     A set of update columns and values
+     */
     @Override
     public void update(String table, Row selectionRow, Row updateRow) throws Exception {
+        try {
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("update ");
+            buffer.append(table);
 
+            // Generate the set clause
+
+            buffer.append(" set ");
+            boolean firstColumn = true;
+            for (Iterator i = updateRow.columns(); i.hasNext();) {
+                if (!firstColumn) {
+                    buffer.append(", ");
+                } else {
+                    firstColumn = false;
+                }
+                String column = (String) i.next();
+                buffer.append(column);
+                buffer.append(" = ");
+                Object columnValue = updateRow.getColumnValue(column);
+                buffer.append(generateLiteralValue(columnValue));
+            }
+
+            // Generate Where clause if specified
+
+            if (selectionRow != null) {
+                buffer.append(generateWhereClause(selectionRow));
+            }
+            sqLiteDatabase.execSQL(buffer.toString());
+        }
+        catch (SQLException e) {
+            Log.e("Unable to update table " + table, e.toString());
+            throw new SQLException("Unable to update table " + table);
+        }
     }
 
     @Override
     public void delete(String table, Row selectionRow) throws Exception {
+        try {
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("delete from ");
+            buffer.append(table);
 
+            // Generate Where clause if specified
+
+            if (selectionRow != null) {
+                buffer.append(generateWhereClause(selectionRow));
+            }
+            sqLiteDatabase.execSQL(buffer.toString());
+        }
+        catch (SQLException e) {
+            Log.e("Unable to delete from table " + table, e.toString());
+            throw new SQLException("Unable to delete from table " + table);
+        }
     }
 
     private String generateWhereClause(Row selectionRow) {
@@ -121,6 +242,4 @@ public class ConcreteDataAccessor implements DataAccessor {
         }
         return buffer.toString();
     }
-
-
 }

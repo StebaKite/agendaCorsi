@@ -2,6 +2,9 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ContattoIscritto implements BaseColumns {
 
     public static Integer NOME_CONTATTO = 0;
@@ -12,6 +15,19 @@ public class ContattoIscritto implements BaseColumns {
     public static Integer ID_PRESENZA = 5;
     public static Integer DATA_CONFERMA = 6;
     public static Integer STATO_ELEMENTO = 7;
+
+    public static Map<Integer, String> elementoPortfolioColumns;
+    static {
+        elementoPortfolioColumns = new HashMap<>();
+        elementoPortfolioColumns.put(ID_ELEMENTO, "id_elemento");
+        elementoPortfolioColumns.put(ID_ISCRIZIONE, "id_iscrizione");
+        elementoPortfolioColumns.put(STATO, "stato");
+        elementoPortfolioColumns.put(DATA_NASCITA, "data_nascita");
+        elementoPortfolioColumns.put(NOME_CONTATTO, "nome_contatto");
+        elementoPortfolioColumns.put(ID_PRESENZA, "id_presenza");
+        elementoPortfolioColumns.put(DATA_CONFERMA, "data_conferma");
+        elementoPortfolioColumns.put(STATO_ELEMENTO, "stato_elemento");
+    }
 
     public String nomeContatto;
     public String idIscrizione;

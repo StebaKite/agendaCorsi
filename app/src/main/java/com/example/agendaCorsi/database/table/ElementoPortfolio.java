@@ -2,6 +2,9 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ElementoPortfolio implements BaseColumns {
 
     public static String TABLE_NAME = "elemento_portfolio";
@@ -15,6 +18,20 @@ public class ElementoPortfolio implements BaseColumns {
     public static Integer DATA_CREAZIONE = 7;
     public static Integer DATA_ULTIMO_AGGIORNAMENTO = 8;
 
+    public static Map<Integer, String> elementoPortfolioColumns;
+    static {
+        elementoPortfolioColumns = new HashMap<>();
+        elementoPortfolioColumns.put(ID_ELEMENTO, "id_elemento");
+        elementoPortfolioColumns.put(ID_CONTATTO, "id_contatto");
+        elementoPortfolioColumns.put(DESCRIZIONE, "descrizione");
+        elementoPortfolioColumns.put(SPORT, "sport");
+        elementoPortfolioColumns.put(NUMERO_LEZIONI, "numero_lezioni");
+        elementoPortfolioColumns.put(DATA_ULTIMA_RICARICA, "data_ultima_ricarica");
+        elementoPortfolioColumns.put(STATO, "stato");
+        elementoPortfolioColumns.put(DATA_CREAZIONE, "data_creazione");
+        elementoPortfolioColumns.put(DATA_ULTIMO_AGGIORNAMENTO, "data_ultimo_aggiornamento");
+    }
+
     public String idElemento;
     public String idContatto;
     public String descrizione;
@@ -24,6 +41,9 @@ public class ElementoPortfolio implements BaseColumns {
     public String stato;
     public String dataCreazione;
     public String dataUltimoAggiornamento;
+
+    public ElementoPortfolio() {
+    }
 
     public ElementoPortfolio(String idElemento, String idContatto, String descrizione, String sport, String numeroLezioni, String dataUltimaRicarica, String stato) {
         this.idElemento = idElemento;
