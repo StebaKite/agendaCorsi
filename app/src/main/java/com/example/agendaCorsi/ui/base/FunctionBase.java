@@ -100,16 +100,9 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_STATO_CORSO = "query_mod_stato_corso";
     public static String QUERY_MOD_CORSO = "query_mod_corso";
     public static String QUERY_INS_CORSO = "query_ins_corso";
-    public static String QUERY_GETALL_CONTATTI = "query_getall_contatti";
     public static String QUERY_INS_CONTATTO = "query_ins_contatto";
-    public static String QUERY_MOD_CONTATTO = "query_mod_contatto";
-    public static String QUERY_GET_CONTATTO = "query_get_contatto";
-    public static String QUERY_DEL_CONTATTO = "query_del_contatto";
-    public static String QUERY_GET_ELEMENTS = "query_get_elements";
     public static String QUERY_INS_ELEMENTS = "query_ins_elements";
-    public static String QUERY_MOD_ELEMENTS = "query_mod_elements";
     public static String QUERY_GET_ELEMENTO = "query_get_elemento";
-    public static String QUERY_DEL_ELEMENTO = "query_del_elements";
     public static String QUERY_ISNEW_ELEMENTO = "query_isnew_elemento";
     public static String QUERY_INS_FASCIA = "query_ins_fascia";
     public static String QUERY_ISNEW_FASCIA = "query_isnew_fascia";
@@ -131,9 +124,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_MOD_STATO_ISCRIZIONE = "query_mod_stato_iscrizione";
     public static String QUERY_DEL_ISCRIZIONE = "query_del_iscrizione";
     public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
-    public static String QUERY_MOD_STATO_ISCRIZIONI_ELEMENTO = "query_mod_stato_iscrizioni_elemento";
     public static String QUERY_GETALL_FASCE_DISPONIBILI = "query_getall_fasce_disponibili";
-    public static String QUERY_GETALL_ELEMENTO = "query_getall_elemento";
     public static String QUERY_INS_PRESENZA = "query_ins_presenza";
     public static String QUERY_DEL_PRESENZA = "query_del_presenza";
     public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
@@ -632,7 +623,7 @@ public class FunctionBase extends AppCompatActivity {
 
     public void makeElimina() {}
 
-    public void makeSalva() throws Exception {}
+    public void makeSalva() {}
 
     public void makeApri() {}
 

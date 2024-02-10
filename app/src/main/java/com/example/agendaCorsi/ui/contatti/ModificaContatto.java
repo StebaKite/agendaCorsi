@@ -210,7 +210,7 @@ public class ModificaContatto extends FunctionBase {
         ad.show();
     }
 
-    public void makeSalva() throws Exception {
+    public void makeSalva() {
 
         if (_nome.getText().toString().equals("") || _dataNascita.getText().toString().equals("") ||
                 _telefono.getText().toString().equals("")) {
@@ -242,8 +242,13 @@ public class ModificaContatto extends FunctionBase {
             }
 
             if (anyChange) {
-                ConcreteDataAccessor.getInstance().update(Contatto.TABLE_NAME, new Row(Contatto.contattoColumns.get(Contatto.ID_CONTATTO), idContatto), row);
-                makeToastMessage(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.").show();
+                try {
+                    ConcreteDataAccessor.getInstance().update(Contatto.TABLE_NAME, new Row(Contatto.contattoColumns.get(Contatto.ID_CONTATTO), idContatto), row);
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.").show();
+                }
+                catch (Exception e) {
+                    displayAlertDialog(modificaContatto, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+                }
             }
             esci.callOnClick();
         }

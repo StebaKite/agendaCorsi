@@ -2,6 +2,9 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Iscrizione implements BaseColumns {
 
     public static String TABLE_NAME = "iscrizione";
@@ -11,6 +14,17 @@ public class Iscrizione implements BaseColumns {
     public static Integer STATO = 3;
     public static Integer DATA_CREAZIONE = 4;
     public static Integer DATA_ULTIMO_AGGIORNAMENTO = 5;
+
+    public static Map<Integer, String> iscrizioneColumns;
+    static {
+        iscrizioneColumns = new HashMap<>();
+        iscrizioneColumns.put(ID_ISCRIZIONE, "id_iscrizione");
+        iscrizioneColumns.put(ID_FASCIA, "id_fascia");
+        iscrizioneColumns.put(ID_ELEMENTO, "id_elemento");
+        iscrizioneColumns.put(STATO, "stato");
+        iscrizioneColumns.put(DATA_CREAZIONE, "data_creazione");
+        iscrizioneColumns.put(DATA_ULTIMO_AGGIORNAMENTO, "data_ultimo_aggiornamento");
+    }
 
     public String idIscrizione;
     public String idFascia;

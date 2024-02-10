@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
@@ -29,6 +31,7 @@ import com.example.agendacorsi.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class ModificaElementoPortfolio extends FunctionBase {
@@ -73,38 +76,40 @@ public class ModificaElementoPortfolio extends FunctionBase {
         /*
           Caricamento dati elemento portfolio selezionato
          */
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
-        elementoPortfolio.setIdElemento(String.valueOf(idElemento));
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.TABLE_NAME, null,
+                    new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento), null);
 
-        ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+            for (Row row : rows) {
+                _descrizione.setText(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DESCRIZIONE)).toString());
+                _numeroLezioni.setText(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI)).toString());
+                dataUltimaricarica.setText(coalesceValue(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA))));
+                descrizione = _descrizione.getText().toString();
+                numeroLezioni = _numeroLezioni.getText().toString();
+                esci.requestFocus();
 
-        if (elementoPortfolio.getIdElemento().equals("")) {
-            displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Lettura fallita, contatto il supporto tecnico");
-        } else {
-            _descrizione.setText(elementoPortfolio.getDescrizione());
-            _numeroLezioni.setText(elementoPortfolio.getNumeroLezioni());
-            dataUltimaricarica.setText(elementoPortfolio.getDataUltimaRicarica());
-            descrizione = _descrizione.getText().toString();
-            numeroLezioni = _numeroLezioni.getText().toString();
-            esci.requestFocus();
+                /*
+                 * Listener sui bottoni
+                 */
+                Map<String, String> intentMap = new ArrayMap<>();
+                intentMap.put("idContatto", String.valueOf(idContatto));
+
+                listenerAnnulla();
+                listenerEsci(modificaElementoPortfolio, ModificaContatto.class, intentMap);
+                listenerSalva();
+
+                if (Integer.parseInt(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI)).toString()) > 0) {
+                    elimina.setVisibility(View.GONE);
+                } else {
+                    listenerElimina();
+                }
+                listenerRicarica5();
+                listenerRicarica10();
+            }
         }
-        /*
-         * Listener sui bottoni
-         */
-        Map<String, String> intentMap = new ArrayMap<>();
-        intentMap.put("idContatto", String.valueOf(idContatto));
-
-        listenerAnnulla();
-        listenerEsci(modificaElementoPortfolio, ModificaContatto.class, intentMap);
-        listenerSalva();
-
-        if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) > 0) {
-            elimina.setVisibility(View.GONE);
-        } else {
-            listenerElimina();
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        listenerRicarica5();
-        listenerRicarica10();
     }
 
     public void makeRicarica(int ricarica) {
@@ -123,14 +128,12 @@ public class ModificaElementoPortfolio extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
-                elementoPortfolio.setIdElemento(String.valueOf(idElemento));
-
-                if (ElementoPortfolioDAO.getInstance().delete(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_DEL_ELEMENTO))) {
+                try {
+                    ConcreteDataAccessor.getInstance().delete(ElementoPortfolio.TABLE_NAME, new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento));
                     makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio eliminato con successo.").show();
                     esci.callOnClick();
                 }
-                else {
+                catch (Exception e) {
                     displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Cancellazione fallita, contatta il supporto tecnico");
                 }
             }
@@ -148,43 +151,55 @@ public class ModificaElementoPortfolio extends FunctionBase {
     }
 
     public void makeSalva() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-
-        String stato = (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) ? STATO_CARICO : STATO_ESAURITO;
-
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(String.valueOf(idElemento),
-                String.valueOf(idContatto),
-                _descrizione.getText().toString(),
-                null,
-                _numeroLezioni.getText().toString(),
-                dateFormat.format(date),
-                stato);
-
-        if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
+        if (_descrizione.getText().toString().equals("") || _numeroLezioni.getText().toString().equals("")) {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         } else {
-            if (ElementoPortfolioDAO.getInstance().update(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_MOD_ELEMENTS))) {
+            Row updateRow = new Row();
+            boolean anyChange = false;
 
-                if (Integer.parseInt(numeroLezioni) == 0) {
-                    if (Integer.parseInt(String.valueOf(_numeroLezioni.getText())) > 0 ) {
+            if (!_descrizione.getText().toString().equals(descrizione)) {
+                updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DESCRIZIONE), _descrizione.getText().toString());
+                anyChange = true;
+            }
+            if (!_numeroLezioni.getText().toString().equals(numeroLezioni)) {
+                updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI), _numeroLezioni.getText().toString());
+                String stato = (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) ? STATO_CARICO : STATO_ESAURITO;
+                updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), stato);
+                anyChange = true;
+            }
 
-                        /**
-                         * Aggiorno lo stato di tutte le iscrizioni di questo elemento che si trovano in stato "Disattiva"
-                         */
-                        Iscrizione iscrizione = new Iscrizione(null, null, elementoPortfolio.getIdElemento(), STATO_ATTIVA, null, null);
-                        if (!IscrizioneDAO.getInstance().updateStatoIscrizioni(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONI_ELEMENTO))) {
-                            displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento iscrizioni fallito, contatta il supporto tecnico");
+            if (anyChange) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                try {
+                    ConcreteDataAccessor.getInstance().update(ElementoPortfolio.TABLE_NAME,
+                            new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento), updateRow);
+
+                    if (Integer.parseInt(numeroLezioni) == 0) {
+                        if (Integer.parseInt(String.valueOf(_numeroLezioni.getText())) > 0 ) {
+
+                            /**
+                             * Aggiorno lo stato di tutte le iscrizioni di questo elemento che si trovano in stato "Disattiva"
+                             */
+                            Row selectionRow = new Row();
+                            selectionRow.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ELEMENTO), idElemento);
+                            selectionRow.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO), STATO_DISATTIVA);
+
+                            Row updRow = new Row();
+                            updRow.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO), STATO_ATTIVA);
+
+                            ConcreteDataAccessor.getInstance().update(Iscrizione.TABLE_NAME,selectionRow, updRow);
                         }
                     }
+                    makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio aggiornato con successo.").show();
                 }
-                makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio aggiornato con successo.").show();
-                esci.callOnClick();
-
-            } else {
-                displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+                catch (Exception e) {
+                    displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+                }
             }
         }
+        esci.callOnClick();
     }
 
     public void makeAnnulla() {
