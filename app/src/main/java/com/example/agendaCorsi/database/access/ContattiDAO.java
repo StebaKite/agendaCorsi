@@ -123,33 +123,7 @@ public class ContattiDAO implements Database_itf {
         return list;
     }
 
-    public List<Object> getAll(String query) {
-        SQLiteDatabase database = databaseHelper.getReadableDatabase();
-        List<Object> list = new ArrayList<>();
-        String sql = query;
-
-        Log.i(DatabaseHelper.DATABASE_NAME, sql);
-        Cursor cursor = database.rawQuery(sql, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            String id = String.valueOf(cursor.getInt(Contatto.ID_CONTATTO));
-            String nome = cursor.getString(Contatto.NOME);
-            String dataNascita = cursor.getString(Contatto.DATA_NASCITA);
-            String indirizzo = cursor.getString(Contatto.INDIRIZZO);
-            String telefono = cursor.getString(Contatto.TELEFONO);
-            String email = cursor.getString(Contatto.EMAIL);
-            String statoElemento = cursor.getString(Contatto.STATO_ELEMENTO);
-
-            Contatto contatto = new Contatto(id, nome, dataNascita, indirizzo, telefono, email, statoElemento);
-            list.add(contatto);
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        database.close();
-        return list;
-    }
+    public List<Object> getAll(String query) { return null; }
 
     @Override
     public boolean insert(Object entity, String query) {

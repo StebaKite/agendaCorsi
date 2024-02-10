@@ -435,7 +435,11 @@ public class FunctionBase extends AppCompatActivity {
         salva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makeSalva();
+                try {
+                    makeSalva();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
@@ -616,12 +620,19 @@ public class FunctionBase extends AppCompatActivity {
         return false;
     }
 
+    public String coalesceValue(Object object) {
+        String value = (String) object;
+        if (value == null) {
+            value = "";
+        }
+        return value;
+    }
 
     public void makeAnnulla() {}
 
     public void makeElimina() {}
 
-    public void makeSalva() {}
+    public void makeSalva() throws Exception {}
 
     public void makeApri() {}
 

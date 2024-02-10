@@ -37,6 +37,7 @@ import com.example.agendaCorsi.ui.corsi.ModificaCorso;
 import com.example.agendacorsi.R;
 
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,9 +103,9 @@ public class ModificaContatto extends FunctionBase {
             for (Row row : rows) {
                 _nome.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString());
                 _dataNascita.setText(dateFormat(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
-                _indirizzo.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.INDIRIZZO)).toString());
-                _telefono.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.TELEFONO)).toString());
-                _email.setText(row.getColumnValue(Contatto.contattoColumns.get(Contatto.EMAIL)).toString());
+                _indirizzo.setText(coalesceValue(row.getColumnValue(Contatto.contattoColumns.get(Contatto.INDIRIZZO))));
+                _telefono.setText(coalesceValue(row.getColumnValue(Contatto.contattoColumns.get(Contatto.TELEFONO))));
+                _email.setText(coalesceValue(row.getColumnValue(Contatto.contattoColumns.get(Contatto.EMAIL))));
                 nome = _nome.getText().toString();
                 dataNascita = _dataNascita.getText().toString();
                 indirizzo = _indirizzo.getText().toString();
@@ -140,15 +141,31 @@ public class ModificaContatto extends FunctionBase {
     }
 
 
-    private void displayElencoElementiPortfolio(String idContatto, String nomeContatto) {
-        List<ElementoPortfolio> elementiPortfoList = ElementoPortfolioDAO.getInstance().getContattoElements(idContatto, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTS));
+    private void displayElencoElementiPortfolio(String idContatto, String nomeContatto) throws Exception {
+        List<Row> rows = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.TABLE_NAME,
+                null,
+                new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_CONTATTO), idContatto),
+                null);
 
-        for (ElementoPortfolio elementoPortfolio : elementiPortfoList) {
+        for (Row row : rows) {
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna1, elementoPortfolio.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), elementoPortfolio.getStato(), larghezzaColonna2, elementoPortfolio.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, elementoPortfolio.getIdElemento(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+
+            tableRow.addView(makeCell(this,new TextView(this),
+                    row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)).toString(),
+                    larghezzaColonna1,
+                    row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DESCRIZIONE)).toString(),
+                    View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+            tableRow.addView(makeCell(this,new TextView(this),
+                    row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)).toString(),
+                    larghezzaColonna2,
+                    row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)).toString(),
+                    View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0,
+                    row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO)).toString(),
+                    View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("idContatto", idContatto);
@@ -158,6 +175,7 @@ public class ModificaContatto extends FunctionBase {
             tabellaElePortfolio.addView(tableRow);
         }
     }
+
 
     public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(ModificaContatto.this, R.style.Theme_InfoDialog);
@@ -171,12 +189,11 @@ public class ModificaContatto extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Contatto contatto = new Contatto(String.valueOf(idContatto), null, null,null, null, null, null);
-
-                if (ContattiDAO.getInstance().delete(contatto, QueryComposer.getInstance().getQuery(QUERY_DEL_CONTATTO))) {
+                try {
+                    ConcreteDataAccessor.getInstance().delete(Contatto.TABLE_NAME, new Row(Contatto.contattoColumns.get(Contatto.ID_CONTATTO), idContatto));
                     esci.callOnClick();
                 }
-                else {
+                catch (Exception e) {
                     displayAlertDialog(modificaContatto, "Attenzione!", "Cancellazione fallita, contatta il supporto tecnico");
                 }
             }
@@ -193,30 +210,42 @@ public class ModificaContatto extends FunctionBase {
         ad.show();
     }
 
-    public void makeSalva() {
-        /**
-         * dati immessi in un oggetto contatto
-         */
-        Contatto contatto = new Contatto(idContatto,
-                _nome.getText().toString(),
-                dateFormat(_dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                _indirizzo.getText().toString(),
-                _telefono.getText().toString(),
-                _email.getText().toString(),
-                null);
+    public void makeSalva() throws Exception {
 
-        if (contatto.getNome().equals("") || contatto.getDataNascita().equals("") ||
-            contatto.getTelefono().equals("")) {
+        if (_nome.getText().toString().equals("") || _dataNascita.getText().toString().equals("") ||
+                _telefono.getText().toString().equals("")) {
             displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (ContattiDAO.getInstance().update(contatto, QueryComposer.getInstance().getQuery(QUERY_MOD_CONTATTO))) {
+            Row row = new Row();
+            boolean anyChange = false;
+
+            if (!_nome.getText().toString().equals(nome)) {
+                anyChange = true;
+                row.addColumn(Contatto.contattoColumns.get(Contatto.NOME), _nome.getText().toString());
+            }
+            if (!_dataNascita.getText().toString().equals(dataNascita)) {
+                anyChange = true;
+                row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_NASCITA), dateFormat(_dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+            }
+            if (!_indirizzo.getText().toString().equals(indirizzo)) {
+                anyChange = true;
+                row.addColumn(Contatto.contattoColumns.get(Contatto.INDIRIZZO), _indirizzo.getText().toString());
+            }
+            if (!_telefono.getText().toString().equals(telefono)) {
+                anyChange = true;
+                row.addColumn(Contatto.contattoColumns.get(Contatto.TELEFONO), _telefono.getText().toString());
+            }
+            if (!_email.getText().toString().equals(email)) {
+                anyChange = true;
+                row.addColumn(Contatto.contattoColumns.get(Contatto.EMAIL), _email.getText().toString());
+            }
+
+            if (anyChange) {
+                ConcreteDataAccessor.getInstance().update(Contatto.TABLE_NAME, new Row(Contatto.contattoColumns.get(Contatto.ID_CONTATTO), idContatto), row);
                 makeToastMessage(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.").show();
-                esci.callOnClick();
             }
-            else {
-                displayAlertDialog(modificaContatto, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
-            }
+            esci.callOnClick();
         }
     }
 

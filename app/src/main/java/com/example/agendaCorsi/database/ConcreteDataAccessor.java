@@ -125,7 +125,7 @@ public class ConcreteDataAccessor implements DataAccessor {
 
                 // List the column values
 
-                buffer.append(" values ");
+                buffer.append(") values (");
                 firstColumn = true;
                 for (Iterator j = row.columns(); j.hasNext();) {
                     if (!firstColumn) {
@@ -137,6 +137,7 @@ public class ConcreteDataAccessor implements DataAccessor {
                     Object columnValue = row.getColumnValue(column);
                     buffer.append(generateLiteralValue(columnValue));
                 }
+                buffer.append(")");
                 sqLiteDatabase.execSQL(buffer.toString());
             }
         }

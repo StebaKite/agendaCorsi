@@ -26,7 +26,7 @@ public class Contatto implements BaseColumns {
         contattoColumns.put(DATA_NASCITA, "data_nascita");
         contattoColumns.put(INDIRIZZO, "indirizzo");
         contattoColumns.put(TELEFONO, "telefono");
-        contattoColumns.put(EMAIL, "enmail");
+        contattoColumns.put(EMAIL, "email");
         contattoColumns.put(STATO_ELEMENTO, "stato_elemento");
     }
 
