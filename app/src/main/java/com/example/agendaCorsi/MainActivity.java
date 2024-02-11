@@ -95,7 +95,7 @@ public class MainActivity extends FunctionBase {
             /*
              * La data ultima ricarica deve essere impostata e lo stato deve essere "Carico"
              */
-            if (!row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA)).equals("")
+            if (!coalesceValue(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA))).equals("")
             && row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)).equals(STATO_CARICO)) {
                 propertyReader = new PropertyReader(AgendaCorsiApp.getContext());
                 properties = propertyReader.getMyProperties("config.properties");

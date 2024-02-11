@@ -68,18 +68,41 @@ public class ElencoContatti extends FunctionBase {
         headerTabContatti.addView(tableRow);
     }
 
-    private void loadContatti() throws Exception {
-        List<Row> rows = ConcreteDataAccessor.getInstance().read(Contatto.VIEW_ALL_CONTATTI, null, null, new String[]{Contatto.contattoColumns.get(Contatto.NOME)});
-        for (Row row : rows) {
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna1, row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna2, String.valueOf(computeAge(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), larghezzaColonna3, row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, row.getColumnValue(Contatto.contattoColumns.get(Contatto.ID_CONTATTO)).toString(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+    private void loadContatti() {
+        List<Row> rows = null;
+        try {
+            rows = ConcreteDataAccessor.getInstance().read(Contatto.VIEW_ALL_CONTATTI, null, null, new String[]{Contatto.contattoColumns.get(Contatto.NOME)});
+            for (Row row : rows) {
+                tableRow = new TableRow(this);
+                tableRow.setClickable(true);
 
-            listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 3);
-            tabContatti.addView(tableRow);
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(),
+                        larghezzaColonna1,
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(),
+                        larghezzaColonna2,
+                        String.valueOf(computeAge(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString())),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(),
+                        larghezzaColonna3,
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.STATO_ELEMENTO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0,
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.ID_CONTATTO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+
+                listenerTableRow(ElencoContatti.this, ModificaContatto.class, "idContatto", null, 3);
+                tabContatti.addView(tableRow);
+            }
+        } catch (Exception e) {
+            displayAlertDialog(this, "Attenzione!", "Lettura contatti fallita, contatta il supporto tecnico");
         }
     }
 

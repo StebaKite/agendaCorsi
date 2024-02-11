@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -62,22 +64,37 @@ public class ElencoCorsi extends FunctionBase {
     }
 
     private void loadCorsi() {
+        try {
+            List<Row> corsiList = ConcreteDataAccessor.getInstance().read(Corso.TABLE_NAME, null, null, null);
+            for (Row row : corsiList) {
+                tableRow = new TableRow(this);
+                tableRow.setClickable(true);
 
-        List<Object> corsiList = CorsoDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_CORSI));
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString(),
+                        larghezzaColonna1,
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
 
-        for (Object entity : corsiList) {
-            Corso corso = Corso.class.cast(entity);
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString(),
+                        larghezzaColonna2,
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
 
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna1, corso.getDescrizione(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), larghezzaColonna2, corso.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), corso.getStato(), 0, corso.getIdCorso(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+                tableRow.addView(makeCell(this,new TextView(this),
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString(), 0,
+                        row.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
 
-            if (!corso.getStato().equals(STATO_CHIUSO)) {
-                listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);
+                if (!row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).equals(STATO_CHIUSO)) {
+                    listenerTableRow(ElencoCorsi.this, ModificaCorso.class, "idCorso", null, 2);
+                }
+                tabCorsi.addView(tableRow);
             }
-            tabCorsi.addView(tableRow);
+        }
+        catch (Exception e) {
+            displayAlertDialog(this, "Attenzione!", "Lettura corsi fallita, contatta il supporto tecnico");
         }
     }
 
