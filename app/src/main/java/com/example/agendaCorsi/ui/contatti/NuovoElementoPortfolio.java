@@ -15,12 +15,20 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class NuovoElementoPortfolio extends FunctionBase {
@@ -69,36 +77,49 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
 
     public void makeSalva() {
-        String dataUltimaRicarica = "";
-        String sport = "";
-
-        if (radio_skate.isChecked()) { sport = Skate; }
-        if (radio_basket.isChecked()) { sport = Basket; }
-        if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
-        if (radio_pattini.isChecked()) { sport = Pattini; }
-
-        String statoElemento = (Integer.parseInt(String.valueOf(numeroLezioni.getText())) > 0) ? STATO_CARICO : STATO_APERTO;
-
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
-                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, statoElemento);
-
-        if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
+        if (descrizione.getText().toString().equals("") || numeroLezioni.getText().toString().equals("")) {
             displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            elementoPortfolio.setSport(sport);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
 
-            if (ElementoPortfolioDAO.getInstance().isNew(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_ISNEW_ELEMENTO))) {
-                if (ElementoPortfolioDAO.getInstance().insert(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_INS_ELEMENTS))) {
+            String sport = "";
+            if (radio_skate.isChecked()) { sport = Skate; }
+            if (radio_basket.isChecked()) { sport = Basket; }
+            if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
+            if (radio_pattini.isChecked()) { sport = Pattini; }
+
+            String statoElemento = (Integer.parseInt(String.valueOf(numeroLezioni.getText())) > 0) ? STATO_CARICO : STATO_APERTO;
+
+            String[] columnToRead = {ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO)};
+            Row selectionRow = new Row();
+            selectionRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_CONTATTO), idContatto);
+            selectionRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.SPORT), sport);
+
+            try {
+                List<Row> elementiList = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.TABLE_NAME, columnToRead, selectionRow, null);
+                if (elementiList.size() == 0) {
+                    Row row = new Row();
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_CONTATTO), idContatto);
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DESCRIZIONE), descrizione.getText().toString());
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.SPORT), sport);
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI), numeroLezioni.getText().toString());
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA), null);
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), statoElemento);
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_CREAZIONE), dateFormat.format(date));
+
+                    List<Row> rowsToInsert = new LinkedList<>();
+                    rowsToInsert.add(row);
+                    ConcreteDataAccessor.getInstance().insert(ElementoPortfolio.TABLE_NAME, rowsToInsert);
+
                     makeToastMessage(AgendaCorsiApp.getContext(), "Elemento portfolio creato con successo.").show();
                     esci.callOnClick();
+                } else {
+                    displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Elemento portfolio già presente, duplicazione non ammessa");
                 }
-                else {
-                    displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
-                }
-            }
-            else {
-                displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Elemento portfolio già presente, duplicazione non ammessa");
+            } catch (Exception e) {
+                displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
             }
         }
     }

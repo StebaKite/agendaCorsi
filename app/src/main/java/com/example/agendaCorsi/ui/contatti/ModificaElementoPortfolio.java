@@ -172,6 +172,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
                 updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                updateRow.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA), dateFormat.format(date));
                 try {
                     ConcreteDataAccessor.getInstance().update(ElementoPortfolio.TABLE_NAME,
                             new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento), updateRow);

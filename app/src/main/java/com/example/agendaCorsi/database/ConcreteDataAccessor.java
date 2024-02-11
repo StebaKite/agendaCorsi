@@ -233,13 +233,18 @@ public class ConcreteDataAccessor implements DataAccessor {
 
     private String generateLiteralValue(Object literalValue) {
         StringBuffer buffer = new StringBuffer();
-        if (!(literalValue instanceof Number)) {
-            buffer.append("'");
+        if (literalValue == null) {
+            buffer.append("null");
         }
-        buffer.append(literalValue);
+        else {
+            if (!(literalValue instanceof Number)) {
+                buffer.append("'");
+            }
+            buffer.append(literalValue);
 
-        if (!(literalValue instanceof Number)) {
-            buffer.append("'");
+            if (!(literalValue instanceof Number)) {
+                buffer.append("'");
+            }
         }
         return buffer.toString();
     }
