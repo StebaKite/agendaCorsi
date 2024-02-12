@@ -8,6 +8,7 @@ import java.util.Map;
 public class Corso implements BaseColumns {
 
     public static String TABLE_NAME = "corso";
+
     public static Integer ID_CORSO = 0;
     public static Integer DESCRIZIONE = 1;
     public static Integer SPORT = 2;

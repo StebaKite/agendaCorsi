@@ -2,14 +2,30 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TotaleCorso implements BaseColumns {
 
     public static String TABLE_NAME = "totale_corso";
+    public static String VIEW_TOT_ISCRIZIONI = "tot_iscrizioni_view";
+
     public static Integer ID_TOTALE = 0;
     public static Integer DESCRIZIONE_CORSO = 1;
     public static Integer ANNO_SVOLGIMENTO = 2;
     public static Integer NOME_TOTALE = 3;
     public static Integer VALORE_TOTALE = 4;
+
+    public static Map<Integer, String> totIscrizioniCorsoColumns;
+    static {
+        totIscrizioniCorsoColumns = new HashMap<>();
+        totIscrizioniCorsoColumns.put(ID_TOTALE, "id_totale");
+        totIscrizioniCorsoColumns.put(DESCRIZIONE_CORSO, "descrizione_corso");
+        totIscrizioniCorsoColumns.put(ANNO_SVOLGIMENTO, "anno_svolgimento");
+        totIscrizioniCorsoColumns.put(NOME_TOTALE, "nome_totale");
+        totIscrizioniCorsoColumns.put(VALORE_TOTALE, "valore_totale");
+    }
+
 
     public String idTotale;
     public String descrizioneCorso;

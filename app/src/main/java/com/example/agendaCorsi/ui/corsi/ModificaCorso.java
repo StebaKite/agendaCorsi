@@ -24,17 +24,23 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.table.FasciaCorso;
+import com.example.agendaCorsi.database.table.TotaleCorso;
 import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +133,7 @@ public class ModificaCorso extends FunctionBase {
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.2);
         larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.3);
 
-        Corso corso = loadCorso();
+        String statoCorso = loadCorso();
         testataElenco();
         loadFasceOrarie();
 
@@ -135,19 +141,19 @@ public class ModificaCorso extends FunctionBase {
          * La visibilità dei bottoni di cambio stato rispetta le regole
          * documentate dal diagramma degli stati del Corso
          */
-        if (corso.getStato().equals(STATO_CHIUSO)) {
+        if (statoCorso.equals(STATO_CHIUSO)) {
             chiudi.setVisibility(View.GONE);
             sospendi.setVisibility(View.GONE);
             apri.setVisibility(View.GONE);
-        } else if (corso.getStato().equals(STATO_APERTO)) {
+        } else if (statoCorso.equals(STATO_APERTO)) {
             apri.setVisibility(View.GONE);
             listenerChiudi();
             listenerSospendi();
-        } else if (corso.getStato().equals(STATO_SOSPESO)) {
+        } else if (statoCorso.equals(STATO_SOSPESO)) {
             chiudi.setVisibility(View.GONE);
             sospendi.setVisibility(View.GONE);
             listenerApri();
-        } else if (corso.getStato().equals(STATO_ATTIVO)) {
+        } else if (statoCorso.equals(STATO_ATTIVO)) {
             apri.setVisibility(View.GONE);
             listenerChiudi();
             listenerSospendi();
@@ -178,125 +184,123 @@ public class ModificaCorso extends FunctionBase {
 
     @Override
     public void makeApri() {
-        Corso corso = new Corso(String.valueOf(idCorso),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(TotaleCorso.VIEW_TOT_ISCRIZIONI, null, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), null);
 
-        TotaleIscrizioniCorso totaleIscrizioniCorso = new TotaleIscrizioniCorso(idCorso, null, null, null);
-        TotaleCorsoDAO.getInstance().selectTotaleIscrizioni(totaleIscrizioniCorso, QueryComposer.getInstance().getQuery(QUERY_TOT_ISCRIZIONI));
-        if (totaleIscrizioniCorso.getDescrizioneCorso() != null) {
-            if (Integer.parseInt(totaleIscrizioniCorso.getTotaleIscrizioni()) > 0) {
-                corso.setStato(STATO_ATTIVO);
-            } else {
-                corso.setStato(STATO_APERTO);
+            String statoCorso = STATO_APERTO;
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+
+            for (Row row : rows) {
+                if (row.getColumnValue(TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.DESCRIZIONE_CORSO)) != null) {
+                    if (Integer.parseInt(row.getColumnValue(TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.VALORE_TOTALE)).toString()) > 0) {
+                        statoCorso = STATO_ATTIVO;
+                    }
+                }
+                Row rowToUpdate = new Row();
+                rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), statoCorso);
+                rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+                ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
+
+                makeToastMessage(AgendaCorsiApp.getContext(), "Corso aperto con successo").show();
+                esci.callOnClick();
             }
-        } else {
-            corso.setStato(STATO_APERTO);
         }
-
-        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-            makeToastMessage(AgendaCorsiApp.getContext(), "Corso aperto con successo").show();
-            esci.callOnClick();
-        } else {
+        catch (Exception e) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
         }
     }
 
     @Override
     public void makeSospendi() {
-        Corso corso = new Corso(String.valueOf(idCorso),
-                null,
-                null,
-                STATO_SOSPESO,
-                null,
-                null,
-                null,
-                null,
-                null);
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
 
-        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
+            Row rowToUpdate = new Row();
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), STATO_SOSPESO);
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+            ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
             makeToastMessage(AgendaCorsiApp.getContext(), "Corso sospeso con successo").show();
             esci.callOnClick();
         }
-        else {
+        catch (Exception e) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
         }
     }
 
     @Override
     public void makeChiudi() {
-        Corso corso = new Corso(String.valueOf(idCorso),
-                null,
-                null,
-                STATO_CHIUSO,
-                null,
-                null,
-                null,
-                null,
-                null);
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
 
-        if (CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
+            Row rowToUpdate = new Row();
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), STATO_CHIUSO);
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+            ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
             makeToastMessage(AgendaCorsiApp.getContext(), "Corso chiuso con successo").show();
             esci.callOnClick();
         }
-        else {
+        catch (Exception e) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
         }
     }
 
     @Override
     public void makeSalva() {
-        Corso corso = new Corso(idCorso,
-                _descrizione.getText().toString(),
-                null,
-                null,
-                null,
-                dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                null,
-                null);
-
-        if (corso.getDescrizione().equals("") || corso.getDataInizioValidita().equals("") ||
-            corso.getDataFineValidita().equals("")) {
+        if (_descrizione.getText().toString().equals("") ||
+            _dataInizioValidita.getText().toString().equals("") ||
+            _dataFineValidita.getText().toString().equals("")) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (CorsoDAO.getInstance().update(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_CORSO))) {
+            try {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+
+                Row updateRow = new Row();
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso);
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.DESCRIZIONE), _descrizione.getText().toString());
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA), dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA), dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+                ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), updateRow);
                 makeToastMessage(AgendaCorsiApp.getContext(), "Corso aggiornato con successo.").show();
                 esci.callOnClick();
             }
-            else {
+            catch (Exception e) {
                 displayAlertDialog(modificaCorso, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
             }
         }
     }
 
-    private Corso loadCorso() {
-        /**
-         * Carico i dati del corso selezionato
-         */
-        Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
-        CorsoDAO.getInstance().select(corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
+    
+    private String loadCorso() {
+        String statoCorso = null;
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(Corso.TABLE_NAME, null, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), null);
 
-        if (corso.getIdCorso().equals("")) {
+            for (Row row : rows) {
+                _descrizione.setText(row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString());
+                _dataInizioValidita.setText(dateFormat(row.getColumnValue(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA)).toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
+                _dataFineValidita.setText(dateFormat(row.getColumnValue(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA)).toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
+
+                statoCorso = row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString();
+
+                descrizioneCorso = _descrizione.getText().toString();
+                dataInizioValidita = _dataInizioValidita.getText().toString();
+                dataFineValidita = _dataFineValidita.getText().toString();
+            }
+        }
+        catch (Exception e) {
             displayAlertDialog(modificaCorso, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
         }
-        else {
-            _descrizione.setText(corso.getDescrizione());
-            _dataInizioValidita.setText(dateFormat(corso.getDataInizioValidita(), "yyyy-MM-dd", "dd-MM-yyyy"));
-            _dataFineValidita.setText(dateFormat(corso.getDataFineValidita(), "yyyy-MM-dd", "dd-MM-yyyy"));
-
-            descrizioneCorso = _descrizione.getText().toString();
-            dataInizioValidita = _dataInizioValidita.getText().toString();
-            dataFineValidita = _dataFineValidita.getText().toString();
-        }
-        return corso;
+        return statoCorso;
     }
 
     private void testataElenco() {
@@ -309,24 +313,55 @@ public class ModificaCorso extends FunctionBase {
     }
 
     public void loadFasceOrarie() {
-        List<Object> fasceCorsoList = FasciaDAO.getInstance().getFasceCorso(idCorso, oraInizioFascia, oraFineFascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCE_CORSO));
+        try {
+            Row selectionColumn = new Row();
+            selectionColumn.addColumn(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.ID_CORSO), idCorso);
+            if (oraInizioFascia != null && oraFineFascia != null) {
+                selectionColumn.addColumn(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.ORA_INIZIO), oraInizioFascia);
+                selectionColumn.addColumn(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.ORA_FINE), oraFineFascia);
+            }
 
-        for (Object object : fasceCorsoList) {
-            FasciaCorso fasciaCorso = (FasciaCorso) object;
+            String[] sortColumn = {FasciaCorso.fasceCorsoColumns.get(FasciaCorso.DESCRIZIONE_CORSO), FasciaCorso.fasceCorsoColumns.get(FasciaCorso.GIORNO_SETTIMANA)};
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(FasciaCorso.VIEW_FASCE_CORSO, null, selectionColumn, sortColumn);
 
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna3, fasciaCorso.getCapienza(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, fasciaCorso.getIdFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.GONE));
+            for (Row row : rows) {
+                tableRow = new TableRow(this);
+                tableRow.setClickable(true);
 
-            Map<String, String> intentMap = new ArrayMap<>();
-            intentMap.put("idCorso", String.valueOf(idCorso));
-            intentMap.put("descrizioneCorso", descrizioneCorso);
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE,
+                        larghezzaColonna1,
+                        row.getColumnValue(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.GIORNO_SETTIMANA)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
 
-            listenerTableRow(this, ModificaFascia.class, "idFascia", intentMap, 3);
-            tabellaFasceModCorso.addView(tableRow);
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE,
+                        larghezzaColonna2,
+                        row.getColumnValue(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.DESCRIZIONE_FASCIA)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE,
+                        larghezzaColonna3,
+                        row.getColumnValue(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.CAPIENZA)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_END,
+                        View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0,
+                        row.getColumnValue(FasciaCorso.fasceCorsoColumns.get(FasciaCorso.ID_FASCIA)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.GONE));
+
+                Map<String, String> intentMap = new ArrayMap<>();
+                intentMap.put("idCorso", String.valueOf(idCorso));
+                intentMap.put("descrizioneCorso", descrizioneCorso);
+
+                listenerTableRow(this, ModificaFascia.class, "idFascia", intentMap, 3);
+                tabellaFasceModCorso.addView(tableRow);
+
+            }
+        }
+        catch (Exception e) {
+            displayAlertDialog(modificaCorso, "Attenzione!", "Lettura fasce corso fallita, contatta il supporto tecnico");
         }
     }
 
@@ -343,12 +378,12 @@ public class ModificaCorso extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Corso corso = new Corso(String.valueOf(idCorso), null, null, null, null, null, null, null, null);
-                if (CorsoDAO.getInstance().delete(corso, QueryComposer.getInstance().getQuery(QUERY_DEL_CORSO))) {
+                try {
+                    ConcreteDataAccessor.getInstance().delete(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso));
                     makeToastMessage(AgendaCorsiApp.getContext(), "Corso eliminato con successo.").show();
                     esci.callOnClick();
                 }
-                else {
+                catch (Exception e) {
                     displayAlertDialog(modificaCorso, "Attenzione!", "Cancellazione fallita, contatta il supporto tecnico");
                 }
             }

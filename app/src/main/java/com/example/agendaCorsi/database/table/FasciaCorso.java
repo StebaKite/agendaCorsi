@@ -2,19 +2,38 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FasciaCorso implements BaseColumns {
 
+    public static String VIEW_FASCE_CORSO = "fasce_corso_view";
+
     public static Integer DESCRIZIONE_CORSO = 0;
-    public static Integer STATO = 1;
-    public static Integer SPORT = 2;
+    public static Integer ID_CORSO = 1;
     public static Integer NUMERO_GIORNO = 3;
     public static Integer DESCRIZIONE_FASCIA = 4;
     public static Integer ID_FASCIA = 5;
     public static Integer CAPIENZA = 6;
     public static Integer GIORNO_SETTIMANA = 7;
     public static Integer TOTALE_FASCIA = 8;
-    public static Integer ID_CORSO = 9;
-    public static Integer TIPO_CORSO = 10;
+    public static Integer ORA_INIZIO = 9;
+    public static Integer ORA_FINE = 10;
+
+    public static Map<Integer, String> fasceCorsoColumns;
+    static {
+        fasceCorsoColumns = new HashMap<>();
+        fasceCorsoColumns.put(DESCRIZIONE_CORSO, "descrizione_corso");
+        fasceCorsoColumns.put(NUMERO_GIORNO, "numero_giorno");
+        fasceCorsoColumns.put(DESCRIZIONE_FASCIA, "descrizione_fascia");
+        fasceCorsoColumns.put(ID_FASCIA, "id_fascia");
+        fasceCorsoColumns.put(CAPIENZA, "capienza");
+        fasceCorsoColumns.put(GIORNO_SETTIMANA, "nome_giorno_abbreviato");
+        fasceCorsoColumns.put(TOTALE_FASCIA, "totale_fascia");
+        fasceCorsoColumns.put(ID_CORSO, "id_corso");
+        fasceCorsoColumns.put(ORA_INIZIO, "ora_inizio");
+        fasceCorsoColumns.put(ORA_FINE, "ora_fine");
+    }
 
     public String descrizioneCorso;
     public String stato;
@@ -28,10 +47,8 @@ public class FasciaCorso implements BaseColumns {
     public String idCorso;
     public String tipoCorso;
 
-    public FasciaCorso(String descrizioneCorso, String stato, String sport, String numeroGiorno, String descrizioneFascia, String idFascia, String capienza, String giornoSettimana, String totaleFascia, String idCorso, String tipoCorso) {
+    public FasciaCorso(String descrizioneCorso, String numeroGiorno, String descrizioneFascia, String idFascia, String capienza, String giornoSettimana, String totaleFascia, String idCorso) {
         this.descrizioneCorso = descrizioneCorso;
-        this.stato = stato;
-        this.sport = sport;
         this.numeroGiorno = numeroGiorno;
         this.descrizioneFascia = descrizioneFascia;
         this.idFascia = idFascia;
@@ -39,7 +56,6 @@ public class FasciaCorso implements BaseColumns {
         this.giornoSettimana = giornoSettimana;
         this.totaleFascia = totaleFascia;
         this.idCorso = idCorso;
-        this.tipoCorso = tipoCorso;
     }
 
     public String getDescrizioneCorso() {
