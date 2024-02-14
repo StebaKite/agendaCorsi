@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
@@ -25,7 +27,12 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class NuovoCorso extends FunctionBase {
 
@@ -111,35 +118,57 @@ public class NuovoCorso extends FunctionBase {
 
 
     public void makeSalva() {
-        String sport = "";
-        if (skate.isChecked()) { sport = Skate; }
-        if (basket.isChecked()) { sport = Basket; }
-        if (pattini.isChecked()) { sport = Pattini; }
-        if (pallavolo.isChecked()) { sport = Pallavolo; }
-
-        String tipo = "";
-        if (normale.isChecked()) { tipo = Produzione; }
-        if (aperto.isChecked()) { tipo = Test; }
-
-        Corso corso = new Corso(null, descrizione.getText().toString(),
-                sport, STATO_APERTO, tipo,
-                dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
-                dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"), null, null);
-
-        if (corso.getDescrizione().equals("") ||
-            corso.getDataInizioValidita().equals("") ||
-            corso.getDataFineValidita().equals("") ||
-            corso.getTipo().equals("") ||
-            corso.getSport().equals("")) {
+        if (descrizione.getText().toString().equals("") ||
+            dataInizioValidita.getText().toString().equals("") ||
+            dataFineValidita.getText().toString().equals("")) {
 
             displayAlertDialog(nuovoCorso, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (CorsoDAO.getInstance().insert(corso, QueryComposer.getInstance().getQuery(QUERY_INS_CORSO))) {
+            try {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+
+                String sport = "";
+                if (skate.isChecked()) {
+                    sport = Skate;
+                }
+                if (basket.isChecked()) {
+                    sport = Basket;
+                }
+                if (pattini.isChecked()) {
+                    sport = Pattini;
+                }
+                if (pallavolo.isChecked()) {
+                    sport = Pallavolo;
+                }
+
+                String tipo = "";
+                if (normale.isChecked()) {
+                    tipo = Produzione;
+                }
+                if (aperto.isChecked()) {
+                    tipo = Test;
+                }
+
+                Row insertColumn = new Row();
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DESCRIZIONE), descrizione.getText().toString());
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.SPORT), sport);
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.STATO), STATO_APERTO);
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.TIPO), tipo);
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA), dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA), dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_CREAZIONE), dateFormat.format(date));
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+                List<Row> rowToInsert = new LinkedList<>();
+                rowToInsert.add(insertColumn);
+
+                ConcreteDataAccessor.getInstance().insert(Corso.TABLE_NAME, rowToInsert);
                 makeToastMessage(AgendaCorsiApp.getContext(), "Corso creato con successo.").show();
                 esci.callOnClick();
             }
-            else {
+            catch (Exception e) {
                 displayAlertDialog(nuovoCorso, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
             }
         }

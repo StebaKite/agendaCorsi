@@ -152,7 +152,7 @@ public class MainActivity extends FunctionBase {
     }
 
     private void displayQuadroIscrizioni() {
-        TableLayout tableLayout = null;
+        TableLayout tableLayout = new TableLayout(this);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

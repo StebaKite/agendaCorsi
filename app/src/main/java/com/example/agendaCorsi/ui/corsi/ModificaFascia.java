@@ -124,9 +124,7 @@ public class ModificaFascia extends FunctionBase {
 
 
     private void loadFascia() {
-        /*
-         * Carico i dati della fascia selezionata
-         */
+
         Fascia fascia = new Fascia(String.valueOf(idFascia), String.valueOf(idCorso),null,null, null, null, null,null,null);
         FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
 

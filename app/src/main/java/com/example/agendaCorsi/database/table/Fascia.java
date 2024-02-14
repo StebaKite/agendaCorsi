@@ -2,19 +2,35 @@ package com.example.agendaCorsi.database.table;
 
 import android.provider.BaseColumns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Fascia implements BaseColumns {
 
     public static String TABLE_NAME = "fascia";
     public static Integer ID_FASCIA = 0;
     public static Integer ID_CORSO = 1;
     public static Integer DESCRIZIONE = 2;
-    public static Integer NUMERO_GIORNO = 3;
     public static Integer GIORNO_SETTIMANA = 4;
     public static Integer ORA_INIZIO = 5;
     public static Integer ORA_FINE = 6;
     public static Integer CAPIENZA = 7;
     public static Integer DATA_CREAZIONE = 8;
     public static Integer DATA_ULTIMO_AGGIORNAMENTO = 9;
+
+    public static Map<Integer, String> fasciaColumns;
+    static {
+        fasciaColumns = new HashMap<>();
+        fasciaColumns.put(ID_FASCIA, "id_fascia");
+        fasciaColumns.put(ID_CORSO, "id_corso");
+        fasciaColumns.put(DESCRIZIONE, "descrizione");
+        fasciaColumns.put(GIORNO_SETTIMANA, "giorno_settimana");
+        fasciaColumns.put(ORA_INIZIO, "ora_inizio");
+        fasciaColumns.put(ORA_FINE, "ora_fine");
+        fasciaColumns.put(CAPIENZA, "capienza");
+        fasciaColumns.put(DATA_CREAZIONE, "data_creazione");
+        fasciaColumns.put(DATA_ULTIMO_AGGIORNAMENTO, "data_ultimo_aggiornamento");
+    }
 
     public String idFascia;
     public String idCorso;
