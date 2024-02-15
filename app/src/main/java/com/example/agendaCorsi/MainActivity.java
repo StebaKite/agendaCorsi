@@ -48,6 +48,7 @@ import com.example.agendaCorsi.ui.totali.ElencoTotali;
 import com.example.agendacorsi.R;
 import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -130,14 +131,36 @@ public class MainActivity extends FunctionBase {
         /*
          *  TOTISC : totale delle iscrizioni
          */
-        TotaleIscrizioniCorso totaleIscrizioniCorso = new TotaleIscrizioniCorso(idCorso, null, null, null);
-        TotaleCorsoDAO.getInstance().selectTotaleIscrizioni(totaleIscrizioniCorso, QueryComposer.getInstance().getQuery(QUERY_TOT_ISCRIZIONI));
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(TotaleIscrizioniCorso.VIEW_TOT_ISCRIZIONI,
+                    null,
+                    new Row(TotaleIscrizioniCorso.totaleIscrizioneCorsoColumns.get(TotaleIscrizioniCorso.ID_CORSO), idCorso),
+                    null);
 
-        TotaleCorso totaleCorso = new TotaleCorso(null,
-                totaleIscrizioniCorso.getDescrizioneCorso(),
-                totaleIscrizioniCorso.getAnnoSvolgimento(), "TOTISC", totaleIscrizioniCorso.getTotaleIscrizioni());
+            for (Row row : rows) {
+                Row insertColumn = new Row();
+                insertColumn.addColumn(
+                        TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.DESCRIZIONE_CORSO),
+                        row.getColumnValue(TotaleIscrizioniCorso.totaleIscrizioneCorsoColumns.get(TotaleIscrizioniCorso.DESCRIZIONE_CORSO))
+                );
+                insertColumn.addColumn(
+                        TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.ANNO_SVOLGIMENTO),
+                        row.getColumnValue(TotaleIscrizioniCorso.totaleIscrizioneCorsoColumns.get(TotaleIscrizioniCorso.ANNO_SVOLGIMENTO))
+                );
+                insertColumn.addColumn(
+                        TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.NOME_TOTALE), "TOTISC"
+                );
+                insertColumn.addColumn(
+                        TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.VALORE_TOTALE),
+                        row.getColumnValue(TotaleIscrizioniCorso.totaleIscrizioneCorsoColumns.get(TotaleIscrizioniCorso.TOTALE_ISCRIZIONI))
+                );
 
-        if (!TotaleCorsoDAO.getInstance().insert(totaleCorso, QueryComposer.getInstance().getQuery(QUERY_INS_TOTALE_CORSO))) {
+                List<Row> rowToInsert = new LinkedList<>();
+                rowToInsert.add(insertColumn);
+                ConcreteDataAccessor.getInstance().insert(TotaleCorso.TABLE_NAME, rowToInsert);
+            }
+        }
+        catch (Exception e) {
             displayAlertDialog(this, "Attenzione!", "Raccolta totale iscrizioni fallito, contatta il supporto tecnico");
             return false;
         }

@@ -28,7 +28,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 22;
+    public static final int SCHEMA_VERSION = 24;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -111,7 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + TotaleCorso.TABLE_NAME);
-
+         */
 
         sqLiteDatabase.execSQL("drop view if exists all_contatti_view");
         sqLiteDatabase.execSQL("drop view if exists tot_iscrizioni_view");
@@ -130,17 +130,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
         TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+         */
+
         /*
          *  Viste
          */
-        /*
+
         ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_ALL_CONTATTI);
         TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_TOT_ISCRIZIONI);
         CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_FASCE_CORSO);
+
         /*
          * Initial Load
          */
-        initialLoadGiornoSettimana(sqLiteDatabase);
+        //initialLoadGiornoSettimana(sqLiteDatabase);
+
     }
 
     /**

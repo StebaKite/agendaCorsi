@@ -2,14 +2,14 @@ create view if not exists tot_iscrizioni_view as
     select
         t1.id_corso,
         t1.descrizione as descrizione_corso,
-        t1.anno as anno_svolgimenti,
-        coalesce(t1.tot_fascia, 0) as valore_totale
+        t1.anno as anno_svolgimento,
+        sum(t1.tot_fascia) as valore_totale
       from
             (select
                 corso.id_corso,
                 corso.descrizione,
-                corso.data_inizio_validita as anno,
-                t2.tot_fascia
+                substr(corso.data_inizio_validita, 1, 4) as anno,
+                coalesce(t2.tot_fascia, 0) as tot_fascia
 
              from corso
 
@@ -24,3 +24,5 @@ create view if not exists tot_iscrizioni_view as
                     on t2.id_fascia = fascia.id_fascia
 
             ) as t1
+
+        group by t1.id_corso, t1.descrizione, t1.anno
