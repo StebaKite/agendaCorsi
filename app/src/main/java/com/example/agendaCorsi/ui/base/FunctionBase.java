@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.base;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -317,12 +318,17 @@ public class FunctionBase extends AppCompatActivity {
 
     public Toast makeToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        /*
+        Since Android 11, custom toasts/ toast modifications are deprecated, according to Google to "protect users"
+
+
         View toastView = toast.getView();
         toastView.setBackground(ContextCompat.getDrawable(context, R.drawable.toast_bg_gradient));
 
         TextView text = (TextView) toastView.findViewById(android.R.id.message);
         text.setTextColor(Color.BLACK);
         text.setTextSize(16);
+         */
 
         return toast;
     }
