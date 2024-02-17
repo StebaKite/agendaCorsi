@@ -35,6 +35,7 @@ import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Credenziale;
 import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
+import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.database.table.TotaleCorso;
 import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
@@ -175,97 +176,131 @@ public class MainActivity extends FunctionBase {
     }
 
     private void displayQuadroIscrizioni() {
-        TableLayout tableLayout = new TableLayout(this);
+        List<Row> totaliCorsoList = null;
+        try {
+            TableLayout tableLayout = new TableLayout(this);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.33);
-        int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.09);
+            int larghezzaColonnaFascia = (int) (displayMetrics.widthPixels * 0.33);
+            int larghezzaColonnaTotale = (int) (displayMetrics.widthPixels * 0.09);
 
-        List<Object> totaliCorsoList = DashboardDAO.getInstance().getTotals(QueryComposer.getInstance().getQuery(QUERY_TOTALS_CORSI));
+            String[] orderColumn = new String[]{
+                    Corso.corsoColumns.get(Corso.ID_CORSO),
+                    Corso.corsoColumns.get(Corso.DESCRIZIONE),
+                    Corso.corsoColumns.get(Corso.STATO),
+                    Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA),
+                    Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA),
+                    Fascia.fasciaColumns.get(Fascia.ID_FASCIA)
+            };
 
-        String descrizione_corso_save = "";
-        String idCorso_save = "";
-        String descrizione_fascia_save = "";
-        int cellNum = 1;
+            totaliCorsoList = ConcreteDataAccessor.getInstance().read(Corso.VIEW_TOTALI_CORSI, null, null, orderColumn);
 
-        LinearLayout linearLayout = findViewById(R.id.main);
-        View previousView = linearLayout.findViewWithTag("dashboard-title");
-        int previousId = previousView.getId();
+            String descrizione_corso_save = "";
+            String idCorso_save = "";
+            String descrizione_fascia_save = "";
+            int cellNum = 1;
 
-        for (Object entity : totaliCorsoList) {
-            Dashboard dashboard = Dashboard.class.cast(entity);
+            LinearLayout linearLayout = findViewById(R.id.main);
+            View previousView = linearLayout.findViewWithTag("dashboard-title");
+            int previousId = previousView.getId();
 
-            if (dashboard.getDescrizioneCorso().equals(descrizione_corso_save)) {
-                if (dashboard.getDescrizioneFascia().equals(descrizione_fascia_save)) {
-                    // aggiungo il totale per il giorno della settimana
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
-                    cellNum++;
-                }
-                else {
-                    if (!descrizione_fascia_save.equals("")) {
-                        // non è la prima row quindi aggiungo in tabella la row finita
-                        descrizione_fascia_save = dashboard.getDescrizioneFascia();
-                        tableLayout.addView(tableRow);
-                        cellNum = 1;
+            for (Row row : totaliCorsoList) {
+
+                if (row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString().equals(descrizione_corso_save)) {
+                    if (row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString().equals(descrizione_fascia_save)) {
+                        // aggiungo il totale per il giorno della settimana
+                        tableRow = aggiungiTotaleGiorno(tableRow,
+                                row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                                larghezzaColonnaTotale,
+                                cellNum,
+                                row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
+                                Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
+                                descrizione_corso_save,
+                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                        cellNum++;
                     }
                     else {
-                        // è la prima row quindi preparo solo la nuova riga
-                        descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                        if (!descrizione_fascia_save.equals("")) {
+                            // non è la prima row quindi aggiungo in tabella la row finita
+                            descrizione_fascia_save = row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString();
+                            tableLayout.addView(tableRow);
+                            cellNum = 1;
+                        }
+                        else {
+                            // è la prima row quindi preparo solo la nuova riga
+                            descrizione_fascia_save = row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString();
+                            cellNum = 1;
+                        }
+                        tableRow = preparaTableRow(descrizione_fascia_save,
+                                larghezzaColonnaFascia,
+                                Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
+                                descrizione_corso_save,
+                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+
+                        tableRow = aggiungiTotaleGiorno(tableRow,
+                                row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                                larghezzaColonnaTotale,
+                                cellNum,
+                                row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
+                                Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
+                                descrizione_corso_save,
+                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+
+                        cellNum = Integer.parseInt(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA).toString()) + 1;
+                    }
+                }
+                else {
+                    View view = null;
+                    if (!descrizione_corso_save.equals("")) {
+                        tableLayout.addView(tableRow);      // ultima riga preparata
+                        String tableTag = "tabcorso-" + descrizione_corso_save;
+                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        layoutParams.topToBottom = previousId;
+                        layoutParams.leftMargin = 20;
+                        tableLayout.setLayoutParams(layoutParams);
+                        tableLayout.setTag(tableTag);
+                        dashboardMain.addView(tableLayout);
+                        view = linearLayout.findViewWithTag(tableTag);
+                        previousId = view.getId();
                         cellNum = 1;
                     }
+
+                    tableLayout = new TableLayout(this);        // cambia il corso quindi devo separare su un'altra tabella
+
+                    descrizione_corso_save = dashboard.getDescrizioneCorso();
+                    idCorso_save = dashboard.getIdCorso();
+                    descrizione_fascia_save = dashboard.getDescrizioneFascia();
+
+                    previousId = titoloTabella(idCorso_save, previousId, linearLayout, dashboard.getStatoCorso());
+                    intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, dashboard.getStatoCorso());
                     tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
                     tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
                     cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
                 }
             }
-            else {
-                View view = null;
-                if (!descrizione_corso_save.equals("")) {
-                    tableLayout.addView(tableRow);      // ultima riga preparata
-                    String tableTag = "tabcorso-" + descrizione_corso_save;
-                    ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                            ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                            ConstraintLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    layoutParams.topToBottom = previousId;
-                    layoutParams.leftMargin = 20;
-                    tableLayout.setLayoutParams(layoutParams);
-                    tableLayout.setTag(tableTag);
-                    dashboardMain.addView(tableLayout);
-                    view = linearLayout.findViewWithTag(tableTag);
-                    previousId = view.getId();
-                    cellNum = 1;
-                }
-
-                tableLayout = new TableLayout(this);        // cambia il corso quindi devo separare su un'altra tabella
-
-                descrizione_corso_save = dashboard.getDescrizioneCorso();
-                idCorso_save = dashboard.getIdCorso();
-                descrizione_fascia_save = dashboard.getDescrizioneFascia();
-
-                previousId = titoloTabella(idCorso_save, previousId, linearLayout, dashboard.getStatoCorso());
-                intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, dashboard.getStatoCorso());
-                tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
-                tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
-                cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
+            if (totaliCorsoList.size() > 0) {
+                tableLayout.addView(tableRow);
             }
+            String tableTag = "tabcorso-" + descrizione_corso_save;
+            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.topToBottom = previousId;
+            layoutParams.leftMargin = 20;
+            tableLayout.setLayoutParams(layoutParams);
+            tableLayout.setTag(tableTag);
+            dashboardMain.addView(tableLayout);
+            setContentView(dashboardMain);
         }
-        if (totaliCorsoList.size() > 0) {
-            tableLayout.addView(tableRow);
+        catch (Exception e) {
+            displayAlertDialog(this, "Attenzione!", "Lettura totali corsi fallita, contatta il supporto tecnico");
         }
-        String tableTag = "tabcorso-" + descrizione_corso_save;
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutParams.topToBottom = previousId;
-        layoutParams.leftMargin = 20;
-        tableLayout.setLayoutParams(layoutParams);
-        tableLayout.setTag(tableTag);
-        dashboardMain.addView(tableLayout);
-        setContentView(dashboardMain);
     }
 
     public int titoloTabella(String idCorso, int tagToConstraint, LinearLayout linearLayout, String statoCorso) {

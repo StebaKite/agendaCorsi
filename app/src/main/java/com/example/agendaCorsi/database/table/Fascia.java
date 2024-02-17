@@ -8,6 +8,8 @@ import java.util.Map;
 public class Fascia implements BaseColumns {
 
     public static String TABLE_NAME = "fascia";
+    public static String VIEW_ALL_FASCE_CORSI = "all_fasce_corsi_view";
+
     public static Integer ID_FASCIA = 0;
     public static Integer ID_CORSO = 1;
     public static Integer DESCRIZIONE = 2;
@@ -17,6 +19,9 @@ public class Fascia implements BaseColumns {
     public static Integer CAPIENZA = 7;
     public static Integer DATA_CREAZIONE = 8;
     public static Integer DATA_ULTIMO_AGGIORNAMENTO = 9;
+    public static Integer DESCRIZIONE_FASCIA = 10;
+    public static Integer NUMERO_GIORNO = 11;
+    public static Integer TOTALE_FASCIA = 12;
 
     public static Map<Integer, String> fasciaColumns;
     static {
@@ -30,6 +35,9 @@ public class Fascia implements BaseColumns {
         fasciaColumns.put(CAPIENZA, "capienza");
         fasciaColumns.put(DATA_CREAZIONE, "data_creazione");
         fasciaColumns.put(DATA_ULTIMO_AGGIORNAMENTO, "data_ultimo_aggiornamento");
+        fasciaColumns.put(DESCRIZIONE_FASCIA, "descrizione_fascia");
+        fasciaColumns.put(NUMERO_GIORNO, "numero_giorno");
+        fasciaColumns.put(TOTALE_FASCIA, "totale_fascia");
     }
 
     public String idFascia;

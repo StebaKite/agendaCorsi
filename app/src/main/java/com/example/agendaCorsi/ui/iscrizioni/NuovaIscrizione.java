@@ -5,31 +5,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.MainActivity;
-import com.example.agendaCorsi.database.access.ContattiDAO;
-import com.example.agendaCorsi.database.access.CorsoDAO;
-import com.example.agendaCorsi.database.access.IscrizioneDAO;
-import com.example.agendaCorsi.database.table.ContattoIscrivibile;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
+import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Iscrizione;
-import com.example.agendaCorsi.ui.base.FunctionBase;;
-import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+;
 
 public class NuovaIscrizione extends FunctionBase {
 
@@ -77,13 +80,7 @@ public class NuovaIscrizione extends FunctionBase {
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
 
         makeIntestazioneTabella();
-
-        if (tipoCorso.equals(Test)) {
-            loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN);
-        }
-        else {
-            loadContattiIscrvibili(QUERY_GET_CONTATTI_ISCRIVIBILI);
-        }
+        loadContattiIscrvibili(tipoCorso);
 
         Map<String, String> intentMap = new ArrayMap<>();
         intentMap.put("descrizioneCorso", descrizioneCorso);
@@ -99,54 +96,123 @@ public class NuovaIscrizione extends FunctionBase {
     }
 
 
-    private void loadContattiIscrvibili(String queryName) {
-        List<Object> contattiIscrivibiliList = ContattiDAO.getInstance().getIscrivibili(idCorso, idFascia, sport, QueryComposer.getInstance().getQuery(queryName));
+    private void loadContattiIscrvibili(String tipoCorso) {
+        try {
+            Row seletionColumn = new Row();
+            seletionColumn.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.SPORT), sport);
 
-        for (Object object : contattiIscrivibiliList) {
-            ContattoIscrivibile contattoIscrivibile = (ContattoIscrivibile) object;
+            if (tipoCorso.equals(Produzione)) {
+                seletionColumn.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), STATO_CARICO);
+            }
+            List<Row> contattiIscrivibiliList = getContattiIsrivibili(seletionColumn);
 
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna1, contattoIscrivibile.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, larghezzaColonna2, String.valueOf(computeAge(contattoIscrivibile.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, contattoIscrivibile.getIdElemento(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL_SIMPLE, 0, contattoIscrivibile.getEmailContatto(), 0, View.GONE));
+            for (Row contattoIscrivibile : contattiIscrivibiliList) {
+                tableRow = new TableRow(this);
+                tableRow.setClickable(true);
 
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TableRow tableRow = (TableRow) view;
+                tableRow.addView(makeCell(this,new TextView(this),
+                        DETAIL_SIMPLE,
+                        larghezzaColonna1,
+                        contattoIscrivibile.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
 
-                    TextView textView = (TextView) tableRow.getChildAt(0);
-                    String nomeContatto = textView.getText().toString();
+                tableRow.addView(makeCell(this,new TextView(this),
+                        DETAIL_SIMPLE,
+                        larghezzaColonna2,
+                        String.valueOf(computeAge(contattoIscrivibile.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString())),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
 
-                    textView = (TextView) tableRow.getChildAt(2);
-                    String idSelezionato = textView.getText().toString();
+                tableRow.addView(makeCell(this,new TextView(this),
+                        DETAIL_SIMPLE,
+                        0,
+                        contattoIscrivibile.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO)).toString(),
+                        0,
+                        View.GONE));
 
-                    textView = (TextView) tableRow.getChildAt(3);
-                    String emailContatto = textView.getText().toString();
+                tableRow.addView(makeCell(this,new TextView(this),
+                        DETAIL_SIMPLE,
+                        0,
+                        contattoIscrivibile.getColumnValue(Contatto.contattoColumns.get(Contatto.EMAIL)).toString(),
+                        0,
+                        View.GONE));
 
-                    tableRow.setBackground(ContextCompat.getDrawable(nuovaIscrizione, R.drawable.cell_bg_gradient));
+                tableRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            TableRow tableRow = (TableRow) view;
 
-                    Iscrizione iscrizione = new Iscrizione(null, idFascia, idSelezionato, "Attiva", null, null);
-                    if (IscrizioneDAO.getInstance().insert(iscrizione, QueryComposer.getInstance().getQuery(QUERY_INS_ISCRIZIONE))) {
-                        if (!statoCorso.equals(STATO_ATTIVO)) {
-                            Corso corso = new Corso(idCorso,null,null, STATO_ATTIVO, null, null, null, null, null);
-                            if (!CorsoDAO.getInstance().updateStato(corso, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_CORSO))) {
-                                displayAlertDialog(nuovaIscrizione, "Attenzione!", "Cambio stato corso fallito, contatta il supporto tecnico");
+                            TextView textView = (TextView) tableRow.getChildAt(0);
+                            String nomeContatto = textView.getText().toString();
+
+                            textView = (TextView) tableRow.getChildAt(2);
+                            String idSelezionato = textView.getText().toString();
+
+                            textView = (TextView) tableRow.getChildAt(3);
+                            String emailContatto = textView.getText().toString();
+
+                            tableRow.setBackground(ContextCompat.getDrawable(nuovaIscrizione, R.drawable.cell_bg_gradient));
+
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = new Date();
+
+                            Row insertColumn = new Row();
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_FASCIA), idFascia);
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ELEMENTO), idSelezionato);
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO), STATO_ATTIVA);
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.DATA_CREAZIONE), dateFormat.format(date));
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.DATA_ULTIMO_AGGIORNAMENTO), null);
+
+                            List<Row> rowsToInsert = new LinkedList<>();
+                            rowsToInsert.add(insertColumn);
+                            ConcreteDataAccessor.getInstance().insert(Iscrizione.TABLE_NAME, rowsToInsert);
+
+                            if (!statoCorso.equals(STATO_ATTIVO)) {
+                                ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME,
+                                        new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso),
+                                        new Row(Corso.corsoColumns.get(Corso.STATO), STATO_ATTIVO));
                             }
+                            makeToastMessage(nuovaIscrizione, "Iscrizione creata con successo.").show();
+                            esci.callOnClick();
                         }
-                        makeToastMessage(nuovaIscrizione, "Iscrizione creata con successo.").show();
-                        esci.callOnClick();
+                        catch (Exception e) {
+                            displayAlertDialog(nuovaIscrizione, "Attenzione!", "Inserimento fallito, contatta il supporto tecnico");
+                        }
                     }
-                    else {
-                        displayAlertDialog(nuovaIscrizione, "Attenzione!", "Inserimento fallita, contatta il supporto tecnico");
-                    }
-                }
-            });
-            tabellaContattiIscrivibili.addView(tableRow);
+                });
+                tabellaContattiIscrivibili.addView(tableRow);
+            }
+        }
+        catch (Exception e) {
+            displayAlertDialog(nuovaIscrizione, "Attenzione!", "Lettura contatti iscrivibili fallito, contatta il supporto tecnico");
         }
     }
+
+
+    @NonNull
+    private List<Row> getContattiIsrivibili(Row seletionColumn) throws Exception {
+        List<Row> contattiPortfolioRows = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.VIEW_CONTATTI_PORTFOLIO,
+                null,
+                seletionColumn,
+                new String[]{Contatto.contattoColumns.get(Contatto.NOME).toString()});
+
+        List<Row> contattiIscrivibiliList = new LinkedList<>();
+
+        for (Row contatto : contattiPortfolioRows) {
+            List<Row> corsiIscrizioniRow = ConcreteDataAccessor.getInstance().read(Corso.VIEW_CORSI_ISCRIZIONI,
+                    null,
+                    new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO),
+                            contatto.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO))),
+                            null);
+            if (corsiIscrizioniRow.size() == 0) {
+                contattiIscrivibiliList.add(contatto);
+            }
+        }
+        return contattiIscrivibiliList;
+    }
+
 
     private void makeIntestazioneTabella() {
         tableRow = new TableRow(this);
@@ -155,6 +221,8 @@ public class NuovaIscrizione extends FunctionBase {
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         headerTabellaContattiIscrivibili.addView(tableRow);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
