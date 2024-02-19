@@ -5,32 +5,36 @@ import android.provider.BaseColumns;
 public class ElementoPortfolio implements BaseColumns {
 
     public static String TABLE_NAME = "elemento_portfolio";
+
     public static Integer ID_ELEMENTO = 0;
     public static Integer ID_CONTATTO = 1;
     public static Integer DESCRIZIONE = 2;
     public static Integer SPORT = 3;
     public static Integer NUMERO_LEZIONI = 4;
-    public static Integer DATA_ULTIMA_RICARICA = 5;
-    public static Integer STATO = 6;
-    public static Integer DATA_CREAZIONE = 7;
-    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 8;
+    public static Integer NUMERO_ASSENZE_RECUPERABILI = 5;
+    public static Integer DATA_ULTIMA_RICARICA = 6;
+    public static Integer STATO = 7;
+    public static Integer DATA_CREAZIONE = 8;
+    public static Integer DATA_ULTIMO_AGGIORNAMENTO = 9;
 
     public String idElemento;
     public String idContatto;
     public String descrizione;
     public String sport;
     public String numeroLezioni;
+    public String numeroAssenzeRecuperabili;
     public String dataUltimaRicarica;
     public String stato;
     public String dataCreazione;
     public String dataUltimoAggiornamento;
 
-    public ElementoPortfolio(String idElemento, String idContatto, String descrizione, String sport, String numeroLezioni, String dataUltimaRicarica, String stato) {
+    public ElementoPortfolio(String idElemento, String idContatto, String descrizione, String sport, String numeroLezioni, String numeroAssenzeRecuperabili, String dataUltimaRicarica, String stato) {
         this.idElemento = idElemento;
         this.idContatto = idContatto;
         this.descrizione = descrizione;
         this.sport = sport;
         this.numeroLezioni = numeroLezioni;
+        this.numeroAssenzeRecuperabili = numeroAssenzeRecuperabili;
         this.dataUltimaRicarica = dataUltimaRicarica;
         this.stato = stato;
         this.dataCreazione = "";
@@ -107,5 +111,13 @@ public class ElementoPortfolio implements BaseColumns {
 
     public void setSport(String sport) {
         this.sport = sport;
+    }
+
+    public String getNumeroAssenzeRecuperabili() {
+        return numeroAssenzeRecuperabili;
+    }
+
+    public void setNumeroAssenzeRecuperabili(String numeroAssenzeRecuperabili) {
+        this.numeroAssenzeRecuperabili = numeroAssenzeRecuperabili;
     }
 }

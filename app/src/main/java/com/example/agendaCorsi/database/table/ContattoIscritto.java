@@ -10,8 +10,10 @@ public class ContattoIscritto implements BaseColumns {
     public static Integer DATA_NASCITA = 3;
     public static Integer ID_ELEMENTO = 4;
     public static Integer ID_PRESENZA = 5;
-    public static Integer DATA_CONFERMA = 6;
-    public static Integer STATO_ELEMENTO = 7;
+    public static Integer DATA_CONFERMA_PRESENZA = 6;
+    public static Integer ID_ASSENZA = 7;
+    public static Integer DATA_CONFERMA_ASSENZA = 8;
+    public static Integer STATO_ELEMENTO = 9;
 
     public String nomeContatto;
     public String idIscrizione;
@@ -19,17 +21,24 @@ public class ContattoIscritto implements BaseColumns {
     public String dataNascita;
     public String idElemento;
     public String idPresenza;
-    public String dataConferma;
+    public String dataConfermaPresenza;
+    public String idAssenza;
+    public String dataConfermaAssenza;
     public String statoElemento;
 
-    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato, String data_nascita, String idElemento, String idPresenza, String dataConferma, String statoElemento) {
+    public ContattoIscritto(String nomeContatto, String idIscrizione, String stato,
+                            String data_nascita, String idElemento,
+                            String idPresenza, String dataConfermaPresenza, String idAssenza, String dataConfermaAssenza,
+                            String statoElemento) {
         this.nomeContatto = nomeContatto;
         this.idIscrizione = idIscrizione;
         this.stato = stato;
         this.dataNascita = data_nascita;
         this.idElemento = idElemento;
         this.idPresenza = idPresenza;
-        this.dataConferma = dataConferma;
+        this.dataConfermaPresenza = dataConfermaPresenza;
+        this.idAssenza = idAssenza;
+        this.dataConfermaAssenza = dataConfermaAssenza;
         this.statoElemento = statoElemento;
     }
 
@@ -81,12 +90,12 @@ public class ContattoIscritto implements BaseColumns {
         this.idPresenza = idPresenza;
     }
 
-    public String getDataConferma() {
-        return dataConferma;
+    public String getDataConfermaPresenza() {
+        return dataConfermaPresenza;
     }
 
-    public void setDataConferma(String dataConferma) {
-        this.dataConferma = dataConferma;
+    public void setDataConfermaPresenza(String dataConfermaPresenza) {
+        this.dataConfermaPresenza = dataConfermaPresenza;
     }
 
     public String getStatoElemento() {
@@ -95,5 +104,21 @@ public class ContattoIscritto implements BaseColumns {
 
     public void setStatoElemento(String statoElemento) {
         this.statoElemento = statoElemento;
+    }
+
+    public String getIdAssenza() {
+        return idAssenza;
+    }
+
+    public void setIdAssenza(String idAssenza) {
+        this.idAssenza = idAssenza;
+    }
+
+    public String getDataConfermaAssenza() {
+        return dataConfermaAssenza;
+    }
+
+    public void setDataConfermaAssenza(String dataConfermaAssenza) {
+        this.dataConfermaAssenza = dataConfermaAssenza;
     }
 }

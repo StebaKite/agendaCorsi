@@ -85,7 +85,8 @@ public class ContattiDAO implements Database_itf {
             String stato = cursor.getString(ContattoIscritto.STATO);
             String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, null, null, null, null);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita,
+                    null, null, null, null, null, null);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }
@@ -112,10 +113,13 @@ public class ContattiDAO implements Database_itf {
             String dataNascita = cursor.getString((ContattoIscritto.DATA_NASCITA));
             String idElemento = cursor.getString(ContattoIscritto.ID_ELEMENTO);
             String idPresenza = cursor.getString(ContattoIscritto.ID_PRESENZA);
-            String dataConferma = cursor.getString(ContattoIscritto.DATA_CONFERMA);
+            String dataConfermaPresenza = cursor.getString(ContattoIscritto.DATA_CONFERMA_PRESENZA);
+            String idAssenza = cursor.getString(ContattoIscritto.ID_ASSENZA);
+            String dataConfermaAssenza = cursor.getString(ContattoIscritto.DATA_CONFERMA_ASSENZA);
             String statoElemento = cursor.getString(ContattoIscritto.STATO_ELEMENTO);
 
-            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, idElemento, idPresenza, dataConferma, statoElemento);
+            ContattoIscritto contattoIscritto = new ContattoIscritto(nomeContatto, idIscrizione, stato, dataNascita, idElemento,
+                    idPresenza, dataConfermaPresenza, idAssenza, dataConfermaAssenza, statoElemento);
             list.add(contattoIscritto);
             cursor.moveToNext();
         }

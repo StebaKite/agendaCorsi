@@ -8,7 +8,6 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
@@ -56,12 +55,13 @@ public class ElementoPortfolioDAO implements Database_itf {
             String descrizione = String.valueOf(cursor.getString(ElementoPortfolio.DESCRIZIONE));
             String sport = String.valueOf(cursor.getString(ElementoPortfolio.SPORT));
             String numeroLezioni = String.valueOf(cursor.getString(ElementoPortfolio.NUMERO_LEZIONI));
+            String numeroAssenzerecuperabili = cursor.getString(ElementoPortfolio.NUMERO_ASSENZE_RECUPERABILI);
             String dataUltimaRicarica = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
             String stato = String.valueOf(cursor.getString(ElementoPortfolio.STATO));
             String dataCreazione = String.valueOf(cursor.getString(ElementoPortfolio.DATA_CREAZIONE));
             String dataUltimoAggiornamento = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO));
 
-            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento,idContatto,descrizione,sport,numeroLezioni,dataUltimaRicarica,stato);
+            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento, idContatto, descrizione, sport, numeroLezioni, numeroAssenzerecuperabili, dataUltimaRicarica, stato);
             list.add(elementoPortfolio);
             cursor.moveToNext();
         }
@@ -83,13 +83,14 @@ public class ElementoPortfolioDAO implements Database_itf {
         while (!cursor.isAfterLast()) {
             String idElemento = String.valueOf(cursor.getInt(ElementoPortfolio.ID_ELEMENTO));
             String idContatto = String.valueOf(cursor.getInt(ElementoPortfolio.ID_CONTATTO));
-            String descrizione = String.valueOf(cursor.getString(ElementoPortfolio.DESCRIZIONE));
-            String sport = String.valueOf(cursor.getString(ElementoPortfolio.SPORT));
-            String numeroLezioni = String.valueOf(cursor.getString(ElementoPortfolio.NUMERO_LEZIONI));
-            String dataUltimaRicarica = String.valueOf(cursor.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
-            String stato = String.valueOf(cursor.getString(ElementoPortfolio.STATO));
+            String descrizione = cursor.getString(ElementoPortfolio.DESCRIZIONE);
+            String sport = cursor.getString(ElementoPortfolio.SPORT);
+            String numeroLezioni = cursor.getString(ElementoPortfolio.NUMERO_LEZIONI);
+            String numeroAssenzeRecuperabili = cursor.getString(ElementoPortfolio.NUMERO_ASSENZE_RECUPERABILI);
+            String dataUltimaRicarica = cursor.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA);
+            String stato = cursor.getString(ElementoPortfolio.STATO);
 
-            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento,idContatto,descrizione,sport,numeroLezioni,dataUltimaRicarica,stato);
+            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento, idContatto, descrizione, sport, numeroLezioni, numeroAssenzeRecuperabili, dataUltimaRicarica, stato);
             list.add(elementoPortfolio);
             cursor.moveToNext();
         }
@@ -108,6 +109,7 @@ public class ElementoPortfolioDAO implements Database_itf {
                     replace("#DESC#", elementoPortfolio.getDescrizione()).
                     replace("#SPORT#", elementoPortfolio.getSport()).
                     replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
+                    replace("#NUMASS#", elementoPortfolio.getNumeroAssenzeRecuperabili()).
                     replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
                     replace("#STATO#", elementoPortfolio.getStato());
 
@@ -131,6 +133,7 @@ public class ElementoPortfolioDAO implements Database_itf {
                     replace("#IDCONTATTO#", elementoPortfolio.getIdContatto()).
                     replace("#DESC#", elementoPortfolio.getDescrizione()).
                     replace("#NUMLEZ#", elementoPortfolio.getNumeroLezioni()).
+                    replace("#NUMASS#", elementoPortfolio.getNumeroAssenzeRecuperabili()).
                     replace("#ULTRIC#", elementoPortfolio.getDataUltimaRicarica()).
                     replace("#STATO#", elementoPortfolio.getStato()).
                     replace("#IDELEMENTO#", elementoPortfolio.getIdElemento());
@@ -178,6 +181,7 @@ public class ElementoPortfolioDAO implements Database_itf {
                 elementoPortfolio.setDescrizione(resultSet.getString(ElementoPortfolio.DESCRIZIONE));
                 elementoPortfolio.setSport(resultSet.getString(ElementoPortfolio.SPORT));
                 elementoPortfolio.setNumeroLezioni(resultSet.getString(ElementoPortfolio.NUMERO_LEZIONI));
+                elementoPortfolio.setNumeroAssenzeRecuperabili(resultSet.getString(ElementoPortfolio.NUMERO_ASSENZE_RECUPERABILI));
                 elementoPortfolio.setDataUltimaRicarica(resultSet.getString(ElementoPortfolio.DATA_ULTIMA_RICARICA));
                 elementoPortfolio.setStato(resultSet.getString(ElementoPortfolio.STATO));
                 elementoPortfolio.setDataCreazione(resultSet.getString(ElementoPortfolio.DATA_CREAZIONE));

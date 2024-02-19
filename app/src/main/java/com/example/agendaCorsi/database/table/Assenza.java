@@ -8,10 +8,12 @@ public class Assenza implements BaseColumns {
     public static Integer ID_ASSENZA = 0;
     public static Integer ID_ISCRIZIONE = 1;
     public static Integer DATA_CONFERMA = 2;
+    public static Integer TOT_ASSENZE = 0;
 
     public String idAssenza;
     public String idIscrizione;
     public String dataConferma;
+    public String totaleAssenza;
 
     public Assenza(String idAssenza, String idIscrizione, String dataConferma) {
         this.idAssenza = idAssenza;
@@ -41,5 +43,13 @@ public class Assenza implements BaseColumns {
 
     public void setDataConferma(String dataConferma) {
         this.dataConferma = dataConferma;
+    }
+
+    public String getTotaleAssenza() {
+        return totaleAssenza;
+    }
+
+    public void setTotaleAssenza(String totaleAssenza) {
+        this.totaleAssenza = totaleAssenza;
     }
 }

@@ -1,12 +1,10 @@
 package com.example.agendaCorsi.ui.base;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.util.Log;
@@ -25,16 +23,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.access.CorsoDAO;
+import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
+import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.corsi.ModificaCorso;
-import com.example.agendaCorsi.ui.corsi.ModificaFascia;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni;
+import com.example.agendaCorsi.ui.presenze.CreaAssenzaContattoIscritto;
+import com.example.agendaCorsi.ui.presenze.CreaPresenzaContattoIscritto;
+import com.example.agendaCorsi.ui.presenze.RegistraPresenze;
+import com.example.agendaCorsi.ui.presenze.RimuoviAssenzaContattoIscritto;
+import com.example.agendaCorsi.ui.presenze.RimuoviPresenzaContattoIscritto;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
@@ -137,8 +144,12 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_GETALL_ELEMENTO = "query_getall_elemento";
     public static String QUERY_INS_PRESENZA = "query_ins_presenza";
     public static String QUERY_DEL_PRESENZA = "query_del_presenza";
+    public static String QUERY_INS_ASSENZA = "query_ins_assenza";
+    public static String QUERY_DEL_ASSENZA = "query_del_assenza";
     public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
     public static String QUERY_GET_GIORNO_SETTIMANA = "query_get_giorno_settimana";
+    public static String QUERY_GET_ASSENZE_ISCRIZIONE = "query_get_assenze_iscrizione";
+    public static String QUERY_DEL_ASSENZE_ISCRIZIONE = "query_del_assenze_iscrizione";
 
     public static String QUERY_TOT_ISCRIZIONI = "query_tot_iscrizioni";
     public static String QUERY_INS_TOTALE_CORSO = "query_ins_totale_corso";
@@ -174,7 +185,6 @@ public class FunctionBase extends AppCompatActivity {
         //name = new TextView(context);
         name.setTextSize(16);
         name.setPadding(10,10,10,10);
-        name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
 
         if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE) && !type.equals(HEADER_OFF)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
@@ -188,7 +198,7 @@ public class FunctionBase extends AppCompatActivity {
                 name.setTypeface(Typeface.DEFAULT_BOLD);
 
             } else if (type.equals(DETAIL_CONFIRMED)) {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_confirmed));
 
             } else if (type.equals(DETAIL_OPENED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
@@ -200,7 +210,15 @@ public class FunctionBase extends AppCompatActivity {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
             }
             else {
-                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+                if (value.equals("true")) {
+                    name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_confirmed));
+                } else {
+                    name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+                }
+
+                if (value.equals("true") || value.equals("false")) {
+                    value = "";
+                }
             }
         } else if (type.equals(DETAIL_CLOSED)) {
             name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
@@ -316,11 +334,181 @@ public class FunctionBase extends AppCompatActivity {
         return name;
     }
 
+
+
+    public TextView listenerOnConfermaPresenza(TextView name, int idIscrizione, Context context, Map<String, String> intentMap) {
+        name.setId(idIscrizione);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String idIscrizioneSelezionato = String.valueOf(view.getId());      // l'id della cella è stato settato con l'id dell'iscrizione
+
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_confirmed));
+
+                Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, null, null ,null);
+                IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ISCRIZIONE));
+
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
+                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+
+                if (CreaPresenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato, elementoPortfolio)) {
+                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                        iscrizione.setStato(STATO_DISATTIVA);
+                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
+                    }
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Presenza confermata").show();
+                }
+
+                Intent intent = new Intent(context, RegistraPresenze.class);
+                intentMap.put("idElemento", elementoPortfolio.getIdElemento());
+                intentMap.put("idIscrizione", idIscrizioneSelezionato);
+
+                if (intentMap != null) {
+                    for (Map.Entry<String, String> entry : intentMap.entrySet()) {
+                        intent.putExtra(entry.getKey(), entry.getValue());
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
+
+    public TextView listenerOnConfermaAssenza(TextView name, int idIscrizione, Context context, Map<String, String> intentMap) {
+        name.setId(idIscrizione);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String idIscrizioneSelezionato = String.valueOf(view.getId());      // l'id della cella è stato settato con l'id dell'iscrizione
+
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_bg_confirmed));
+
+                Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, null, null ,null);
+                IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ISCRIZIONE));
+
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
+                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+
+                if (CreaAssenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato, elementoPortfolio)) {
+                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                        iscrizione.setStato(STATO_DISATTIVA);
+                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
+                    }
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Assenza confermata e non recuperabile").show();
+                }
+                else {
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Assenza confermata").show();
+                }
+
+                Intent intent = new Intent(context, RegistraPresenze.class);
+                intentMap.put("idElemento", elementoPortfolio.getIdElemento());
+                intentMap.put("idIscrizione", idIscrizioneSelezionato);
+
+                if (intentMap != null) {
+                    for (Map.Entry<String, String> entry : intentMap.entrySet()) {
+                        intent.putExtra(entry.getKey(), entry.getValue());
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
+
+    public TextView listenerOnRimuoviPresenza(TextView name, int idIscrizione, Context context, Map<String, String> intentMap, String idPresenza) {
+        name.setId(idIscrizione);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String idIscrizioneSelezionato = String.valueOf(view.getId());      // l'id della cella è stato settato con l'id dell'iscrizione
+
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+
+                Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, null, null ,null);
+                IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ISCRIZIONE));
+
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
+                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+
+                if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenza, elementoPortfolio.getIdElemento())) {
+                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                        iscrizione.setStato(STATO_DISATTIVA);
+                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
+                    }
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Presenza rimossa").show();
+                }
+
+                Intent intent = new Intent(context, RegistraPresenze.class);
+                intentMap.put("idElemento", elementoPortfolio.getIdElemento());
+                intentMap.put("idPresenza", idPresenza);
+                intentMap.put("idIscrizione", idIscrizioneSelezionato);
+
+                if (intentMap != null) {
+                    for (Map.Entry<String, String> entry : intentMap.entrySet()) {
+                        intent.putExtra(entry.getKey(), entry.getValue());
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
+
+    public TextView listenerOnRimuoviAssenza(TextView name, int idIscrizione, Context context, Map<String, String> intentMap, String idAssenza) {
+        name.setId(idIscrizione);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String idIscrizioneSelezionato = String.valueOf(view.getId());      // l'id della cella è stato settato con l'id dell'iscrizione
+
+                name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+
+                Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, null, null ,null);
+                IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ISCRIZIONE));
+
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
+                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
+
+                if (RimuoviAssenzaContattoIscritto.getInstance().make(idAssenza, elementoPortfolio, idIscrizioneSelezionato)) {
+                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
+                        iscrizione.setStato(STATO_DISATTIVA);
+                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
+                    }
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Assenza rimossa e recuperabile").show();
+                }
+                else {
+                    makeToastShortMessage(AgendaCorsiApp.getContext(),"Assenza rimossa").show();
+                }
+
+
+                Intent intent = new Intent(context, RegistraPresenze.class);
+                intentMap.put("idElemento", elementoPortfolio.getIdElemento());
+                intentMap.put("idAssenza", idAssenza);
+                intentMap.put("idIscrizione", idIscrizioneSelezionato);
+
+                if (intentMap != null) {
+                    for (Map.Entry<String, String> entry : intentMap.entrySet()) {
+                        intent.putExtra(entry.getKey(), entry.getValue());
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
+        return name;
+    }
+
+
     public Toast makeToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
         /*
         Since Android 11, custom toasts/ toast modifications are deprecated, according to Google to "protect users"
-
 
         View toastView = toast.getView();
         toastView.setBackground(ContextCompat.getDrawable(context, R.drawable.toast_bg_gradient));
@@ -333,6 +521,11 @@ public class FunctionBase extends AppCompatActivity {
         return toast;
     }
 
+
+    public Toast makeToastShortMessage(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        return toast;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -495,24 +688,6 @@ public class FunctionBase extends AppCompatActivity {
                 }
                 startActivity(intent);
                 finish();
-            }
-        });
-    }
-
-    public void listenerRicarica5() {
-        ricarica5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeRicarica(5);
-            }
-        });
-    }
-
-    public void listenerRicarica10() {
-        ricarica10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeRicarica(10);
             }
         });
     }

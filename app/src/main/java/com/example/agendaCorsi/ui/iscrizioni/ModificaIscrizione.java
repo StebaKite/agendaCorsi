@@ -120,7 +120,7 @@ public class ModificaIscrizione extends FunctionBase {
         Iscrizione iscrizione = new Iscrizione(idIscrizione,null,null, null,null,null);
         IscrizioneDAO.getInstance().select(iscrizione, QueryComposer.getInstance().getQuery(QUERY_GET_ISCRIZIONE));
 
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null);
+        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
         ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
 
         String toastMessage = "";

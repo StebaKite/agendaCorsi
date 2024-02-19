@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="TextView"
+        android:text="Nuovo elemento portfolio"
         android:textColor="#F69910"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/lDescrizione"
-        android:layout_width="90dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:gravity="center|end"
@@ -50,7 +50,7 @@
 
     <EditText
         android:id="@+id/editDescrizione"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
@@ -66,11 +66,11 @@
 
     <TextView
         android:id="@+id/lNumeroLezioni"
-        android:layout_width="90dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:gravity="center|end"
-        android:text="N. Lezioni"
+        android:text="N. Lezioni acquistate"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDescrizione"
@@ -78,7 +78,7 @@
 
     <EditText
         android:id="@+id/editNumeroLezioni"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
@@ -91,6 +91,46 @@
         app:layout_constraintStart_toEndOf="@+id/lNumeroLezioni"
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/lNumeroAssenzeRecuperabili"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center|end"
+        android:text="N. Assenze recuperabili"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lNumeroLezioni"
+        app:layout_constraintWidth_percent="0.18" />
+
+    <EditText
+        android:id="@+id/editNumeroAssenzeRecuperabili"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="30"
+        android:text="2"
+        android:textSize="16sp"
+        android:theme="@style/EditTextTheme"
+        app:layout_constraintStart_toEndOf="@+id/lNumeroAssenzeRecuperabili"
+        app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/lSport"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center|end"
+        android:text="Lezioni per sport"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lNumeroAssenzeRecuperabili"
+        app:layout_constraintWidth_percent="0.18" />
 
     <!-- Bottoni -->
 
@@ -138,61 +178,114 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNumeroLezioni">
+        app:layout_constraintStart_toEndOf="@+id/lSport"
+        app:layout_constraintTop_toBottomOf="@+id/editNumeroAssenzeRecuperabili">
 
         <RadioButton
             android:id="@+id/radio_skate"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:buttonTint="@color/black"
             android:checked="true"
             android:text="Skate"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:buttonTint="@color/black"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="262dp" />
 
-        <RadioButton
-            android:id="@+id/radio_basket"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Basket"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="302dp" />
-
-        <RadioButton
-            android:id="@+id/radio_pattini"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pattini"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="342dp" />
-
-        <RadioButton
-            android:id="@+id/radio_pallavolo"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pallavolo"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="382dp" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="Assunzioni"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Il numero delle lezioni acquistate viene decrementato dalla rilevazione delle presenze. Quando giunge a zero l'iscrizione si disattiva."
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Il numero delle assenze recuperabili stabilisce il limite massimo entro il quale, la rilevazione dell'assenza, non decrementa il numero delle lezioni."
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Le assenze accumulate sono valide nell'ambito del pachetto lezioni acquistato. Vengono eliminate al momento della prima ricarica."
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="1)"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="2)"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="3)"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

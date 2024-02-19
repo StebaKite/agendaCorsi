@@ -36,9 +36,9 @@ public class ModificaElementoPortfolio extends FunctionBase {
     String idContatto;
     String idElemento;
     String nomeContatto;
-    TextView labelScheda, dataUltimaricarica;
+    TextView dataUltimaricarica;
     String descrizione, numeroLezioni;
-    EditText _descrizione, _numeroLezioni;
+    EditText _descrizione, _numeroLezioni, _numeroAssenzeRecuperabili;
 
     Context modificaElementoPortfolio, modificaContatto;
 
@@ -58,22 +58,18 @@ public class ModificaElementoPortfolio extends FunctionBase {
         esci = findViewById(R.id.bExit);
         salva = findViewById(R.id.bSalva);
         elimina = findViewById(R.id.bElimina);
-        ricarica5 = findViewById(R.id.bRicarica5);
-        ricarica10 = findViewById(R.id.bRicarica10);
 
         _descrizione = findViewById(R.id.editDescrizione);
         _numeroLezioni = findViewById(R.id.editNumeroLezioni);
+        _numeroAssenzeRecuperabili = findViewById(R.id.editNumeroAssenzeRecuperabili);
         dataUltimaricarica = findViewById(R.id.dataUltRicarica);
-
-        labelScheda = findViewById(R.id.lScheda);
-        labelScheda.setText(nomeContatto);
 
         modificaElementoPortfolio = this;
         modificaContatto = (Context) intent.getSerializableExtra("modificaContattoContext");
         /*
           Caricamento dati elemento portfolio selezionato
          */
-        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
+        ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null, null);
         elementoPortfolio.setIdElemento(String.valueOf(idElemento));
 
         ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
@@ -83,6 +79,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         } else {
             _descrizione.setText(elementoPortfolio.getDescrizione());
             _numeroLezioni.setText(elementoPortfolio.getNumeroLezioni());
+            _numeroAssenzeRecuperabili.setText(elementoPortfolio.getNumeroAssenzeRecuperabili());
             dataUltimaricarica.setText(elementoPortfolio.getDataUltimaRicarica());
             descrizione = _descrizione.getText().toString();
             numeroLezioni = _numeroLezioni.getText().toString();
@@ -103,8 +100,6 @@ public class ModificaElementoPortfolio extends FunctionBase {
         } else {
             listenerElimina();
         }
-        listenerRicarica5();
-        listenerRicarica10();
     }
 
     public void makeRicarica(int ricarica) {
@@ -123,7 +118,7 @@ public class ModificaElementoPortfolio extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null);
+                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, null, null, null, null, null, null, null);
                 elementoPortfolio.setIdElemento(String.valueOf(idElemento));
 
                 if (ElementoPortfolioDAO.getInstance().delete(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_DEL_ELEMENTO))) {
@@ -158,10 +153,13 @@ public class ModificaElementoPortfolio extends FunctionBase {
                 _descrizione.getText().toString(),
                 null,
                 _numeroLezioni.getText().toString(),
+                _numeroAssenzeRecuperabili.getText().toString(),
                 dateFormat.format(date),
                 stato);
 
-        if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
+        if (elementoPortfolio.getDescrizione().equals("") ||
+            elementoPortfolio.getNumeroLezioni().equals("") ||
+            elementoPortfolio.getNumeroAssenzeRecuperabili().equals("")) {
             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         } else {
             if (ElementoPortfolioDAO.getInstance().update(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_MOD_ELEMENTS))) {

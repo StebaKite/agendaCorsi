@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
 import com.example.agendaCorsi.database.access.DashboardDAO;
@@ -59,6 +60,12 @@ public class MainActivity extends FunctionBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+        DatabaseHelper myDb = new DatabaseHelper(this);
+        myDb.close();
+        myDb.delAll(getApplicationContext());
+         */
 
         main = this;
         makeToolBar(main);
@@ -147,7 +154,7 @@ public class MainActivity extends FunctionBase {
     }
 
     private void displayQuadroIscrizioni() {
-        TableLayout tableLayout = null;
+        TableLayout tableLayout = new TableLayout(this);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

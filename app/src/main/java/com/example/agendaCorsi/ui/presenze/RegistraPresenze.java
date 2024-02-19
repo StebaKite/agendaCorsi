@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class RegistraPresenze extends FunctionBase {
     TableLayout tabellaContattiIscritti, headerTabellaContattiIscritti;
     Context registraPresenze;
 
-    int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3;
+    int larghezzaColonna1, larghezzaColonna2, larghezzaColonna3, larghezzaColonna4;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +72,10 @@ public class RegistraPresenze extends FunctionBase {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.4);
+        larghezzaColonna1 = (int) (displayMetrics.widthPixels * 0.1);
         larghezzaColonna2 = (int) (displayMetrics.widthPixels * 0.1);
-        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.2);
+        larghezzaColonna3 = (int) (displayMetrics.widthPixels * 0.067);
+        larghezzaColonna4 = (int) (displayMetrics.widthPixels * 0.067);
 
         _descrizioneCorso.setText(descrizioneCorso);
         _giornoSettimana.setText(giornoSettimana);
@@ -82,7 +84,7 @@ public class RegistraPresenze extends FunctionBase {
         makeIntestazioneTabella();
         loadContattiIscritti();
 
-        listenerEsci(AgendaCorsiApp.getContext(), ElencoFasceCorsiRunning.class, null);
+        listenerEsci(registraPresenze, ElencoFasceCorsiRunning.class, null);
     }
 
 
@@ -97,17 +99,14 @@ public class RegistraPresenze extends FunctionBase {
             if (contattoIscritto.getStato().equals(STATO_CHIUSO) || contattoIscritto.getStatoElemento().equals(STATO_ESAURITO)) {
                 detailType = DETAIL_CLOSED;
             } else {
-                detailType = (contattoIscritto.getIdPresenza().equals("")) ? DETAIL_SIMPLE : DETAIL_CONFIRMED;
+                detailType = DETAIL_SIMPLE;
             }
 
             tableRow = new TableRow(this);
             tableRow.setClickable(true);
+
             tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
             tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna3, contattoIscritto.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdElemento(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdPresenza(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
 
             Map<String, String> intentMap = new ArrayMap<>();
             intentMap.put("descrizioneCorso", descrizioneCorso);
@@ -125,71 +124,77 @@ public class RegistraPresenze extends FunctionBase {
 
             if (contattoIscritto.getStato().equals(STATO_ATTIVA) && contattoIscritto.getStatoElemento().equals(STATO_CARICO)) {
 
-                tableRow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        TableRow tableRow = (TableRow) view;
-                        TextView textView = (TextView) tableRow.getChildAt(3);
-                        String idElementoSelezionato = textView.getText().toString();
+                /*
+                Le due celle per la conferma della presenza o assenza sono mutualmente esclusive.
+                Una contatto iscritto potrà essere : presente, assente o ne uno ne l'altro a discrezione dell'istruttore.
+                Sia la presenza sia l'assenza vanno e decrementare il portfolio del contatto.
+                 */
 
-                        tableRow.setBackground(ContextCompat.getDrawable(registraPresenze, R.drawable.cell_bg_gradient));
+                boolean isPresenzaNotExist = contattoIscritto.getIdPresenza().equals("");
+                boolean isAssenzaNotExist  = contattoIscritto.getIdAssenza().equals("");
 
-                        textView = (TextView) tableRow.getChildAt(4);
-                        String idPresenzaSelezionato = textView.getText().toString();
+                boolean isPresenzaExist = !contattoIscritto.getIdPresenza().equals("");
+                boolean isAssenzaExist  = !contattoIscritto.getIdAssenza().equals("");
 
-                        textView = (TextView) tableRow.getChildAt(5);
-                        String idIscrizioneSelezionato = textView.getText().toString();
+                if (isPresenzaNotExist && isAssenzaNotExist) {
+                    tableRow.addView(listenerOnConfermaPresenza(makeCell(registraPresenze, new TextView(this),
+                                    detailType, larghezzaColonna3, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
 
-                        if (idPresenzaSelezionato.equals("")) {
-                            if (CreaPresenzaContattoIscritto.getInstance().make(idIscrizioneSelezionato,idElementoSelezionato)) {
-                                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
-                                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
-                                if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
-                                    if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
-                                        Iscrizione iscrizione = new Iscrizione(idIscrizioneSelezionato, null, null, STATO_DISATTIVA, null, null);
-                                        IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
-                                        makeToastMessage(registraPresenze, "Presenza confermata, " + contattoIscritto.getNomeContatto() + " ha terminato le lezioni").show();
-                                    } else {
-                                        makeToastMessage(registraPresenze, "Presenza confermata, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
-                                    }
-                                }
-                            }
-                        } else {
-                            if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenzaSelezionato,idElementoSelezionato)) {
-                                ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElementoSelezionato, null, null, null, null, null, null);
-                                ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
-                                if (!elementoPortfolio.getIdElemento().equals("")) {    // e' strano ma non lo trovo l'elemento on questo id
-                                    makeToastMessage(registraPresenze, "Presenza rimossa, " + elementoPortfolio.getNumeroLezioni() + " lezioni rimanenti").show();
-                                }
-                            }
-                        }
+                    tableRow.addView(listenerOnConfermaAssenza(makeCell(registraPresenze, new TextView(this),
+                                    detailType, larghezzaColonna4, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
+                }
+                else if (isPresenzaExist && isAssenzaNotExist) {
+                    tableRow.addView(listenerOnRimuoviPresenza(makeCell(registraPresenze, new TextView(this),
+                            detailType, larghezzaColonna3, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdPresenza()));
 
-                        Intent intent = getIntent();
+                    tableRow.addView(makeCell(this, new TextView(this),
+                            detailType, larghezzaColonna4, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+                }
+                else if (isPresenzaNotExist && isAssenzaExist) {
+                    tableRow.addView(makeCell(this, new TextView(this),
+                            detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
 
-                        intentMap.put("idElemento", idElementoSelezionato);
-                        intentMap.put("idPresenza", idPresenzaSelezionato);
-                        intentMap.put("idIscrizione", idIscrizioneSelezionato);
+                    tableRow.addView(listenerOnRimuoviAssenza(makeCell(registraPresenze, new TextView(this),
+                            detailType, larghezzaColonna4, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdAssenza()));
+                }
+            } else {
+                tableRow.addView(makeCell(this, new TextView(this),
+                        detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
 
-                        if (intentMap != null) {
-                            for (Map.Entry<String, String> entry : intentMap.entrySet()) {
-                                intent.putExtra(entry.getKey(), entry.getValue());
-                            }
-                        }
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                tableRow.addView(makeCell(this, new TextView(this),
+                        detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
             }
+
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdElemento(), 0, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdPresenza(), 0, View.GONE));
+            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
+
             tabellaContattiIscritti.addView(tableRow);
         }
     }
+
 
     private void makeIntestazioneTabella() {
         tableRow = new TableRow(registraPresenze);
         tableRow.setClickable(false);
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna1,"Nome", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
         tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna2,"Età", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-        tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+        //tableRow.addView(makeCell(this,new TextView(this), HEADER, larghezzaColonna3,"Stato", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+        ImageView viewAccept = new ImageView(this);
+        viewAccept.setImageResource(R.drawable.baseline_check_24);
+        viewAccept.setBaselineAlignBottom(true);
+        tableRow.addView(viewAccept);
+
+        ImageView viewClear = new ImageView(this);
+        viewClear.setImageResource(R.drawable.baseline_clear_24);
+        viewClear.setBaselineAlignBottom(true);
+        tableRow.addView(viewClear);
+
         headerTabellaContattiIscritti.addView(tableRow);
     }
 

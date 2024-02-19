@@ -4,6 +4,7 @@ select
     descrizione,
     sport,
     numero_lezioni,
+    numero_assenze_recuperabili,
     data_ultima_ricarica,
     stato,
     data_creazione,

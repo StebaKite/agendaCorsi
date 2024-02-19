@@ -5,6 +5,7 @@ create table if not exists elemento_portfolio (
     descrizione text not null,
     sport text not null,
     numero_lezioni integer not null,
+    numero_assenze_recuperabili integer not null,
     data_ultima_ricarica text,
     stato text not null,
     data_creazione text not null,

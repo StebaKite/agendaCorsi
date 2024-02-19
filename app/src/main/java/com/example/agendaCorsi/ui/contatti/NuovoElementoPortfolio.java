@@ -4,19 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
-import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
+import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -27,9 +22,9 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
     String idContatto;
     String nomeContatto;
-    TextView labelScheda, descrizione, numeroLezioni;
+    TextView labelScheda, descrizione, numeroLezioni, numeroAssenzeRecuperabili;
     Context nuovoElementoPortfolio;
-    RadioButton radio_skate, radio_basket, radio_pallavolo, radio_pattini;
+    RadioButton radio_skate;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +42,9 @@ public class NuovoElementoPortfolio extends FunctionBase {
 
         descrizione = findViewById(R.id.editDescrizione);
         numeroLezioni = findViewById(R.id.editNumeroLezioni);
+        numeroAssenzeRecuperabili = findViewById(R.id.editNumeroAssenzeRecuperabili);
         labelScheda = findViewById(R.id.lScheda);
         radio_skate = findViewById(R.id.radio_skate);
-        radio_basket = findViewById(R.id.radio_basket);
-        radio_pallavolo = findViewById(R.id.radio_pallavolo);
-        radio_pattini = findViewById(R.id.radio_pattini);
-
-        labelScheda.setText(nomeContatto);
 
         nuovoElementoPortfolio = this;
         /*
@@ -73,16 +64,15 @@ public class NuovoElementoPortfolio extends FunctionBase {
         String sport = "";
 
         if (radio_skate.isChecked()) { sport = Skate; }
-        if (radio_basket.isChecked()) { sport = Basket; }
-        if (radio_pallavolo.isChecked()) { sport = Pallavolo; }
-        if (radio_pattini.isChecked()) { sport = Pattini; }
 
         String statoElemento = (Integer.parseInt(String.valueOf(numeroLezioni.getText())) > 0) ? STATO_CARICO : STATO_APERTO;
 
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(null, String.valueOf(idContatto),
-                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), dataUltimaRicarica, statoElemento);
+                descrizione.getText().toString(), sport, numeroLezioni.getText().toString(), numeroAssenzeRecuperabili.getText().toString(), dataUltimaRicarica, statoElemento);
 
-        if (elementoPortfolio.getDescrizione().equals("") || elementoPortfolio.getNumeroLezioni().equals("")) {
+        if (elementoPortfolio.getDescrizione().equals("") ||
+            elementoPortfolio.getNumeroLezioni().equals("") ||
+            elementoPortfolio.getNumeroAssenzeRecuperabili().equals("")) {
             displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         }
         else {

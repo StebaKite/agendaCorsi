@@ -23,7 +23,7 @@ public class RimuoviPresenzaContattoIscritto {
     public boolean make(String idPresenza, String idElemento) {
         Presenza presenza = new Presenza(idPresenza, null, null);
         if (PresenzaDAO.getInstance().delete(presenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_DEL_PRESENZA))) {
-            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento, null, null, null, null, null, null);
+            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento, null, null, null, null, null, null, null);
             ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ELEMENTO));
 
             if (ElementoPortfolioDAO.getInstance().incrementaNumeroLezioni(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_NUMERO_LEZIONI))) {

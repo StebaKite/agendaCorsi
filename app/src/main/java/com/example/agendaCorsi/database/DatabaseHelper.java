@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.agendaCorsi.database.access.AssenzaDAO;
 import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.database.access.CredenzialeDAO;
@@ -14,6 +17,7 @@ import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
 import com.example.agendaCorsi.database.access.PresenzaDAO;
 import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
+import com.example.agendaCorsi.database.table.Assenza;
 import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Credenziale;
@@ -28,7 +32,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "contattiPersonali";
-    public static final int SCHEMA_VERSION = 14;
+    public static final int SCHEMA_VERSION = 17;
     public static final String DATABASE_NAME = "contattiPersonali.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -39,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_GIORNO_SETTIMANA = "create_table_giorno_settimana";
     public static String CREATE_TABLE_CREDENZIALE = "create_table_credenziale";
     public static String CREATE_TABLE_PRESENZA = "create_table_presenza";
+    public static String CREATE_TABLE_ASSENZA = "create_table_assenza";
     public static String CREATE_TABLE_TOTALE_CORSO = "create_table_totale_corso";
     public static String QUERY_INS_GIORNO_SETTIMANA = "query_ins_giorno_settimana";
 
@@ -67,6 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
         PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
         TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+        AssenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ASSENZA);
         /*
          * Initial Load
          */
@@ -89,31 +95,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*
          *  Sequenza di DROP secondo le constraint dello schema (vedi modello ER)
          */
-        //sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + GiornoSettimana.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
-        //sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + ElementoPortfolio.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Contatto.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Iscrizione.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Fascia.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Corso.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + GiornoSettimana.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Credenziale.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Presenza.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + Assenza.TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + TotaleCorso.TABLE_NAME);
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
          */
-        //ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
-        //ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
-        //CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
-        //FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
-        //IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
-        //GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
-        //CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
-        //PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CONTATTO);
+        ElementoPortfolioDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ELEMENTO_PORTFOLIO);
+        CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CORSO);
+        FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_FASCIA);
+        IscrizioneDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ISCRIZIONE);
+        GiornoSettimanaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_GIORNO_SETTIMANA);
+        CredenzialeDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_CREDENZIALE);
+        PresenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_PRESENZA);
         TotaleCorsoDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_TOTALE_CORSO);
+        AssenzaDAO.getInstance().create(sqLiteDatabase, CREATE_TABLE_ASSENZA);
         /*
          * Initial Load
          */
-        //initialLoadGiornoSettimana(sqLiteDatabase);
+        initialLoadGiornoSettimana(sqLiteDatabase);
     }
 
     /**
@@ -132,8 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(query.replace("#NUMGIO#","7").replace("#NGIOBV#","Do").replace("#NGIOES#", "Domenica"));
     }
 
-    
-
+    public void delAll(@NonNull Context context) {
+        context.deleteDatabase("contattiPersonali.db");
+    }
 }
 
 
