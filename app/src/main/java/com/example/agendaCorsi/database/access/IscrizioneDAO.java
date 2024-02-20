@@ -11,6 +11,7 @@ import com.example.agendaCorsi.database.Database_itf;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,6 +44,30 @@ public class IscrizioneDAO implements Database_itf {
     public List<Object> getAll(String query) {
         return null;
     }
+
+
+    public List<Object> getAllIscrizioniElemento(Object entity, String query) {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Iscrizione iscrizione = (Iscrizione) entity;
+        List<Object> list = new ArrayList<>();
+        String sql = query.replace("#IDELEM#", iscrizione.getIdElemento());;
+
+        Log.i(DatabaseHelper.DATABASE_NAME, sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String idIscrizione = cursor.getString(Iscrizione.ID_ISCRIZIONE);
+
+            Iscrizione iscrElemento = new Iscrizione(idIscrizione, null, null, null, null, null);
+            list.add(iscrElemento);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        database.close();
+        return list;
+    }
+
 
     @Override
     public boolean insert(Object entity, String query) {

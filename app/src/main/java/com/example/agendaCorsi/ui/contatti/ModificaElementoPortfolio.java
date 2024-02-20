@@ -1,5 +1,6 @@
 package com.example.agendaCorsi.ui.contatti;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,17 +19,23 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.access.AssenzaDAO;
 import com.example.agendaCorsi.database.access.IscrizioneDAO;
+import com.example.agendaCorsi.database.access.PresenzaDAO;
+import com.example.agendaCorsi.database.table.Assenza;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.database.table.Iscrizione;
+import com.example.agendaCorsi.database.table.Presenza;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class ModificaElementoPortfolio extends FunctionBase {
@@ -145,15 +152,20 @@ public class ModificaElementoPortfolio extends FunctionBase {
     public void makeSalva() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
+        String numLezioni;
+        String numAssenzeRecuperabili;
 
         String stato = (Integer.parseInt(_numeroLezioni.getText().toString()) > 0) ? STATO_CARICO : STATO_ESAURITO;
+
+        numLezioni = (_numeroLezioni.getText().toString().equals("")) ? "0" : _numeroLezioni.getText().toString();
+        numAssenzeRecuperabili = (_numeroAssenzeRecuperabili.getText().toString().equals("")) ? "0" : _numeroAssenzeRecuperabili.getText().toString();
 
         ElementoPortfolio elementoPortfolio = new ElementoPortfolio(String.valueOf(idElemento),
                 String.valueOf(idContatto),
                 _descrizione.getText().toString(),
                 null,
-                _numeroLezioni.getText().toString(),
-                _numeroAssenzeRecuperabili.getText().toString(),
+                numLezioni,
+                numAssenzeRecuperabili,
                 dateFormat.format(date),
                 stato);
 
@@ -165,14 +177,36 @@ public class ModificaElementoPortfolio extends FunctionBase {
             if (ElementoPortfolioDAO.getInstance().update(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_MOD_ELEMENTS))) {
 
                 if (Integer.parseInt(numeroLezioni) == 0) {
-                    if (Integer.parseInt(String.valueOf(_numeroLezioni.getText())) > 0 ) {
-
+                    if (Integer.parseInt(numLezioni) > 0 ) {
                         /**
                          * Aggiorno lo stato di tutte le iscrizioni di questo elemento che si trovano in stato "Disattiva"
                          */
                         Iscrizione iscrizione = new Iscrizione(null, null, elementoPortfolio.getIdElemento(), STATO_ATTIVA, null, null);
                         if (!IscrizioneDAO.getInstance().updateStatoIscrizioni(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONI_ELEMENTO))) {
                             displayAlertDialog(modificaElementoPortfolio, "Attenzione!", "Aggiornamento iscrizioni fallito, contatta il supporto tecnico");
+                        }
+                        /**
+                         * Prendo tutte le iscrizioni "Attive" o "Disattive" di questo elemento e, per ciascuna di queste,
+                         * elimino tutte le presenze e assenze inserite salvo quelle inserite nella giornata odierna.
+                         * Questa operazione è necessaria per ripristinare una situazione di partenza che permetta, ad ogni ricarica,
+                         * di contare le assenze fatte per gestire correttamente il loro eventuale recupero.
+                         */
+                        iscrizione.setIdIscrizione(null);
+                        iscrizione.setIdFascia(null);
+                        iscrizione.setIdElemento(elementoPortfolio.getIdElemento());
+                        iscrizione.setStato(null);
+                        iscrizione.setDataCreazione(null);
+                        iscrizione.setDataUltimoAggiornamento(null);
+                        List<Object> objectList = IscrizioneDAO.getInstance().getAllIscrizioniElemento(iscrizione,
+                                QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GETALL_ISCRIZIONI_ELEMENTO));
+
+                        for (Object object : objectList) {
+                            Iscrizione iscr = (Iscrizione) object;
+                            Presenza presenza = new Presenza(null, iscr.getIdIscrizione(), null);
+                            PresenzaDAO.getInstance().deleteAllPresenzeIscrizione(presenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_DEL_PRESENZE_ISCRIZIONE));
+
+                            Assenza assenza = new Assenza(null, iscr.getIdIscrizione(), null);
+                            AssenzaDAO.getInstance().deleteAllAssenzeIscrizione(assenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_DEL_ASSENZE_ISCRIZIONE));
                         }
                     }
                 }

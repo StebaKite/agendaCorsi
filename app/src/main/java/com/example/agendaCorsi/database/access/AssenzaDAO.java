@@ -117,11 +117,12 @@ public class AssenzaDAO implements Database_itf {
         return false;
     }
 
-    public boolean deleteAllAssenzaIscrizione(Object entity, String query) {
+    public boolean deleteAllAssenzeIscrizione(Object entity, String query) {
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
             Assenza assenza = (Assenza) entity;
-            String sql = query.replace("#IDISCR#", assenza.getIdAssenza());
+            String oggi = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            String sql = query.replace("#IDISCR#", assenza.getIdIscrizione()).replace("#OGGI#", oggi);
 
             Log.i(DatabaseHelper.DATABASE_NAME, sql);
             database.execSQL(sql);

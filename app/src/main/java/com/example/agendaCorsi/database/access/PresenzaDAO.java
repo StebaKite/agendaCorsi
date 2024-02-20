@@ -2,6 +2,7 @@ package com.example.agendaCorsi.database.access;
 
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
@@ -11,6 +12,7 @@ import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.database.table.Presenza;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -90,6 +92,27 @@ public class PresenzaDAO implements Database_itf {
         }
         return false;
     }
+
+
+    public boolean deleteAllPresenzeIscrizione(Object entity, String query) {
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Presenza presenza = (Presenza) entity;
+            String oggi = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+            String sql = query.replace("#IDISCR#", presenza.getIdIscrizione()).replace("#OGGI#", oggi);
+
+            Log.i(DatabaseHelper.DATABASE_NAME, sql);
+            database.execSQL(sql);
+            database.close();
+            return true;
+        }
+        catch (SQLException e) {
+            Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
+    }
+
 
     @Override
     public boolean isNew(Object entity, String query) {

@@ -150,6 +150,8 @@ public class FunctionBase extends AppCompatActivity {
     public static String QUERY_GET_GIORNO_SETTIMANA = "query_get_giorno_settimana";
     public static String QUERY_GET_ASSENZE_ISCRIZIONE = "query_get_assenze_iscrizione";
     public static String QUERY_DEL_ASSENZE_ISCRIZIONE = "query_del_assenze_iscrizione";
+    public static String QUERY_DEL_PRESENZE_ISCRIZIONE = "query_del_presenze_iscrizione";
+    public static String QUERY_GETALL_ISCRIZIONI_ELEMENTO = "query_getall_iscrizioni_elemento";
 
     public static String QUERY_TOT_ISCRIZIONI = "query_tot_iscrizioni";
     public static String QUERY_INS_TOTALE_CORSO = "query_ins_totale_corso";
