@@ -21,6 +21,7 @@ public class Corso implements BaseColumns {
     public static Integer DATA_CREAZIONE = 7;
     public static Integer DATA_ULTIMO_AGGIORNAMENTO = 8;
     public static Integer DESCRIZIONE_CORSO = 9;
+    public static Integer STATO_CORSO = 10;
 
     public static Map<Integer, String> corsoColumns;
     static {
@@ -34,7 +35,8 @@ public class Corso implements BaseColumns {
         corsoColumns.put(DATA_FINE_VALIDITA, "data_fine_validita");
         corsoColumns.put(DATA_CREAZIONE, "data_creazione");
         corsoColumns.put(DATA_ULTIMO_AGGIORNAMENTO, "data_ultimo_aggiornamento");
-        corsoColumns.put(DESCRIZIONE_CORSO, "descrizione-corso");
+        corsoColumns.put(DESCRIZIONE_CORSO, "descrizione_corso");
+        corsoColumns.put(STATO_CORSO, "stato_corso");
     }
 
     public String idCorso;

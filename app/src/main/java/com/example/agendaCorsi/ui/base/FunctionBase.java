@@ -24,21 +24,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.DatabaseHelper;
-import com.example.agendaCorsi.database.access.CorsoDAO;
-import com.example.agendaCorsi.database.access.FasciaDAO;
-import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.corsi.ModificaCorso;
-import com.example.agendaCorsi.ui.corsi.ModificaFascia;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoIscrizioni;
 import com.example.agendacorsi.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -221,27 +220,47 @@ public class FunctionBase extends AppCompatActivity {
                 intent.putExtra("descrizioneCorso", corso);
                 intent.putExtra("totaleFascia", totale);
 
-                Fascia fascia = new Fascia(String.valueOf(idCellaSelezionata), null, null, null, null, null, null, null, null);
-                FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
+                List<Row> rows = null;
 
-                intent.putExtra("capienza", fascia.getCapienza());
-                intent.putExtra("descrizioneFascia", fascia.getOraInizio() + "-" + fascia.getOraFine());
+                try {
+                    rows = ConcreteDataAccessor.getInstance().read(Fascia.TABLE_NAME,
+                            null,
+                            new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idCellaSelezionata),
+                            null);
 
-                GiornoSettimana giornoSettimana = new GiornoSettimana(fascia.getGiornoSettimana(), null, null);
-                GiornoSettimanaDAO.getInstance().select(giornoSettimana, QueryComposer.getInstance().getQuery(QUERY_GET_GIORNO_SETTIMANA));
+                    for (Row row : rows) {
+                        intent.putExtra("capienza", row.getColumnValue(Fascia.fasciaColumns.get(Fascia.CAPIENZA)).toString());
+                        intent.putExtra("descrizioneFascia",
+                                row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO)).toString() + "-" +
+                                        row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_FINE)).toString());
 
-                intent.putExtra("giornoSettimana", giornoSettimana.getNomeGiornoEsteso());
+                        List<Row> giorniSettimana = ConcreteDataAccessor.getInstance().read(GiornoSettimana.TABLE_NAME,
+                                new String[]{GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NOME_GIORNO_ESTESO)},
+                                new Row(Fascia.fasciaColumns.get(Fascia.NUMERO_GIORNO), row.getColumnValue(Fascia.fasciaColumns.get(Fascia.NUMERO_GIORNO))),
+                                null);
 
-                Corso corso = new Corso(fascia.getIdCorso(), null, null, null, null, null, null, null, null);
-                CorsoDAO.getInstance().select(corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
+                        for (Row giorno : giorniSettimana ) {
+                            intent.putExtra("giornoSettimana", giorno.getColumnValue(GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NOME_GIORNO_ESTESO)).toString());
+                        }
 
-                intent.putExtra("sport", corso.getSport());
-                intent.putExtra("idCorso", corso.getIdCorso());
-                intent.putExtra("statoCorso", corso.getStato());
-                intent.putExtra("tipoCorso", corso.getTipo());
+                        List<Row> corsi = ConcreteDataAccessor.getInstance().read(Corso.TABLE_NAME,
+                                null,
+                                new Row(Corso.corsoColumns.get(Corso.ID_CORSO), row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_CORSO))),
+                                null);
 
-                startActivity(intent);
-                finish();
+                        for (Row corso : corsi) {
+                            intent.putExtra("sport", corso.getColumnValue(Corso.corsoColumns.get(Corso.SPORT)).toString());
+                            intent.putExtra("idCorso", corso.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO)).toString());
+                            intent.putExtra("statoCorso", corso.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                            intent.putExtra("tipoCorso", corso.getColumnValue(Corso.corsoColumns.get(Corso.TIPO)).toString());
+                        }
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         return name;
@@ -279,13 +298,23 @@ public class FunctionBase extends AppCompatActivity {
                 intent.putExtra("idFascia", String.valueOf(idCellaSelezionata));
                 intent.putExtra("descrizioneCorso", corso);
 
-                Fascia fascia = new Fascia(String.valueOf(idCellaSelezionata), null, null, null, null, null, null, null, null);
-                FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
+                List<Row> rows = null;
 
-                intent.putExtra("idCorso", fascia.getIdCorso());
-                intent.putExtra("oraInizioFascia", fascia.getOraInizio());
-                intent.putExtra("oraFineFascia", fascia.getOraFine());
+                try {
+                    rows = ConcreteDataAccessor.getInstance().read(Fascia.TABLE_NAME,
+                            null,
+                            new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idCellaSelezionata),
+                            null);
 
+                    for (Row row : rows) {
+                        intent.putExtra("idCorso", row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_CORSO)).toString());
+                        intent.putExtra("oraInizioFascia", row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO)).toString());
+                        intent.putExtra("oraFineFascia", row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_FINE)).toString());
+                    }
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 startActivity(intent);
                 finish();
             }

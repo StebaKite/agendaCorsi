@@ -1,13 +1,10 @@
 package com.example.agendaCorsi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,22 +15,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
-import com.example.agendaCorsi.database.DataAccessor;
 import com.example.agendaCorsi.database.Row;
-import com.example.agendaCorsi.database.access.CorsoDAO;
-import com.example.agendaCorsi.database.access.CredenzialeDAO;
-import com.example.agendaCorsi.database.access.DashboardDAO;
-import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
-import com.example.agendaCorsi.database.access.GiornoSettimanaDAO;
-import com.example.agendaCorsi.database.access.TotaleCorsoDAO;
 import com.example.agendaCorsi.database.table.Corso;
-import com.example.agendaCorsi.database.table.Credenziale;
-import com.example.agendaCorsi.database.table.Dashboard;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
@@ -41,13 +27,12 @@ import com.example.agendaCorsi.database.table.TotaleCorso;
 import com.example.agendaCorsi.database.table.TotaleIscrizioniCorso;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.PropertyReader;
-import com.example.agendaCorsi.ui.base.QueryComposer;
+import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendaCorsi.ui.corsi.ElencoCorsi;
 import com.example.agendaCorsi.ui.iscrizioni.ElencoFasceCorsi;
 import com.example.agendaCorsi.ui.presenze.ElencoFasceCorsiRunning;
 import com.example.agendaCorsi.ui.totali.ElencoTotali;
 import com.example.agendacorsi.R;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,11 +55,6 @@ public class MainActivity extends FunctionBase {
         makeToolBar(main);
 
         dashboardMain = findViewById(R.id.main);
-        /**
-         * Prelievo delle credenziali
-         */
-        Credenziale credenziale = new Credenziale(null, null, null, null);
-        CredenzialeDAO.getInstance().select(credenziale, QueryComposer.getInstance().getQuery(QUERY_GET_CREDENZIALE));
 
         try {
             checkValiditaCorsi();
@@ -188,8 +168,8 @@ public class MainActivity extends FunctionBase {
 
             String[] orderColumn = new String[]{
                     Corso.corsoColumns.get(Corso.ID_CORSO),
-                    Corso.corsoColumns.get(Corso.DESCRIZIONE),
-                    Corso.corsoColumns.get(Corso.STATO),
+                    Corso.corsoColumns.get(Corso.DESCRIZIONE_CORSO),
+                    Corso.corsoColumns.get(Corso.STATO_CORSO),
                     Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA),
                     Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA),
                     Fascia.fasciaColumns.get(Fascia.ID_FASCIA)
@@ -272,15 +252,28 @@ public class MainActivity extends FunctionBase {
 
                     tableLayout = new TableLayout(this);        // cambia il corso quindi devo separare su un'altra tabella
 
-                    descrizione_corso_save = dashboard.getDescrizioneCorso();
-                    idCorso_save = dashboard.getIdCorso();
-                    descrizione_fascia_save = dashboard.getDescrizioneFascia();
+                    descrizione_corso_save = row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE_CORSO)).toString();
+                    idCorso_save = row.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO)).toString();
+                    descrizione_fascia_save = row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString();
 
-                    previousId = titoloTabella(idCorso_save, previousId, linearLayout, dashboard.getStatoCorso());
-                    intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, dashboard.getStatoCorso());
-                    tableRow = preparaTableRow(descrizione_fascia_save, larghezzaColonnaFascia, Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
-                    tableRow = aggiungiTotaleGiorno(tableRow, dashboard.getTotaleFascia(), larghezzaColonnaTotale, cellNum, dashboard.getGiornoSettimana(), Integer.parseInt(dashboard.getIdFascia()), descrizione_corso_save, dashboard.getStatoCorso());
-                    cellNum = Integer.parseInt(dashboard.getGiornoSettimana()) + 1;
+                    previousId = titoloTabella(idCorso_save, previousId, linearLayout, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                    intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+
+                    tableRow = preparaTableRow(descrizione_fascia_save,
+                            larghezzaColonnaFascia,
+                            Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
+                            descrizione_corso_save,
+                            row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+
+                    tableRow = aggiungiTotaleGiorno(tableRow,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                            larghezzaColonnaTotale,
+                            cellNum,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
+                            Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
+                            descrizione_corso_save, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+
+                    cellNum = Integer.parseInt(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA).toString()) + 1;
                 }
             }
             if (totaliCorsoList.size() > 0) {
@@ -303,38 +296,47 @@ public class MainActivity extends FunctionBase {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public int titoloTabella(String idCorso, int tagToConstraint, LinearLayout linearLayout, String statoCorso) {
-        Corso _corso = new Corso(idCorso, null, null, null, null, null, null, null, null);
-        CorsoDAO.getInstance().select(_corso, QueryComposer.getInstance().getQuery(QUERY_GET_CORSO));
-        String dataDa = dateFormat(_corso.getDataInizioValidita().replace("#", ""), "yyyy-MM-dd", "dd-MM-yyyy");
-        String dataA  = dateFormat(_corso.getDataFineValidita().replace("#", ""), "yyyy-MM-dd", "dd-MM-yyyy");
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(Corso.TABLE_NAME, null, new Row(Corso.corsoColumns.get(Corso.ID_CORSO),idCorso), null);
+            for (Row row : rows) {
+                String dataDa = dateFormat(row.getColumnValue(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA)).toString().replace("#", ""), "yyyy-MM-dd", "dd-MM-yyyy");
+                String dataA  = dateFormat(row.getColumnValue(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA)).toString().replace("#", ""), "yyyy-MM-dd", "dd-MM-yyyy");
 
-        String textViewTag = "corso-" + _corso.getDescrizione();
+                String textViewTag = "corso-" + row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString();
 
-        TextView corso = new TextView(this);
-        corso.setText(_corso.getDescrizione() + " : " + dataDa + " - " + dataA);
-        corso.setTextColor(getResources().getColor(R.color.black, getTheme()));
-        corso.setTextSize(16);
-        corso.setPadding(10,50,10,50);
-        corso.setTypeface(Typeface.DEFAULT_BOLD);
-        corso.setId(Integer.parseInt(idCorso));
-        corso.setTag(textViewTag);
+                TextView corso = new TextView(this);
+                corso.setText(row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString() + " : " + dataDa + " - " + dataA);
+                corso.setTextColor(getResources().getColor(R.color.black, getTheme()));
+                corso.setTextSize(16);
+                corso.setPadding(10,50,10,50);
+                corso.setTypeface(Typeface.DEFAULT_BOLD);
+                corso.setId(Integer.parseInt(idCorso));
+                corso.setTag(textViewTag);
 
-        if (!statoCorso.equals(STATO_SOSPESO)) {
-            listenerOnCorso(corso, Integer.parseInt(idCorso), this);
+                if (!statoCorso.equals(STATO_SOSPESO)) {
+                    listenerOnCorso(corso, Integer.parseInt(idCorso), this);
+                }
+
+                ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT
+                );
+                layoutParams.topToBottom = tagToConstraint;
+                layoutParams.leftMargin = 20;
+                corso.setLayoutParams(layoutParams);
+                dashboardMain.addView(corso);
+
+                View view = linearLayout.findViewWithTag(textViewTag);
+                return view.getId();
+
+            }
         }
-
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutParams.topToBottom = tagToConstraint;
-        layoutParams.leftMargin = 20;
-        corso.setLayoutParams(layoutParams);
-        dashboardMain.addView(corso);
-
-        View view = linearLayout.findViewWithTag(textViewTag);
-        return view.getId();
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
     public void intestaTabella(TableLayout tableLayout, int larghezzaColonnaFascia, int larghezzaColonnaTotale, String statoCorso) {
@@ -346,20 +348,31 @@ public class MainActivity extends FunctionBase {
 
         tableRow.addView(makeCell(this,new TextView(this), headerType, larghezzaColonnaFascia,"Fascia", View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
 
-        List<Object> giorniSettimanaList = GiornoSettimanaDAO.getInstance().getAll(QueryComposer.getInstance().getQuery(QUERY_GETALL_GIORNI_SETTIMANA));
+        try {
+            List<Row> giorniSettimanaList = ConcreteDataAccessor.getInstance().read(GiornoSettimana.TABLE_NAME,
+                    null,
+                    null,
+                    new String[]{GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NUMERO_GIORNO)});
 
-        for (Object entity : giorniSettimanaList) {
-            GiornoSettimana giornoSettimana = (GiornoSettimana) entity;
-            GiornoSettimana gioSet = new GiornoSettimana(String.valueOf(getDayOfWeek()), null, null);
-            GiornoSettimanaDAO.getInstance().select(gioSet, QueryComposer.getInstance().getQuery(QUERY_GET_GIORNO_SETTIMANA));
-            if (statoCorso.equals(STATO_ATTIVO)) {
-                headerType = (gioSet.getNomeGiornoAbbreviato().equals(giornoSettimana.getNomeGiornoAbbreviato())) ? HEADER_EVIDENCE : HEADER;
-            } else {
-                headerType = HEADER_OFF;
+            for (Row row : giorniSettimanaList) {
+                if (statoCorso.equals(STATO_ATTIVO)) {
+                    headerType = (row.getColumnValue(GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NUMERO_GIORNO)).equals(getDayOfWeek())) ? HEADER_EVIDENCE : HEADER;
+                } else {
+                    headerType = HEADER_OFF;
+                }
+                tableRow.addView(makeCell(this,
+                        new TextView(this),
+                        headerType,
+                        larghezzaColonnaTotale,
+                        row.getColumnValue(GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NOME_GIORNO_ABBREVIATO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_END,
+                        View.VISIBLE));
             }
-            tableRow.addView(makeCell(this,new TextView(this), headerType, larghezzaColonnaTotale,giornoSettimana.getNomeGiornoAbbreviato(), View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+            tableLayout.addView(tableRow);
         }
-        tableLayout.addView(tableRow);
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -405,9 +418,19 @@ public class MainActivity extends FunctionBase {
         MenuItem homeItem = menu.findItem(R.id.navigation_home);
         homeItem.setVisible(false);
 
-        if (!TotaleCorsoDAO.getInstance().existRows(QueryComposer.getInstance().getQuery(QUERY_GETALL_TOT_ISCRIZIONI))) {
-            MenuItem totaliItem = menu.findItem(R.id.navigation_totali);
-            totaliItem.setVisible(false);
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(TotaleCorso.TABLE_NAME,
+                    null,
+                    null,
+                    new String[]{TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.ANNO_SVOLGIMENTO)});
+
+            if (rows.size() == 0) {
+                MenuItem totaliItem = menu.findItem(R.id.navigation_totali);
+                totaliItem.setVisible(false);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return true;
     }

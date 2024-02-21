@@ -27,9 +27,9 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB = "contattiPersonali";
+    public static final String DB = "agendaCorsi";
     public static final int SCHEMA_VERSION = 26;
-    public static final String DATABASE_NAME = "contattiPersonali.db";
+    public static final String DATABASE_NAME = "agendaCorsi.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
     public static String CREATE_TABLE_ELEMENTO_PORTFOLIO = "create_table_elemento_portfolio";

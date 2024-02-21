@@ -26,7 +26,6 @@ public class TotaleCorso implements BaseColumns {
         totIscrizioniCorsoColumns.put(VALORE_TOTALE, "valore_totale");
     }
 
-
     public String idTotale;
     public String descrizioneCorso;
     public String annoSvolgimento;
