@@ -4,27 +4,19 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.Corso;
-import com.example.agendaCorsi.database.access.CorsoDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
 import java.text.DateFormat;

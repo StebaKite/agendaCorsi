@@ -6,26 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.Row;
-import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.Fascia;
-import com.example.agendaCorsi.database.access.FasciaDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendaCorsi.ui.contatti.ElencoContatti;
 import com.example.agendacorsi.R;
 
 import java.text.DateFormat;

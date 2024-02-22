@@ -4,28 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
-import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;

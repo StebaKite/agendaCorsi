@@ -3,25 +3,19 @@ package com.example.agendaCorsi.ui.contatti;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.Row;
-import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.PropertyReader;
-import com.example.agendaCorsi.ui.base.QueryComposer;
-import com.example.agendacorsi.R;
-import com.example.agendaCorsi.database.access.ContattiDAO;
 import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.ui.base.FunctionBase;
+import com.example.agendacorsi.R;
+
 import java.util.List;
 
 public class ElencoContatti extends FunctionBase {
