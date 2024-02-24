@@ -192,82 +192,42 @@
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="302dp" />
 
-        <RadioButton
-            android:id="@+id/radio_basket"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Basket"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="342dp" />
-
-        <RadioButton
-            android:id="@+id/radio_pattini"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pattini"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="382dp" />
-
-        <RadioButton
-            android:id="@+id/radio_pallavolo"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Pallavolo"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:buttonTint="@color/black"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="422dp" />
     </RadioGroup>
 
     <!-- Bottoni -->
 
-    <Button
-        android:id="@+id/bReset"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bSalva"
-        app:layout_constraintWidth_percent="0.27" />
-
-    <Button
+    <ImageButton
         android:id="@+id/bExit"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Esci"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_west_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bSalva"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Salva"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
+        app:srcCompat="@drawable/baseline_save_24" />
+
+    <ImageButton
+        android:id="@+id/bReset"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_restore_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

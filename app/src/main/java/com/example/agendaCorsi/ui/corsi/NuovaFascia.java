@@ -118,7 +118,7 @@ public class NuovaFascia extends FunctionBase {
         else {
             try {
                 if (isNumberOfWeek(Integer.parseInt(_giornoSettimana.getText().toString()))) {
-                    if (isNewFascia()) {
+                    if (isFasciaNonSovrapposta(idCorso, null, _giornoSettimana.getText().toString(), _oraInizio.getText().toString(), _oraFine.getText().toString())) {
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = new Date();
 

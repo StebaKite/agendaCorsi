@@ -168,86 +168,71 @@
         app:layout_constraintTop_toBottomOf="@+id/editFascia"
         app:layout_constraintWidth_percent="0.75" />
 
-    <!-- Bottoni -->
-
-    <Button
+    <ImageButton
         android:id="@+id/bSospendi"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Sosp."
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSposta"
-        app:layout_constraintWidth_percent="0.27" />
-
-    <Button
-        android:id="@+id/bChiudi"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Chiudi"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bSospendi"
-        app:layout_constraintTop_toBottomOf="@+id/bElimina"
-        app:layout_constraintWidth_percent="0.27" />
-
-    <Button
-        android:id="@+id/bApri"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Apri"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bChiudi"
-        app:layout_constraintTop_toBottomOf="@+id/bElimina"
-        app:layout_constraintWidth_percent="0.27" />
-
-    <Button
-        android:id="@+id/bExit"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Esci"
-        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/bElimina"
+        app:srcCompat="@drawable/baseline_brightness_3_24" />
 
-    <Button
-        android:id="@+id/bSposta"
-        android:layout_width="wrap_content"
+    <ImageButton
+        android:id="@+id/bChiudi"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Sposta"
-        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bSospendi"
+        app:srcCompat="@drawable/baseline_block_24" />
+
+
+    <ImageButton
+        android:id="@+id/bApri"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bChiudi"
+        app:srcCompat="@drawable/baseline_cyclone_24" />
+
+    <ImageButton
+        android:id="@+id/bExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lNomeIscritto"
-        app:layout_constraintWidth_percent="0.27" />
+        app:srcCompat="@drawable/baseline_west_24" />
 
-    <Button
-        android:id="@+id/bElimina"
-        android:layout_width="wrap_content"
+    <ImageButton
+        android:id="@+id/bSposta"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Elimina"
-        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bExit"
+        app:srcCompat="@drawable/baseline_cached_24" />
+
+    <ImageButton
+        android:id="@+id/bElimina"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bSposta"
-        app:layout_constraintTop_toBottomOf="@+id/editNomeIscritto"
-        app:layout_constraintWidth_percent="0.27" />
+        app:srcCompat="@drawable/baseline_delete_outline_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

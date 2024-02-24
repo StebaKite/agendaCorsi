@@ -18,8 +18,12 @@ import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.ContattiDAO;
+import com.example.agendaCorsi.database.table.Contatto;
 import com.example.agendaCorsi.database.table.ContattoIscritto;
+import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
@@ -103,47 +107,76 @@ public class ElencoIscrizioni extends FunctionBase {
 
 
     private void loadContattiIscritti() {
-        List<Object> contattiIscrittiList = ContattiDAO.getInstance().getIscritti(idFascia, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTI_ISCRITTI));
+        try {
+            List<Row> contattiIscrittiList = ConcreteDataAccessor.getInstance().read(Contatto.VIEW_CONTATTI_ISCRITTI,
+                    null,
+                    new Row(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_FASCIA), idFascia),
+                    new String[]{Contatto.contattoColumns.get(Contatto.NOME)}
+            );
 
-        for (Object object : contattiIscrittiList) {
-            ContattoIscritto contattoIscritto = (ContattoIscritto) object;
-
-            String detailType = "";
-            if (contattoIscritto.getStato().equals(STATO_CHIUSA) || contattoIscritto.getStato().equals(STATO_DISATTIVA)) {
-                detailType = DETAIL_CLOSED;
-            } else {
-                if (contattoIscritto.getStato().equals(STATO_SOSPESO)) {
-                    detailType = DETAIL_SUSPENDED;
-                } else {
-                    detailType = DETAIL_SIMPLE;
+            for (Row row : contattiIscrittiList) {
+                String detailType = "";
+                if (row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO)).toString().equals(STATO_CHIUSA) ||
+                    row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO)).toString().equals(STATO_DISATTIVA)) {
+                    detailType = DETAIL_CLOSED;
                 }
+                else {
+                    if (row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO)).toString().equals(STATO_SOSPESO)) {
+                        detailType = DETAIL_SUSPENDED;
+                    } else {
+                        detailType = DETAIL_SIMPLE;
+                    }
+                }
+
+                tableRow = new TableRow(elencoIscrizioni);
+                tableRow.setClickable(true);
+
+                tableRow.addView(makeCell(this,new TextView(this), detailType,
+                        larghezzaColonna1,
+                        row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), detailType,
+                        larghezzaColonna2,
+                        String.valueOf(computeAge(row.getColumnValue(Contatto.contattoColumns.get(Contatto.DATA_NASCITA)).toString())),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), detailType,
+                        larghezzaColonna2,
+                        row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO)).toString(),
+                        View.TEXT_ALIGNMENT_TEXT_START,
+                        View.VISIBLE));
+
+                tableRow.addView(makeCell(this,new TextView(this), detailType,
+                        0,
+                        row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ISCRIZIONE)).toString(),
+                        0,
+                        View.GONE));
+
+                Map<String, String> intentMap = new ArrayMap<>();
+                intentMap.put("descrizioneCorso", descrizioneCorso);
+                intentMap.put("descrizioneFascia", descrizioneFascia);
+                intentMap.put("giornoSettimana", giornoSettimana);
+                intentMap.put("sport", sport);
+                intentMap.put("idCorso", idCorso);
+                intentMap.put("idFascia", idFascia);
+                intentMap.put("idIscrizione", row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ISCRIZIONE)).toString());
+                intentMap.put("statoCorso", statoCorso);
+                intentMap.put("nomeIscritto", row.getColumnValue(Contatto.contattoColumns.get(Contatto.NOME)).toString());
+                intentMap.put("statoIscrizione", row.getColumnValue(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO)).toString());
+                intentMap.put("tipoCorso", tipoCorso);
+                intentMap.put("capienza", capienza);
+                intentMap.put("totaleFascia", totaleFascia);
+
+                listenerTableRow(elencoIscrizioni, ModificaIscrizione.class, "idIscrizione", intentMap, 2);
+
+                _tabellaContattiIscritti.addView(tableRow);
             }
-
-            tableRow = new TableRow(elencoIscrizioni);
-            tableRow.setClickable(true);
-            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), detailType, larghezzaColonna2, contattoIscritto.getStato(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), detailType, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
-
-            Map<String, String> intentMap = new ArrayMap<>();
-            intentMap.put("descrizioneCorso", descrizioneCorso);
-            intentMap.put("descrizioneFascia", descrizioneFascia);
-            intentMap.put("giornoSettimana", giornoSettimana);
-            intentMap.put("sport", sport);
-            intentMap.put("idCorso", idCorso);
-            intentMap.put("idFascia", idFascia);
-            intentMap.put("idIscrizione", contattoIscritto.getIdIscrizione());
-            intentMap.put("statoCorso", statoCorso);
-            intentMap.put("nomeIscritto", contattoIscritto.getNomeContatto());
-            intentMap.put("statoIscrizione", contattoIscritto.getStato());
-            intentMap.put("tipoCorso", tipoCorso);
-            intentMap.put("capienza", capienza);
-            intentMap.put("totaleFascia", totaleFascia);
-
-            listenerTableRow(elencoIscrizioni, ModificaIscrizione.class, "idIscrizione", intentMap, 2);
-
-            _tabellaContattiIscritti.addView(tableRow);
+        }
+        catch (Exception e) {
+            displayAlertDialog(this, "Attenzione!", "Lettura contatti iscritti fallita, contatta il supporto tecnico");
         }
     }
 

@@ -94,47 +94,39 @@
 
     <!-- Bottoni -->
 
-    <Button
-        android:id="@+id/bReset"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bSalva"
-        app:layout_constraintWidth_percent="0.27" />
-
-    <Button
-        android:id="@+id/bExit"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/mybutton"
-        android:text="Esci"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.30" />
-
-    <Button
+    <ImageButton
         android:id="@+id/bSalva"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Salva"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
+        app:srcCompat="@drawable/baseline_save_24" />
+
+    <ImageButton
+        android:id="@+id/bReset"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_restore_24" />
+
+
+    <ImageButton
+        android:id="@+id/bExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/mybutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/baseline_west_24" />
 
     <RadioGroup
         android:id="@+id/radioGroup"

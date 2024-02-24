@@ -7,7 +7,8 @@ create view if not exists contatti_portfolio_view as
             t1.id_elemento,
             t1.email,
             t1.data_nascita,
-            t1.sport
+            t1.sport,
+            t1.stato
 
         from (
             select

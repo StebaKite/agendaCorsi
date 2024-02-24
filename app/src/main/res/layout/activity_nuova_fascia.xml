@@ -22,10 +22,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="MissingConstraints" />
 
-    <!-- DESCRIZIONE -->
-
-    <!-- GIORNO SETTIMANA -->
-
     <EditText
         android:id="@+id/editDescrizione"
         android:layout_width="0dp"
@@ -60,33 +56,27 @@
         app:layout_constraintTop_toBottomOf="@+id/editGiornoSettimana"
         app:layout_constraintWidth_percent="0.75" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bSalva"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Salva"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bReset"
-        app:layout_constraintTop_toBottomOf="@+id/editCapienza"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_save_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bReset"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bExit"
-        app:layout_constraintTop_toBottomOf="@+id/editCapienza"
-        app:layout_constraintWidth_percent="0.27" />
+        app:srcCompat="@drawable/baseline_restore_24" />
 
     <EditText
         android:id="@+id/editCapienza"
@@ -187,19 +177,16 @@
         app:layout_constraintTop_toBottomOf="@+id/editDescrizione"
         app:layout_constraintVertical_bias="0.636" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bExit"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Esci"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lCapienza"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_west_24" />
 
     <TextView
         android:id="@+id/lScheda2"

@@ -64,31 +64,27 @@
         app:layout_constraintTop_toBottomOf="@+id/lNome2"
         app:layout_constraintWidth_percent="0.18" />
 
-    <Button
+    <ImageButton
         android:id="@+id/SalvaModButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/mybutton"
-        android:text="Salva"
-        android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/AnnullaModButton"
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
-        app:layout_constraintWidth_percent="0.17" />
+        app:srcCompat="@drawable/baseline_save_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/AnnullaModButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="Annulla"
-        android:textAllCaps="false"
         android:background="@drawable/mybutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
-        app:layout_constraintWidth_percent="0.35" />
+        app:srcCompat="@drawable/baseline_restore_24" />
 
     <EditText
         android:id="@+id/editDataNascita"
@@ -138,18 +134,16 @@
         app:layout_constraintTop_toBottomOf="@+id/lScheda3"
         app:layout_constraintWidth_percent="0.20" />
 
-    <Button
+    <ImageButton
         android:id="@+id/EliminaModButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/mybutton"
-        android:text="Elimina"
-        android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/SalvaModButton"
         app:layout_constraintTop_toBottomOf="@+id/editEmailMod"
-        app:layout_constraintWidth_percent="0.17" />
+        app:srcCompat="@drawable/baseline_delete_outline_24" />
 
     <TextView
         android:id="@+id/lIndirizzo2"
@@ -253,28 +247,26 @@
             android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
-    <Button
+    <ImageButton
         android:id="@+id/NuovoElemModButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
-        android:text="Nuovo"
-        android:textAllCaps="false"
         android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ExitModButton" />
+        app:layout_constraintStart_toEndOf="@+id/ExitModButton"
+        app:srcCompat="@drawable/baseline_add_card_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/ExitModButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="4dp"
-        android:text="Esci"
-        android:textAllCaps="false"
         android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/baseline_west_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ public class Contatto implements BaseColumns {
 
     public static String TABLE_NAME = "contatto";
     public static String VIEW_ALL_CONTATTI = "all_contatti_view";
+    public static String VIEW_CONTATTI_ISCRITTI = "contatti_iscritti_view";
 
     public static Integer ID_CONTATTO = 0;
     public static Integer NOME = 1;

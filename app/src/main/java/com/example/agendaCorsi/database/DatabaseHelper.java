@@ -28,7 +28,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "agendaCorsi";
-    public static final int SCHEMA_VERSION = 26;
+    public static final int SCHEMA_VERSION = 31;
     public static final String DATABASE_NAME = "agendaCorsi.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -49,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_VIEW_CORSI_ISCRIZIONI = "create_view_corsi_iscrizioni";
     public static String CREATE_VIEW_ALL_FASCE_CORSI = "create_view_all_fasce_corsi";
     public static String CREATE_VIEW_TOTALI_CORSI = "create_view_totali_corsi";
+    public static String CREATE_VIEW_CONTATTI_ISCRITTI = "create_view_contatti_iscritti";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -85,6 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_PORTFOLIO);
         FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_ALL_FASCE_CORSI);
         CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_TOTALI_CORSI);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI);
 
 
         /*
@@ -128,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop view if exists corsi_iscrizioni_view");
         sqLiteDatabase.execSQL("drop view if exists all_fasce_corsi_view");
         sqLiteDatabase.execSQL("drop view if exists totali_corsi_view");
+        sqLiteDatabase.execSQL("drop view if exists contatti_iscritti_view");
 
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
@@ -155,6 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_PORTFOLIO);
         FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_ALL_FASCE_CORSI);
         CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_TOTALI_CORSI);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI);
 
         /*
          * Initial Load

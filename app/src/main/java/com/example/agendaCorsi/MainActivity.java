@@ -188,7 +188,7 @@ public class MainActivity extends FunctionBase {
 
             for (Row row : totaliCorsoList) {
 
-                if (row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE)).toString().equals(descrizione_corso_save)) {
+                if (row.getColumnValue(Corso.corsoColumns.get(Corso.DESCRIZIONE_CORSO)).toString().equals(descrizione_corso_save)) {
                     if (row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString().equals(descrizione_fascia_save)) {
                         // aggiungo il totale per il giorno della settimana
                         tableRow = aggiungiTotaleGiorno(tableRow,
@@ -217,7 +217,7 @@ public class MainActivity extends FunctionBase {
                                 larghezzaColonnaFascia,
                                 Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
                                 descrizione_corso_save,
-                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
 
                         tableRow = aggiungiTotaleGiorno(tableRow,
                                 row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
@@ -226,9 +226,10 @@ public class MainActivity extends FunctionBase {
                                 row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
                                 Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
                                 descrizione_corso_save,
-                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                                row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
 
-                        cellNum = Integer.parseInt(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA).toString()) + 1;
+                        int gSett = Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString());
+                        cellNum = gSett + 1;
                     }
                 }
                 else {
@@ -256,14 +257,14 @@ public class MainActivity extends FunctionBase {
                     idCorso_save = row.getColumnValue(Corso.corsoColumns.get(Corso.ID_CORSO)).toString();
                     descrizione_fascia_save = row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString();
 
-                    previousId = titoloTabella(idCorso_save, previousId, linearLayout, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
-                    intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                    previousId = titoloTabella(idCorso_save, previousId, linearLayout, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
+                    intestaTabella(tableLayout, larghezzaColonnaFascia, larghezzaColonnaTotale, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
 
                     tableRow = preparaTableRow(descrizione_fascia_save,
                             larghezzaColonnaFascia,
                             Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
                             descrizione_corso_save,
-                            row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                            row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
 
                     tableRow = aggiungiTotaleGiorno(tableRow,
                             row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
@@ -271,9 +272,10 @@ public class MainActivity extends FunctionBase {
                             cellNum,
                             row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
                             Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString()),
-                            descrizione_corso_save, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString());
+                            descrizione_corso_save, row.getColumnValue(Corso.corsoColumns.get(Corso.STATO_CORSO)).toString());
 
-                    cellNum = Integer.parseInt(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA).toString()) + 1;
+                    int gSett = Integer.parseInt(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString());
+                    cellNum = gSett + 1;
                 }
             }
             if (totaliCorsoList.size() > 0) {

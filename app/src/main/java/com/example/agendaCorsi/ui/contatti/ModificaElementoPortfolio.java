@@ -54,8 +54,6 @@ public class ModificaElementoPortfolio extends FunctionBase {
         esci = findViewById(R.id.bExit);
         salva = findViewById(R.id.bSalva);
         elimina = findViewById(R.id.bElimina);
-        ricarica5 = findViewById(R.id.bRicarica5);
-        ricarica10 = findViewById(R.id.bRicarica10);
 
         _descrizione = findViewById(R.id.editDescrizione);
         _numeroLezioni = findViewById(R.id.editNumeroLezioni);

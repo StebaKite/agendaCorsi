@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,7 +123,7 @@ public class FunctionBase extends AppCompatActivity {
     /*
      * I bottoni
      */
-    public Button annulla, esci, elimina, salva, chiudi, sospendi, apri, inserisci, ricarica5, ricarica10, sposta;
+    public ImageButton esci, inserisci, annulla, salva, elimina, chiudi, sospendi, apri, ricarica5, ricarica10, sposta;
     public TableRow tableRow;
     public PropertyReader propertyReader;
     public Properties properties;
@@ -324,13 +325,6 @@ public class FunctionBase extends AppCompatActivity {
 
     public Toast makeToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-        View toastView = toast.getView();
-        toastView.setBackground(ContextCompat.getDrawable(context, R.drawable.toast_bg_gradient));
-
-        TextView text = (TextView) toastView.findViewById(android.R.id.message);
-        text.setTextColor(Color.BLACK);
-        text.setTextSize(16);
-
         return toast;
     }
 
@@ -634,6 +628,39 @@ public class FunctionBase extends AppCompatActivity {
         }
         return value;
     }
+
+
+    public boolean isFasciaNonSovrapposta(String idCorso, String idFascia, String giornoSettimana, String _oraI, String _oraF) {
+        try {
+            Float _oraInizio = Float.parseFloat(_oraI);
+            Float _oraFine = Float.parseFloat(_oraF);
+            idFascia = (idFascia == null) ? "" : idFascia;
+
+            Row selectColumn = new Row();
+            selectColumn.addColumn(Fascia.fasciaColumns.get(Fascia.ID_CORSO), idCorso);
+            selectColumn.addColumn(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA), giornoSettimana);
+
+            List<Row> fasceCorso = ConcreteDataAccessor.getInstance().read(Fascia.TABLE_NAME,
+                    null,
+                    new Row(Fascia.fasciaColumns.get(Fascia.ID_CORSO), idCorso),
+                    null);
+
+            for (Row fascia : fasceCorso) {
+                if (!fascia.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA).toString()).equals(idFascia)) {
+                    Float oraInizio = Float.parseFloat(fascia.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO)).toString());
+                    Float oraFine = Float.parseFloat(fascia.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_FINE)).toString());
+                    if ((oraInizio >= _oraInizio && oraInizio <= _oraFine) || (oraFine >= _oraInizio && _oraFine <= _oraFine)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
 
     public void makeAnnulla() {}
 

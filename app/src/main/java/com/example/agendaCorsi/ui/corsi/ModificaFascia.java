@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.CornerPathEffect;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.MenuItem;
@@ -17,13 +18,21 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.access.FasciaDAO;
+import com.example.agendaCorsi.database.table.Contatto;
+import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class ModificaFascia extends FunctionBase {
@@ -71,7 +80,7 @@ public class ModificaFascia extends FunctionBase {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         _oraInizio.setText(selectedHour + "." + selectedMinute);
                     }
-                }, hour, minute, true);//Yes 24 hour time
+                }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di inizio lezione");
                 mTimePicker.show();
             }
@@ -90,7 +99,7 @@ public class ModificaFascia extends FunctionBase {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         _oraFine.setText(selectedHour + "." + selectedMinute);
                     }
-                }, hour, minute, true);//Yes 24 hour time
+                }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di fine lezione");
                 mTimePicker.show();
             }
@@ -116,25 +125,24 @@ public class ModificaFascia extends FunctionBase {
 
 
     private void loadFascia() {
+        try {
+            List<Row> rows = ConcreteDataAccessor.getInstance().read(Fascia.TABLE_NAME, null, new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idFascia), null);
+            for (Row row : rows) {
+                _descrizione.setText(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE)).toString());
+                _giornoSettimana.setText(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString());
+                _oraInizio.setText(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO)).toString());
+                _oraFine.setText(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ORA_FINE)).toString());
+                _capienza.setText(row.getColumnValue(Fascia.fasciaColumns.get(Fascia.CAPIENZA)).toString());
 
-        Fascia fascia = new Fascia(String.valueOf(idFascia), String.valueOf(idCorso),null,null, null, null, null,null,null);
-        FasciaDAO.getInstance().select(fascia, QueryComposer.getInstance().getQuery(QUERY_GET_FASCIA));
-
-        if (fascia.getIdFascia().equals("")) {
-            displayAlertDialog(modificaFascia, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
+                descrizione = _descrizione.getText().toString();
+                giornoSettimana = _giornoSettimana.getText().toString();
+                oraInizio = _oraInizio.getText().toString();
+                oraFine = _oraFine.getText().toString();
+                capienza = _capienza.getText().toString();
+            }
         }
-        else {
-            _descrizione.setText(fascia.getDescrizione());
-            _giornoSettimana.setText(fascia.getGiornoSettimana());
-            _oraInizio.setText(fascia.getOraInizio());
-            _oraFine.setText(fascia.getOraFine());
-            _capienza.setText(fascia.getCapienza());
-
-            descrizione = _descrizione.getText().toString();
-            giornoSettimana = _giornoSettimana.getText().toString();
-            oraInizio = _oraInizio.getText().toString();
-            oraFine = _oraFine.getText().toString();
-            capienza = _capienza.getText().toString();
+        catch (Exception e) {
+            displayAlertDialog(modificaFascia, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
         }
     }
 
@@ -148,46 +156,67 @@ public class ModificaFascia extends FunctionBase {
     }
 
     public void makeSalva() {
-        Fascia fascia = new Fascia(String.valueOf(idFascia), String.valueOf(idCorso), _descrizione.getText().toString(),
-                _giornoSettimana.getText().toString(),
-                _oraInizio.getText().toString(),
-                _oraFine.getText().toString(),
-                _capienza.getText().toString(),
-                null,
-                null);
-
-        if (fascia.getDescrizione().equals("") ||
-                fascia.getOraInizio().equals("") ||
-                fascia.getOraFine().equals("") ||
-                fascia.getGiornoSettimana().equals("") ||
-                fascia.getCapienza().equals("")) {
+        if (_descrizione.getText().toString().equals("") ||
+            _oraInizio.getText().toString().equals("") ||
+            _oraFine.getText().toString().equals("") ||
+            _giornoSettimana.getText().toString().equals("") ||
+            _capienza.getText().toString().equals("")) {
 
             displayAlertDialog(modificaFascia, "Attenzione!", "Inserire tutti i campi");
         }
         else {
-            if (isNumberOfWeek(Integer.parseInt(fascia.getGiornoSettimana()))) {
-                if (FasciaDAO.getInstance().isNew(fascia, QueryComposer.getInstance().getQuery(QUERY_ISNEW_FASCIA))) {
+            if (isNumberOfWeek(Integer.parseInt(_giornoSettimana.getText().toString()))) {
+                if (isFasciaNonSovrapposta(idCorso, idFascia, giornoSettimana, _oraInizio.getText().toString(), _oraFine.getText().toString())) {
                     if (Integer.parseInt(String.valueOf(_capienza.getText())) >= Integer.parseInt(capienza)) {
-                        if (FasciaDAO.getInstance().update(fascia, QueryComposer.getInstance().getQuery(QUERY_MOD_FASCIA))) {
-                            makeToastMessage(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.").show();
-                            esci.callOnClick();
-                        }
-                        else {
-                            displayAlertDialog(modificaFascia, "Attenzione!", "Modifica fallita, contatta il supporto tecnico");
+                        try {
+                            Row updateColumn = new Row();
+                            boolean anyChange = false;
+
+                            if (!_capienza.getText().toString().equals(capienza)) {
+                                anyChange = true;
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.CAPIENZA), _capienza.getText().toString());
+                            }
+                            if (!_oraFine.getText().toString().equals(oraFine)) {
+                                anyChange = true;
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.ORA_FINE), _oraFine.getText().toString());
+                            }
+                            if (!_oraInizio.getText().toString().equals(oraInizio)) {
+                                anyChange = true;
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO), _oraInizio.getText().toString());
+                            }
+                            if (!_giornoSettimana.getText().toString().equals(giornoSettimana)) {
+                                anyChange = true;
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA), _giornoSettimana.getText().toString());
+                            }
+                            if (!_descrizione.getText().toString().equals(descrizione)) {
+                                anyChange = true;
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE), _descrizione.getText().toString());
+                            }
+
+                            if (anyChange) {
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Date date = new Date();
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+
+                                ConcreteDataAccessor.getInstance().update(Fascia.TABLE_NAME, new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idFascia), updateColumn);
+                                makeToastMessage(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.").show();
+                                esci.callOnClick();
+                            }
+                        } catch (Exception e) {
+                            displayAlertDialog(modificaFascia, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
                         }
                     } else {
                         displayAlertDialog(modificaFascia, "Attenzione!", "Riduzione capienza fascia non permessa");
                     }
-                }
-                else {
+                } else {
                     displayAlertDialog(modificaFascia, "Attenzione!", "Fascia sovrapposta non ammessa");
                 }
-            }
-            else {
+            } else {
                 displayAlertDialog(modificaFascia, "Attenzione!", "Giorno settimana non valido");
             }
         }
     }
+
 
     public void makeElimina() {
         AlertDialog.Builder messaggio = new AlertDialog.Builder(modificaFascia, R.style.Theme_InfoDialog);

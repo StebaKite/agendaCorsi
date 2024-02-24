@@ -7,18 +7,17 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.AgendaCorsi">
 
-    <Button
+
+    <ImageButton
         android:id="@+id/bElimina"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Elimina"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/bReset"
+        app:layout_constraintStart_toEndOf="@+id/bSalva"
         app:layout_constraintTop_toBottomOf="@+id/editDataFine"
-        app:layout_constraintWidth_percent="0.2" />
+        app:srcCompat="@drawable/baseline_delete_outline_24" />
 
     <TextView
         android:id="@+id/lDataFine"
@@ -117,75 +116,60 @@
         app:layout_constraintTop_toBottomOf="@+id/lScheda2"
         app:layout_constraintWidth_percent="0.18" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bSospendi"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Sosp."
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bChiudi"
-        app:layout_constraintTop_toBottomOf="@+id/bReset"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
+        app:srcCompat="@drawable/baseline_brightness_3_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bApri"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Apri"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/bSospendi"
-        app:layout_constraintTop_toBottomOf="@+id/bReset"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
+        app:srcCompat="@drawable/baseline_cyclone_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bSalva"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Salva"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/bElimina"
+        app:layout_constraintStart_toEndOf="@+id/bReset"
         app:layout_constraintTop_toBottomOf="@+id/editDataFine"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_save_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bReset"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Annulla"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lDataFine"
-        app:layout_constraintWidth_percent="0.27" />
+        app:srcCompat="@drawable/baseline_restore_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bChiudi"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mybutton"
-        android:text="Chiudi"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bReset"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintStart_toEndOf="@+id/bElimina"
+        app:layout_constraintTop_toBottomOf="@+id/lDataFine"
+        app:srcCompat="@drawable/baseline_block_24" />
 
     <EditText
         android:id="@+id/editDataInizio"
@@ -210,14 +194,14 @@
         android:id="@+id/textView"
         android:layout_width="400dp"
         android:layout_height="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Fasce orarie"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bSalva" />
+        app:layout_constraintTop_toBottomOf="@+id/editDataFine" />
 
     <ScrollView
         android:id="@+id/headerTab"
@@ -256,30 +240,26 @@
             android:stretchColumns="0,1"></TableLayout>
     </ScrollView>
 
-    <Button
+    <ImageButton
         android:id="@+id/bExit"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Esci"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.30" />
+        app:srcCompat="@drawable/baseline_west_24" />
 
-    <Button
+    <ImageButton
         android:id="@+id/NuovaFasciaButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/mybutton"
-        android:text="Nuova"
-        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bExit" />
+        app:layout_constraintStart_toEndOf="@+id/bExit"
+        app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
