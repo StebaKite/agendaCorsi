@@ -119,9 +119,6 @@ public class NuovaFascia extends FunctionBase {
             try {
                 if (isNumberOfWeek(Integer.parseInt(_giornoSettimana.getText().toString()))) {
                     if (isFasciaNonSovrapposta(idCorso, null, _giornoSettimana.getText().toString(), _oraInizio.getText().toString(), _oraFine.getText().toString())) {
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date date = new Date();
-
                         Row row = new Row();
                         row.addColumn(Fascia.fasciaColumns.get(Fascia.ID_CORSO), idCorso);
                         row.addColumn(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE), _descrizione.getText().toString());
@@ -129,8 +126,8 @@ public class NuovaFascia extends FunctionBase {
                         row.addColumn(Fascia.fasciaColumns.get(Fascia.ORA_INIZIO), _oraInizio.getText().toString());
                         row.addColumn(Fascia.fasciaColumns.get(Fascia.ORA_FINE), _oraFine.getText().toString());
                         row.addColumn(Fascia.fasciaColumns.get(Fascia.CAPIENZA), _capienza.getText().toString());
-                        row.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_CREAZIONE), dateFormat.format(date));
-                        row.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                        row.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_CREAZIONE), getNowTimestamp());
+                        row.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
                         List<Row> insertRows = new LinkedList<>();
                         insertRows.add(row);

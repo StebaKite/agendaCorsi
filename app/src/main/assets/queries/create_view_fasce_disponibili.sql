@@ -1,5 +1,4 @@
-select t2.*
-  from (
+create view if not exists fasce_disponibili_view as
     select
         corso.descrizione as descrizione_corso,
         corso.stato,
@@ -31,9 +30,3 @@ select t2.*
         left outer join giorno_settimana
             on giorno_settimana.numero_giorno = fascia.giorno_settimana
 
-    ) as t2
-
-    where t2.id_corso = #IDCORSO#
-      and t2.id_fascia != #IDFASCIA#
-
-order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

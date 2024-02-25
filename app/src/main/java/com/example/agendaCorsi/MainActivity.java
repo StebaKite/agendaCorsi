@@ -358,7 +358,8 @@ public class MainActivity extends FunctionBase {
 
             for (Row row : giorniSettimanaList) {
                 if (statoCorso.equals(STATO_ATTIVO)) {
-                    headerType = (row.getColumnValue(GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NUMERO_GIORNO)).equals(getDayOfWeek())) ? HEADER_EVIDENCE : HEADER;
+                    int nGiorno = Integer.parseInt(row.getColumnValue(GiornoSettimana.giornoSettimanaColumns.get(GiornoSettimana.NUMERO_GIORNO)).toString());
+                    headerType = (nGiorno == getDayOfWeek()) ? HEADER_EVIDENCE : HEADER;
                 } else {
                     headerType = HEADER_OFF;
                 }

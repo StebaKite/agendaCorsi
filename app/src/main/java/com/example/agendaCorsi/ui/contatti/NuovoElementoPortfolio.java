@@ -72,10 +72,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
         if (descrizione.getText().toString().equals("") || numeroLezioni.getText().toString().equals("")) {
             displayAlertDialog(nuovoElementoPortfolio, "Attenzione!", "Inserire tutti i campi");
         }
-        else {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-
+        else {;
             String sport = "";
             if (radio_skate.isChecked()) { sport = Skate; }
             if (radio_basket.isChecked()) { sport = Basket; }
@@ -99,7 +96,7 @@ public class NuovoElementoPortfolio extends FunctionBase {
                     row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI), numeroLezioni.getText().toString());
                     row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMA_RICARICA), null);
                     row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), statoElemento);
-                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_CREAZIONE), dateFormat.format(date));
+                    row.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_CREAZIONE), getNowTimestamp());
 
                     List<Row> rowsToInsert = new LinkedList<>();
                     rowsToInsert.add(row);

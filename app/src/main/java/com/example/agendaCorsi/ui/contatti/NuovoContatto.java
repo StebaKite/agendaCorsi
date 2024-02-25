@@ -88,16 +88,13 @@ public class NuovoContatto extends FunctionBase {
         }
         else {
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = new Date();
-
                 Row row = new Row();
                 row.addColumn(Contatto.contattoColumns.get(Contatto.NOME), nome.getText().toString());
                 row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_NASCITA), dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
                 row.addColumn(Contatto.contattoColumns.get(Contatto.INDIRIZZO), indirizzo.getText().toString());
                 row.addColumn(Contatto.contattoColumns.get(Contatto.TELEFONO), telefono.getText().toString());
                 row.addColumn(Contatto.contattoColumns.get(Contatto.EMAIL), email.getText().toString());
-                row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_CREAZIONE), dateFormat.format(date));
+                row.addColumn(Contatto.contattoColumns.get(Contatto.DATA_CREAZIONE), getNowTimestamp());
 
                 List<Row> insertRows = new LinkedList<>();
                 insertRows.add(row);

@@ -1,6 +1,3 @@
---------------------------------------------------------
--- query_elenco_fasce_corso
---------------------------------------------------------
 create view if not exists fasce_corso_view as
     select
         t2.descrizione_corso,

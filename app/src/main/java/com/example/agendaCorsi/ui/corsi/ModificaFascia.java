@@ -194,10 +194,7 @@ public class ModificaFascia extends FunctionBase {
                             }
 
                             if (anyChange) {
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                Date date = new Date();
-                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
-
+                                updateColumn.addColumn(Fascia.fasciaColumns.get(Fascia.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
                                 ConcreteDataAccessor.getInstance().update(Fascia.TABLE_NAME, new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idFascia), updateColumn);
                                 makeToastMessage(AgendaCorsiApp.getContext(), "Fascia aggiornata con successo.").show();
                                 esci.callOnClick();

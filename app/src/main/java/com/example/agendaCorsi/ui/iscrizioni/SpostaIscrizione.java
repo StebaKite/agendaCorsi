@@ -15,12 +15,12 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.agendaCorsi.MainActivity;
-import com.example.agendaCorsi.database.access.FasciaDAO;
-import com.example.agendaCorsi.database.access.IscrizioneDAO;
-import com.example.agendaCorsi.database.table.FasciaCorso;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
+import com.example.agendaCorsi.database.table.Corso;
+import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.database.table.Iscrizione;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
 import java.util.List;
@@ -108,42 +108,84 @@ public class SpostaIscrizione extends FunctionBase {
     }
 
     private void loadFasceCorso() {
-        List<Object> fasceCorsiList = FasciaDAO.getInstance().getAllFasceDisponibili(idCorso, idFascia, QueryComposer.getInstance().getQuery(QUERY_GETALL_FASCE_DISPONIBILI));
+        try {
+            String[] orderColumns = new String[]{
+                    Corso.corsoColumns.get(Corso.DESCRIZIONE_CORSO),
+                    Fascia.fasciaColumns.get(Fascia.NUMERO_GIORNO),
+                    Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)
+            };
 
-        for (Object entity : fasceCorsiList) {
-            FasciaCorso fasciaCorso = (FasciaCorso) entity;
+            List<Row> fasceCorsiList = ConcreteDataAccessor.getInstance().read(Fascia.VIEW_FASCE_DISPONIBILI,
+                    null,
+                    new Row(Fascia.fasciaColumns.get(Fascia.ID_CORSO), idCorso),
+                    orderColumns);
 
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
-            String stato = (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) ? DETAIL_SIMPLE : DETAIL_CLOSED;
+            for (Row row : fasceCorsiList) {
+                if (!row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA).toString()).equals(idFascia)) {
+                    tableRow = new TableRow(this);
+                    tableRow.setClickable(true);
+                    String stato = (isFasciaCapiente(
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.CAPIENZA)).toString())) ? DETAIL_SIMPLE : DETAIL_CLOSED;
 
-            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna1, fasciaCorso.getGiornoSettimana(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna2, fasciaCorso.getDescrizioneFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), stato, larghezzaColonna3, fasciaCorso.getTotaleFascia(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this,new TextView(this), stato, 0, fasciaCorso.getIdFascia(), 0, View.GONE));
+                    tableRow.addView(makeCell(this,new TextView(this),
+                            stato,
+                            larghezzaColonna1,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.GIORNO_SETTIMANA)).toString(),
+                            View.TEXT_ALIGNMENT_TEXT_START,
+                            View.VISIBLE));
 
-            if (isFasciaCapiente(fasciaCorso.getTotaleFascia(), fasciaCorso.getCapienza())) {
+                    tableRow.addView(makeCell(this,new TextView(this),
+                            stato,
+                            larghezzaColonna2,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.DESCRIZIONE_FASCIA)).toString(),
+                            View.TEXT_ALIGNMENT_TEXT_START,
+                            View.VISIBLE));
 
-                tableRow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        TableRow tableRow = (TableRow) view;
-                        TextView textView = (TextView) tableRow.getChildAt(3);
-                        String idSelezionato = textView.getText().toString();
+                    tableRow.addView(makeCell(this,new TextView(this),
+                            stato,
+                            larghezzaColonna3,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                            View.TEXT_ALIGNMENT_TEXT_START,
+                            View.VISIBLE));
 
-                        tableRow.setBackground(ContextCompat.getDrawable(spostaIscrizione, R.drawable.cell_bg_gradient));
+                    tableRow.addView(makeCell(this,new TextView(this),
+                            stato, 0,
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.ID_FASCIA)).toString(), 0, View.GONE));
 
-                        Iscrizione iscrizione = new Iscrizione(idIscrizione, idSelezionato, null, null, null, null);
-                        if (IscrizioneDAO.getInstance().update(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_ISCRIZIONE))) {
-                            makeToastMessage(spostaIscrizione, "Iscrizione spostata con successo.").show();
-                            esci.callOnClick();
-                        } else {
-                            displayAlertDialog(spostaIscrizione, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
-                        }
+                    if (isFasciaCapiente(
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.TOTALE_FASCIA)).toString(),
+                            row.getColumnValue(Fascia.fasciaColumns.get(Fascia.CAPIENZA)).toString())) {
+
+                        tableRow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                TableRow tableRow = (TableRow) view;
+                                TextView textView = (TextView) tableRow.getChildAt(3);
+                                String idSelezionato = textView.getText().toString();
+
+                                tableRow.setBackground(ContextCompat.getDrawable(spostaIscrizione, R.drawable.cell_bg_gradient));
+
+                                try {
+                                    ConcreteDataAccessor.getInstance().update(Iscrizione.TABLE_NAME,
+                                            new Row(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ISCRIZIONE), idIscrizione),
+                                            new Row(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_FASCIA), idSelezionato));
+
+                                    makeToastMessage(spostaIscrizione, "Iscrizione spostata con successo.").show();
+                                    esci.callOnClick();
+                                }
+                                catch (Exception e) {
+                                    displayAlertDialog(spostaIscrizione, "Attenzione!", "Aggiornamento fallito, contatta il supporto tecnico");
+                                }
+                            }
+                        });
                     }
-                });
+                    tabellaFasce.addView(tableRow);
+                }
             }
-            tabellaFasce.addView(tableRow);
+        }
+        catch (Exception e) {
+            displayAlertDialog(spostaIscrizione, "Attenzione!", "Lettura fasce disponibili fallito, contatta il supporto tecnico");
         }
     }
 

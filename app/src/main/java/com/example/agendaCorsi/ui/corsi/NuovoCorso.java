@@ -92,9 +92,6 @@ public class NuovoCorso extends FunctionBase {
         dataInizioValidita = findViewById(R.id.editDataInizio);
         dataFineValidita = findViewById(R.id.editDataFine);
         skate = findViewById(R.id.radio_skate);
-        basket = findViewById(R.id.radio_basket);
-        pattini = findViewById(R.id.radio_pattini);
-        pallavolo = findViewById(R.id.radio_pallavolo);
 
         normale = findViewById(R.id.radio_normale);
         aperto = findViewById(R.id.radio_aperto);
@@ -118,9 +115,6 @@ public class NuovoCorso extends FunctionBase {
         }
         else {
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = new Date();
-
                 String sport = "";
                 if (skate.isChecked()) {
                     sport = Skate;
@@ -150,8 +144,8 @@ public class NuovoCorso extends FunctionBase {
                 insertColumn.addColumn(Corso.corsoColumns.get(Corso.TIPO), tipo);
                 insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA), dateFormat(dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
                 insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA), dateFormat(dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
-                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_CREAZIONE), dateFormat.format(date));
-                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_CREAZIONE), getNowTimestamp());
+                insertColumn.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
                 List<Row> rowToInsert = new LinkedList<>();
                 rowToInsert.add(insertColumn);

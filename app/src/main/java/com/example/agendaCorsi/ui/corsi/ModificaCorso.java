@@ -179,9 +179,6 @@ public class ModificaCorso extends FunctionBase {
             List<Row> rows = ConcreteDataAccessor.getInstance().read(TotaleCorso.VIEW_TOT_ISCRIZIONI, null, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), null);
 
             String statoCorso = STATO_APERTO;
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-
             for (Row row : rows) {
                 if (row.getColumnValue(TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.DESCRIZIONE_CORSO)) != null) {
                     if (Integer.parseInt(row.getColumnValue(TotaleCorso.totIscrizioniCorsoColumns.get(TotaleCorso.VALORE_TOTALE)).toString()) > 0) {
@@ -190,7 +187,7 @@ public class ModificaCorso extends FunctionBase {
                 }
                 Row rowToUpdate = new Row();
                 rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), statoCorso);
-                rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
                 ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
 
@@ -206,12 +203,9 @@ public class ModificaCorso extends FunctionBase {
     @Override
     public void makeSospendi() {
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-
             Row rowToUpdate = new Row();
             rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), STATO_SOSPESO);
-            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
             ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
             makeToastMessage(AgendaCorsiApp.getContext(), "Corso sospeso con successo").show();
@@ -225,12 +219,9 @@ public class ModificaCorso extends FunctionBase {
     @Override
     public void makeChiudi() {
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-
             Row rowToUpdate = new Row();
             rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.STATO), STATO_CHIUSO);
-            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+            rowToUpdate.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
             ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), rowToUpdate);
             makeToastMessage(AgendaCorsiApp.getContext(), "Corso chiuso con successo").show();
@@ -250,15 +241,12 @@ public class ModificaCorso extends FunctionBase {
         }
         else {
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date();
-
                 Row updateRow = new Row();
                 updateRow.addColumn(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso);
                 updateRow.addColumn(Corso.corsoColumns.get(Corso.DESCRIZIONE), _descrizione.getText().toString());
                 updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_INIZIO_VALIDITA), dateFormat(_dataInizioValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
                 updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_FINE_VALIDITA), dateFormat(_dataFineValidita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"));
-                updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), dateFormat.format(date));
+                updateRow.addColumn(Corso.corsoColumns.get(Corso.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
 
                 ConcreteDataAccessor.getInstance().update(Corso.TABLE_NAME, new Row(Corso.corsoColumns.get(Corso.ID_CORSO), idCorso), updateRow);
                 makeToastMessage(AgendaCorsiApp.getContext(), "Corso aggiornato con successo.").show();

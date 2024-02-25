@@ -611,6 +611,12 @@ public class FunctionBase extends AppCompatActivity {
         if (weekDay == 0) {return 7;} else {return weekDay;}
     }
 
+    public String getNowTimestamp() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(new Date());
+    }
+
+
     public boolean isFasciaRunning(String fascia) {
         String HHmm = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
         String[] estremiFascia = fascia.split("-");
@@ -642,7 +648,7 @@ public class FunctionBase extends AppCompatActivity {
 
             List<Row> fasceCorso = ConcreteDataAccessor.getInstance().read(Fascia.TABLE_NAME,
                     null,
-                    new Row(Fascia.fasciaColumns.get(Fascia.ID_CORSO), idCorso),
+                    selectColumn,
                     null);
 
             for (Row fascia : fasceCorso) {

@@ -155,14 +155,11 @@ public class NuovaIscrizione extends FunctionBase {
 
                             tableRow.setBackground(ContextCompat.getDrawable(nuovaIscrizione, R.drawable.cell_bg_gradient));
 
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date date = new Date();
-
                             Row insertColumn = new Row();
                             insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_FASCIA), idFascia);
                             insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.ID_ELEMENTO), idSelezionato);
                             insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.STATO), STATO_ATTIVA);
-                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.DATA_CREAZIONE), dateFormat.format(date));
+                            insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.DATA_CREAZIONE), getNowTimestamp());
                             insertColumn.addColumn(Iscrizione.iscrizioneColumns.get(Iscrizione.DATA_ULTIMO_AGGIORNAMENTO), null);
 
                             List<Row> rowsToInsert = new LinkedList<>();
