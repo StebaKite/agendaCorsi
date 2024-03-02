@@ -8,8 +8,6 @@ import android.util.Log;
 import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.database.DatabaseHelper;
 import com.example.agendaCorsi.database.Database_itf;
-import com.example.agendaCorsi.database.table.Corso;
-import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.GiornoSettimana;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 

@@ -1,10 +1,11 @@
-select t2.*
-  from (
+create view if not exists fasce_corsi_running_view as
     select
         corso.descrizione as descrizione_corso,
         corso.stato,
         corso.sport,
         fascia.giorno_settimana as numero_giorno,
+        fascia.ora_inizio,
+        fascia.ora_fine,
         fascia.ora_inizio || '-' || fascia.ora_fine as descrizione_fascia,
         fascia.id_fascia,
         fascia.capienza,
@@ -25,18 +26,8 @@ select t2.*
               from iscrizione
               where stato != 'Chiuso'
               group by id_fascia
-            ) as t1
-              on t1.id_fascia = fascia.id_fascia
+        ) as t1
+          on t1.id_fascia = fascia.id_fascia
 
         left outer join giorno_settimana
             on giorno_settimana.numero_giorno = fascia.giorno_settimana
-
-        where fascia.giorno_settimana = '#OGGI#'
-          and fascia.ora_inizio <= '#ADESSO#'
-          and fascia.ora_fine >= '#ADESSO#'
-
-    ) as t2
-    where t2.stato not in ('Chiuso', 'Sospeso')
-      and t2.tipo != 'TEST'
-
-order by t2.descrizione_corso, t2.numero_giorno, t2.descrizione_fascia

@@ -28,7 +28,7 @@ import com.example.agendaCorsi.ui.base.QueryComposer;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB = "agendaCorsi";
-    public static final int SCHEMA_VERSION = 32;
+    public static final int SCHEMA_VERSION = 34;
     public static final String DATABASE_NAME = "agendaCorsi.db";
 
     public static String CREATE_TABLE_CONTATTO = "create_table_contatto";
@@ -51,6 +51,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_VIEW_TOTALI_CORSI = "create_view_totali_corsi";
     public static String CREATE_VIEW_CONTATTI_ISCRITTI = "create_view_contatti_iscritti";
     public static String CREATE_VIEW_FASCE_DISPONIBILI = "create_view_fasce_disponibili";
+    public static String CREATE_VIEW_CONTATTI_ISCRITTI_RUNNING = "create_view_contatti_iscritti_running";
+    public static String CREATE_VIEW_FASCE_CORSI_RUNNING = "create_view_fasce_corsi_running";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -89,6 +91,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_TOTALI_CORSI);
         ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI);
         FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_FASCE_DISPONIBILI);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI_RUNNING);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_FASCE_CORSI_RUNNING);
 
 
         /*
@@ -134,6 +138,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop view if exists totali_corsi_view");
         sqLiteDatabase.execSQL("drop view if exists contatti_iscritti_view");
         sqLiteDatabase.execSQL("drop view if exists fasce_disponibili_view");
+        sqLiteDatabase.execSQL("drop view if exists contatti_iscritti_running_view");
+        sqLiteDatabase.execSQL("drop view if exists fasce_corsi_running_view");
 
         /*
          * Sequenza di CREATE secondo le constraint dello schema (vedi modello ER)
@@ -163,6 +169,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CorsoDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_TOTALI_CORSI);
         ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI);
         FasciaDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_FASCE_DISPONIBILI);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_CONTATTI_ISCRITTI_RUNNING);
+        ContattiDAO.getInstance().create(sqLiteDatabase, CREATE_VIEW_FASCE_CORSI_RUNNING);
 
         /*
          * Initial Load

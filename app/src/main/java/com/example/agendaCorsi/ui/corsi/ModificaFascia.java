@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.CornerPathEffect;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.MenuItem;
@@ -20,18 +19,11 @@ import com.example.agendaCorsi.AgendaCorsiApp;
 import com.example.agendaCorsi.MainActivity;
 import com.example.agendaCorsi.database.ConcreteDataAccessor;
 import com.example.agendaCorsi.database.Row;
-import com.example.agendaCorsi.database.access.FasciaDAO;
-import com.example.agendaCorsi.database.table.Contatto;
-import com.example.agendaCorsi.database.table.Corso;
 import com.example.agendaCorsi.database.table.Fascia;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -228,12 +220,12 @@ public class ModificaFascia extends FunctionBase {
         messaggio.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Fascia fascia = new Fascia(String.valueOf(idFascia), null, null, null, null, null, null, null, null);
-                if (FasciaDAO.getInstance().delete(fascia, QueryComposer.getInstance().getQuery(QUERY_DEL_FASCIA))) {
+                try {
+                    ConcreteDataAccessor.getInstance().delete(Fascia.TABLE_NAME,new Row(Fascia.fasciaColumns.get(Fascia.ID_FASCIA), idFascia));
                     makeToastMessage(AgendaCorsiApp.getContext(), "Fascia eliminatas con successo.").show();
                     esci.callOnClick();
                 }
-                else {
+                catch (Exception e) {
                     displayAlertDialog(modificaFascia, "Attenzione!", "Cancellazione fallita, contatta il supporto tecnico");
                 }
             }

@@ -91,34 +91,12 @@ public class FunctionBase extends AppCompatActivity {
     /*
      * Le query
      */
-    public static String QUERY_TOTALS_CORSI = "query_totals_corsi";
-    public static String QUERY_GETALL_FASCE_CORSI = "query_getall_fasce_corsi";
     public static String QUERY_GETALL_FASCE_CORSI_RUNNING = "query_getall_fasce_corsi_running";
-    public static String QUERY_GET_CORSO = "query_get_corso";
-
-    public static String QUERY_GET_ELEMENTO = "query_get_elemento";
-    public static String QUERY_ISNEW_FASCIA = "query_isnew_fascia";
-    public static String QUERY_GET_FASCIA = "query_get_fascia";
-    public static String QUERY_MOD_FASCIA = "query_mod_fascia";
     public static String QUERY_DEL_FASCIA = "query_del_fascia";
-    public static String QUERY_GET_CONTATTI_ISCRIVIBILI = "query_get_contatti_iscrivibili";
-    public static String QUERY_GET_CONTATTI_ISCRIVIBILI_OPEN = "query_get_contatti_iscrivibili_open";
-    public static String QUERY_GET_ISCRIZIONE = "query_get_iscrizione";
-    public static String QUERY_GETALL_GIORNI_SETTIMANA = "query_getall_giorni_settimana";
-    public static String QUERY_GET_CONTATTI_ISCRITTI = "query_get_contatti_iscritti";
-    public static String QUERY_GET_CONTATTI_ISCRITTI_RUNNING = "query_get_contatti_iscritti_running";
     public static String QUERY_GET_CREDENZIALE = "query_get_credenziale";
     public static String QUERY_INS_CREDENZIALE = "query_ins_credenziale";
     public static String QUERY_MOD_CREDENZIALE = "query_mod_credenziale";
     public static String QUERY_DEL_CREDENZIALE = "query_del_credenziale";
-    public static String QUERY_MOD_STATO_ISCRIZIONE = "query_mod_stato_iscrizione";
-    public static String QUERY_DEL_ISCRIZIONE = "query_del_iscrizione";
-    public static String QUERY_MOD_ISCRIZIONE = "query_mod_iscrizione";
-    public static String QUERY_GETALL_FASCE_DISPONIBILI = "query_getall_fasce_disponibili";
-    public static String QUERY_INS_PRESENZA = "query_ins_presenza";
-    public static String QUERY_DEL_PRESENZA = "query_del_presenza";
-    public static String QUERY_MOD_NUMERO_LEZIONI = "query_mod_numero_lezioni";
-    public static String QUERY_GET_GIORNO_SETTIMANA = "query_get_giorno_settimana";
     public static String QUERY_GETALL_TOT_ISCRIZIONI = "query_getall_tot_iscrizioni";
     /*
      * I bottoni
@@ -143,7 +121,6 @@ public class FunctionBase extends AppCompatActivity {
         myToolbar.setLogo(R.mipmap.vibes3_logo);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Agenda " + packageInfo.versionName);
-
     }
 
 
@@ -152,6 +129,66 @@ public class FunctionBase extends AppCompatActivity {
         name.setTextSize(16);
         name.setPadding(10,10,10,10);
         name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+
+        setCellAspect(context, name, type);
+
+        name.setTextColor(getResources().getColor(R.color.black, getTheme()));
+        name.setTextAlignment(alignment);
+        name.setGravity(Gravity.CENTER);
+        name.setVisibility(visibility);
+        name.setText(value);
+        name.setWidth(width);
+
+        return name;
+    }
+
+    private void setCellAspect(Context context, TextView name, String type) {
+
+        if (type.equals(DETAIL_CLOSED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
+        }
+        else if (type.equals(HEADER)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading));
+            name.setTextColor(getResources().getColor(R.color.black, getTheme()));
+            name.setTypeface(null, Typeface.BOLD);
+        }
+        else if (type.equals(HEADER_EVIDENCE)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
+            name.setTextColor(getResources().getColor(R.color.black, getTheme()));
+            name.setTypeface(null, Typeface.BOLD);
+        }
+        else if (type.equals(HEADER_OFF)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_off));
+            name.setTextColor(getResources().getColor(R.color.black, getTheme()));
+            name.setTypeface(null, Typeface.BOLD);
+        }
+        else if (type.equals(DETAIL_EXHAUSTED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_exhausted));
+        }
+        else if (type.equals(DETAIL_EXPIRED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_expired));
+        }
+        else if (type.equals(DETAIL_INOPERATIVE)) {
+            name.setTextColor(getResources().getColor(R.color.grayligth, getTheme()));
+            name.setTypeface(Typeface.DEFAULT_BOLD);
+        }
+        else if (type.equals(DETAIL_CONFIRMED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_confirmed));
+        }
+        else if (type.equals(DETAIL_OPENED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_opened));
+        }
+        else if (type.equals(DETAIL_EVIDENCE)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
+        }
+        else if (type.equals(DETAIL_SUSPENDED)) {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
+        }
+        else {
+            name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border));
+        }
+
+
 
         if (!type.equals(DETAIL_CLOSED) && !type.equals(HEADER) && !type.equals(HEADER_EVIDENCE) && !type.equals(HEADER_OFF)) {
             if (type.equals(DETAIL_EXHAUSTED)) {
@@ -196,15 +233,6 @@ public class FunctionBase extends AppCompatActivity {
                 name.setTypeface(null, Typeface.BOLD);
             }
         }
-
-        name.setTextColor(getResources().getColor(R.color.black, getTheme()));
-        name.setTextAlignment(alignment);
-        name.setGravity(Gravity.CENTER);
-        name.setVisibility(visibility);
-        name.setText(value);
-        name.setWidth(width);
-
-        return name;
     }
 
     public TextView listenerOnTotale(TextView name, int id, String corso, String totale, Context context) {
@@ -611,6 +639,7 @@ public class FunctionBase extends AppCompatActivity {
         if (weekDay == 0) {return 7;} else {return weekDay;}
     }
 
+
     public String getNowTimestamp() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(new Date());
@@ -626,6 +655,21 @@ public class FunctionBase extends AppCompatActivity {
         }
         return false;
     }
+
+
+    public boolean isCorsoOpened(Row row) {
+        if (row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString().equals(STATO_CHIUSO)
+        || row.getColumnValue(Corso.corsoColumns.get(Corso.STATO)).toString().equals(STATO_SOSPESO)) {
+            return false;
+        }
+        else {
+            if (row.getColumnValue(Corso.corsoColumns.get(Corso.TIPO)).toString().equals(Test)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public String coalesceValue(Object object) {
         String value = (String) object;

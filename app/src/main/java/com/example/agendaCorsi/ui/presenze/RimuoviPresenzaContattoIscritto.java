@@ -1,13 +1,14 @@
 package com.example.agendaCorsi.ui.presenze;
 
-import com.example.agendaCorsi.database.access.ElementoPortfolioDAO;
-import com.example.agendaCorsi.database.access.PresenzaDAO;
+import com.example.agendaCorsi.database.ConcreteDataAccessor;
+import com.example.agendaCorsi.database.Row;
 import com.example.agendaCorsi.database.table.ElementoPortfolio;
 import com.example.agendaCorsi.database.table.Presenza;
 import com.example.agendaCorsi.ui.base.FunctionBase;
-import com.example.agendaCorsi.ui.base.QueryComposer;
 
-public class RimuoviPresenzaContattoIscritto {
+import java.util.List;
+
+public class RimuoviPresenzaContattoIscritto extends FunctionBase {
 
     private static RimuoviPresenzaContattoIscritto INSTANCE = null;
 
@@ -20,16 +21,37 @@ public class RimuoviPresenzaContattoIscritto {
         return INSTANCE;
     }
 
-    public boolean make(String idPresenza, String idElemento) {
-        Presenza presenza = new Presenza(idPresenza, null, null);
-        if (PresenzaDAO.getInstance().delete(presenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_DEL_PRESENZA))) {
-            ElementoPortfolio elementoPortfolio = new ElementoPortfolio(idElemento, null, null, null, null, null, null);
-            ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ELEMENTO));
+    public int make(String idPresenza, String idElemento) {
+        try {
+            int numLezioni = 0;
+            ConcreteDataAccessor.getInstance().delete(Presenza.TABLE_NAME, new Row(Presenza.presenzaColumns.get(Presenza.ID_PRESENZA), idPresenza));
 
-            if (ElementoPortfolioDAO.getInstance().incrementaNumeroLezioni(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_NUMERO_LEZIONI))) {
-                return true;
+            List<Row> elementiPortfolioList = null;
+            elementiPortfolioList = ConcreteDataAccessor.getInstance().read(ElementoPortfolio.TABLE_NAME,
+                    new String[]{
+                            ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI),
+                            ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO)
+                    },
+                    new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento),
+                    null);
+
+            for (Row row : elementiPortfolioList) {
+                numLezioni = Integer.parseInt(row.getColumnValue(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI)).toString()) + 1;
+                String stato = STATO_CARICO;
+
+                Row updateColumns = new Row();
+                updateColumns.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.NUMERO_LEZIONI), numLezioni);
+                updateColumns.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.STATO), stato);
+                updateColumns.addColumn(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.DATA_ULTIMO_AGGIORNAMENTO), getNowTimestamp());
+
+                ConcreteDataAccessor.getInstance().update(ElementoPortfolio.TABLE_NAME,
+                        new Row(ElementoPortfolio.elementoPortfolioColumns.get(ElementoPortfolio.ID_ELEMENTO), idElemento),
+                        updateColumns);
             }
+            return numLezioni;
         }
-        return false;
+        catch (Exception e) {
+            return -1;
+        }
     }
 }

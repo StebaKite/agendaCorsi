@@ -10,6 +10,7 @@ public class Fascia implements BaseColumns {
     public static String TABLE_NAME = "fascia";
     public static String VIEW_ALL_FASCE_CORSI = "all_fasce_corsi_view";
     public static String VIEW_FASCE_DISPONIBILI = "fasce_disponibili_view";
+    public static String VIEW_FASCE_CORSI_RUNNING = "fasce_corsi_running_view";
 
     public static Integer ID_FASCIA = 0;
     public static Integer ID_CORSO = 1;

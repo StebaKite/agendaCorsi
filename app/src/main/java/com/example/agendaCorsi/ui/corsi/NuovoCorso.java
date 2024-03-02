@@ -119,15 +119,6 @@ public class NuovoCorso extends FunctionBase {
                 if (skate.isChecked()) {
                     sport = Skate;
                 }
-                if (basket.isChecked()) {
-                    sport = Basket;
-                }
-                if (pattini.isChecked()) {
-                    sport = Pattini;
-                }
-                if (pallavolo.isChecked()) {
-                    sport = Pallavolo;
-                }
 
                 String tipo = "";
                 if (normale.isChecked()) {
