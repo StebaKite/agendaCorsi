@@ -4,8 +4,7 @@
 -- Stretegia di accesso
 --
 -- 1) tutti gli elementi di portfolio in qualsiasi stato e relativi contatti per lo sport del corso  -> nested-table t1
--- 2) tutte gli elementi di portfolio consumati da iscrizioni di tutte le fasce del corso -> nested-table t2
--- 3) elenco dei contatti il cui elemento di portfolio per lo sport del corso, non è consumato da nessuna iscrizione
+-- 2) filtro : elenco dei contatti il cui elemento di portfolio per lo sport del corso, non è consumato da nessuna iscrizione
 --
 ---------------------------------------------------------------------------
 
@@ -29,20 +28,5 @@ select
             where elemento_portfolio.sport = '#SPORT#'
 
         ) as t1
-
-    where t1.id_elemento not in (
-
-        select iscrizione.id_elemento
-           from corso
-
-                inner join fascia
-                    on fascia.id_corso = corso.id_corso
-
-                inner join iscrizione
-                    on iscrizione.id_fascia = fascia.id_fascia
-
-           where corso.id_corso = #IDCORSO#
-           and corso.stato != 'Chiuso'
-        )
 
   order by t1.nome

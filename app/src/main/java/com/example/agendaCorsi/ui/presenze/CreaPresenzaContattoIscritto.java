@@ -26,7 +26,10 @@ public class CreaPresenzaContattoIscritto {
         Presenza presenza = new Presenza(null, idIscrizione, null);
         if (PresenzaDAO.getInstance().insert(presenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_INS_PRESENZA))) {
             if (ElementoPortfolioDAO.getInstance().decrementaNumeroLezioni(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_NUMERO_LEZIONI))) {
-                return true;
+                Iscrizione iscrizione = new Iscrizione(idIscrizione, null, null, FunctionBase.STATO_USATA, null, null);
+                if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_STATO_ISCRIZIONE))) {
+                    return true;
+                }
             }
         }
         return false;

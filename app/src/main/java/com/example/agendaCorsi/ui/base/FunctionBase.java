@@ -96,6 +96,7 @@ public class FunctionBase extends AppCompatActivity {
     public static String STATO_CARICO = "Carico";
     public static String STATO_SCADUTO = "Scaduto";
     public static String STATO_ESAURITO = "Esaurito";
+    public static String STATO_USATA = "Usata";
     /*
      * Le query
      */
