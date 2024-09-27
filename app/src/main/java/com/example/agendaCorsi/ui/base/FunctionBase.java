@@ -208,8 +208,7 @@ public class FunctionBase extends AppCompatActivity {
 
             } else if (type.equals(DETAIL_EVIDENCE)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_heading_evidence));
-            }
-            else if (type.equals(DETAIL_SUSPENDED)) {
+            } else if (type.equals(DETAIL_SUSPENDED)) {
                 name.setBackground(ContextCompat.getDrawable(context, R.drawable.cell_border_closed));
             }
             else {

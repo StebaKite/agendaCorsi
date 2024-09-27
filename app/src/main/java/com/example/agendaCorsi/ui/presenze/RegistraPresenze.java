@@ -31,6 +31,8 @@ import com.example.agendaCorsi.ui.base.FunctionBase;
 import com.example.agendaCorsi.ui.base.QueryComposer;
 import com.example.agendacorsi.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -95,85 +97,101 @@ public class RegistraPresenze extends FunctionBase {
         for (Object object : contattiIscrittiList) {
             ContattoIscritto contattoIscritto = (ContattoIscritto) object;
 
-            String detailType = "";
-            if (contattoIscritto.getStato().equals(STATO_CHIUSO) || contattoIscritto.getStatoElemento().equals(STATO_ESAURITO)) {
-                detailType = DETAIL_CLOSED;
-            } else {
-                detailType = DETAIL_SIMPLE;
-            }
+            /*
+             Per evitare di avere sull'elenco tutte le presenza anche vecchie, le filtro e presento solo
+             quelle del giorno corrente
+             */
 
-            tableRow = new TableRow(this);
-            tableRow.setClickable(true);
+            String dataConfermaPresenza = String.valueOf(contattoIscritto.getDataConfermaPresenza());
+            String dataConfermaAssenza = String.valueOf(contattoIscritto.getDataConfermaAssenza());
+            String oggi = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 
-            tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-            tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
-
-            Map<String, String> intentMap = new ArrayMap<>();
-            intentMap.put("descrizioneCorso", descrizioneCorso);
-            intentMap.put("descrizioneFascia", descrizioneFascia);
-            intentMap.put("giornoSettimana", giornoSettimana);
-            intentMap.put("sport", sport);
-            intentMap.put("idCorso", idCorso);
-            intentMap.put("idFascia", idFascia);
-            intentMap.put("idIscrizione", contattoIscritto.getIdIscrizione());
-            intentMap.put("statoCorso", statoCorso);
-            intentMap.put("nomeIscritto", contattoIscritto.getNomeContatto());
-            intentMap.put("statoIscrizione", contattoIscritto.getStato());
-            intentMap.put("tipoCorso", tipoCorso);
-            intentMap.put("idElemento", contattoIscritto.getIdElemento());
-
-            if (contattoIscritto.getStato().equals(STATO_ATTIVA) && contattoIscritto.getStatoElemento().equals(STATO_CARICO)) {
-
-                /*
-                Le due celle per la conferma della presenza o assenza sono mutualmente esclusive.
-                Una contatto iscritto potrà essere : presente, assente o ne uno ne l'altro a discrezione dell'istruttore.
-                Sia la presenza sia l'assenza vanno e decrementare il portfolio del contatto.
-                 */
-
-                boolean isPresenzaNotExist = contattoIscritto.getIdPresenza().equals("");
-                boolean isAssenzaNotExist  = contattoIscritto.getIdAssenza().equals("");
-
-                boolean isPresenzaExist = !contattoIscritto.getIdPresenza().equals("");
-                boolean isAssenzaExist  = !contattoIscritto.getIdAssenza().equals("");
-
-                if (isPresenzaNotExist && isAssenzaNotExist) {
-                    tableRow.addView(listenerOnConfermaPresenza(makeCell(registraPresenze, new TextView(this),
-                                    detailType, larghezzaColonna3, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
-                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
-
-                    tableRow.addView(listenerOnConfermaAssenza(makeCell(registraPresenze, new TextView(this),
-                                    detailType, larghezzaColonna4, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
-                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
+            if (dataConfermaPresenza.contains(oggi)
+                    || (dataConfermaAssenza.contains(oggi))
+                    || ((dataConfermaAssenza.equals("")) && (dataConfermaPresenza.equals("")))
+            ) {
+                String detailType = "";
+                if (contattoIscritto.getStato().equals(STATO_CHIUSO) || contattoIscritto.getStatoElemento().equals(STATO_ESAURITO)) {
+                    detailType = DETAIL_CLOSED;
+                } else {
+                    detailType = DETAIL_SIMPLE;
                 }
-                else if (isPresenzaExist && isAssenzaNotExist) {
-                    tableRow.addView(listenerOnRimuoviPresenza(makeCell(registraPresenze, new TextView(this),
-                            detailType, larghezzaColonna3, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
-                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdPresenza()));
 
-                    tableRow.addView(makeCell(this, new TextView(this),
-                            detailType, larghezzaColonna4, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
-                }
-                else if (isPresenzaNotExist && isAssenzaExist) {
+                tableRow = new TableRow(this);
+                tableRow.setClickable(true);
+
+                tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna1, contattoIscritto.getNomeContatto(), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+                tableRow.addView(makeCell(this, new TextView(this), detailType, larghezzaColonna2, String.valueOf(computeAge(contattoIscritto.getDataNascita())), View.TEXT_ALIGNMENT_TEXT_START, View.VISIBLE));
+
+                Map<String, String> intentMap = new ArrayMap<>();
+                intentMap.put("descrizioneCorso", descrizioneCorso);
+                intentMap.put("descrizioneFascia", descrizioneFascia);
+                intentMap.put("giornoSettimana", giornoSettimana);
+                intentMap.put("sport", sport);
+                intentMap.put("idCorso", idCorso);
+                intentMap.put("idFascia", idFascia);
+                intentMap.put("idIscrizione", contattoIscritto.getIdIscrizione());
+                intentMap.put("statoCorso", statoCorso);
+                intentMap.put("nomeIscritto", contattoIscritto.getNomeContatto());
+                intentMap.put("statoIscrizione", contattoIscritto.getStato());
+                intentMap.put("tipoCorso", tipoCorso);
+                intentMap.put("idElemento", contattoIscritto.getIdElemento());
+
+                if ((contattoIscritto.getStato().equals(STATO_ATTIVA) || (contattoIscritto.getStato().equals(STATO_USATA)))
+                && contattoIscritto.getStatoElemento().equals(STATO_CARICO)) {
+
+                    /*
+                    Le due celle per la conferma della presenza o assenza sono mutualmente esclusive.
+                    Una contatto iscritto potrà essere : presente, assente o ne uno ne l'altro a discrezione dell'istruttore.
+                    Sia la presenza sia l'assenza vanno e decrementare il portfolio del contatto.
+                     */
+
+                    boolean isPresenzaNotExist = contattoIscritto.getIdPresenza().equals("");
+                    boolean isAssenzaNotExist  = contattoIscritto.getIdAssenza().equals("");
+
+                    boolean isPresenzaExist = !contattoIscritto.getIdPresenza().equals("");
+                    boolean isAssenzaExist  = !contattoIscritto.getIdAssenza().equals("");
+
+                    if (isPresenzaNotExist && isAssenzaNotExist) {
+                        tableRow.addView(listenerOnConfermaPresenza(makeCell(registraPresenze, new TextView(this),
+                                        detailType, larghezzaColonna3, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                                Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
+
+                        tableRow.addView(listenerOnConfermaAssenza(makeCell(registraPresenze, new TextView(this),
+                                        detailType, larghezzaColonna4, "false", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                                Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap));
+                    }
+                    else if (isPresenzaExist && isAssenzaNotExist) {
+                        tableRow.addView(listenerOnRimuoviPresenza(makeCell(registraPresenze, new TextView(this),
+                                detailType, larghezzaColonna3, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                                Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdPresenza()));
+
+                        tableRow.addView(makeCell(this, new TextView(this),
+                                detailType, larghezzaColonna4, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+                    }
+                    else if (isPresenzaNotExist && isAssenzaExist) {
+                        tableRow.addView(makeCell(this, new TextView(this),
+                                detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+
+                        tableRow.addView(listenerOnRimuoviAssenza(makeCell(registraPresenze, new TextView(this),
+                                detailType, larghezzaColonna4, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
+                                Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdAssenza()));
+                    }
+                } else {
                     tableRow.addView(makeCell(this, new TextView(this),
                             detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
 
-                    tableRow.addView(listenerOnRimuoviAssenza(makeCell(registraPresenze, new TextView(this),
-                            detailType, larghezzaColonna4, "true", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE),
-                            Integer.parseInt(contattoIscritto.getIdIscrizione()), this, intentMap, contattoIscritto.getIdAssenza()));
+                    tableRow.addView(makeCell(this, new TextView(this),
+                            detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
                 }
-            } else {
-                tableRow.addView(makeCell(this, new TextView(this),
-                        detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
 
-                tableRow.addView(makeCell(this, new TextView(this),
-                        detailType, larghezzaColonna3, "", View.TEXT_ALIGNMENT_TEXT_END, View.VISIBLE));
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdElemento(), 0, View.GONE));
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdPresenza(), 0, View.GONE));
+                tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
+
+                tabellaContattiIscritti.addView(tableRow);
+
             }
-
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdElemento(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdPresenza(), 0, View.GONE));
-            tableRow.addView(makeCell(this,new TextView(this), DETAIL, 0, contattoIscritto.getIdIscrizione(), 0, View.GONE));
-
-            tabellaContattiIscritti.addView(tableRow);
         }
     }
 
