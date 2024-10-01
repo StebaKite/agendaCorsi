@@ -36,10 +36,10 @@ public class CreaAssenzaContattoIscritto {
             assenza.setDataConferma(null);
             AssenzaDAO.getInstance().getTotAssenze(assenza, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_GET_ASSENZE_ISCRIZIONE));
 
-            if (Integer.parseInt(assenza.getTotaleAssenza()) > Integer.parseInt(elementoPortfolio.getNumeroAssenzeRecuperabili())) {
-                if (ElementoPortfolioDAO.getInstance().decrementaNumeroLezioni(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_NUMERO_LEZIONI))) {
-                    Iscrizione iscrizione = new Iscrizione(idIscrizione, null, null, FunctionBase.STATO_USATA, null, null);
-                    if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_STATO_ISCRIZIONE))) {
+            Iscrizione iscrizione = new Iscrizione(idIscrizione, null, null, FunctionBase.STATO_USATA, null, null);
+            if (IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_STATO_ISCRIZIONE))) {
+                if (Integer.parseInt(assenza.getTotaleAssenza()) > Integer.parseInt(elementoPortfolio.getNumeroAssenzeRecuperabili())) {
+                    if (ElementoPortfolioDAO.getInstance().decrementaNumeroLezioni(elementoPortfolio, QueryComposer.getInstance().getQuery(FunctionBase.QUERY_MOD_NUMERO_LEZIONI))) {
                         return true;
                     }
                 }

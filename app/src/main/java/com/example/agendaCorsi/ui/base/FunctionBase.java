@@ -436,7 +436,7 @@ public class FunctionBase extends AppCompatActivity {
                 ElementoPortfolio elementoPortfolio = new ElementoPortfolio(iscrizione.getIdElemento(), null, null, null, null, null, null, null);
                 ElementoPortfolioDAO.getInstance().select(elementoPortfolio, QueryComposer.getInstance().getQuery(QUERY_GET_ELEMENTO));
 
-                if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenza, elementoPortfolio.getIdElemento())) {
+                if (RimuoviPresenzaContattoIscritto.getInstance().make(idPresenza, elementoPortfolio.getIdElemento(), idIscrizioneSelezionato)) {
                     if (Integer.parseInt(elementoPortfolio.getNumeroLezioni()) == 0) {
                         iscrizione.setStato(STATO_DISATTIVA);
                         IscrizioneDAO.getInstance().updateStato(iscrizione, QueryComposer.getInstance().getQuery(QUERY_MOD_STATO_ISCRIZIONE));
