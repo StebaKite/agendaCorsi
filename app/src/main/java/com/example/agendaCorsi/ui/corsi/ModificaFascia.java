@@ -77,7 +77,7 @@ public class ModificaFascia extends FunctionBase {
                 mTimePicker = new TimePickerDialog(ModificaFascia.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        _oraInizio.setText(selectedHour + "." + selectedMinute);
+                        _oraInizio.setText(leftPad(String.valueOf(selectedHour), 2, "0") + "." + leftPad(String.valueOf(selectedMinute), 2, "0"));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di inizio lezione");
@@ -96,7 +96,7 @@ public class ModificaFascia extends FunctionBase {
                 mTimePicker = new TimePickerDialog(ModificaFascia.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        _oraFine.setText(selectedHour + "." + selectedMinute);
+                        _oraFine.setText(leftPad(String.valueOf(selectedHour), 2, "0") + "." + leftPad(String.valueOf(selectedMinute), 2, "0"));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Ora di fine lezione");
