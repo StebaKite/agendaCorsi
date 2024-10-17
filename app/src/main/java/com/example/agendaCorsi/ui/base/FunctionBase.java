@@ -577,7 +577,7 @@ public class FunctionBase extends AppCompatActivity {
         }
         catch (ParseException e) {
             Log.e(DatabaseHelper.DATABASE_NAME, Objects.requireNonNull(e.getMessage()));
-            return "";
+            return "-";
         }
 
     }
@@ -736,18 +736,18 @@ public class FunctionBase extends AppCompatActivity {
         return false;
     }
 
-    public int computeAge(String sDate) {
+    public String computeAge(String sDate) {
         try {
             Date dbDate = null;
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dbDate = (Date)dateFormat.parse(sDate);
             long timeDiff = System.currentTimeMillis() - dbDate.getTime();
             int age = (int)(timeDiff / MILLI_SECONDS_YEAR);
-            return age;
+            return String.valueOf(age);
         }
         catch(ParseException e) {
             Log.e("AgendaCorsi","Can not compute age from date:"+sDate,e);
-            return 0;
+            return "-";
         }
     }
 

@@ -100,7 +100,7 @@ public class ModificaContatto extends FunctionBase {
 
         ContattiDAO.getInstance().select(contatto, QueryComposer.getInstance().getQuery(QUERY_GET_CONTATTO));
 
-        if (contatto.getId().equals("")) {
+        if (contatto.getId().isEmpty()) {
             displayAlertDialog(modificaContatto, "Attenzione!", "Lettura fallita, contatta il supporto tecnico");
         }
         else {
@@ -199,17 +199,31 @@ public class ModificaContatto extends FunctionBase {
          */
         Contatto contatto = new Contatto(idContatto,
                 _nome.getText().toString(),
-                dateFormat(_dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
+                _dataNascita.getText().toString(),
                 _indirizzo.getText().toString(),
                 _telefono.getText().toString(),
                 _email.getText().toString(),
                 null);
 
-        if (contatto.getNome().equals("") || contatto.getDataNascita().equals("") ||
-            contatto.getTelefono().equals("")) {
-            displayAlertDialog(modificaContatto, "Attenzione!", "Inserire tutti i campi");
+        if (contatto.getNome().isEmpty()) {
+            displayAlertDialog(modificaContatto, "Attenzione!", "Inserire nome contatto");
         }
         else {
+            if (contatto.getDataNascita().isEmpty()) {
+                contatto.setDataNascita("-");
+            } else {
+                contatto.setDataNascita(dateFormat(contatto.getDataNascita(), "dd-MM-yyyy", "yyyy-MM-dd"));
+            }
+            if (contatto.getIndirizzo().isEmpty()) {
+                contatto.setIndirizzo("-");
+            }
+            if (contatto.getTelefono().isEmpty()) {
+                contatto.setTelefono("-");
+            }
+            if (contatto.getEmail().isEmpty()) {
+                contatto.setEmail("-");
+            }
+
             if (ContattiDAO.getInstance().update(contatto, QueryComposer.getInstance().getQuery(QUERY_MOD_CONTATTO))) {
                 makeToastMessage(AgendaCorsiApp.getContext(), "Contatto aggiornato con successo.").show();
                 esci.callOnClick();

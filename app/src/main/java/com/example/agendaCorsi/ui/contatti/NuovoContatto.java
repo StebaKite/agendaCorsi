@@ -82,8 +82,9 @@ public class NuovoContatto extends FunctionBase {
 
 
     public void makeSalva() {
+
         Contatto contatto = new Contatto(null, nome.getText().toString(),
-                dateFormat(dataNascita.getText().toString(), "dd-MM-yyyy", "yyyy-MM-dd"),
+                dataNascita.getText().toString(),
                 indirizzo.getText().toString(),
                 telefono.getText().toString(),
                 email.getText().toString(),
@@ -91,13 +92,25 @@ public class NuovoContatto extends FunctionBase {
         /**
          * controllo validità campi inseriti
          */
-        if (contatto.getNome().equals("") ||
-            contatto.getDataNascita().equals("") ||
-            contatto.getTelefono().equals("")) {
-
-            displayAlertDialog(nuovoContatto, "Attenzione!", "Inserire tutti i campi");
+        if (contatto.getNome().isEmpty()) {
+            displayAlertDialog(nuovoContatto, "Attenzione!", "Inserire nome contatto");
         }
         else {
+            if (contatto.getDataNascita().isEmpty()) {
+                contatto.setDataNascita("-");
+            } else {
+                contatto.setDataNascita(dateFormat(contatto.getDataNascita(), "dd-MM-yyyy", "yyyy-MM-dd"));
+            }
+            if (contatto.getIndirizzo().isEmpty()) {
+                contatto.setIndirizzo("-");
+            }
+            if (contatto.getTelefono().isEmpty()) {
+                contatto.setTelefono("-");
+            }
+            if (contatto.getEmail().isEmpty()) {
+                contatto.setEmail("-");
+            }
+
             if (ContattiDAO.getInstance().insert(contatto, QueryComposer.getInstance().getQuery(QUERY_INS_CONTATTO))) {
                 makeToastMessage(nuovoContatto, "Contatto creato con successo.").show();
                 esci.callOnClick();
